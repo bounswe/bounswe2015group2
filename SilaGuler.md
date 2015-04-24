@@ -1,0 +1,5 @@
+# Sıla Güler #
+
+https://scontent-lhr.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/10409350_10152692436617970_4754280230153614200_n.jpg?oh=ca33ad7c395d810e869d30c8e1e83d6d&oe=5593FADC
+
+Hello, it is Sıla Güler (the Communicator of the team). I graduated from Electrical & Electronics Engineering Department of Boğaziçi University in 2012. Then, I started to work as a Consultant in IBM. After 2 years of experience I decided to deepen my knowledge in Computer Engineering. Right now, I am studying MSc in Computer Engineering. I have knowledge on C and C++ (intermediate). Besides my academic background, I was involved in a data warehouse modeling project, and a web implementation project at IBM. But, I didn't work as a software engineer, my main contribution was conducting the analysis work throughout both of the projects.
