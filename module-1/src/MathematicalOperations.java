@@ -3,6 +3,6 @@
  */
 public class MathematicalOperations {
      public static void main(String[] args){
-
+        System.out.println("Acıktım rulez");
      }
 }
