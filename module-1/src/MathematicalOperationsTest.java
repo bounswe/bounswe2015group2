@@ -20,7 +20,11 @@ public class MathematicalOperationsTest {
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
 
-
+    @Test // Added by Mert Çotuk
+    public void testAbsolute() throws Exception {
+        assertEquals("Absolute value of -2 must equal to 2",2,MathematicalOperations.absolute(-2));
+        assertEquals("Absolute value of 5 must equal to 5",5,MathematicalOperations.absolute(5));
+    }
 
     @Test
     public void testSimpleDivide(){ // Added by oeken
