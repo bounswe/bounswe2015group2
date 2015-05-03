@@ -7,6 +7,14 @@ public class MathematicalOperations {
         return 1;
     }
 
+    /**
+     * Addition of two integer and returns the result
+     * Added by Sila Guler
+     *
+     * @param a integer1
+     * @param b integer 2
+     * @return a+b
+     */
     public static int additionFunction(int a, int b) {
         return a + b;
     }
