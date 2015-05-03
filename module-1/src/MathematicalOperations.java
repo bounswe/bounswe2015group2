@@ -1,4 +1,4 @@
-﻿import java.lang.System;
+import java.lang.System;
 import java.util.Scanner;
 
 public class MathematicalOperations {
@@ -64,7 +64,7 @@ public class MathematicalOperations {
      * Added by Oyku Yilmaz
      *
      * @param base integer1
-     * @param pow integer 2
+     * @param power integer 2
      * @return result
      */
     public static int power(int base, int power) {

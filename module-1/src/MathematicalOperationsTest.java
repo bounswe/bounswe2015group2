@@ -2,10 +2,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
-    @test //Added by Murat Cenk Batman
+    @Test //Added by Murat Cenk Batman
     public void testNegateFunction()throws Exception{
-        assertEquals("negation of false must be equal to true",true,negation(false));
-        assertEquals("negation of true must be equal to false",false,negation(true));
+        assertEquals("negation of false must be equal to true",true,MathematicalOperations.negation(false));
+        assertEquals("negation of true must be equal to false",false,MathematicalOperations.negation(true));
     }
     @Test // Added by Sila Guler
     public void testAdditionFunction() throws Exception{
@@ -17,6 +17,12 @@ public class MathematicalOperationsTest {
     public void testSimplePower() throws Exception{
         assertEquals("0 power of 5 must equal to 1",1,MathematicalOperations.power(5, 0));
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
+    }
+
+    @Test // Added by Mustafa Taha Koçyiğit
+    public void testSimpleRemainder() throws Exception{
+        assertEquals("The remainder from the division of 7 by 3 is 1",1,MathematicalOperations.remainder(7, 3));
+        assertEquals("The remainder from the division of 78 by 25 is 3",3,MathematicalOperations.power(78, 25));
     }
 
     @Test // Added by Mert �otuk
@@ -57,8 +63,8 @@ public class MathematicalOperationsTest {
 
     @Test // add by erensogut
     public void testlessthan(){
-        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
-        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
+        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2));
+        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3));
     }
     @Test // Added by Murat Sinan Aclan
     public void testSqrt() throws Exception {
@@ -67,7 +73,7 @@ public class MathematicalOperationsTest {
     }
     @Test // add by ugurtombul
     public void testInverseDivide(){
-        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.lessthan(6,2), 0.333);
+        assertEquals("6 divide 2 must be 0.333",false,MathematicalOperations.lessthan(6,2));
         assertEquals("6 divide 3 must be  0.5 ",0.5,MathematicalOperations.minus(6,3), 0.5);
 
 }
