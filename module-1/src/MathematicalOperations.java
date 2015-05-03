@@ -19,9 +19,17 @@ public class MathematicalOperations {
         return a + b;
     }
 
-    // serhat
-    public static int dummySerhat() {
-        return 0;
+    /**
+     * Compares two integers and returns true if they are NOT equal.
+     * @implNote Implemented by Serhat ILBEY
+     * @param a integer 1
+     * @param b integer 2
+     * @return result
+     */
+    public static boolean isNotEqual(int a, int b)
+    {
+        boolean result = (a != b);
+        return result;
     }
 
     public static double divide(int a, int b) {
@@ -78,6 +86,21 @@ public class MathematicalOperations {
         if(a<0) a = (a * -1);
         return a;
     }
+    public static int Sqrt(double n) {
+
+            double c = Double.parseDouble(args[0]);
+            double epsilon = 1e-15;    // relative error tolerance
+            double t = c;              // estimate of the square root of c
+
+            // repeatedly apply Newton update step until desired precision is achieved
+            while (Math.abs(t - c/t) > epsilon*t) {
+                t = (c/t + t) / 2.0;
+            }
+
+            // print out the estimate of the square root of c
+            return t;
+
+    }
 
     /**
      * @param
@@ -92,6 +115,10 @@ public class MathematicalOperations {
                 "For Power Fuction, Press 5:" +
                 "For Remainder Function Press 6" +
                 "For Minus Function Press 7" +
+                "For absolute value Function Press 8"+
+                "For isNotEqual Function Press 9" +
+                "For lessthan Function Press 10"+
+                "For sqrt Function Press 11" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -146,6 +173,27 @@ public class MathematicalOperations {
                 System.out.println("Enter a number to take its absolute value: ");
                 int a = input2.nextInt();
                 System.out.println(absolute(a));
+            } else if (functionChoice == 9) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter two numbers to test if they are NOT equal: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                boolean result = isNotEqual(a,b);
+                if(result) System.out.println("Not equal");
+                else System.out.println("Equal");
+            }
+            else if (functionChoice == 10) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter two numbers to check less or not: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(lessthan(a, b));
+            }
+            else if (functionChoice == 11) {
+                    Scanner input2 = new Scanner(System.in);
+                    System.out.println("Enter a number to find its square root value: ");
+                    int n = input2.nextInt();
+                    System.out.println(Sqrt(n));
             }
         }
     }

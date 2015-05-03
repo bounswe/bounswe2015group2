@@ -2,12 +2,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
-
-    @Test
-    public void testDummyFunction() throws Exception {
-        int a = 14; // oops typo mistake
-        assertEquals("Var a must equal 13",13,a);
-    }
     @Test // Added by Sila Guler
     public void testAdditionFunction() throws Exception{
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
@@ -20,11 +14,19 @@ public class MathematicalOperationsTest {
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
 
-    @Test // Added by Mert Çotuk
+    @Test // Added by Mert ï¿½otuk
     public void testAbsolute() throws Exception {
         assertEquals("Absolute value of -2 must equal to 2",2,MathematicalOperations.absolute(-2));
         assertEquals("Absolute value of 5 must equal to 5",5,MathematicalOperations.absolute(5));
     }
+
+    @Test // Added by Serhat ?LBEY
+        public void testIsNotEqual() throws Exception {
+        assertEquals("-1 and 1 are not equal",true,MathematicalOperations.isNotEqual(-1, 1));
+        assertEquals("-2147483648 and 2147483647 are not equal",true,MathematicalOperations.isNotEqual(2147483647,-2147483648 ));
+        assertEquals("0 and 0 are equal",false,MathematicalOperations.isNotEqual(0, 0));
+    }
+    
 
     @Test
     public void testSimpleDivide(){ // Added by oeken
@@ -52,5 +54,14 @@ public class MathematicalOperationsTest {
         assertEquals("2 + 3 must be equal 5",5,MathematicalOperations.plus(2,3));
     }
 
-
+    @Test // add by erensogut
+    public void testlessthan(){
+        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
+        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
+    }
+    @Test // Added by Murat Sinan Aclan
+    public void testSqrt() throws Exception {
+        assertEquals("Square root of 4 is", 4, MathematicalOperations.Sqrt(4));
+        assertEquals("Square root value of 15 is", 15, MathematicalOperations.Sqrt(15));
+    }
 }
