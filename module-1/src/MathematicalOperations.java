@@ -88,17 +88,6 @@ public class MathematicalOperations {
     }
 
     /**
-     * Takes two integer values  and returns the divide inverse
-     * Added by Ugur Tombul
-     */
-
-    public static double InverseDivide(double a,double b) {
-        return  b / a;
-
-    }
-
-
-    /**
      * @param
      */
     public static void main(String[] args) {
@@ -111,8 +100,9 @@ public class MathematicalOperations {
                 "For Power Fuction, Press 5:" +
                 "For Remainder Function Press 6" +
                 "For Minus Function Press 7" +
+                "For absolute value Function Press 8"+
                 "For isNotEqual Function Press 9" +
-                "For InverseDivide Function Press 12" +
+                "For lessthan Function Press 10"+
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -176,15 +166,13 @@ public class MathematicalOperations {
                 if(result) System.out.println("Not equal");
                 else System.out.println("Equal");
             }
-            else if (functionChoice ==12){
+            else if (functionChoice == 10) {
                 Scanner input2 = new Scanner(System.in);
-                System.out.println("Enter two numbers to find inverse divide ");
-                double a = input2.nextInt();
-                double b = input2.nextInt();
-                System.out.println(InverseDivide(a, b));
-
+                System.out.println("Enter two numbers to check less or not: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(lessthan(a,b));
             }
-
         }
     }
 
