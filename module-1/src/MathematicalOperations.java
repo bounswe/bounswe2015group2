@@ -3,7 +3,11 @@
  */
 public class MathematicalOperations {
 
-     public static int dummyFunction(){
+    public static int dummyFunction(){
          return 1;
      }
+
+    public static double divide(int a , int b){
+        return a/b;
+    }
 }
