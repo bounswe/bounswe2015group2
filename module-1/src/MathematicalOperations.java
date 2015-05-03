@@ -47,11 +47,20 @@ public class MathematicalOperations {
         return a % b;
     }
 
-    //Added by Oyku Yilmaz
+    /**
+     * Returns the pow power of base
+     * Added by Oyku Yilmaz
+     *
+     * @param base integer1
+     * @param pow integer 2
+     * @return result
+     */
     public static int power(int base, int power) {
+
         if(power == 0) return 1;
         return base * power(base, --power);
     }
+    public static int minus(int a, int b) { return a-b;}
 
     /**
      * @param args
@@ -65,6 +74,7 @@ public class MathematicalOperations {
                 "For Multiply Function Press 4:" +
                 "For Power Fuction, Press 5:" +
                 "For Remainder Function Press 6" +
+                "For Minus Function Press 7" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -86,7 +96,7 @@ public class MathematicalOperations {
                 additionFunction(a, b);
             } else if (functionChoice == 3) {
                 Scanner input2 = new Scanner(System.in);
-                System.out.println("Enter two numbers to divde: ");
+                System.out.println("Enter two numbers to divide: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(divide(a, b));
@@ -104,10 +114,16 @@ public class MathematicalOperations {
                 System.out.println(power(a, b));
             } else if (functionChoice == 6) {
                 Scanner input2 = new Scanner(System.in);
-                System.out.println("Enter two numbers as dividend and diviser: ");
+                System.out.println("Enter two numbers as dividend and divisor: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(remainder(a, b));
+            } else if (functionChoice == 7) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter two numbers to subtract: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(minus(a, b));
             }
         }
     }
