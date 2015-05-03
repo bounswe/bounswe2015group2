@@ -34,7 +34,11 @@ public class MathematicalOperationsTest {
         }catch (Exception e){
             exceptionThrown = true;
         }
-        assertTrue("Divison by zero must throw an exception",exceptionThrown);
+        assertTrue("Divison by zero must throw an exception", exceptionThrown);
+    }
+    @Test  //Added by Ugur Tombul
+    public void testSimplePlus() {
+        assertEquals("2 + 3 must be equal 5",5,MathematicalOperations.plus(2,3));
     }
 
 

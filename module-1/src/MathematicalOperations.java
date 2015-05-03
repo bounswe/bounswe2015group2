@@ -34,6 +34,15 @@ public class MathematicalOperations {
     }
 
     /**
+     * Plus two integer and returns the result
+     * Added by Uğur Tombul
+     */
+    public static int plus(int a,int b)
+    {
+        return a+b;
+    }
+
+    /**
      * @param args
      */
     public static void main(String[] args) {
@@ -44,6 +53,7 @@ public class MathematicalOperations {
                 "For Divide Function, Press 3:" +
                 "For Multiply Function Press 4:" +
                 "For Power Fuction, Press 5:" +
+                "For Plus Function ,Press 6:" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -81,6 +91,13 @@ public class MathematicalOperations {
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(power(a, b));
+
+            } else if (functionChoice ==6) {
+                Scanner input2=new Scanner(System.in);
+                System.out.println("Enter two numbers to plus");
+                int a=input2.nextInt();
+                int b=input2.nextInt();
+                System.out.println(plus(a,b));
             }
         }
     }
