@@ -27,6 +27,7 @@ public class MathematicalOperations {
         return a * b;
     }
 
+    //Added by Oyku Yilmaz
     public static int power(int base, int power) {
         if(power == 0) return 1;
         return base * power(base, --power);
