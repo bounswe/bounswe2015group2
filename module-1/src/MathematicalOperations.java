@@ -27,6 +27,18 @@ public class MathematicalOperations {
         return a * b;
     }
 
+    /**
+     * Returns the remainder of the division of a to b
+     * Added by Mustafa Taha Koçyiğit
+     *
+     * @param a integer1
+     * @param b integer 2
+     * @return result
+     */
+    public static int remainder(int a, int b) {
+        return a % b;
+    }
+
     //Added by Oyku Yilmaz
     public static int power(int base, int power) {
         if(power == 0) return 1;
@@ -44,6 +56,7 @@ public class MathematicalOperations {
                 "For Divide Function, Press 3:" +
                 "For Multiply Function Press 4:" +
                 "For Power Fuction, Press 5:" +
+                "For Remainder Function Press 6" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -81,6 +94,12 @@ public class MathematicalOperations {
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(power(a, b));
+            } else if (functionChoice == 6) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter two numbers as dividend and diviser: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(remainder(a, b));
             }
         }
     }
