@@ -19,6 +19,10 @@ public class MathematicalOperations {
         return a + b;
     }
 
+    // serhat
+    public static int dummySerhat() {
+    }
+
     public static double divide(int a, int b) {
         return a / b;
     }
