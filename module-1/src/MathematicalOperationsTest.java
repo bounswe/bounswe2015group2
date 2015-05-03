@@ -20,6 +20,8 @@ public class MathematicalOperationsTest {
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
 
+
+
     @Test
     public void testSimpleDivide(){ // Added by oeken
         assertEquals("Division of 14 by 2 must equal 7",7,MathematicalOperations.divide(14,2) , 0.01);
