@@ -100,7 +100,9 @@ public class MathematicalOperations {
                 "For Power Fuction, Press 5:" +
                 "For Remainder Function Press 6" +
                 "For Minus Function Press 7" +
+                "For absolute value Function Press 8"+
                 "For isNotEqual Function Press 9" +
+                "For lessthan Function Press 10"+
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
