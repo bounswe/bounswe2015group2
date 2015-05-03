@@ -39,7 +39,6 @@ public class MathematicalOperations {
     /**
      * Multiply two integer and returns the result
      * Added by Onur Neşvat
-     *
      * @param a integer1
      * @param b integer 2
      * @return result
@@ -88,21 +87,66 @@ public class MathematicalOperations {
     }
 
     /**
+     * Takes 2 integer to find inverse divide
+     * Added by Ugur Tombul
+    */
+    public static int InverseDivide(double a,double b) {
+
+        return b/a;
+    }
+
+
+
+    /**
+     * Takes 1 integer to find its square root value
+     * Added by Murat Sinan Aclan
+     */
+
+
+
+    public static int Sqrt(double n) {
+
+            double c = Double.parseDouble(args[0]);
+            double epsilon = 1e-15;    // relative error tolerance
+            double t = c;              // estimate of the square root of c
+
+            // repeatedly apply Newton update step until desired precision is achieved
+            while (Math.abs(t - c/t) > epsilon*t) {
+                t = (c/t + t) / 2.0;
+            }
+
+            // print out the estimate of the square root of c
+            return t;
+
+    }
+
+    /**
      * @param
      */
+    /**
+     * Takes a booelan value and returns the negation of it
+     * @param value value to negate
+     *
+     */
+    public static void negation(boolean value){
+        return !value;
+    }
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Which operation you would like to try: \n" +
-                "For Dummy Function, Press 1:" +
-                "For Addition Function, Press 2:" +
-                "For Divide Function, Press 3:" +
-                "For Multiply Function Press 4:" +
-                "For Power Fuction, Press 5:" +
-                "For Remainder Function Press 6" +
-                "For Minus Function Press 7" +
-                "For absolute value Function Press 8"+
-                "For isNotEqual Function Press 9" +
-                "For lessthan Function Press 10"+
+                "For Dummy Function, Press 1:\n" +
+                "For Addition Function, Press 2:\n" +
+                "For Divide Function, Press 3:\n" +
+                "For Multiply Function Press 4:\n" +
+                "For Power Fuction, Press 5:\n" +
+                "For Remainder Function Press 6:\n" +
+                "For Minus Function Press 7:\n" +
+                "For absolute value Function Press 8\n"+
+                "For isNotEqual Function Press 9\n" +
+                "For lessthan Function Press 10\n"+
+                "For sqrt Function Press 11\n" +
+                "For inverse divide Press 12\n" +
+                "For negation Press 13\n" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -171,7 +215,24 @@ public class MathematicalOperations {
                 System.out.println("Enter two numbers to check less or not: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                System.out.println(lessthan(a,b));
+                System.out.println(lessthan(a, b));
+            }
+            else if (functionChoice == 11) {
+                    Scanner input2 = new Scanner(System.in);
+                    System.out.println("Enter a number to find its square root value: ");
+                    int n = input2.nextInt();
+                    System.out.println(Sqrt(n));
+            } else if (functionChoice ==12) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter 2 integer to find inverse divide");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(InverseDivide(a,b));
+            }else if(functionChoice == 13){
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter a boolean value to negate");
+                boolean value = input2.nextBoolean();
+                System.out.println(negation(value));
             }
         }
     }
