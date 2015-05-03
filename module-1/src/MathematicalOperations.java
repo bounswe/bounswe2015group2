@@ -19,9 +19,17 @@ public class MathematicalOperations {
         return a + b;
     }
 
-    // serhat
-    public static int dummySerhat() {
-        return 0;
+    /**
+     * Compares two integers and returns true if they are NOT equal.
+     * @implNote Implemented by Serhat ILBEY
+     * @param a integer 1
+     * @param b integer 2
+     * @return result
+     */
+    public static boolean isNotEqual(int a, int b)
+    {
+        boolean result = (a != b);
+        return result;
     }
 
     public static double divide(int a, int b) {
@@ -92,6 +100,7 @@ public class MathematicalOperations {
                 "For Power Fuction, Press 5:" +
                 "For Remainder Function Press 6" +
                 "For Minus Function Press 7" +
+                "For isNotEqual Function Press 9" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -146,7 +155,16 @@ public class MathematicalOperations {
                 System.out.println("Enter a number to take its absolute value: ");
                 int a = input2.nextInt();
                 System.out.println(absolute(a));
+            } else if (functionChoice == 9) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter two numbers to test if they are NOT equal: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                boolean result = isNotEqual(a,b);
+                if(result) System.out.println("Not equal");
+                else System.out.println("Equal");
             }
+
         }
     }
 
