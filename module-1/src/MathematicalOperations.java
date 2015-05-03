@@ -128,7 +128,7 @@ public class MathematicalOperations {
      * @return boolean
      */
     public static boolean lessthan(int a, int b) {
-        if (a>=b) return false;
+        if (a>=b) return  false;
         else return true;
     }
 
