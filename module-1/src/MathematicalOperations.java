@@ -21,6 +21,7 @@ public class MathematicalOperations {
 
     // serhat
     public static int dummySerhat() {
+        return 0;
     }
 
     public static double divide(int a, int b) {
