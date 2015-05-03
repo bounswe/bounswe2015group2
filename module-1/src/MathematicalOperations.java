@@ -68,6 +68,18 @@ public class MathematicalOperations {
     public static int minus(int a, int b) { return a-b;}
 
     /**
+     * Takes the absolute value of an integer and returns the result
+     * Added by Mert Çotuk
+     *
+     * @param a integer1
+     * @return result
+     */
+    public static int absolute(int a) {
+        if(a<0) a = (a * -1);
+        return a;
+    }
+
+    /**
      * @param
      */
     public static void main(String[] args) {
@@ -129,6 +141,11 @@ public class MathematicalOperations {
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(minus(a, b));
+            } else if (functionChoice == 8) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter a number to take its absolute value: ");
+                int a = input2.nextInt();
+                System.out.println(absolute(a));
             }
         }
     }
