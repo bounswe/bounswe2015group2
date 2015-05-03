@@ -8,7 +8,7 @@ public class MathematicalOperationsTest {
         int a = 14; // oops typo mistake
         assertEquals("Var a must equal 13",13,a);
     }
-    @Test // Added by S�la G�ler
+    @Test // Added by Sila Guler
     public void testAdditionFunction() throws Exception{
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
         assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
