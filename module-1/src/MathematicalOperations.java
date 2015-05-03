@@ -11,15 +11,16 @@ public class MathematicalOperations {
     
     public static int additionFunction(int a, int b){ return a+b; } // Added by S�la G�ler
 
-    public static double divide(int a , int b){
-        return a/b;
-    }
-    
+    public static double multiply(int a , int b) { return a*b; }  //Added by Oyku Yilmaz
+
+    public static double divide(int a , int b) { return a/b; }
+
     public static void main(String[] args){
         Scanner input = new Scanner(System.in);
         System.out.println("Which operation you would like to try: \n" +
                 "For Dummy Function, Press 1:" +
-                "For Addition Function, Press2:");
+                "For Addition Function, Press 2:" +
+                "For Multiply Function, Press 3:");
         int functionChoice = input.nextInt();
         if(functionChoice==1)
             dummyFunction();
@@ -29,6 +30,12 @@ public class MathematicalOperations {
             int a = input2.nextInt();
             int b = input2.nextInt();
             additionFunction(a,b);
+        } else if (functionChoice==3){
+            Scanner input2 = new Scanner(System.in);
+            System.out.println("Enter two numbers to multiply: ");
+            int a = input2.nextInt();
+            int b = input2.nextInt();
+            multiply(a,b);
         }
     }
      
