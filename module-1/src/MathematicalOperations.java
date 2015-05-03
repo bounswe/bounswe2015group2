@@ -164,7 +164,13 @@ public class MathematicalOperations {
                 if(result) System.out.println("Not equal");
                 else System.out.println("Equal");
             }
-
+            else if (functionChoice == 10) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter two numbers to check less or not: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(lessthan(a, b));
+            }
         }
     }
 

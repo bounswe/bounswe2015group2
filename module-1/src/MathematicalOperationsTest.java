@@ -20,7 +20,7 @@ public class MathematicalOperationsTest {
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
 
-    @Test // Added by Mert Çotuk
+    @Test // Added by Mert ï¿½otuk
     public void testAbsolute() throws Exception {
         assertEquals("Absolute value of -2 must equal to 2",2,MathematicalOperations.absolute(-2));
         assertEquals("Absolute value of 5 must equal to 5",5,MathematicalOperations.absolute(5));
@@ -48,5 +48,9 @@ public class MathematicalOperationsTest {
         assertTrue("Divison by zero must throw an exception",exceptionThrown);
     }
 
-
+    @Test // add by erensogut
+    public void testlessthan(){
+        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
+        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
+    }
 }
