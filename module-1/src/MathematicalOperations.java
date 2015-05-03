@@ -19,6 +19,11 @@ public class MathematicalOperations {
         return a + b;
     }
 
+    // serhat
+    public static int dummySerhat() {
+        return 0;
+    }
+
     public static double divide(int a, int b) {
         return a / b;
     }
@@ -47,8 +52,16 @@ public class MathematicalOperations {
         return a % b;
     }
 
-    //Added by Oyku Yilmaz
+    /**
+     * Returns the pow power of base
+     * Added by Oyku Yilmaz
+     *
+     * @param base integer1
+     * @param pow integer 2
+     * @return result
+     */
     public static int power(int base, int power) {
+
         if(power == 0) return 1;
         return base * power(base, --power);
     }

@@ -20,11 +20,15 @@ public class MathematicalOperationsTest {
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
 
+
+
     @Test
     public void testSimpleDivide(){ // Added by oeken
         assertEquals("Division of 14 by 2 must equal 7",7,MathematicalOperations.divide(14,2) , 0.01);
     }
-
+    public void testSimpleMinus(){
+        assertEquals("4 minus 2 is equal to 2",2,MathematicalOperations.minus(4,2), 2);
+    }
     @Test
     public void testEdgeDivide(){ // Added by oeken
 
