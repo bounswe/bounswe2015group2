@@ -13,12 +13,6 @@ public class MathematicalOperationsTest {
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
         assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
     }
-
-    @Test // Added by Oyku Yilmaz
-    public void testMultiply() throws Exception{
-        assertEquals("Multiplication of 0 and 5 must equal 0",0,MathematicalOperations.additionFunction(0, 5));
-        assertEquals("Multiplication of 5 and 10 must equal 50",50,MathematicalOperations.additionFunction(5, 10));
-    }
     
     @Test
     public void testSimpleDivide(){ // Added by oeken
@@ -34,7 +28,7 @@ public class MathematicalOperationsTest {
         }catch (Exception e){
             exceptionThrown = true;
         }
-        assertTrue("Divison by zero must throw an exception", exceptionThrown);
+        assertTrue("Divison by zero must throw an exception",exceptionThrown);
     }
 
 
