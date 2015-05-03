@@ -86,6 +86,21 @@ public class MathematicalOperations {
         if(a<0) a = (a * -1);
         return a;
     }
+    public static int Sqrt(double n) {
+
+            double c = Double.parseDouble(args[0]);
+            double epsilon = 1e-15;    // relative error tolerance
+            double t = c;              // estimate of the square root of c
+
+            // repeatedly apply Newton update step until desired precision is achieved
+            while (Math.abs(t - c/t) > epsilon*t) {
+                t = (c/t + t) / 2.0;
+            }
+
+            // print out the estimate of the square root of c
+            return t;
+
+    }
 
     /**
      * @param
@@ -103,6 +118,7 @@ public class MathematicalOperations {
                 "For absolute value Function Press 8"+
                 "For isNotEqual Function Press 9" +
                 "For lessthan Function Press 10"+
+                "For sqrt Function Press 11" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -171,7 +187,13 @@ public class MathematicalOperations {
                 System.out.println("Enter two numbers to check less or not: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                System.out.println(lessthan(a,b));
+                System.out.println(lessthan(a, b));
+            }
+            else if (functionChoice == 11) {
+                    Scanner input2 = new Scanner(System.in);
+                    System.out.println("Enter a number to find its square root value: ");
+                    int n = input2.nextInt();
+                    System.out.println(Sqrt(n));
             }
         }
     }

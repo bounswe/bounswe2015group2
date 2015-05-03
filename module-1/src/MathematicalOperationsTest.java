@@ -55,4 +55,9 @@ public class MathematicalOperationsTest {
         assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
         assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
     }
+    @Test // Added by Murat Sinan Aclan
+    public void testSqrt() throws Exception {
+        assertEquals("Square root of 4 is", 4, MathematicalOperations.Sqrt(4));
+        assertEquals("Square root value of 15 is", 15, MathematicalOperations.Sqrt(15));
+    }
 }
