@@ -15,11 +15,11 @@ public class MathematicalOperationsTest {
     }
 
     @Test // Added by Oyku Yilmaz
-    public void testMuliplyFunction() throws Exception{
-        assertEquals("Multiplication of 0 and 10 must equal 0",0,MathematicalOperations.multiply(0, 10));
-        assertEquals("Multiplication of 5 and 10 must equal 50",50,MathematicalOperations.multiply(5, 10));
+    public void testSimplePower() throws Exception{
+        assertEquals("0 power of 5 must equal to 1",1,MathematicalOperations.power(5, 0));
+        assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
-    
+
     @Test
     public void testSimpleDivide(){ // Added by oeken
         assertEquals("Division of 14 by 2 must equal 7",7,MathematicalOperations.divide(14,2) , 0.01);

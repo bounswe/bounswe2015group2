@@ -27,6 +27,11 @@ public class MathematicalOperations {
         return a * b;
     }
 
+    public static int power(int base, int power) {
+        if(power == 0) return 1;
+        return base * power(base, --power);
+    }
+
     /**
      * @param args
      */
@@ -37,14 +42,15 @@ public class MathematicalOperations {
                 "For Addition Function, Press 2:" +
                 "For Divide Function, Press 3:" +
                 "For Multiply Function Press 4:" +
+                "For Power Fuction, Press 5:" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
-            System.out.print('Command: ')
-            int functionChoice = input.nextInt();
+            System.out.print("Command: ");
+            functionChoice = input.nextInt();
 
             if (functionChoice == 0) {
-                System.out.println('good bye!');
+                System.out.println("good bye!");
                 break;
             }
 
@@ -68,6 +74,12 @@ public class MathematicalOperations {
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(multiply(a, b));
+            } else if (functionChoice == 5) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter two numbers as base and power: ");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(power(a, b));
             }
         }
     }
