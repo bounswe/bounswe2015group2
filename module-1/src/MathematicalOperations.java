@@ -55,7 +55,7 @@ public class MathematicalOperations {
     public static int minus(int a, int b) { return a-b;}
 
     /**
-     * @param args
+     * @param
      */
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
