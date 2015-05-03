@@ -2,12 +2,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
-
-    @Test
-    public void testDummyFunction() throws Exception {
-        int a = 14; // oops typo mistake
-        assertEquals("Var a must equal 13",13,a);
-    }
     @Test // Added by Sila Guler
     public void testAdditionFunction() throws Exception{
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
@@ -25,6 +19,14 @@ public class MathematicalOperationsTest {
         assertEquals("Absolute value of -2 must equal to 2",2,MathematicalOperations.absolute(-2));
         assertEquals("Absolute value of 5 must equal to 5",5,MathematicalOperations.absolute(5));
     }
+
+    @Test // Added by Serhat ?LBEY
+        public void testIsNotEqual() throws Exception {
+        assertEquals("-1 and 1 are not equal",true,MathematicalOperations.isNotEqual(-1, 1));
+        assertEquals("-2147483648 and 2147483647 are not equal",true,MathematicalOperations.isNotEqual(2147483647,-2147483648 ));
+        assertEquals("0 and 0 are equal",false,MathematicalOperations.isNotEqual(0, 0));
+    }
+    
 
     @Test
     public void testSimpleDivide(){ // Added by oeken
