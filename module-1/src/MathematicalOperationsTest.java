@@ -26,6 +26,7 @@ public class MathematicalOperationsTest {
         assertEquals("-2147483648 and 2147483647 are not equal",true,MathematicalOperations.isNotEqual(2147483647,-2147483648 ));
         assertEquals("0 and 0 are equal",false,MathematicalOperations.isNotEqual(0, 0));
     }
+    
 
     @Test
     public void testSimpleDivide(){ // Added by oeken
