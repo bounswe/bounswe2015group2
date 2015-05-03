@@ -23,7 +23,7 @@ public class MathematicalOperationsTest {
     @Test // Added by Serhat ?LBEY
         public void testIsNotEqual() throws Exception {
         assertEquals("-1 and 1 are not equal",true,MathematicalOperations.isNotEqual(-1, 1));
-        assertEquals("-2147483648 and 2147483647 are not equal",true,MathematicalOperations.isNotEqual(2147483647,-2147483648 ));
+        assertEquals("-2147483648 and 2147483647 are not equal",true,MathematicalOperations.isNotEqual(2147483647, -2147483648));
         assertEquals("0 and 0 are equal",false,MathematicalOperations.isNotEqual(0, 0));
     }
     
@@ -35,7 +35,7 @@ public class MathematicalOperationsTest {
     @Test
     public void testSimpleMinus(){
         assertEquals("4 minus 2 must be equal to 2",2,MathematicalOperations.minus(4,2), 2);
-        assertEquals("6 minus 3 must be equal to 3",2,MathematicalOperations.minus(6,3), 3);
+        assertEquals("6 minus 3 must be equal to 3",2,MathematicalOperations.minus(6, 3), 3);
     }
 
     @Test
@@ -47,7 +47,12 @@ public class MathematicalOperationsTest {
         }catch (Exception e){
             exceptionThrown = true;
         }
-        assertTrue("Divison by zero must throw an exception",exceptionThrown);
+        assertTrue("Divison by zero must throw an exception", exceptionThrown);
+    }
+    @Test
+    public void testInversedivide() {
+        assertEquals("6 divide 2 must be equal to 0.3333",0.3333,MathematicalOperations.InverseDivide(6,2),0.3333);
+        assertEquals("6 divide 3 must be equal to 0,5",3,MathematicalOperations.InverseDivide(6,3),0.5);
     }
 
 
