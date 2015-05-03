@@ -169,7 +169,7 @@ public class MathematicalOperations {
                 System.out.println("Enter two numbers to check less or not: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                System.out.println(lessthan(a, b));
+                System.out.println(lessthan(a,b));
             }
         }
     }
