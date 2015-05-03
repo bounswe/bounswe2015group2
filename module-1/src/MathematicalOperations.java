@@ -15,6 +15,17 @@ public class MathematicalOperations {
         return a / b;
     }
 
+    /**
+     * Multiply two integer and returns the result
+     * Added by Onur Neşvat
+     * @param a integer1
+     * @param b integer 2
+     * @return result
+     */
+    public static double multiply(int a, int b) {
+        return a * b;
+    }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Which operation you would like to try: \n" +
