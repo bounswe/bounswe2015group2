@@ -24,11 +24,14 @@ public class MathematicalOperationsTest {
 
     @Test
     public void testSimpleDivide(){ // Added by oeken
-        assertEquals("Division of 14 by 2 must equal 7",7,MathematicalOperations.divide(14,2) , 0.01);
+        assertEquals("Division of 14 by 2 must equal 7",7,MathematicalOperations.divide(14, 2) , 0.01);
     }
+    @Test
     public void testSimpleMinus(){
-        assertEquals("4 minus 2 is equal to 2",2,MathematicalOperations.minus(4,2), 2);
+        assertEquals("4 minus 2 must be equal to 2",2,MathematicalOperations.minus(4,2), 2);
+        assertEquals("6 minus 3 must be equal to 3",2,MathematicalOperations.minus(6,3), 3);
     }
+
     @Test
     public void testEdgeDivide(){ // Added by oeken
 
