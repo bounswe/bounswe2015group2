@@ -123,21 +123,30 @@ public class MathematicalOperations {
     /**
      * @param
      */
+    /**
+     * Takes a booelan value and returns the negation of it
+     * @param value value to negate
+     *
+     */
+    public static void negation(boolean value){
+        return !value;
+    }
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Which operation you would like to try: \n" +
-                "For Dummy Function, Press 1:" +
-                "For Addition Function, Press 2:" +
-                "For Divide Function, Press 3:" +
-                "For Multiply Function Press 4:" +
-                "For Power Fuction, Press 5:" +
-                "For Remainder Function Press 6" +
-                "For Minus Function Press 7" +
-                "For absolute value Function Press 8"+
-                "For isNotEqual Function Press 9" +
-                "For lessthan Function Press 10"+
-                "For sqrt Function Press 11" +
-                "For inverse divide Press 12" +
+                "For Dummy Function, Press 1:\n" +
+                "For Addition Function, Press 2:\n" +
+                "For Divide Function, Press 3:\n" +
+                "For Multiply Function Press 4:\n" +
+                "For Power Fuction, Press 5:\n" +
+                "For Remainder Function Press 6:\n" +
+                "For Minus Function Press 7:\n" +
+                "For absolute value Function Press 8\n"+
+                "For isNotEqual Function Press 9\n" +
+                "For lessthan Function Press 10\n"+
+                "For sqrt Function Press 11\n" +
+                "For inverse divide Press 12\n" +
+                "For negation Press 13\n" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -219,7 +228,11 @@ public class MathematicalOperations {
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(InverseDivide(a,b));
-
+            }else if(functionChoice == 13){
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter a boolean value to negate");
+                boolean value = input2.nextBoolean();
+                System.out.println(negation(value));
             }
         }
     }

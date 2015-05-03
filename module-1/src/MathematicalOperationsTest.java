@@ -2,6 +2,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
+    @test //Added by Murat Cenk Batman
+    public void testNegateFunction()throws Exception{
+        assertEquals("negation of false must be equal to true",true,negation(false));
+        assertEquals("negation of true must be equal to false",false,negation(true));
+    }
     @Test // Added by Sila Guler
     public void testAdditionFunction() throws Exception{
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
@@ -48,10 +53,6 @@ public class MathematicalOperationsTest {
             exceptionThrown = true;
         }
         assertTrue("Divison by zero must throw an exception", exceptionThrown);
-    }
-    @Test  //Added by Ugur Tombul
-    public void testSimplePlus() {
-        assertEquals("2 + 3 must be equal 5",5,MathematicalOperations.plus(2,3));
     }
 
     @Test // add by erensogut
