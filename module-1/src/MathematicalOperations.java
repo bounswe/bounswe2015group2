@@ -39,7 +39,6 @@ public class MathematicalOperations {
     /**
      * Multiply two integer and returns the result
      * Added by Onur Neşvat
-     *
      * @param a integer1
      * @param b integer 2
      * @return result
@@ -86,6 +85,25 @@ public class MathematicalOperations {
         if(a<0) a = (a * -1);
         return a;
     }
+
+    /**
+     * Takes 2 integer to find inverse divide
+     * Added by Ugur Tombul
+    */
+    public static int InverseDivide(double a,double b) {
+
+        return b/a;
+    }
+
+
+
+    /**
+     * Takes 1 integer to find its square root value
+     * Added by Murat Sinan Aclan
+     */
+
+
+
     public static int Sqrt(double n) {
 
             double c = Double.parseDouble(args[0]);
@@ -119,6 +137,7 @@ public class MathematicalOperations {
                 "For isNotEqual Function Press 9" +
                 "For lessthan Function Press 10"+
                 "For sqrt Function Press 11" +
+                "For inverse divide Press 12" +
                 "For Exit Press 0:");
         int functionChoice = 0;
         while (true) {
@@ -194,6 +213,13 @@ public class MathematicalOperations {
                     System.out.println("Enter a number to find its square root value: ");
                     int n = input2.nextInt();
                     System.out.println(Sqrt(n));
+            } else if (functionChoice ==12) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter 2 integer to find inverse divide");
+                int a = input2.nextInt();
+                int b = input2.nextInt();
+                System.out.println(InverseDivide(a,b));
+
             }
         }
     }
