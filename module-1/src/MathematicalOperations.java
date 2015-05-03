@@ -1,4 +1,4 @@
-import java.lang.System;
+﻿import java.lang.System;
 import java.util.Scanner;
 
 public class MathematicalOperations {
@@ -90,9 +90,9 @@ public class MathematicalOperations {
      * Takes 2 integer to find inverse divide
      * Added by Ugur Tombul
     */
-    public static int InverseDivide(double a,double b) {
+    public static double InverseDivide(double a,double b) {
 
-        return b/a;
+        return b*1.0/a;
     }
 
 
@@ -104,9 +104,9 @@ public class MathematicalOperations {
 
 
 
-    public static int Sqrt(double n) {
+    public static double Sqrt(double n) {
 
-            double c = Double.parseDouble(args[0]);
+            double c = n;
             double epsilon = 1e-15;    // relative error tolerance
             double t = c;              // estimate of the square root of c
 
@@ -128,7 +128,7 @@ public class MathematicalOperations {
      * @param value value to negate
      *
      */
-    public static void negation(boolean value){
+    public static boolean negation(boolean value){
         return !value;
     }
     public static void main(String[] args) {
@@ -215,7 +215,8 @@ public class MathematicalOperations {
                 System.out.println("Enter two numbers to check less or not: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                System.out.println(lessthan(a, b));
+		//lessthan function is not implemented
+                //System.out.println(lessthan(a, b));
             }
             else if (functionChoice == 11) {
                     Scanner input2 = new Scanner(System.in);
