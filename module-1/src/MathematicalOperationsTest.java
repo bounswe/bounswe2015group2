@@ -10,8 +10,8 @@ public class MathematicalOperationsTest {
     }
     @Test // Added by S�la G�ler
     public void testAdditionFunction() throws Exception{
-        assertEquals("Addition of 0 and 10 must equal 10",10,additionFunction(0, 10));
-        assertEquals("Addition of 10 and 0 must equal 10",10,additionFunction(10, 0));
+        assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
+        assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
     }
     
     @Test

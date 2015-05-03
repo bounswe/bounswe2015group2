@@ -16,7 +16,7 @@ public class MathematicalOperations {
     }
     
     public static void main(String[] args){
-        Scanner input1 = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         System.out.println("Which operation you would like to try: \n" +
                 "For Dummy Function, Press 1:" +
                 "For Addition Function, Press2:");
