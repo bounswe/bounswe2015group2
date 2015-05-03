@@ -119,6 +119,19 @@ public class MathematicalOperations {
             return t;
 
     }
+    /**
+     * Check two integer and returns a boolean value
+     * Added by Mehmet Eren Sogut
+     *
+     * @param a integer1
+     * @param b integer 2
+     * @return boolean
+     */
+    public static boolean lessthan(int a, int b) {
+        if (a>=b) return false;
+        else return true;
+    }
+
 
     /**
      * @param
@@ -215,7 +228,6 @@ public class MathematicalOperations {
                 System.out.println("Enter two numbers to check less or not: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-		//lessthan function is not implemented
                 //System.out.println(lessthan(a, b));
             }
             else if (functionChoice == 11) {
