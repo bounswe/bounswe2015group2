@@ -102,8 +102,6 @@ public class MathematicalOperations {
      * Added by Murat Sinan Aclan
      */
 
-
-
     public static double Sqrt(double n) {
 
             double c = n;
@@ -199,7 +197,7 @@ public class MathematicalOperations {
                 System.out.println(power(a, b));
             } else if (functionChoice == 6) {
                 Scanner input2 = new Scanner(System.in);
-                System.out.println("Enter two numbers as dividend and divisor: ");
+                System.out.println("Enter two numbers first dividend then divisor to get the remainder: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(remainder(a, b));
