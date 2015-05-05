@@ -91,6 +91,9 @@ public class MathematicalOperations {
      * Added by Ugur Tombul
     */
     public static double InverseDivide(double a,double b) {
+        if(a == 0){
+            throw new ArithmeticException("divided by 0");
+        }
 
         return b*1.0/a;
     }
