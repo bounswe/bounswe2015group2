@@ -11,11 +11,23 @@ public class MathematicalOperationsTest {
         assertEquals("negation of false must be equal to true",true,negation(false));
         assertEquals("negation of true must be equal to false",false,negation(true));
     }
-    @Test // Added by Sila Guler
-    public void testAdditionFunction() throws Exception{
+    /** Testing of Addition Function
+     * @ result Addition of 0 and 10 is 10
+     * Added by Sila Guler
+     */
+    @Test
+    public void testAdditionFunction1() throws Exception{
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
+    }
+    /** Testing of Addition Function
+     * @ result Addition of 10 and 0 is 10
+     * Added by Sila Guler
+     */
+    @Test
+    public void testAdditionFunction2() throws Exception{
         assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
     }
+
 
     @Test // Added by Oyku Yilmaz
     public void testSimplePower() throws Exception{
