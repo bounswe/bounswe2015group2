@@ -2,13 +2,20 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
-    /** Testing of Negation Function
+    /** Testing of Negation Function 1
         * @ result Negation of false should be true
         * Added by Murat Cenk Batman
          */
     @test
-    public void testNegateFunction()throws Exception{
+    public void testNegateFunction1()throws Exception{
         assertEquals("negation of false must be equal to true",true,negation(false));
+    }
+    /** Testing of Negation Function 2
+     * @ result Negation of true should be false
+     * Added by Murat Cenk Batman
+      */
+    @test
+    public void testNegateFunction1()throws Exception{
         assertEquals("negation of true must be equal to false",false,negation(true));
     }
     /** Testing of Addition Function
