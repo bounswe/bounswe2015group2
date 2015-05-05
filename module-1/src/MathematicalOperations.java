@@ -68,6 +68,9 @@ public class MathematicalOperations {
      * @return result
      */
     public static int power(int base, int power) {
+        if(base == 0 && power == 0){
+            throw new ArithmeticException("0 power of 0 is undefined");
+        }
 
         if(power == 0) return 1;
         return base * power(base, --power);

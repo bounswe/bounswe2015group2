@@ -1,4 +1,6 @@
 ﻿import static org.junit.Assert.*;
+
+import com.sun.org.glassfish.external.arc.Taxonomy;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
@@ -6,17 +8,17 @@ public class MathematicalOperationsTest {
         * @ result Negation of false should be true
         * Added by Murat Cenk Batman
          */
-    @test
+    @Test
     public void testNegateFunction1()throws Exception{
-        assertEquals("negation of false must be equal to true",true,negation(false));
+        assertEquals("negation of false must be equal to true",true,MathematicalOperations.negation(false));
     }
     /** Testing of Negation Function 2
      * @ result Negation of true should be false
      * Added by Murat Cenk Batman
       */
-    @test
+    @Test
     public void testNegateFunction2()throws Exception{
-        assertEquals("negation of true must be equal to false",false,negation(true));
+        assertEquals("negation of true must be equal to false",false,MathematicalOperations.negation(true));
     }
     /** Testing of Addition Function
      * @ result Addition of 2147483647 and 1 is -2147483648
@@ -36,10 +38,28 @@ public class MathematicalOperationsTest {
     }
 
 
-    @Test // Added by Oyku Yilmaz
-    public void testSimplePower() throws Exception{
-        assertEquals("0 power of 5 must equal to 1",1,MathematicalOperations.power(5, 0));
-        assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
+    /** Testing of Power Function
+     * @ result 0 power 0 is undefined, throws Exception
+     * Added by Oyku Yilmaz
+     */
+    @Test
+    public void testPowerFunction1() {
+        boolean exceptionThrown = false;
+        try {
+            MathematicalOperations.power(0, 0);
+        }catch (Exception e){
+            exceptionThrown = true;
+        }
+        assertTrue("0 power of 0 must throw an exception",exceptionThrown);
+    }
+
+    /** Testing of Power Function
+     * @ result 0 power of 2147483648 is 1
+     * Added by Oyku Yilmaz
+     */
+    @Test
+    public void testPowerFunction2() throws Exception{
+        assertEquals("0 power of 2147483647 must equal to 1",1,MathematicalOperations.power(2147483647, 0));
     }
 
     /** Testing of Absolute Value Function
@@ -66,7 +86,7 @@ public class MathematicalOperationsTest {
      * @ result true, -1 and 1 are not equal
      * Added by Serhat ILBEY
      */
-    @test
+    @Test
     public void testIsNotEqual1() throws Exception {
         assertEquals("-1 and 1 are not equal",true,MathematicalOperations.isNotEqual(-1, 1));
     }
@@ -75,7 +95,7 @@ public class MathematicalOperationsTest {
      * @ result true, -2147483648 and 2147483647 are not equal
      * Added by Serhat ILBEY
      */
-    @test
+    @Test
     public void testIsNotEqual2() throws Exception {
         assertEquals("-2147483648 and 2147483647 are not equal",true,MathematicalOperations.isNotEqual(2147483647, -2147483648));
     }
@@ -84,7 +104,7 @@ public class MathematicalOperationsTest {
      * @ result false, 0 and 0 are not equal
      * Added by Serhat ILBEY
      */
-    @test
+    @Test
     public void testIsNotEqual3() throws Exception {
        assertEquals("0 and 0 are equal",false,MathematicalOperations.isNotEqual(0, 0));
     }
@@ -151,8 +171,8 @@ public class MathematicalOperationsTest {
      */
 
     @Test
-    public void testInverseDivide(){
-        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.lessthan(6, 2), 0.333); }
+    public void testInverseDivide1(){
+        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.InverseDivide(6, 2), 0.333); }
 
 
     /** Testing of InverseDivide Function
@@ -161,7 +181,7 @@ public class MathematicalOperationsTest {
      */
 
     @Test
-    public void testInverseDivide() {
+    public void testInverseDivide2() {
         assertEquals("6 divide 3 must be  0.5 ", 0.5, MathematicalOperations.minus(6, 3), 0.5);
     }
 
