@@ -16,8 +16,7 @@ public class MathematicalOperationsTest {
 
     /**
      * Testing of Addition Function
-     * Addition of 0 and 10 is tested to be 10
-     * Addition of 10 and 0 is tested to be 10
+     *
      * Added by Sýla Güler
      * */
     @Test
