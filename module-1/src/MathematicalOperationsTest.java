@@ -1,4 +1,4 @@
-import static org.junit.Assert.*;
+﻿import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
@@ -15,7 +15,7 @@ public class MathematicalOperationsTest {
      * Added by Murat Cenk Batman
       */
     @test
-    public void testNegateFunction1()throws Exception{
+    public void testNegateFunction2()throws Exception{
         assertEquals("negation of true must be equal to false",false,negation(true));
     }
     /** Testing of Addition Function
