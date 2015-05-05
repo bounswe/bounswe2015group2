@@ -19,20 +19,20 @@ public class MathematicalOperationsTest {
         assertEquals("negation of true must be equal to false",false,negation(true));
     }
     /** Testing of Addition Function
-     * @ result Addition of 2147483647 and 1 is -2147483648
+     * @ result Addition of 0 and 10 is 10
      * Added by Sila Guler
      */
     @Test
     public void testAdditionFunction1() throws Exception{
-        assertEquals("Addition of 2147483647 and 1 must equal -2147483648",-2147483648,MathematicalOperations.additionFunction(2147483647, 1));
+        assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
     }
     /** Testing of Addition Function
-     * @ result Addition of -2147483648 and -1 is 2147483647
+     * @ result Addition of 10 and 0 is 10
      * Added by Sila Guler
      */
     @Test
     public void testAdditionFunction2() throws Exception{
-        assertEquals("Addition of -2147483648 and -1 must equal 2147483647",2147483647,MathematicalOperations.additionFunction(-2147483648, -1));
+        assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
     }
 
 
@@ -49,7 +49,7 @@ public class MathematicalOperationsTest {
         }catch (Exception e){
             exceptionThrown = true;
         }
-        assertTrue("0 power of 0 must throw an exception",exceptionThrown);
+        assertTrue("0 power of 0 must throw an exception", exceptionThrown);
     }
 
     /** Testing of Power Function
@@ -59,7 +59,7 @@ public class MathematicalOperationsTest {
      */
     @Test
     public void testPowerFunction2() throws Exception{
-        assertEquals("0 power of 2147483647 must equal to 1",1,MathematicalOperations.power(2147483647, 0));
+        assertEquals("0 power of 2147483647 must equal to 1", 1, MathematicalOperations.power(2147483647, 0));
     }
 
     /** Testing of Absolute Value Function
@@ -67,7 +67,7 @@ public class MathematicalOperationsTest {
      * Added by Mert �otuk
      */
 
-    @Test
+    @Test // Added by Mert �otuk
     public void testAbsolute1() throws Exception {
         assertEquals("Absolute value of -2147483648 must equal to 2",-2147483648,MathematicalOperations.absolute(-2147483648));
     }
@@ -77,7 +77,7 @@ public class MathematicalOperationsTest {
      * Added by Mert �otuk
      */
 
-    @Test
+    @Test // Added by Mert �otuk
     public void testAbsolute2() throws Exception {
         assertEquals("Absolute value of 0 must equal to 0",0,MathematicalOperations.absolute(0));
     }
@@ -114,12 +114,24 @@ public class MathematicalOperationsTest {
     public void testSimpleDivide(){ // Added by oeken
         assertEquals("Division of 14 by 2 must equal 7",7,MathematicalOperations.divide(14, 2) , 0.01);
     }
+    /** Testing of Minus Function
+     * @ result of -2147483648 minus 1 is 2147483646
+     *
+     * Added by Ozan Mahir Yıldırım
+     */
     @Test
-    public void testSimpleMinus(){
-        assertEquals("4 minus 2 must be equal to 2",2,MathematicalOperations.minus(4,2), 2);
-        assertEquals("6 minus 3 must be equal to 3",2,MathematicalOperations.minus(6,3), 3);
+    public void testSimpleMinus1(){
+        assertEquals("-2147483648 minus 1 must be equal to 2147483646",2147483646,MathematicalOperations.minus(-2147483646, -1), 2147483646);
     }
-
+    /** Testing of Minus Function
+     * @ result of 0 minus -1 is 1
+     *
+     * Added by Ozan Mahir Yıldırım
+     */
+    @Test
+    public void testSimpleMinus2(){
+        assertEquals("0 minus -1 must be equal to 1",1,MathematicalOperations.minus(0,-1), 1);
+    }
     @Test
     public void testEdgeDivide(){ // Added by oeken
 
@@ -154,7 +166,7 @@ public class MathematicalOperationsTest {
      */
     @Test // Added by Murat Sinan Aclan
     public void testSqrt() throws Exception {
-        assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4),2);
+        assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4), 2);
 
     }
     /** Testing of sqrt Function
@@ -172,7 +184,7 @@ public class MathematicalOperationsTest {
 
     @Test
     public void testInverseDivide1(){
-        assertEquals("-1 divide 1 must be -1",-1, MathematicalOperations.InverseDivide(-1,1),-1);
+        assertEquals("-1 divide 1 must be -1",-1, MathematicalOperations.InverseDivide(-1, 1),-1);
     }
 
 
