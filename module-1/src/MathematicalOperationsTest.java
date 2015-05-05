@@ -1,4 +1,4 @@
-import static org.junit.Assert.*;
+﻿import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
@@ -15,24 +15,24 @@ public class MathematicalOperationsTest {
      * Added by Murat Cenk Batman
       */
     @test
-    public void testNegateFunction1()throws Exception{
+    public void testNegateFunction2()throws Exception{
         assertEquals("negation of true must be equal to false",false,negation(true));
     }
     /** Testing of Addition Function
-     * @ result Addition of 0 and 10 is 10
+     * @ result Addition of 2147483647 and 1 is -2147483648
      * Added by Sila Guler
      */
     @Test
     public void testAdditionFunction1() throws Exception{
-        assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
+        assertEquals("Addition of 2147483647 and 1 must equal -2147483648",-2147483648,MathematicalOperations.additionFunction(2147483647, 1));
     }
     /** Testing of Addition Function
-     * @ result Addition of 10 and 0 is 10
+     * @ result Addition of -2147483648 and -1 is 2147483647
      * Added by Sila Guler
      */
     @Test
     public void testAdditionFunction2() throws Exception{
-        assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
+        assertEquals("Addition of -2147483648 and -1 must equal 2147483647",2147483647,MathematicalOperations.additionFunction(-2147483648, -1));
     }
 
 
@@ -42,10 +42,24 @@ public class MathematicalOperationsTest {
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
 
-    @Test // Added by Mert �otuk
-    public void testAbsolute() throws Exception {
-        assertEquals("Absolute value of -2 must equal to 2",2,MathematicalOperations.absolute(-2));
-        assertEquals("Absolute value of 5 must equal to 5",5,MathematicalOperations.absolute(5));
+    /** Testing of Absolute Value Function
+     * @ result Absolute value of the minimum integer
+     * Added by Mert �otuk
+     */
+
+    @Test
+    public void testAbsolute1() throws Exception {
+        assertEquals("Absolute value of -2147483648 must equal to 2",-2147483648,MathematicalOperations.absolute(-2147483648));
+    }
+
+    /** Testing of Absolute Value Function
+     * @ result Absolute value of zero
+     * Added by Mert �otuk
+     */
+
+    @Test
+    public void testAbsolute2() throws Exception {
+        assertEquals("Absolute value of 0 must equal to 0",0,MathematicalOperations.absolute(0));
     }
 
     /** Testing of isNotEqual Function
@@ -103,8 +117,15 @@ public class MathematicalOperationsTest {
      */
 
     @Test // add by erensogut
-    public void testlessthan(){
-        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
+    public void testlessthan() throws Exception {
+        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5, 2), false);
+    }
+    /** Testing of lessthan Function
+     * @ result 1<3 should be true
+     * Added by Eren Söğüt
+     */
+    @Test // add by erensogut
+    public void testlessthan1() throws Exception {
         assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1, 3), true);
     }
     /** Testing of sqrt Function
@@ -114,6 +135,14 @@ public class MathematicalOperationsTest {
     @Test // Added by Murat Sinan Aclan
     public void testSqrt() throws Exception {
         assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4),2);
+
+    }
+    /** Testing of sqrt Function
+     * @ result square root of 4  should be 2
+     * Added by Murat Sinan Aclan
+     */
+    @Test // Added by Murat Sinan Aclan
+    public void testSqrt2() throws Exception {
         assertEquals("Square root value of 15 is", 3.872, MathematicalOperations.Sqrt(15),3.872);
     }
     /** Testing of InverseDivide Function
