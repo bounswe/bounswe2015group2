@@ -117,8 +117,15 @@ public class MathematicalOperationsTest {
      */
 
     @Test // add by erensogut
-    public void testlessthan(){
-        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
+    public void testlessthan() throws Exception {
+        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5, 2), false);
+    }
+    /** Testing of lessthan Function
+     * @ result 1<3 should be true
+     * Added by Eren Söğüt
+     */
+    @Test // add by erensogut
+    public void testlessthan1() throws Exception {
         assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1, 3), true);
     }
     /** Testing of sqrt Function
@@ -128,6 +135,14 @@ public class MathematicalOperationsTest {
     @Test // Added by Murat Sinan Aclan
     public void testSqrt() throws Exception {
         assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4),2);
+
+    }
+    /** Testing of sqrt Function
+     * @ result square root of 4  should be 2
+     * Added by Murat Sinan Aclan
+     */
+    @Test // Added by Murat Sinan Aclan
+    public void testSqrt2() throws Exception {
         assertEquals("Square root value of 15 is", 3.872, MathematicalOperations.Sqrt(15),3.872);
     }
     @Test // add by ugurtombul
