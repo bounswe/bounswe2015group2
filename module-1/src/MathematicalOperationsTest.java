@@ -19,20 +19,20 @@ public class MathematicalOperationsTest {
         assertEquals("negation of true must be equal to false",false,negation(true));
     }
     /** Testing of Addition Function
-     * @ result Addition of 0 and 10 is 10
+     * @ result Addition of 2147483647 and 1 is -2147483648
      * Added by Sila Guler
      */
     @Test
     public void testAdditionFunction1() throws Exception{
-        assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
+        assertEquals("Addition of 2147483647 and 1 must equal -2147483648",-2147483648,MathematicalOperations.additionFunction(2147483647, 1));
     }
     /** Testing of Addition Function
-     * @ result Addition of 10 and 0 is 10
+     * @ result Addition of -2147483648 and -1 is 2147483647
      * Added by Sila Guler
      */
     @Test
     public void testAdditionFunction2() throws Exception{
-        assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
+        assertEquals("Addition of -2147483648 and -1 must equal 2147483647",2147483647,MathematicalOperations.additionFunction(-2147483648, -1));
     }
 
 
@@ -47,7 +47,7 @@ public class MathematicalOperationsTest {
      * Added by Mert Çotuk
      */
 
-    @Test // Added by Mert ï¿½otuk
+    @Test
     public void testAbsolute1() throws Exception {
         assertEquals("Absolute value of -2147483648 must equal to 2",-2147483648,MathematicalOperations.absolute(-2147483648));
     }
@@ -57,7 +57,7 @@ public class MathematicalOperationsTest {
      * Added by Mert Çotuk
      */
 
-    @Test // Added by Mert ï¿½otuk
+    @Test
     public void testAbsolute2() throws Exception {
         assertEquals("Absolute value of 0 must equal to 0",0,MathematicalOperations.absolute(0));
     }
