@@ -2,6 +2,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
+    @test //Added by Murat Cenk Batman
+    public void testNegateFunction()throws Exception{
+        assertEquals("negation of false must be equal to true",true,negation(false));
+        assertEquals("negation of true must be equal to false",false,negation(true));
+    }
     @Test // Added by Sila Guler
     public void testAdditionFunction() throws Exception{
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
@@ -47,7 +52,7 @@ public class MathematicalOperationsTest {
         }catch (Exception e){
             exceptionThrown = true;
         }
-        assertTrue("Divison by zero must throw an exception",exceptionThrown);
+        assertTrue("Divison by zero must throw an exception", exceptionThrown);
     }
 
     @Test // add by erensogut
@@ -55,4 +60,15 @@ public class MathematicalOperationsTest {
         assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
         assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
     }
+    @Test // Added by Murat Sinan Aclan
+    public void testSqrt() throws Exception {
+        assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4),2);
+        assertEquals("Square root value of 15 is", 3.872, MathematicalOperations.Sqrt(15),3.872);
+    }
+    @Test // add by ugurtombul
+    public void testInverseDivide(){
+        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.lessthan(6,2), 0.333);
+        assertEquals("6 divide 3 must be  0.5 ",0.5,MathematicalOperations.minus(6,3), 0.5);
+
+}
 }

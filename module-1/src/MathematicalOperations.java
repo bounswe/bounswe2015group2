@@ -64,7 +64,7 @@ public class MathematicalOperations {
      * Added by Oyku Yilmaz
      *
      * @param base integer1
-     * @param pow integer 2
+     * @param power integer 2
      * @return result
      */
     public static int power(int base, int power) {
@@ -90,9 +90,9 @@ public class MathematicalOperations {
      * Takes 2 integer to find inverse divide
      * Added by Ugur Tombul
     */
-    public static int InverseDivide(double a,double b) {
+    public static double InverseDivide(double a,double b) {
 
-        return b/a;
+        return b*1.0/a;
     }
 
 
@@ -102,11 +102,9 @@ public class MathematicalOperations {
      * Added by Murat Sinan Aclan
      */
 
+    public static double Sqrt(double n) {
 
-
-    public static int Sqrt(double n) {
-
-            double c = Double.parseDouble(args[0]);
+            double c = n;
             double epsilon = 1e-15;    // relative error tolerance
             double t = c;              // estimate of the square root of c
 
@@ -119,6 +117,19 @@ public class MathematicalOperations {
             return t;
 
     }
+    /**
+     * Check two integer and returns a boolean value
+     * Added by Mehmet Eren Sogut
+     *
+     * @param a integer1
+     * @param b integer 2
+     * @return boolean
+     */
+    public static boolean lessthan(int a, int b) {
+        if (a>=b) return  false;
+        else return true;
+    }
+
 
     /**
      * @param
@@ -128,7 +139,7 @@ public class MathematicalOperations {
      * @param value value to negate
      *
      */
-    public static void negation(boolean value){
+    public static boolean negation(boolean value){
         return !value;
     }
     public static void main(String[] args) {
@@ -186,7 +197,7 @@ public class MathematicalOperations {
                 System.out.println(power(a, b));
             } else if (functionChoice == 6) {
                 Scanner input2 = new Scanner(System.in);
-                System.out.println("Enter two numbers as dividend and divisor: ");
+                System.out.println("Enter two numbers first dividend then divisor to get the remainder: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
                 System.out.println(remainder(a, b));
@@ -215,7 +226,7 @@ public class MathematicalOperations {
                 System.out.println("Enter two numbers to check less or not: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                System.out.println(lessthan(a, b));
+                //System.out.println(lessthan(a, b));
             }
             else if (functionChoice == 11) {
                     Scanner input2 = new Scanner(System.in);
