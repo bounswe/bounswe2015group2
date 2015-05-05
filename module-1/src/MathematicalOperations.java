@@ -87,10 +87,10 @@ public class MathematicalOperations {
     }
 
     /**
-     * Takes 2 integer to find inverse divide
+     * Takes 2 int to find inverse divide
      * Added by Ugur Tombul
     */
-    public static double InverseDivide(double a,double b) {
+    public static double InverseDivide(int a,int b) {
         if(a == 0){
             throw new ArithmeticException("divided by 0");
         }
