@@ -44,7 +44,7 @@ public class MathematicalOperationsTest {
 
     /** Testing of Absolute Value Function
      * @ result Absolute value of the minimum integer
-     * Added by Mert Çotuk
+     * Added by Mert ï¿½otuk
      */
 
     @Test
@@ -54,7 +54,7 @@ public class MathematicalOperationsTest {
 
     /** Testing of Absolute Value Function
      * @ result Absolute value of zero
-     * Added by Mert Çotuk
+     * Added by Mert ï¿½otuk
      */
 
     @Test
