@@ -58,12 +58,20 @@ public class MathematicalOperationsTest {
         }
         assertTrue("Divison by zero must throw an exception", exceptionThrown);
     }
+    /** Testing of lessthan Function
+     * @ result 5<2 should be false
+     * Added by Eren Söğüt
+     */
 
     @Test // add by erensogut
     public void testlessthan(){
         assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
         assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
     }
+    /** Testing of sqrt Function
+     * @ result square root of 4 should be 2
+     * Added by Murat Sinan Aclan
+     */
     @Test // Added by Murat Sinan Aclan
     public void testSqrt() throws Exception {
         assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4),2);
