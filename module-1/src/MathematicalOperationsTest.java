@@ -2,52 +2,21 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
-
-    /**
-     * Testing of Negation Function
-     * @ result Negation of false should be true
-     * Added by Murat Cenk Batman
-     * */
-    @Test
+    @test //Added by Murat Cenk Batman
     public void testNegateFunction()throws Exception{
-        assertEquals("negation of false must be equal to true",true,MathematicalOperations.negation(false));
-        assertEquals("negation of true must be equal to false",false,MathematicalOperations.negation(true));
+        assertEquals("negation of false must be equal to true",true,negation(false));
+        assertEquals("negation of true must be equal to false",false,negation(true));
     }
-
-    /**
-     * Testing of Addition Function
-     *
-     * Added by Sýla Güler
-     * */
-    @Test
+    @Test // Added by Sila Guler
     public void testAdditionFunction() throws Exception{
         assertEquals("Addition of 0 and 10 must equal 10",10,MathematicalOperations.additionFunction(0, 10));
         assertEquals("Addition of 10 and 0 must equal 10",10,MathematicalOperations.additionFunction(10, 0));
     }
 
-
-    /**
-     * Testing of Power Function
-     * 0 power of 5 is tested to be 1
-     * 2 power of 5 is tested to be 25
-     * Added by Öykü Yýlmaz
-     * */
-    @Test
+    @Test // Added by Oyku Yilmaz
     public void testSimplePower() throws Exception{
         assertEquals("0 power of 5 must equal to 1",1,MathematicalOperations.power(5, 0));
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
-    }
-
-    @Test
-    /**
-     * Testing of Power Function
-     * Remainder from the is tested to be 1
-     * 2 power of 5 is tested to be 25
-     * Added by Mustafa Taha Kocyigit
-     * */
-    public void testSimpleRemainder() throws Exception{
-        assertEquals("The remainder from the division of 7 by 3 is 1",1,MathematicalOperations.remainder(7, 3));
-        assertEquals("The remainder from the division of 78 by 25 is 3",3,MathematicalOperations.power(78, 25));
     }
 
     @Test // Added by Mert ï¿½otuk
@@ -81,15 +50,15 @@ public class MathematicalOperationsTest {
         try {
             MathematicalOperations.divide(14,0);
         }catch (Exception e){
-    exceptionThrown = true;
-    }
-    assertTrue("Divison by zero must throw an exception", exceptionThrown);
+            exceptionThrown = true;
+        }
+        assertTrue("Divison by zero must throw an exception", exceptionThrown);
     }
 
     @Test // add by erensogut
     public void testlessthan(){
-        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2));
-        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3));
+        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5,2), false);
+        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
     }
     @Test // Added by Murat Sinan Aclan
     public void testSqrt() throws Exception {
@@ -98,8 +67,8 @@ public class MathematicalOperationsTest {
     }
     @Test // add by ugurtombul
     public void testInverseDivide(){
-        assertEquals("6 divide 2 must be 0.333",false,MathematicalOperations.lessthan(6,2));
-    assertEquals("6 divide 3 must be  0.5 ",0.5,MathematicalOperations.minus(6,3), 0.5);
+        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.lessthan(6,2), 0.333);
+        assertEquals("6 divide 3 must be  0.5 ",0.5,MathematicalOperations.minus(6,3), 0.5);
 
 }
 }
