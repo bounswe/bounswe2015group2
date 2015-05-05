@@ -1,6 +1,4 @@
 ﻿import static org.junit.Assert.*;
-
-import com.sun.org.glassfish.external.arc.Taxonomy;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
@@ -10,7 +8,7 @@ public class MathematicalOperationsTest {
          */
     @Test
     public void testNegateFunction1()throws Exception{
-        assertEquals("negation of false must be equal to true",true,MathematicalOperations.negation(false));
+        assertEquals("negation of false must be equal to true",true,negation(false));
     }
     /** Testing of Negation Function 2
      * @ result Negation of true should be false
@@ -18,7 +16,7 @@ public class MathematicalOperationsTest {
       */
     @Test
     public void testNegateFunction2()throws Exception{
-        assertEquals("negation of true must be equal to false",false,MathematicalOperations.negation(true));
+        assertEquals("negation of true must be equal to false",false,negation(true));
     }
     /** Testing of Addition Function
      * @ result Addition of 2147483647 and 1 is -2147483648
@@ -40,6 +38,7 @@ public class MathematicalOperationsTest {
 
     /** Testing of Power Function
      * @ result 0 power 0 is undefined, throws Exception
+     *
      * Added by Oyku Yilmaz
      */
     @Test
@@ -55,6 +54,7 @@ public class MathematicalOperationsTest {
 
     /** Testing of Power Function
      * @ result 0 power of 2147483648 is 1
+     *
      * Added by Oyku Yilmaz
      */
     @Test
@@ -166,23 +166,24 @@ public class MathematicalOperationsTest {
         assertEquals("Square root value of 15 is", 3.872, MathematicalOperations.Sqrt(15),3.872);
     }
     /** Testing of InverseDivide Function
-     * @ result true, -2147483648 and 2147483647 are not equal
+     * @ result -1 divide 1 should be -1
      * Added by Ugur Tombul
      */
 
     @Test
     public void testInverseDivide1(){
-        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.InverseDivide(6, 2), 0.333); }
+        assertEquals("-1 divide 1 must be -1",-1, MathematicalOperations.InverseDivide(-1,1),-1);
+    }
 
 
     /** Testing of InverseDivide Function
-     * @ result true, -2147483648 and 2147483647 are not equal
+     * @ result 4 divide -32323 should be -8080.75
      * Added by Ugur Tombul
      */
 
     @Test
     public void testInverseDivide2() {
-        assertEquals("6 divide 3 must be  0.5 ", 0.5, MathematicalOperations.minus(6, 3), 0.5);
+        assertEquals("4 divide -32323 must be  -8080.75 ", -8080.75, MathematicalOperations.minus(4,-32323), -8080.75);
     }
 
 
