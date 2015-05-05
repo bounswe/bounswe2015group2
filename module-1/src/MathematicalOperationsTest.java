@@ -88,7 +88,7 @@ public class MathematicalOperationsTest {
         assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1,3), true);
     }
     /** Testing of sqrt Function
-     * @ result square root of 4 should be 2
+     * @ result square root of 4  should be 2
      * Added by Murat Sinan Aclan
      */
     @Test // Added by Murat Sinan Aclan
