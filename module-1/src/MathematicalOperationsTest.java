@@ -2,7 +2,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
-    @test //Added by Murat Cenk Batman
+    /** Testing of Negation Function
+        * @ result Negation of false should be true
+        * Added by Murat Cenk Batman
+         */
+    @test
     public void testNegateFunction()throws Exception{
         assertEquals("negation of false must be equal to true",true,negation(false));
         assertEquals("negation of true must be equal to false",false,negation(true));
