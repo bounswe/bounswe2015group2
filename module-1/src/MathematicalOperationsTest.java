@@ -42,10 +42,24 @@ public class MathematicalOperationsTest {
         assertEquals("2 power of 5 must equal to 25",25,MathematicalOperations.power(5, 2));
     }
 
+    /** Testing of Absolute Value Function
+     * @ result Absolute value of the minimum integer
+     * Added by Mert Çotuk
+     */
+
     @Test // Added by Mert ï¿½otuk
-    public void testAbsolute() throws Exception {
-        assertEquals("Absolute value of -2 must equal to 2",2,MathematicalOperations.absolute(-2));
-        assertEquals("Absolute value of 5 must equal to 5",5,MathematicalOperations.absolute(5));
+    public void testAbsolute1() throws Exception {
+        assertEquals("Absolute value of -2147483648 must equal to 2",-2147483648,MathematicalOperations.absolute(-2147483648));
+    }
+
+    /** Testing of Absolute Value Function
+     * @ result Absolute value of zero
+     * Added by Mert Çotuk
+     */
+
+    @Test // Added by Mert ï¿½otuk
+    public void testAbsolute2() throws Exception {
+        assertEquals("Absolute value of 0 must equal to 0",0,MathematicalOperations.absolute(0));
     }
 
     /** Testing of isNotEqual Function
