@@ -116,10 +116,25 @@ public class MathematicalOperationsTest {
         assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4),2);
         assertEquals("Square root value of 15 is", 3.872, MathematicalOperations.Sqrt(15),3.872);
     }
-    @Test // add by ugurtombul
-    public void testInverseDivide(){
-        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.lessthan(6,2), 0.333);
-        assertEquals("6 divide 3 must be  0.5 ", 0.5, MathematicalOperations.minus(6, 3), 0.5);
+    /** Testing of InverseDivide Function
+     * @ result true, -2147483648 and 2147483647 are not equal
+     * Added by Ugur Tombul
+     */
 
-}
+    @Test
+    public void testInverseDivide(){
+        assertEquals("6 divide 2 must be 0.333",0.333,MathematicalOperations.lessthan(6, 2), 0.333); }
+
+
+    /** Testing of InverseDivide Function
+     * @ result true, -2147483648 and 2147483647 are not equal
+     * Added by Ugur Tombul
+     */
+
+    @Test
+    public void testInverseDivide() {
+        assertEquals("6 divide 3 must be  0.5 ", 0.5, MathematicalOperations.minus(6, 3), 0.5);
+    }
+
+
 }
