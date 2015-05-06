@@ -9,11 +9,11 @@ public class MathematicalOperations {
 
     /**
      * Addition of two integer and returns the result
-     * Added by Sila Guler
      *
      * @param a integer1
-     * @param b integer 20
-     * @return a+b
+     * @param b integer2
+     * @return The result of addition
+     * @author Sila Guler
      */
     public static int additionFunction(int a, int b) {
         return a + b;
@@ -21,27 +21,35 @@ public class MathematicalOperations {
 
     /**
      * Compares two integers and returns true if they are NOT equal.
-     * @implNote Implemented by Serhat ILBEY
-     * @param a integer 1
-     * @param b integer 2
+     *
+     * @param a integer1
+     * @param b integer2
      * @return result
+     * @author Serhat ILBEY
      */
-    public static boolean isNotEqual(int a, int b)
-    {
+    public static boolean isNotEqual(int a, int b) {
         boolean result = (a != b);
         return result;
     }
 
+    /**
+     * Divedes to integer an returns the result in double
+     *
+     * @param a integer1
+     * @param b integer2
+     * @return The result of division
+     */
     public static double divide(int a, int b) {
         return a / b;
     }
 
     /**
      * Multiply two integer and returns the result
-     * Added by Onur Neşvat
+     *
      * @param a integer1
-     * @param b integer 2
-     * @return result
+     * @param b integer2
+     * @return The result of multipication
+     * @author Onur Neşvat
      */
     public static int multiply(int a, int b) {
         return a * b;
@@ -50,13 +58,13 @@ public class MathematicalOperations {
     /**
      * Returns the remainder of the division of dividend to divisor
      *
-     * @author Mustafa Taha Koçyiğit
      * @param dividend integer dividend
-     * @param divisor integer divisor
+     * @param divisor  integer divisor
      * @return The remainder from the division of a by b
+     * @author Mustafa Taha Koçyiğit
      */
     public static int remainder(int dividend, int divisor) {
-        if(divisor == 0){
+        if (divisor == 0) {
             throw new ArithmeticException("Dividing by 0");
         }
         return dividend % divisor;
@@ -64,93 +72,111 @@ public class MathematicalOperations {
 
     /**
      * Returns the pow power of the base
-     * Added by Oyku Yilmaz
      *
-     * @param base integer1
-     * @param power integer 2
+     * @param base  integer1
+     * @param power integer2
      * @return result
+     * @author Oyku Yilmaz
      */
     public static int power(int base, int power) {
-        if(base == 0 && power == 0){
+        if (base == 0 && power == 0) {
             throw new ArithmeticException("0 power of 0 is undefined");
         }
 
-        if(power == 0) return 1;
+        if (power == 0) return 1;
         return base * power(base, --power);
     }
-    public static int minus(int a, int b) { return a-b;}
+
+    /**
+     * Returns difference two numbers.
+     *
+     * @param a
+     * @param b
+     * @return a-b
+     */
+    public static int minus(int a, int b) {
+        return a - b;
+    }
 
     /**
      * Takes the absolute value of an integer and returns the result
-     * Added by Mert Çotuk
      *
      * @param a integer1
      * @return result
+     * @author Mert Çotuk
      */
     public static int absolute(int a) {
-        if(a<0) a = (a * -1);
+        if (a < 0) a = (a * -1);
         return a;
     }
 
     /**
      * Takes 2 int to find inverse divide
-     * Added by Ugur Tombul
-    */
-    public static double InverseDivide(int a,int b) {
-        if(a == 0){
+     *
+     * @param a integer1
+     * @param b integer2
+     * @return result
+     * @author Ugur Tombul
+     */
+    public static double inverseDivide(int a, int b) {
+        if (a == 0) {
             throw new ArithmeticException("divided by 0");
         }
 
-        return b*1.0/a;
+        return b * 1.0 / a;
     }
-
 
 
     /**
      * Takes 1 integer to find its square root value
-     * Added by Murat Sinan Aclan
+     *
+     * @param n number
+     * @return result
+     * @author Murat Sinan Aclan
      */
+    public static double sqrt(double n) {
 
-    public static double Sqrt(double n) {
+        double c = n;
+        double epsilon = 1e-15;    // relative error tolerance
+        double t = c;              // estimate of the square root of c
 
-            double c = n;
-            double epsilon = 1e-15;    // relative error tolerance
-            double t = c;              // estimate of the square root of c
+        // repeatedly apply Newton update step until desired precision is achieved
+        while (Math.abs(t - c / t) > epsilon * t) {
+            t = (c / t + t) / 2.0;
+        }
 
-            // repeatedly apply Newton update step until desired precision is achieved
-            while (Math.abs(t - c/t) > epsilon*t) {
-                t = (c/t + t) / 2.0;
-            }
-
-            // print out the estimate of the square root of c
-            return t;
+        // print out the estimate of the square root of c
+        return t;
 
     }
+
     /**
      * Check two integer and returns a boolean value
-     * Added by Mehmet Eren Sogut
      *
      * @param a integer1
-     * @param b integer 2
-     * @return boolean
+     * @param b integer2
+     * @return boolean result
+     * @author Mehmet Eren Sogut
      */
     public static boolean lessthan(int a, int b) {
-        if (a>=b) return  false;
+        if (a >= b) return false;
         else return true;
     }
 
-
-    /**
-     * @param
-     */
     /**
      * Takes a booelan value and returns the negation of it
-     * @param value value to negate
      *
+     * @param value value to negate
+     * @return result
      */
-    public static boolean negation(boolean value){
+    public static boolean negation(boolean value) {
         return !value;
     }
+
+    /**
+     * Executes the all the methods via simple CLI interface
+     * @param args
+     */
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Which operation you would like to try: \n" +
@@ -161,9 +187,9 @@ public class MathematicalOperations {
                 "For Power Fuction, Press 5:\n" +
                 "For Remainder Function Press 6:\n" +
                 "For Minus Function Press 7:\n" +
-                "For absolute value Function Press 8\n"+
+                "For absolute value Function Press 8\n" +
                 "For isNotEqual Function Press 9\n" +
-                "For lessthan Function Press 10\n"+
+                "For lessthan Function Press 10\n" +
                 "For sqrt Function Press 11\n" +
                 "For inverse divide Press 12\n" +
                 "For negation Press 13\n" +
@@ -226,29 +252,27 @@ public class MathematicalOperations {
                 System.out.println("Enter two numbers to test if they are NOT equal: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                boolean result = isNotEqual(a,b);
-                if(result) System.out.println("Not equal");
+                boolean result = isNotEqual(a, b);
+                if (result) System.out.println("Not equal");
                 else System.out.println("Equal");
-            }
-            else if (functionChoice == 10) {
+            } else if (functionChoice == 10) {
                 Scanner input2 = new Scanner(System.in);
                 System.out.println("Enter two numbers to check less or not: ");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                //System.out.println(lessthan(a, b));
-            }
-            else if (functionChoice == 11) {
-                    Scanner input2 = new Scanner(System.in);
-                    System.out.println("Enter a number to find its square root value: ");
-                    int n = input2.nextInt();
-                    System.out.println(Sqrt(n));
-            } else if (functionChoice ==12) {
+                System.out.println(lessthan(a, b));
+            } else if (functionChoice == 11) {
+                Scanner input2 = new Scanner(System.in);
+                System.out.println("Enter a number to find its square root value: ");
+                int n = input2.nextInt();
+                System.out.println(Sqrt(n));
+            } else if (functionChoice == 12) {
                 Scanner input2 = new Scanner(System.in);
                 System.out.println("Enter 2 integer to find inverse divide");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                System.out.println(InverseDivide(a,b));
-            }else if(functionChoice == 13){
+                System.out.println(InverseDivide(a, b));
+            } else if (functionChoice == 13) {
                 Scanner input2 = new Scanner(System.in);
                 System.out.println("Enter a boolean value to negate");
                 boolean value = input2.nextBoolean();
