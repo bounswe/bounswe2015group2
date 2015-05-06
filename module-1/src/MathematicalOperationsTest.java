@@ -1,4 +1,4 @@
-﻿import static org.junit.Assert.*;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class MathematicalOperationsTest {
@@ -8,7 +8,7 @@ public class MathematicalOperationsTest {
          */
     @Test
     public void testNegateFunction1()throws Exception{
-        assertEquals("negation of false must be equal to true",true,negation(false));
+        assertEquals("negation of false must be equal to true",true,MathematicalOperations.negation(false));
     }
     /** Testing of Negation Function 2
      * @ result Negation of true should be false
@@ -16,7 +16,7 @@ public class MathematicalOperationsTest {
       */
     @Test
     public void testNegateFunction2()throws Exception{
-        assertEquals("negation of true must be equal to false",false,negation(true));
+        assertEquals("negation of true must be equal to false",false,MathematicalOperations.negation(true));
     }
     /** Testing of Addition Function
      * @ result Addition of 0 and 10 is 10
@@ -115,13 +115,13 @@ public class MathematicalOperationsTest {
         assertEquals("Division of 14 by 2 must equal 7",7,MathematicalOperations.divide(14, 2) , 0.01);
     }
     /** Testing of Minus Function
-     * @ result of -2147483648 minus 1 is 2147483646
+     * @ result of -2147483646 minus 1 is -2147483645
      *
      * Added by Ozan Mahir Yıldırım
      */
     @Test
     public void testSimpleMinus1(){
-        assertEquals("-2147483648 minus 1 must be equal to 2147483646",2147483646,MathematicalOperations.minus(-2147483646, -1), 2147483646);
+        assertEquals("-214748364 minus 1 must be equal to 2147483645",-2147483645,MathematicalOperations.minus(-2147483646, -1));
     }
     /** Testing of Minus Function
      * @ result of 0 minus -1 is 1
@@ -150,7 +150,7 @@ public class MathematicalOperationsTest {
 
     @Test // add by erensogut
     public void testlessthan() throws Exception {
-        assertEquals("5 < 2 must be equal to false",false,MathematicalOperations.lessthan(5, 2), false);
+        assertEquals("5 < 2 must be equal to false", false, MathematicalOperations.lessthan(5, 2));
     }
     /** Testing of lessthan Function
      * @ result 1<3 should be true
@@ -158,7 +158,7 @@ public class MathematicalOperationsTest {
      */
     @Test // add by erensogut
     public void testlessthan1() throws Exception {
-        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.minus(1, 3), true);
+        assertEquals("1 < 3 must be equal to true",true,MathematicalOperations.lessthan(1, 3));
     }
     /** Testing of sqrt Function
      * @ result square root of 4  should be 2
@@ -195,7 +195,27 @@ public class MathematicalOperationsTest {
 
     @Test
     public void testInverseDivide2() {
-        assertEquals("4 divide -32323 must be  -8080.75 ", -8080.75, MathematicalOperations.minus(4,-32323), -8080.75);
+        assertEquals("4 divide -32323 must be  -8080.75 ", -8080.75, MathematicalOperations.InverseDivide(4,-32323), -8080.75);
+    }
+
+    /** Testing of Remainder Function
+     *  @ result The remainder from the division of 27 by 6
+     *  @ author Mustafa Taha Koçyiğit
+     */
+
+    @Test
+    public void testRemainder() {
+        assertEquals("The remainder from the division of 27 by 6 is 3 ", 3, MathematicalOperations.remainder(27,6));
+    }
+
+    /**
+     * Test for theRemainder Function
+     * @ result The remainder from the division of 39 by 5
+     * @ author Mustafa Taha Koçyiğit
+     */
+    @Test
+    public void testRemainder2() {
+        assertEquals("The remainder from the division of 39 by 5 is 4 ", 4, MathematicalOperations.remainder(39,5));
     }
 
 

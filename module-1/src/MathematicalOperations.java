@@ -12,7 +12,7 @@ public class MathematicalOperations {
      * Added by Sila Guler
      *
      * @param a integer1
-     * @param b integer 2
+     * @param b integer 20
      * @return a+b
      */
     public static int additionFunction(int a, int b) {
@@ -48,15 +48,18 @@ public class MathematicalOperations {
     }
 
     /**
-     * Returns the remainder of the division of a to b
-     * Added by Mustafa Taha Koçyiğit
+     * Returns the remainder of the division of dividend to divisor
      *
-     * @param a integer1
-     * @param b integer 2
-     * @return result
+     * @author Mustafa Taha Koçyiğit
+     * @param dividend integer dividend
+     * @param divisor integer divisor
+     * @return The remainder from the division of a by b
      */
-    public static int remainder(int a, int b) {
-        return a % b;
+    public static int remainder(int dividend, int divisor) {
+        if(divisor == 0){
+            throw new ArithmeticException("Dividing by 0");
+        }
+        return dividend % divisor;
     }
 
     /**
