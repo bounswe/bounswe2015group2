@@ -132,10 +132,12 @@ public class MathematicalOperationsTest {
     }
 
     /**
-     * Testing of divde function with simple params
+     * Testing simple division
+     * @result 14 / 2 --> 7
+     * Added by Mustafa Onur Eken
      */
     @Test
-    public void testSimpleDivide() { // Added by oeken
+    public void testSimpleDivide() {
         assertEquals("Division of 14 by 2 must equal 7", 7, MathematicalOperations.divide(14, 2), 0.01);
     }
 
@@ -162,8 +164,9 @@ public class MathematicalOperationsTest {
     }
 
     /**
-     * Testing edge divide : Division by zero
-     * Added by oeken
+     * Testing edge case division : Division by zero
+     * @result An exception must be thrown, true
+     * Added by Mustafa Onur Eken
      */
     @Test
     public void testEdgeDivide() {
@@ -207,7 +210,7 @@ public class MathematicalOperationsTest {
      */
     @Test // Added by Murat Sinan Aclan
     public void testSqrt() throws Exception {
-        assertEquals("Square root of 4 is", 2, MathematicalOperations.Sqrt(4), 2);
+        assertEquals("Square root of 4 is", 2, MathematicalOperations.sqrt(4), 2);
 
     }
 
@@ -219,7 +222,7 @@ public class MathematicalOperationsTest {
      */
     @Test // Added by Murat Sinan Aclan
     public void testSqrt2() throws Exception {
-        assertEquals("Square root value of 15 is", 3.872, MathematicalOperations.Sqrt(15), 3.872);
+        assertEquals("Square root value of 15 is", 3.872, MathematicalOperations.sqrt(15), 3.872);
     }
 
     /**
@@ -230,7 +233,7 @@ public class MathematicalOperationsTest {
      */
     @Test
     public void testInverseDivide1() {
-        assertEquals("-1 divide 1 must be -1", -1, MathematicalOperations.InverseDivide(-1, 1), -1);
+        assertEquals("-1 divide 1 must be -1", -1, MathematicalOperations.inverseDivide(-1, 1), -1);
     }
 
 
@@ -243,7 +246,7 @@ public class MathematicalOperationsTest {
 
     @Test
     public void testInverseDivide2() {
-        assertEquals("4 divide -32323 must be  -8080.75 ", -8080.75, MathematicalOperations.InverseDivide(4, -32323), -8080.75);
+        assertEquals("4 divide -32323 must be  -8080.75 ", -8080.75, MathematicalOperations.inverseDivide(4, -32323), -8080.75);
     }
 
     /**

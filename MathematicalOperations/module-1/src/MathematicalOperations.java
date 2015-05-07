@@ -33,11 +33,12 @@ public class MathematicalOperations {
     }
 
     /**
-     * Divedes to integer an returns the result in double
+     * Divides to integer an returns the result in double
      *
      * @param a integer1
      * @param b integer2
      * @return The result of division
+     * @author Mustafa Onur Eken
      */
     public static double divide(int a, int b) {
         return a / b;
@@ -265,13 +266,13 @@ public class MathematicalOperations {
                 Scanner input2 = new Scanner(System.in);
                 System.out.println("Enter a number to find its square root value: ");
                 int n = input2.nextInt();
-                System.out.println(Sqrt(n));
+                System.out.println(sqrt(n));
             } else if (functionChoice == 12) {
                 Scanner input2 = new Scanner(System.in);
                 System.out.println("Enter 2 integer to find inverse divide");
                 int a = input2.nextInt();
                 int b = input2.nextInt();
-                System.out.println(InverseDivide(a, b));
+                System.out.println(inverseDivide(a, b));
             } else if (functionChoice == 13) {
                 Scanner input2 = new Scanner(System.in);
                 System.out.println("Enter a boolean value to negate");
