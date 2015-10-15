@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.model;
 
+import edu.boun.cmpe451.group2.utils.Security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -57,7 +58,7 @@ public class AciktimUsersModel {
     public void addUser(String email, String passwd) {
         String sql = "INSERT INTO users(email, passwd) VALUES(?, ?)";
 
-        this.jdbcTemplate.update(sql, email, passwd);
+        this.jdbcTemplate.update(sql, email, Security.md5(passwd));
     }
 
     /**
@@ -70,7 +71,7 @@ public class AciktimUsersModel {
     public void updateUser(Long id, String email, String passwd) {
         String sql = "UPDATE users SET email = ?, passwd = ? WHERE id = ?";
 
-        this.jdbcTemplate.update(sql, email, passwd, id);
+        this.jdbcTemplate.update(sql, email, Security.md5(passwd), id);
     }
 
     /**
