@@ -52,8 +52,8 @@
                     <td>${user.id}</td>
                     <td>${user.email}</td>
                     <td>${user.passwd}</td>
-                    <td><a class="btn btn-primary btn-sm" href="${contextPath}/edit?id=${user.id}">Edit</a></td>
-                    <td><a class="btn btn-danger btn-sm" href="${contextPath}/delete?id=${user.id}">Delete</a></td>
+                    <td><a class="btn btn-primary btn-sm" href="${contextPath}/user/edit?id=${user.id}">Edit</a></td>
+                    <td><a class="btn btn-danger btn-sm" href="${contextPath}/user/delete?id=${user.id}">Delete</a></td>
                 </tr>
             </c:forEach>
             </tbody>
