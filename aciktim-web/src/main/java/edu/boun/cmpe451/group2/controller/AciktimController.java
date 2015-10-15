@@ -50,7 +50,6 @@ public class AciktimController {
 
     /**
      * Show page which edit a existing user
-     * <p/>
      * request path : ../aciktim/user/edit
      *
      * @param id    - user's id to show information
@@ -68,7 +67,6 @@ public class AciktimController {
 
     /**
      * Updates the user info or add new user. and then redirects to /index page
-     * <p/>
      * request path : ../aciktim/user/update
      *
      * @param id     - user's id. If this is null then add a new user. otherwise update the user.
@@ -88,5 +86,16 @@ public class AciktimController {
             aciktimUserModel.addUser(email, passwd);
 
         return "redirect:/index";
+    }
+
+    /**
+     * Show page which add a new user
+     * request path : ../aciktim/user/new
+     *
+     * @return
+     */
+    @RequestMapping(value = "user/new")
+    public String newUser() {
+        return "user_edit";
     }
 }

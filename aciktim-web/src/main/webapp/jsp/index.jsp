@@ -37,7 +37,7 @@
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
-        <a class="btn btn-primary btn-sm" href="${contextPath}/new-user">New User</a>
+        <a class="btn btn-primary btn-sm" href="${contextPath}/user/new">New User</a>
         <table class="table table-bordered" style="margin-top:10px;">
             <thead>
             <th>#</th>
