@@ -33,7 +33,7 @@ public class AciktimController {
      * request path : ../aciktim or .../aciktim/index
      *
      * @param model - object that stores data to be rendered by view
-     * @return
+     * @return view
      */
     @RequestMapping(value = {"/", "/index"})
     public String index(ModelMap model) {
@@ -54,7 +54,7 @@ public class AciktimController {
      *
      * @param id    - user's id to show information
      * @param model - object that stores data to be rendered by view
-     * @return view name
+     * @return view
      */
     @RequestMapping(value = "user/edit")
     public String editUser(@RequestParam(required = false) Long id, ModelMap model) {
@@ -72,7 +72,7 @@ public class AciktimController {
      * @param id     - user's id. If this is null then add a new user. otherwise update the user.
      * @param email  - email address
      * @param passwd - password
-     * @return view name
+     * @return view
      */
     @RequestMapping(value = "user/update")
     public String updateUser(
@@ -97,5 +97,19 @@ public class AciktimController {
     @RequestMapping(value = "user/new")
     public String newUser() {
         return "user_edit";
+    }
+
+    /**
+     * delete user from db and redirects to /index page
+     * request path : ../aciktim/user/delete
+     *
+     * @param id
+     * @return view
+     */
+    @RequestMapping(value = "user/delete")
+    public String deleteUser(@RequestParam(required = false) Long id) {
+        aciktimUserModel.deleteUser(id);
+
+        return "redirect:/index";
     }
 }
