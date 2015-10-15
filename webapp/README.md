@@ -1,1 +1,0 @@
-This is folder for our webapp and api, the build details will come here.

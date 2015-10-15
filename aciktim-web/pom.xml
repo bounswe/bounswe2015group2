@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 	http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>edu.boun.cmpe451</groupId>
+    <groupId>edu.boun.cmpe451.group2</groupId>
     <artifactId>aciktim</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>aciktim Webapp</name>
+    <name>Aciktim Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
         <jdk.version>1.7</jdk.version>
