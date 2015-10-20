@@ -23,7 +23,7 @@
 	<!-- For Database Setting -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass"	value="com.mysql.jdbc.Driver" />
- 		<property name="jdbcUrl"		value="jdbc:mysql://localhost:3306/aciktim?characterEncoding=UTF8" />
+ 		<property name="jdbcUrl"		value="jdbc:mysql://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:3306/aciktim?characterEncoding=UTF8" />
 		<property name="user"			value="aciktim" />
 		<property name="password"		value="89weG6tu62" />
 
