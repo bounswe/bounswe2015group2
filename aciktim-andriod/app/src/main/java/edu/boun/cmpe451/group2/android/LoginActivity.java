@@ -28,6 +28,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -324,6 +328,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
+            // The connection URL
+            String url = "http://ec2-52-28-126-194.eu-central-1.compute." +
+                    "amazonaws.com:8080/aciktim/user/update?" +
+                    "email="+mEmail +
+                    "&passwd="+mPassword;
+
+            // Create a new RestTemplate instance
+            RestTemplate restTemplate = new RestTemplate();
+
+            // Add the String message converter
+            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+
+            // Make the HTTP GET request, marshaling the response to a String
+            String result = restTemplate.getForObject(url, String.class, "Android");
             return true;
         }
 
