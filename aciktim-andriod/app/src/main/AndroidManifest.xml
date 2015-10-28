@@ -17,11 +17,6 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name=".MainDrawer"
-            android:label="@string/title_activity_main_drawer"
-            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,48 +24,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MyRecipesActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_my_recipes"
-            android:parentActivityName=".MainDrawer"
-            android:theme="@style/FullscreenTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MainDrawer" />
-        </activity>
-        <activity
-            android:name=".RecipeViewActivity"
-            android:label="@string/title_activity_recipe_view"
-            android:parentActivityName=".MyRecipesActivity"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main_drawer"
             android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MyRecipesActivity" />
         </activity>
         <activity
             android:name=".RecipeAddActivity"
             android:label="@string/title_activity_recipe_add"
-            android:parentActivityName=".MyRecipesActivity" >
+            android:parentActivityName=".RecipeListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MyRecipesActivity" />
+                android:value="edu.boun.cmpe451.group2.android.RecipeListActivity" />
         </activity>
         <activity
             android:name=".RecipeEditActivity"
             android:label="@string/title_activity_recipe_edit"
-            android:parentActivityName=".MyRecipesActivity" >
+            android:parentActivityName=".RecipeListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MyRecipesActivity" />
+                android:value="edu.boun.cmpe451.group2.android.RecipeListActivity" />
         </activity>
         <activity
             android:name=".ProfileViewActivity"
             android:label="@string/title_activity_profile_view"
-            android:parentActivityName=".MainDrawer"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MainDrawer" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".ProfileEditActivity"
@@ -88,15 +69,42 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.boun.cmpe451.group2.android.LoginActivity" />
         </activity>
+
         <activity
-            android:name=".FavoritesActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_favorites"
-            android:parentActivityName=".MainDrawer"
-            android:theme="@style/FullscreenTheme" >
+            android:name=".RecipeListActivity"
+            android:label="@string/title_recipe_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MainDrawer" />
+                android:value="edu.boun.cmpe451.group2.android.MainActivity" />
+        </activity>
+        <activity
+            android:name=".RecipeViewActivity"
+            android:label="@string/title_recipe_detail"
+            android:parentActivityName=".RecipeListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.RecipeListActivity" />
+        </activity>
+        <activity
+            android:name=".FriendListActivity"
+            android:label="@string/title_friend_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.MainActivity" />
+        </activity>
+        <activity
+            android:name=".FriendDetailActivity"
+            android:label="@string/title_friend_detail"
+            android:parentActivityName=".FriendListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.FriendListActivity" />
         </activity>
     </application>
 

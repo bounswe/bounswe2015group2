@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.android;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,7 +22,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainDrawer extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
@@ -116,17 +117,19 @@ public class MainDrawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        if (id == R.id.nav_favorites) {
+            Intent intent = new Intent(this,RecipeListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_recipes) {
+            Intent intent = new Intent(this,RecipeListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_friends) {
+            Intent intent = new Intent(this,FriendListActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_profile) {
+            Intent intent = new Intent(this,ProfileViewActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_sign_out) {
 
         }
 
@@ -162,11 +165,11 @@ public class MainDrawer extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "HOME";
                 case 1:
-                    return "SECTION 2";
+                    return "DAILY CONSUMPTION";
                 case 2:
-                    return "SECTION 3";
+                    return "FEED";
             }
             return null;
         }
