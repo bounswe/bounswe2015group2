@@ -17,7 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions{
+    packagingOptions {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
     }
@@ -29,6 +29,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M1'
+    compile 'com.android.support:support-v4:23.1.0'
 }
+
+
 
 

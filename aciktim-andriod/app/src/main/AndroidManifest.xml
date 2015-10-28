@@ -28,6 +28,76 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MyRecipesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_my_recipes"
+            android:parentActivityName=".MainDrawer"
+            android:theme="@style/FullscreenTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.MainDrawer" />
+        </activity>
+        <activity
+            android:name=".RecipeViewActivity"
+            android:label="@string/title_activity_recipe_view"
+            android:parentActivityName=".MyRecipesActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.MyRecipesActivity" />
+        </activity>
+        <activity
+            android:name=".RecipeAddActivity"
+            android:label="@string/title_activity_recipe_add"
+            android:parentActivityName=".MyRecipesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.MyRecipesActivity" />
+        </activity>
+        <activity
+            android:name=".RecipeEditActivity"
+            android:label="@string/title_activity_recipe_edit"
+            android:parentActivityName=".MyRecipesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.MyRecipesActivity" />
+        </activity>
+        <activity
+            android:name=".ProfileViewActivity"
+            android:label="@string/title_activity_profile_view"
+            android:parentActivityName=".MainDrawer"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.MainDrawer" />
+        </activity>
+        <activity
+            android:name=".ProfileEditActivity"
+            android:label="@string/title_activity_profile_edit"
+            android:parentActivityName=".ProfileViewActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.ProfileViewActivity" />
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName=".LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".FavoritesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_favorites"
+            android:parentActivityName=".MainDrawer"
+            android:theme="@style/FullscreenTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.MainDrawer" />
+        </activity>
     </application>
 
 </manifest>
