@@ -19,29 +19,14 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".TabActivity"
-            android:label="@string/title_activity_tab"
-            android:parentActivityName=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.LoginActivity" />
-
-
-        </activity>
-        <activity
             android:name=".MainDrawer"
             android:label="@string/title_activity_main_drawer"
-            android:parentActivityName=".TabActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.TabActivity" />
         </activity>
     </application>
 
