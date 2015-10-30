@@ -1,7 +1,9 @@
 package edu.boun.cmpe451.group2.utils;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 public class Security {
     public static String md5(String str) {
@@ -23,5 +25,12 @@ public class Security {
         }
 
         return sb.toString();
+    }
+
+    public static String randomKey() {
+        SecureRandom random = new SecureRandom();
+
+
+        return Security.md5(new BigInteger(130, random).toString(32));
     }
 }

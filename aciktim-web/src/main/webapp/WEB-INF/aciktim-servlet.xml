@@ -22,6 +22,11 @@
 
     <context:annotation-config/>
 
+    <!-- DAO Beans -->
+    <context:component-scan base-package="edu.boun.cmpe451.group2.dao">
+        <context:include-filter type="regex" expression=".*Dao"/>
+    </context:component-scan>
+
     <!-- Model Beans -->
     <context:component-scan base-package="edu.boun.cmpe451.group2.model">
         <context:include-filter type="regex" expression=".*Model"/>
