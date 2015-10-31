@@ -3,6 +3,9 @@ package edu.boun.cmpe451.group2.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -29,6 +32,10 @@ public class APIController {
     @Qualifier("userModel")
     @Autowired
     private UserModel userModel = null;
+
+    @Qualifier("recipeModel")
+    @Autowired
+    private RecipeModel recipeModel = null;
 
     /**
      * Checks login
@@ -108,5 +115,71 @@ public class APIController {
 
             return gson.toJson(result);
         }
+    }
+
+    /**
+     * Adds a recipe to the db
+     * @param recipeName name of the recipe to be added
+     * @param ownerID userID of the owner of the recipe
+     * @param ingredientMapJ map of ingredients, KEY: ingredientID, VALUE:amount
+     * @param pictureAddress address of the picture of the recipe
+     * @return jsonobject of return type and content as HashMap
+     */
+    @RequestMapping("/addrecipe")
+    @ResponseBody
+    public String addrecipe(
+            @RequestParam String recipeName,
+            @RequestParam Long ownerID,
+            @RequestParam(required = false) JsonObject ingredientMapJ,
+            @RequestParam(required = false) String pictureAddress
+    ){
+        Gson gson = new Gson();
+        Map<String,Object> result = new HashMap<String,Object>();
+        try {
+            recipeModel.addRecipe(recipeName,ownerID,ingredientMapJ,pictureAddress);
+            result.put("type","SUCCESS");
+            result.put("content","Recipe Added");
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+
+            result.put("type", "ERROR");
+
+            if (e instanceof ExException)
+                result.put("content", ((ExException) e).getErrCode());
+            else
+                result.put("content", ExError.E_UNKNOWN);
+
+            return gson.toJson(result);
+        }
+
+        return gson.toJson(result);
+    }
+
+    public String deleteRecipe(
+            @RequestParam Long recipeID
+    ){
+        Gson gson = new Gson();
+        Map<String,Object> result = new HashMap<String,Object>();
+        try {
+            recipeModel.deleteRecipe(recipeID);
+            result.put("type","SUCCESS");
+            result.put("content","Recipe Deleted");
+        }catch (Exception e){
+            e.printStackTrace();
+
+            result.put("type", "ERROR");
+
+            if (e instanceof ExException)
+                result.put("content", ((ExException) e).getErrCode());
+            else
+                result.put("content", ExError.E_UNKNOWN);
+
+            return gson.toJson(result);
+        }
+
+
+        return gson.toJson(result);
     }
 }
