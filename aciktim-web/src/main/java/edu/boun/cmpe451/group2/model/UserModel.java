@@ -125,10 +125,8 @@ public class UserModel {
         userDao.updateUser(id,email, pwd, full_name, username);
     }
 
-    public String getUser(String api_key) {
+    public UserModel getUser(String api_key) {
         UserModel userModel = null;
-        Gson gson = new Gson();
-        Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> user = userDao.getUserByApiKey(api_key);
         userModel.id = user.get("id").toString();
         userModel.email = user.get("email").toString();
@@ -136,8 +134,7 @@ public class UserModel {
         userModel.full_name = user.get("full_name").toString();
         userModel.username = user.get("username").toString();
         userModel.api_key = user.get("api_key").toString();
-        result.put("user", userModel);
-        return gson.toJson(result);
+        return userModel;
     }
     public UserDao getUserDao() {
         return userDao;

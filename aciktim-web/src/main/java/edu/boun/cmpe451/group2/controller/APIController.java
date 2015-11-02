@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,9 +77,14 @@ public class APIController {
         }
     }
 
+    @RequestMapping("/getuser")
+    public @ResponseBody UserModel getUser(@RequestParam String api_key){
+        UserModel user = userModel.getUser(api_key);
+        return user;
+    }
+
     /**
      * Register user to database
-     *
      * @param email     registered email
      * @param password  password
      * @param full_name full name
@@ -131,7 +137,6 @@ public class APIController {
             recipeModel.addRecipe(recipe.name,recipe.ownerID,recipe.IngredientAmountMap,recipe.pictureAddress);
             result.put("type","SUCCESS");
             result.put("content","Recipe Added");
-
         }
         catch (Exception e){
             e.printStackTrace();
@@ -150,6 +155,11 @@ public class APIController {
 
     }
 
+    /**
+     * deletes a recipe
+     * @param recipeID id of the recipe to be deleted
+     * @return
+     */
     public String deleteRecipe(
             @RequestParam Long recipeID
     ){
