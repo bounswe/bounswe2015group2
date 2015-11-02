@@ -1,6 +1,7 @@
 package edu.boun.cmpe451.group2.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.JsonArray;
@@ -78,13 +79,16 @@ public class APIController {
     }
 
     @RequestMapping("/getuser")
-    public @ResponseBody UserModel getUser(@RequestParam String api_key){
+    public
+    @ResponseBody
+    UserModel getUser(@RequestParam String api_key) {
         UserModel user = userModel.getUser(api_key);
         return user;
     }
 
     /**
      * Register user to database
+     *
      * @param email     registered email
      * @param password  password
      * @param full_name full name
@@ -126,19 +130,19 @@ public class APIController {
 
     /**
      * Adds a recipe to the db
+     *
      * @param recipe recipe to be added
      * @return returns json string
      */
     @RequestMapping("/addrecipe")
-    public String addrecipe(@RequestBody RecipeModel recipe){
+    public String addrecipe(@RequestBody RecipeModel recipe) {
         Gson gson = new Gson();
-        Map<String,Object> result = new HashMap<String,Object>();
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
-            recipeModel.addRecipe(recipe.name,recipe.ownerID,recipe.IngredientAmountMap,recipe.pictureAddress);
-            result.put("type","SUCCESS");
-            result.put("content","Recipe Added");
-        }
-        catch (Exception e){
+            recipeModel.addRecipe(recipe.name, recipe.ownerID, recipe.IngredientAmountMap, recipe.pictureAddress);
+            result.put("type", "SUCCESS");
+            result.put("content", "Recipe Added");
+        } catch (Exception e) {
             e.printStackTrace();
 
             result.put("type", "ERROR");
@@ -157,19 +161,20 @@ public class APIController {
 
     /**
      * deletes a recipe
+     *
      * @param recipeID id of the recipe to be deleted
      * @return
      */
     public String deleteRecipe(
             @RequestParam Long recipeID
-    ){
+    ) {
         Gson gson = new Gson();
-        Map<String,Object> result = new HashMap<String,Object>();
+        Map<String, Object> result = new HashMap<String, Object>();
         try {
             recipeModel.deleteRecipe(recipeID);
-            result.put("type","SUCCESS");
-            result.put("content","Recipe Deleted");
-        }catch (Exception e){
+            result.put("type", "SUCCESS");
+            result.put("content", "Recipe Deleted");
+        } catch (Exception e) {
             e.printStackTrace();
 
             result.put("type", "ERROR");
@@ -184,5 +189,18 @@ public class APIController {
 
 
         return gson.toJson(result);
+    }
+
+    @RequestMapping("recipe/list")
+    public @ResponseBody List<Map<String, Object>> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
+        // todo api_key control
+        return recipeModel.getRecipes(users_id);
+    }
+
+    @RequestMapping("recipe/get")
+    public @ResponseBody
+    Map<String, Object> getRecipe(@RequestParam String api_key, @RequestParam Long recipe_id) {
+        // todo api_key control
+        return recipeModel.getRecipe(recipe_id);
     }
 }
