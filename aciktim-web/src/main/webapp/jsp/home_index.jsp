@@ -1,3 +1,6 @@
+<%@ page import="java.net.CookieManager" %>
+<%@ page import="java.net.CookieStore" %>
+<%@ page import="java.net.CookieHandler" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 
@@ -24,7 +27,36 @@
 <body>
 <div class="container" id="main-container">
 
-    <%@include  file="header-signed-out.jsp" %>
+    <c:if test="${full_name == ''}">
+        <%@include  file="header-signed-out.jsp" %>
+    </c:if>
+    <c:if test="${full_name != ''}">
+        <div class="container text-center" id="header-signed-out">
+            <div class="row" id="header-main-row">
+                <div class="col-md-6" id="header-col1">
+                        <%--<a href="/aciktim/index" id="page-name" >Acıktım</a>--%>
+                    <h1 id="page-name">Acıktım</h1>
+                </div>
+                <div class="col-md-6" id="header-col2">
+                    <div class="row">
+                        <div class="navbar-form">
+                            <div class="form-group">
+                                Welcome ${full_name}!
+                                <a href="${contextPath}/logout" class="btn btn-primary">Logout</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a id="forgot-password" href="">Forgot Password</a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </c:if>
+
 
     <%@include  file="content-bar.jsp" %>
 
