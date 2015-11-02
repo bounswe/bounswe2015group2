@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.model;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import edu.boun.cmpe451.group2.dao.RecipeDao;
 import edu.boun.cmpe451.group2.exception.ExError;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 import java.util.HashMap;
@@ -28,7 +31,7 @@ public class RecipeModel {
     public Long ownerID=null;
     public int likes = 0;
     public List<Comment> commentList = null;
-    public Map<Ingredient,Integer> IngredientAmountMap = null;
+    public Map<Ingredient,Long> IngredientAmountMap = null;
     public List<Tag> tagList = null;
 
     @Qualifier("recipeDao")
@@ -43,7 +46,7 @@ public class RecipeModel {
      * @param pictureAddress address of the picture of the recipe
      * @throws Exception
      */
-    public void addRecipe(String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress)throws Exception{
+    public void addRecipe(String recipeName, Long ownerID, Map<Ingredient,Long> ingredientMap, String pictureAddress)throws Exception{
         if(StringUtil.isEmpty(recipeName))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
         if(ownerID == null)
@@ -51,10 +54,6 @@ public class RecipeModel {
         if(StringUtil.isEmpty(pictureAddress))
             pictureAddress="";
 
-        Map<Long,Long> ingredientMap = new HashMap<Long,Long>();
-        for(Map.Entry entry: ingredientMapJ.entrySet()){
-            ingredientMap.put((Long)entry.getKey(),(Long)entry.getValue());
-        }
         recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress);
     }
 
