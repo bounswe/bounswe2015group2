@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -126,15 +127,14 @@ public class APIController {
 
     /**
      * Adds a recipe to the db
-     * @param recipe recipe to be added
      * @return returns json string
      */
-    @RequestMapping("/addrecipe")
+    @RequestMapping("/addrecipe2")
     public String addrecipe(@RequestBody RecipeModel recipe){
         Gson gson = new Gson();
         Map<String,Object> result = new HashMap<String,Object>();
         try {
-            recipeModel.addRecipe(recipe.name,recipe.ownerID,recipe.IngredientAmountMap,recipe.pictureAddress);
+            recipeModel.addRecipe(recipe.name,recipe.ownerID,recipe.IngredientAmountMap,recipe.pictureAddress,recipe.description);
             result.put("type","SUCCESS");
             result.put("content","Recipe Added");
         }
