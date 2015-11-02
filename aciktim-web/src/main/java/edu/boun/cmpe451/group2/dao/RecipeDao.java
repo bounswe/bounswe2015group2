@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.dao;
 
+import edu.boun.cmpe451.group2.model.Ingredient;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -41,7 +42,7 @@ public class RecipeDao extends BaseDao{
      * @param ownerID user id of the owner of the recipe
      * @param IngredientMap ingredient list
      */
-    public void addRecipe(String recipeName,Long ownerID,Map<Long,Long> IngredientMap,String pictureAdress){
+    public void addRecipe(String recipeName,Long ownerID,Map<Ingredient,Long> IngredientMap,String pictureAdress){
         String sql = "INSERT INTO recipes(name,ownerID,pictureAddress) VALUES(?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.jdbcTemplate.update(sql,ownerID,pictureAdress,keyHolder);
@@ -50,7 +51,7 @@ public class RecipeDao extends BaseDao{
         if(IngredientMap.size()>0){
             sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
             for(Map.Entry entry : IngredientMap.entrySet()){
-                this.jdbcTemplate.update(sql,recipeID,entry.getKey(),entry.getValue());
+                this.jdbcTemplate.update(sql,recipeID,((Ingredient)(entry.getKey())).id,entry.getValue());
             }
         }
     }
@@ -73,5 +74,17 @@ public class RecipeDao extends BaseDao{
         sql = "DELETE FROM recipes WHERE id=?";
         this.jdbcTemplate.update(sql,recipeID);
     }
+    public void updateRecipe (Long recipeID, String recipeName,Long ownerID,Map<Long,Long> IngredientMap, String pictureAddress){
+        String sql = "UPDATE recipes SET pictureAddress = ?, name = ? , ownerID = ? WHERE id = ?";
 
+        this.jdbcTemplate.update(sql,pictureAddress, recipeName, ownerID, recipeID);
+        sql = "DELETE FROM recipeIngredient where recipeID = ?";
+        this.jdbcTemplate.update(sql, recipeID);
+        if(IngredientMap.size()>0){
+            sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
+            for(Map.Entry entry : IngredientMap.entrySet()){
+                this.jdbcTemplate.update(sql,recipeID,entry.getKey(),entry.getValue());
+            }
+        }
+    }
 }

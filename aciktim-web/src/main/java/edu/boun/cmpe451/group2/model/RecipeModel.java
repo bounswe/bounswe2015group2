@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.model;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import edu.boun.cmpe451.group2.dao.RecipeDao;
 import edu.boun.cmpe451.group2.exception.ExError;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +24,15 @@ import java.util.Map;
 @Service
 @Scope("request")
 public class RecipeModel {
+
+    public Long id = null;
+    public String name = "";
+    public String pictureAddress = "";
+    public Long ownerID=null;
+    public int likes = 0;
+    public List<Comment> commentList = null;
+    public Map<Ingredient,Long> IngredientAmountMap = null;
+    public List<Tag> tagList = null;
 
     @Qualifier("recipeDao")
     @Autowired
@@ -33,7 +46,24 @@ public class RecipeModel {
      * @param pictureAddress address of the picture of the recipe
      * @throws Exception
      */
-    public void addRecipe(String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress)throws Exception{
+    public void addRecipe(String recipeName, Long ownerID, Map<Ingredient,Long> ingredientMap, String pictureAddress)throws Exception{
+        if(StringUtil.isEmpty(recipeName))
+            throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
+        if(ownerID == null)
+            throw new ExException(ExError.E_NULL_OWNERID);
+        if(StringUtil.isEmpty(pictureAddress))
+            pictureAddress="";
+
+        recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress);
+    }
+
+    public void deleteRecipe(Long recipeID) throws Exception{
+        if(recipeDao.getRecipe(recipeID).size() == 0)
+            throw new ExException(ExError.E_RECIPE_NOT_FOUND);
+
+        recipeDao.deleteRecipe(recipeID);
+    }
+    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress)throws Exception{
         if(StringUtil.isEmpty(recipeName))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
         if(ownerID == null)
@@ -45,16 +75,8 @@ public class RecipeModel {
         for(Map.Entry entry: ingredientMapJ.entrySet()){
             ingredientMap.put((Long)entry.getKey(),(Long)entry.getValue());
         }
-        recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress);
+        recipeDao.updateRecipe(recipeID, recipeName, ownerID, ingredientMap, pictureAddress);
     }
-
-    public void deleteRecipe(Long recipeID) throws Exception{
-        if(recipeDao.getRecipe(recipeID).size() == 0)
-            throw new ExException(ExError.E_RECIPE_NOT_FOUND);
-
-        recipeDao.deleteRecipe(recipeID);
-    }
-    public void updateRecipe(Long recipeID) {}
 
     public RecipeDao getRecipeDao(){return recipeDao;}
 }

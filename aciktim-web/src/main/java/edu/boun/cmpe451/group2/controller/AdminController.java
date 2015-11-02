@@ -73,10 +73,12 @@ public class AdminController {
     public String updateUser(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String email,
-            @RequestParam(required = false) String passwd) {
+            @RequestParam(required = false) String passwd,
+            @RequestParam(required = false) String full_name,
+            @RequestParam(required = false) String username) {
 
         if (id != null)
-            userModel.getUserDao().updateUser(id, email, passwd);
+            userModel.getUserDao().updateUser(id, email, passwd, full_name, username);
         else
             userModel.getUserDao().addUser(email, passwd);
 
