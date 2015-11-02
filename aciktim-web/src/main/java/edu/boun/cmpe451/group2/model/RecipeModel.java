@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,13 @@ import java.util.Map;
 @Service
 @Scope("request")
 public class RecipeModel {
+
+    public Long id = null;
+    public String name = "";
+    public String pictureAddress = "";
+    public Long ownerID=null;
+    public int likes = 0;
+    public List<Comment> commentList = null;
 
     @Qualifier("recipeDao")
     @Autowired
