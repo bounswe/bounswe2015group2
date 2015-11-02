@@ -25,9 +25,9 @@ public class UserModel {
     @Qualifier("userDao")
     @Autowired
     private UserDao userDao = null;
-    private String id;
-    private String email;
-    private String passwd;
+    public String id;
+    public String email;
+    public String passwd;
     private String full_name;
     private String username;
     private String api_key;
@@ -126,7 +126,7 @@ public class UserModel {
     }
 
     public UserModel getUser(String api_key) {
-        UserModel userModel = null;
+        UserModel userModel = new UserModel();
         Map<String, Object> user = userDao.getUserByApiKey(api_key);
         userModel.id = user.get("id").toString();
         userModel.email = user.get("email").toString();
