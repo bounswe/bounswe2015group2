@@ -33,7 +33,6 @@ public class RecipeModel {
     public List<Comment> commentList = null;
     public Map<Ingredient,Long> IngredientAmountMap = null;
     public List<Tag> tagList = null;
-    public String description = "";
 
     @Qualifier("recipeDao")
     @Autowired
@@ -43,12 +42,11 @@ public class RecipeModel {
      * Adds a new recipe
      * @param recipeName recipe name to be created
      * @param ownerID userID of the owner of the recipe
-     * @param ingredientMap ingredient map Key:ingredientID Value:amount
+     * @param ingredientMapJ ingredient map Key:ingredientID Value:amount
      * @param pictureAddress address of the picture of the recipe
-     * @param description description of the recipe
      * @throws Exception
      */
-    public void addRecipe(String recipeName, Long ownerID, Map<Ingredient,Long> ingredientMap, String pictureAddress,String description)throws Exception{
+    public void addRecipe(String recipeName, Long ownerID, Map<Ingredient,Long> ingredientMap, String pictureAddress)throws Exception{
         if(StringUtil.isEmpty(recipeName))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
         if(ownerID == null)
@@ -56,7 +54,7 @@ public class RecipeModel {
         if(StringUtil.isEmpty(pictureAddress))
             pictureAddress="";
 
-        recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress,description);
+        recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress);
     }
 
     public void deleteRecipe(Long recipeID) throws Exception{

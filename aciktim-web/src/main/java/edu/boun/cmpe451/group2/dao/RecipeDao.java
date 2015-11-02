@@ -42,11 +42,12 @@ public class RecipeDao extends BaseDao{
      * @param ownerID user id of the owner of the recipe
      * @param IngredientMap ingredient list
      */
-    public void addRecipe(String recipeName,Long ownerID,Map<Ingredient,Long> IngredientMap,String pictureAdress,String description){
-        String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description) VALUES(?,?,?,?)";
-        this.jdbcTemplate.update(sql,recipeName,ownerID,pictureAdress,description);
-        sql = "SELECT id FROM recipes ORDER BY id DESC LIMIT 1";
-        Long recipeID=Long.parseLong(this.jdbcTemplate.queryForMap(sql).get("id").toString());
+    public void addRecipe(String recipeName,Long ownerID,Map<Ingredient,Long> IngredientMap,String pictureAdress){
+        String sql = "INSERT INTO recipes(name,ownerID,pictureAddress) VALUES(?,?,?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        this.jdbcTemplate.update(sql,ownerID,pictureAdress,keyHolder);
+
+        int recipeID = keyHolder.getKey().intValue();
         if(IngredientMap.size()>0){
             sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
             for(Map.Entry entry : IngredientMap.entrySet()){
