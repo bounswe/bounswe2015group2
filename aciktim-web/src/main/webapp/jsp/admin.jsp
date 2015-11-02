@@ -30,7 +30,7 @@
 <body>
 
 <div class="starter-template">
-    <h1>Acıktım</h1>
+    <h1>Acıktım2</h1>
 
     <p class="lead"></p>
 </div>
