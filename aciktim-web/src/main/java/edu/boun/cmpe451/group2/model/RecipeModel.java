@@ -54,6 +54,7 @@ public class RecipeModel {
 
         recipeDao.deleteRecipe(recipeID);
     }
+    public void updateRecipe(Long recipeID) {}
 
     public RecipeDao getRecipeDao(){return recipeDao;}
 }
