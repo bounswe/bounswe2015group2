@@ -1,13 +1,13 @@
 package edu.boun.cmpe451.group2.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
@@ -125,8 +125,10 @@ public class UserModel {
         userDao.updateUser(id,email, pwd, full_name, username);
     }
 
-    public UserModel getUser(String api_key) {
+    public String getUser(String api_key) {
         UserModel userModel = null;
+        Gson gson = new Gson();
+        Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> user = userDao.getUserByApiKey(api_key);
         userModel.id = user.get("id").toString();
         userModel.email = user.get("email").toString();
@@ -134,7 +136,8 @@ public class UserModel {
         userModel.full_name = user.get("full_name").toString();
         userModel.username = user.get("username").toString();
         userModel.api_key = user.get("api_key").toString();
-        return userModel;
+        result.put("user", userModel);
+        return gson.toJson(result);
     }
     public UserDao getUserDao() {
         return userDao;
