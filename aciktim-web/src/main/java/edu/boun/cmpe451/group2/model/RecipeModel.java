@@ -28,10 +28,10 @@ public class RecipeModel {
     public Long id = null;
     public String name = "";
     public String pictureAddress = "";
-    public Long ownerID=null;
+    public Long ownerID = null;
     public int likes = 0;
     public List<Comment> commentList = null;
-    public Map<Ingredient,Long> IngredientAmountMap = null;
+    public Map<Ingredient, Long> IngredientAmountMap = null;
     public List<Tag> tagList = null;
     public String description = "";
 
@@ -59,26 +59,37 @@ public class RecipeModel {
         recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress,description);
     }
 
-    public void deleteRecipe(Long recipeID) throws Exception{
-        if(recipeDao.getRecipe(recipeID).size() == 0)
+    public List<Map<String, Object>> getRecipes(Long users_id) {
+        return recipeDao.getRecipes(users_id);
+    }
+
+    public void deleteRecipe(Long recipeID) throws Exception {
+        if (recipeDao.getRecipe(recipeID).size() == 0)
             throw new ExException(ExError.E_RECIPE_NOT_FOUND);
 
         recipeDao.deleteRecipe(recipeID);
     }
-    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress)throws Exception{
-        if(StringUtil.isEmpty(recipeName))
-            throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
-        if(ownerID == null)
-            throw new ExException(ExError.E_NULL_OWNERID);
-        if(StringUtil.isEmpty(pictureAddress))
-            pictureAddress="";
 
-        Map<Long,Long> ingredientMap = new HashMap<Long,Long>();
-        for(Map.Entry entry: ingredientMapJ.entrySet()){
-            ingredientMap.put((Long)entry.getKey(),(Long)entry.getValue());
+    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress) throws Exception {
+        if (StringUtil.isEmpty(recipeName))
+            throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
+        if (ownerID == null)
+            throw new ExException(ExError.E_NULL_OWNERID);
+        if (StringUtil.isEmpty(pictureAddress))
+            pictureAddress = "";
+
+        Map<Long, Long> ingredientMap = new HashMap<Long, Long>();
+        for (Map.Entry entry : ingredientMapJ.entrySet()) {
+            ingredientMap.put((Long) entry.getKey(), (Long) entry.getValue());
         }
         recipeDao.updateRecipe(recipeID, recipeName, ownerID, ingredientMap, pictureAddress);
     }
 
-    public RecipeDao getRecipeDao(){return recipeDao;}
+    public RecipeDao getRecipeDao() {
+        return recipeDao;
+    }
+
+    public Map<String, Object> getRecipe(Long recipe_id) {
+        return recipeDao.getRecipe(recipe_id);
+    }
 }
