@@ -28,6 +28,8 @@ public class RecipeModel {
     public Long ownerID=null;
     public int likes = 0;
     public List<Comment> commentList = null;
+    public Map<Ingredient,Integer> IngredientAmountMap = null;
+    public List<Tag> tagList = null;
 
     @Qualifier("recipeDao")
     @Autowired
