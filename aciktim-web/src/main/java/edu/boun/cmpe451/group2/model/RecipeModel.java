@@ -54,7 +54,20 @@ public class RecipeModel {
 
         recipeDao.deleteRecipe(recipeID);
     }
-    public void updateRecipe(Long recipeID) {}
+    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress)throws Exception{
+        if(StringUtil.isEmpty(recipeName))
+            throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
+        if(ownerID == null)
+            throw new ExException(ExError.E_NULL_OWNERID);
+        if(StringUtil.isEmpty(pictureAddress))
+            pictureAddress="";
+
+        Map<Long,Long> ingredientMap = new HashMap<Long,Long>();
+        for(Map.Entry entry: ingredientMapJ.entrySet()){
+            ingredientMap.put((Long)entry.getKey(),(Long)entry.getValue());
+        }
+        recipeDao.updateRecipe(recipeID, recipeName, ownerID, ingredientMap, pictureAddress);
+    }
 
     public RecipeDao getRecipeDao(){return recipeDao;}
 }
