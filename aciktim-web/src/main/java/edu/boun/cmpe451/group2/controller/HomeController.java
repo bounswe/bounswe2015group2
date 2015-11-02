@@ -51,6 +51,14 @@ public class HomeController {
         return "profile-view";
     }
 
+    @RequestMapping(value = {"/edituser"})
+    public String viewUser(ModelMap model) {
+
+
+
+        return "profile-edit";
+    }
+
     @RequestMapping(value = {"/addRecipe"})
     public String addRecipe(ModelMap model) {
 
