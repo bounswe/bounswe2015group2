@@ -36,6 +36,7 @@
                     <div class="form-group">
                         <input type="password" placeholder="Password" class="form-control">
                         <button type="submit" class="btn btn-success">Sign in</button>
+
                         <a href="signup" class="btn btn-primary">Sign up</a>
 
                     </div>
