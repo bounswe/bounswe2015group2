@@ -34,12 +34,13 @@ public class HomeController {
         return "home_index";
     }
 
-    @RequestMapping(value = {"/signup"})
-    public String signup(ModelMap model) {
+    @RequestMapping(value = {"/addRecipe"})
+    public String addRecipe(ModelMap model) {
 
 
-
-        return "sign-up";
+        return "addrecipe";
     }
+
+
 
 }
