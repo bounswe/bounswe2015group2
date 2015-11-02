@@ -37,12 +37,19 @@
         </div>
 
         <div class="container">
+
+            <c:if test="${type == 'ERROR'}">
+                <div class="alert alert-danger">
+                    <strong>ERROR:</strong> Check your data.
+                </div>
+            </c:if>
+            <!-- ${type} -->
+
             <form action="${contextPath}/adduser" method="post">
                 <form class="form-group">
-
                     <div class="input-group">
                         <span class="input-group-addon">First Name : </span>
-                        <input type="text" name="first_name" class="form-control" placeholder="${type}" aria-describedby="basic-addon1">
+                        <input type="text" name="first_name" class="form-control" placeholder="First Name" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group">
