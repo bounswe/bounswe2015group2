@@ -13,28 +13,39 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Acıktım</title>
 
     <script type="text/javascript" src="${contextPath}/assets/jquery/jquery-1.11.2.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/assets/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/home-index-style.css"/>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/recipe-grid-style.css"/>
     <script type="text/javascript" src="${contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-<div class="container" id="main-container">
 
-    <%@include  file="header-signed-out.jsp" %>
 
+<div class="container text-center" id="recipe-grid">
     <%@include  file="content-bar.jsp" %>
-
-
-
-
-
-    <%@include  file="footer.jsp" %>
-
 </div>
+
+<c:forEach recipes="${list}" var="recipe">
+    <div class="col-sm-4">
+            ${recipe.imgUrl} <br/>
+            ${recipe.shortDescription} <br/>
+            ${recipe.location} <br/>
+            ${recipe.owner.name} <br/>
+    </div>
+
+
+
+</c:forEach>
+
+
+
+
+
+
+
+
 
 </body>
 </html>

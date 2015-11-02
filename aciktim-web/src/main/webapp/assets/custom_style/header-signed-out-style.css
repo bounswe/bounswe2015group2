@@ -1,0 +1,19 @@
+#forgot-password {
+    padding-right: 30px;
+
+}
+
+#header, #header-main-row, #header-col1, #header-col2 {
+    height: inherit;
+
+}
+
+#header-signed-out{
+    background-color: #f5e79e;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 80px;
+    border-radius: 5px;
+
+
+}
