@@ -13,7 +13,5 @@ public class Ingredient {
     public Long unitID = null;
     public String unitName= "";
 
-    public List<Ingredient> getIngredients() {
 
-    }
 }

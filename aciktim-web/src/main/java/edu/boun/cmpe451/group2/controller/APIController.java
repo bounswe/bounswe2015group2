@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -119,24 +120,15 @@ public class APIController {
 
     /**
      * Adds a recipe to the db
-     * @param recipeName name of the recipe to be added
-     * @param ownerID userID of the owner of the recipe
-     * @param ingredientMapJ map of ingredients, KEY: ingredientID, VALUE:amount
-     * @param pictureAddress address of the picture of the recipe
-     * @return jsonobject of return type and content as HashMap
+     * @param recipe recipe to be added
+     * @return returns json string
      */
     @RequestMapping("/addrecipe")
-    @ResponseBody
-    public String addrecipe(
-            @RequestParam String recipeName,
-            @RequestParam Long ownerID,
-            @RequestParam(required = false) JsonObject ingredientMapJ,
-            @RequestParam(required = false) String pictureAddress
-    ){
+    public String addrecipe(@RequestBody RecipeModel recipe){
         Gson gson = new Gson();
         Map<String,Object> result = new HashMap<String,Object>();
         try {
-            recipeModel.addRecipe(recipeName,ownerID,ingredientMapJ,pictureAddress);
+            recipeModel.addRecipe(recipe.name,recipe.ownerID,recipe.IngredientAmountMap,recipe.pictureAddress);
             result.put("type","SUCCESS");
             result.put("content","Recipe Added");
 
@@ -155,6 +147,7 @@ public class APIController {
         }
 
         return gson.toJson(result);
+
     }
 
     public String deleteRecipe(
