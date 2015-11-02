@@ -52,7 +52,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/edituser"})
-    public String viewUser(ModelMap model) {
+    public String editUser(ModelMap model) {
 
 
 
