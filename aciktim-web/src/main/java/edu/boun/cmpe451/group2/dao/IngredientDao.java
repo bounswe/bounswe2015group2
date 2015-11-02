@@ -13,7 +13,7 @@ import java.util.Map;
 @Scope("request")
 public class IngredientDao extends BaseDao{
     public List<Map<String, Object>> getAllIngredients() {
-        String sql = "SELECT ing.*, ingUnit.name     FROM ingredients as ing INNER JOIN ingredientUnits AS ingUnit on ing.unitID = ingUnit.id";
+        String sql = "SELECT ing.*, ingUnit.name FROM ingredients as ing INNER JOIN ingredientUnits AS ingUnit on ing.unitID = ingUnit.id";
         return this.jdbcTemplate.queryForList(sql);
     }
 
