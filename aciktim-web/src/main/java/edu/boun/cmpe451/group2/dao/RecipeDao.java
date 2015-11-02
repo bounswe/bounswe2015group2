@@ -41,10 +41,10 @@ public class RecipeDao extends BaseDao{
      * @param ownerID user id of the owner of the recipe
      * @param IngredientMap ingredient list
      */
-    public void addRecipe(String recipeName,Long ownerID,Map<Long,Long> IngredientMap){
-        String sql = "INSERT INTO recipes(name,ownerID) VALUES(?,?)";
+    public void addRecipe(String recipeName,Long ownerID,Map<Long,Long> IngredientMap,String pictureAdress){
+        String sql = "INSERT INTO recipes(name,ownerID,pictureAddress) VALUES(?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-        this.jdbcTemplate.update(sql,ownerID,keyHolder);
+        this.jdbcTemplate.update(sql,ownerID,pictureAdress,keyHolder);
 
         int recipeID = keyHolder.getKey().intValue();
         if(IngredientMap.size()>0){

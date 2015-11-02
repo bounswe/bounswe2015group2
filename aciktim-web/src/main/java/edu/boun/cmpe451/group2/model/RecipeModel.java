@@ -45,7 +45,7 @@ public class RecipeModel {
         for(Map.Entry entry: ingredientMapJ.entrySet()){
             ingredientMap.put((Long)entry.getKey(),(Long)entry.getValue());
         }
-        recipeDao.addRecipe(recipeName,ownerID,ingredientMap);
+        recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress);
     }
 
     public void deleteRecipe(Long recipeID) throws Exception{
