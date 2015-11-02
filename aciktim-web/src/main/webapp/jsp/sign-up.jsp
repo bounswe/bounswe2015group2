@@ -37,43 +37,44 @@
         </div>
 
         <div class="container">
-            <div class="form-group">
+            <form action="${contextPath}/adduser" method="post">
+                <form class="form-group">
 
-                <div class="input-group">
-                    <span class="input-group-addon">First Name : </span>
-                    <input type="text" class="form-control" placeholder="First Name" aria-describedby="basic-addon1">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">First Name : </span>
+                        <input type="text" name="first_name" class="form-control" placeholder="First Name" aria-describedby="basic-addon1">
+                    </div>
 
-                <div class="input-group">
-                    <span class="input-group-addon">Last Name : </span>
-                    <input type="text" class="form-control" placeholder="Last Name" aria-describedby="basic-addon1">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Last Name : </span>
+                        <input type="text" name="last_name" class="form-control" placeholder="Last Name" aria-describedby="basic-addon1">
+                    </div>
 
-                <div class="input-group">
-                    <span class="input-group-addon">E-mail : </span>
-                    <input type="email" class="form-control" placeholder="blah@blah.blah" aria-describedby="basic-addon1">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">E-mail : </span>
+                        <input type="email" name="email" class="form-control" placeholder="blah@blah.blah" aria-describedby="basic-addon1">
+                    </div>
 
-                <div class="input-group">
-                    <span class="input-group-addon">Confirm E-mail: </span>
-                    <input type="email" class="form-control" placeholder="blah@blah.blah" aria-describedby="basic-addon1">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Confirm E-mail: </span>
+                        <input type="email" name="confirm_email" class="form-control" placeholder="blah@blah.blah" aria-describedby="basic-addon1">
+                    </div>
 
-                <div class="input-group">
-                    <span class="input-group-addon">Password: </span>
-                    <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Password: </span>
+                        <input type="password" name="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+                    </div>
 
-                <div class="input-group">
-                    <span class="input-group-addon">Confirm Password: </span>
-                    <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
-                </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Confirm Password: </span>
+                        <input type="password" name="confirm_password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+                    </div>
 
-                <div class="input-group">
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                </div>
+                    <div class="input-group">
+                        <button type="submit" class="btn btn-success">Sign in</button>
+                    </div>
 
-
+                </form>
             </div>
         </div>
 
