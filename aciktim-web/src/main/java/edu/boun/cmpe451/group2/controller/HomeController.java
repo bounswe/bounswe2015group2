@@ -59,6 +59,7 @@ public class HomeController {
         return "addrecipe";
     }
 
+
     @RequestMapping(value = {"/adduser"})
     public String adduser(
         @RequestParam String email,
