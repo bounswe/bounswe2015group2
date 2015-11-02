@@ -29,7 +29,17 @@ public class HomeController {
      */
     @RequestMapping(value = {"/", "/index"})
     public String index(ModelMap model) {
+
+
         return "home_index";
+    }
+
+    @RequestMapping(value = {"/signup"})
+    public String signup(ModelMap model) {
+
+
+
+        return "sign-up";
     }
 
 }

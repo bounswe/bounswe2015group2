@@ -27,9 +27,17 @@
     <div class="row">
 
         <div class="col-md-6 text-left">
-            <button type="button" class="btn btn-warning active">Home</button>
-            <button type="button" class="btn btn-warning">Restaurants</button>
-            <button type="button" class="btn btn-warning">Recipes</button>
+            <%--<button type="button" class="btn btn-warning active">Home</button>--%>
+            <%--<button type="button" class="btn btn-warning">Restaurants</button>--%>
+            <%--<button type="button" class="btn btn-warning">Recipes</button>--%>
+
+            <ul class="nav nav-pills">
+
+                <li role="presentation" class="active"><a href="/aciktim">Home</a></li>
+                <li role="presentation"><a href="/aciktim/restaurants">Restaurants</a></li>
+                <li role="presentation"><a href="/aciktim/recipes">Recipes</a></li>
+
+            </ul>
         </div>
 
         <div class="col-md-6 text-right">

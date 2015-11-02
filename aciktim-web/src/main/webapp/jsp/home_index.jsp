@@ -28,6 +28,10 @@
 
     <%@include  file="content-bar.jsp" %>
 
+
+
+
+
     <%@include  file="footer.jsp" %>
 
 </div>
