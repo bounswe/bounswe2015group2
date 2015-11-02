@@ -42,21 +42,12 @@ public class HomeController {
         return "sign-up";
     }
 
-    @RequestMapping(value = {"/adduser"})
-    public String adduser(
-            @RequestParam String email,
-            @RequestParam String confirm_email,
-            @RequestParam String password,
-            @RequestParam String confirm_password,
-            @RequestParam String first_name,
-            @RequestParam String last_name) {
-        if (!email.equals(confirm_email) || !password.equals(confirm_password)) {
-            return "not-correct";
-        }
+    @RequestMapping(value = {"/users"})
+    public String viewUser(ModelMap model) {
 
-        userModel.getUserDao().addUser(email, password, first_name.concat(" ").concat(last_name), email);
 
-        return "sign-up";
+
+        return "profile-view";
     }
 
 }
