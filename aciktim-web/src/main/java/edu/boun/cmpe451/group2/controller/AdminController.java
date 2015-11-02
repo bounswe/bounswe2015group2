@@ -78,7 +78,7 @@ public class AdminController {
             @RequestParam(required = false) String username) {
 
         if (id != null)
-            userModel.getUserDao().updateUser(id, email, passwd, full_name, usernameeerr);
+            userModel.getUserDao().updateUser(id, email, passwd, full_name, username);
         else
             userModel.getUserDao().addUser(email, passwd);
 
