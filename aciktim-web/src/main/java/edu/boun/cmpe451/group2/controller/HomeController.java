@@ -75,12 +75,4 @@ public class HomeController {
         return "sign-up";
     }
 
-    @RequestMapping(value = {"/edituser"})
-    public String editUser(ModelMap model) {
-
-
-
-        return "profile-edit";
-    }
-
 }
