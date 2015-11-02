@@ -31,7 +31,7 @@
     <div class="container" id="sign-up">
         <div class="container">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#">Individual User</a></li>
+                <li role="presentation" class="active"><a href="#">Regular User</a></li>
                 <li role="presentation"><a href="#">Institutional User</a></li>
             </ul>
         </div>
@@ -42,7 +42,7 @@
 
                     <div class="input-group">
                         <span class="input-group-addon">First Name : </span>
-                        <input type="text" name="first_name" class="form-control" placeholder="First Name" aria-describedby="basic-addon1">
+                        <input type="text" name="first_name" class="form-control" placeholder="${type}" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group">
@@ -52,12 +52,12 @@
 
                     <div class="input-group">
                         <span class="input-group-addon">E-mail : </span>
-                        <input type="email" name="email" class="form-control" placeholder="blah@blah.blah" aria-describedby="basic-addon1">
+                        <input type="email" name="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group">
                         <span class="input-group-addon">Confirm E-mail: </span>
-                        <input type="email" name="confirm_email" class="form-control" placeholder="blah@blah.blah" aria-describedby="basic-addon1">
+                        <input type="email" name="confirm_email" class="form-control" placeholder="Email" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group">
