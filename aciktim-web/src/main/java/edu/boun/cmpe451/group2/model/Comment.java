@@ -11,6 +11,6 @@ public class Comment {
     public Long id = null;
     public Long userID= null;
     public String comment = "";
-    //to-do datetime karþýlýðý bir property lazým
+
 
 }
