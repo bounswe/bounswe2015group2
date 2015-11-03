@@ -30,7 +30,7 @@ public class UserModel {
     public String passwd;
     public String full_name;
     public String username;
-    private String api_key;
+    public String api_key;
 
     /**
      * login
