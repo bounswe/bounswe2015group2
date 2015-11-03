@@ -31,31 +31,7 @@
         <%@include  file="header-signed-out.jsp" %>
     </c:if>
     <c:if test="${full_name != ''}">
-        <div class="container text-center" id="header-signed-out">
-            <div class="row" id="header-main-row">
-                <div class="col-md-6" id="header-col1">
-                        <%--<a href="/aciktim/index" id="page-name" >Acıktım</a>--%>
-                    <h1 id="page-name">Acıktım</h1>
-                </div>
-                <div class="col-md-6" id="header-col2">
-                    <div class="row">
-                        <div class="navbar-form">
-                            <div class="form-group">
-                                Welcome ${full_name}!
-                                <a href="${contextPath}/logout" class="btn btn-primary">Logout</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 text-right">
-                            <a id="forgot-password" href="">Forgot Password</a>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        <%@include  file="header-signed-in.jsp" %>
     </c:if>
 
     <%@include file="content-bar.jsp"%>
@@ -63,7 +39,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="${contextPath}/recipeform" class="btn btn-primary">Add a new recipe</a>
+
+                    <%--<input type="hidden" name="action_type" value="edit">--%>
+                    <%--<a href="${contextPath}/recipeform" class="btn btn-primary">Add a new recipe</a>--%>
+                    <form action="${contextPath}/recipeform" method="post" class="form-group">
+                        <input type="hidden" name="action_type" value="add">
+                        <button type="submit" class="btn btn-primary">Add a new recipe</button>
+                    </form>
                 </div>
             </div>
 
@@ -86,14 +68,15 @@
                                 </td>
                                 <td>${recipe.description}</td>
                                 <td>
-                                    <form action="${contextPath}/recipe/edit" method="post" class="form-group">
+                                    <form action="${contextPath}/recipeform" method="post" class="form-group">
+                                        <input type="hidden" name="action_type" value="edit">
                                         <input type="hidden" name="recipe_id" value="${recipe.id}">
                                         <button type="submit" class="btn btn-primary">Edit Recipe</button>
                                     </form>
                                 </td>
                                 <td>
                                     <form action="${contextPath}/recipe/delete" method="post" class="form-group">
-                                        <input type="hidden" name="recipe_id" value="${recipe.id}">
+                                        <input type="hidden" name="recipe" value="${recipe}">
                                         <button type="submit" class="btn btn-danger">Delete Recipe</button>
                                     </form>
 

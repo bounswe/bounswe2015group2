@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -61,7 +62,7 @@ public class HomeController {
             ModelMap model,
             @CookieValue(value="session_id", defaultValue = "") String session_id){
 
-        if (session_id != "") {
+        if (!session_id.equals("")) {
             List<Map<String,Object>> recipes = recipeModel.getRecipes(Long.parseLong(userModel.getUser(session_id).id));
 
             model.put("recipes", recipes);
@@ -100,6 +101,7 @@ public class HomeController {
             ModelMap model) {
 
         Cookie cookie = new Cookie("session_id", "");
+
         response.addCookie(cookie);
 
         model.put("full_name", "");
@@ -135,6 +137,8 @@ public class HomeController {
     @RequestMapping(value = {"/recipeform"})
     public String recipeform(
             ModelMap model ,
+            @RequestParam String action_type,
+            @RequestParam (required = false , defaultValue = "-1") String recipe_id,
             @CookieValue(value="session_id" , defaultValue = "") String session_id) {
 
         if (session_id.equals("")) {
@@ -144,13 +148,30 @@ public class HomeController {
             UserModel user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
+
+            model.put("action_type" , action_type);
+
+            model.put("existing_recipe_name" , "");
+            model.put("existing_recipe_description" , "");
+            model.put("existing_recipe_image_url" , "");
+
+            if (action_type.equals("edit")){
+                Long rp_id = Long.parseLong(recipe_id);
+                try {
+                    RecipeModel rm = recipeModel.getRecipe(rp_id);
+                    model.put("existing_recipe_id" , rp_id);
+                    model.put("existing_recipe_name" , rm.name);
+                    model.put("existing_recipe_description" , rm.description);
+                    model.put("existing_recipe_image_url" , rm.pictureAddress);
+                }catch (Exception e){
+                    System.out.printf("Bullshit");
+                }
+            }
         }
-
-
         return "recipeformpage";
     }
 
-    @RequestMapping(value = {"/addrecipe"} , method = RequestMethod.POST)
+    @RequestMapping(value = {"/recipe/add" } , method = RequestMethod.POST)
     public String addrecipe(
             @RequestParam String recipe_name,
             @RequestParam String description,
@@ -197,9 +218,22 @@ public class HomeController {
 
     @RequestMapping(value = "recipe/edit")
     public String editRecipe(
-            @RequestParam(required = false) Long id) {
+            @RequestParam(required = false) Long recipe_id,
+            @RequestParam(required = false) String image_url,
+            @RequestParam(required = false) String recipe_name,
+            @RequestParam(required = false) String description,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
-        userModel.getUserDao().deleteUser(id);
+
+        System.out.println(recipe_id);
+        System.out.println(image_url);
+        System.out.println(recipe_name);
+        System.out.println(description);
+
+        Long userId = Long.parseLong(userModel.getUser(session_id).id);
+        System.out.println(userId);
+
+        recipeModel.getRecipeDao().updateRecipe(recipe_id , recipe_name, userId,null,image_url,description);
 
         return "redirect:/recipes";
     }
