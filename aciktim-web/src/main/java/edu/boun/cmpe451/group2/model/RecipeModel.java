@@ -60,9 +60,10 @@ public class RecipeModel {
         recipeDao.addRecipe(recipeName, ownerID, ingredientMap, pictureAddress, description);
     }
 
-    public List<Map<String, Object>> getRecipes(Long users_id) {
+    public ArrayList<RecipeModel> getRecipes(Long users_id) {
         return recipeDao.getRecipes(users_id);
     }
+
 
     public void deleteRecipe(Long recipeID) throws Exception {
         if (recipeDao.getRecipe(recipeID).size() == 0)

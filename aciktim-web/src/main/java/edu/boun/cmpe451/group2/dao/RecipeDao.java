@@ -1,11 +1,13 @@
 package edu.boun.cmpe451.group2.dao;
 
 import edu.boun.cmpe451.group2.model.Ingredient;
+import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -17,13 +19,21 @@ import java.util.Objects;
 @Scope("request")
 public class RecipeDao extends BaseDao {
     /**
-     * Returns all of recipes.
-     * @return All recipes in the db
+     * gets recipe ids and recipe names of a user
+     * @param users_id id of user whose recipes to be get
+     * @return recipe ids and recipe names of a user
      */
-    public List<Map<String, Object>> getRecipes(Long users_id) {
-        String sql = "SELECT * FROM recipes WHERE ownerID = ?";
-
-        return this.jdbcTemplate.queryForList(sql, users_id);
+    public ArrayList<RecipeModel> getRecipes(Long users_id) {
+        String sql = "SELECT id,name FROM recipes WHERE ownerID = ?";
+        ArrayList<RecipeModel> recipeList = new ArrayList<RecipeModel>();
+        List<Map<String,Object>> resultList = this.jdbcTemplate.queryForList(sql,users_id);
+        for(Map<String,Object> resultMap: resultList){
+            RecipeModel recipe = new RecipeModel();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+            recipeList.add(recipe);
+        }
+        return recipeList;
     }
 
     /**
