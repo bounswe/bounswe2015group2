@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.HashMap;
@@ -30,8 +31,8 @@ public class RecipeModel {
     public String pictureAddress = "";
     public Long ownerID = null;
     public int likes = 0;
-    public List<Comment> commentList = null;
-    public Map<Ingredient, Long> IngredientAmountMap = null;
+    public List<Comment> commentList = new ArrayList<Comment>();
+    public Map<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
     public List<Tag> tagList = null;
     public String description = "";
 
@@ -56,7 +57,7 @@ public class RecipeModel {
         if(StringUtil.isEmpty(pictureAddress))
             pictureAddress="";
 
-        recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress,description);
+        recipeDao.addRecipe(recipeName, ownerID, ingredientMap, pictureAddress, description);
     }
 
     public List<Map<String, Object>> getRecipes(Long users_id) {
