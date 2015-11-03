@@ -15,7 +15,6 @@ public class Ingredient {
     public double calories = 0;
     public Long unitID = null;
     public String unitName= "";
-
     public IngredientDao ingDao = null;
 
     public List<Ingredient> getIngredients() {
