@@ -28,8 +28,8 @@ public class UserModel {
     public String id;
     public String email;
     public String passwd;
-    private String full_name;
-    private String username;
+    public String full_name;
+    public String username;
     private String api_key;
 
     /**

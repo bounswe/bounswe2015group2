@@ -29,12 +29,12 @@
         </div>
         <div class="col-md-6" id="header-col2">
             <div class="row">
-                <form class="navbar-form">
+                <form action="${contextPath}/login" method="post" class="navbar-form">
                     <div class="form-group">
-                        <input type="text" placeholder="Email" class="form-control">
+                        <input type="text" name="email" placeholder="Email" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="password" placeholder="Password" class="form-control">
+                        <input type="password" name="password" placeholder="Password" class="form-control">
                         <button type="submit" class="btn btn-success">Sign in</button>
 
                         <a href="signup" class="btn btn-primary">Sign up</a>
