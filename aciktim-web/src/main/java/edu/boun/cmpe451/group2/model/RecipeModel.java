@@ -60,6 +60,12 @@ public class RecipeModel {
         recipeDao.addRecipe(recipeName, ownerID, ingredientMap, pictureAddress, description);
     }
 
+    /**
+     * returns a list of recipes belong to a user
+     * only the id's and the names of the recipes are filled
+     * @param users_id
+     * @return arraylist of recipemodels
+     */
     public ArrayList<RecipeModel> getRecipes(Long users_id) {
         return recipeDao.getRecipes(users_id);
     }
@@ -90,6 +96,12 @@ public class RecipeModel {
         return recipeDao;
     }
 
+    /**
+     *  use this method when you want to view a recipe
+     * @param recipe_id
+     * @return recipe object that has the id
+     * @throws Exception when there is no recipe of that id
+     */
     public RecipeModel getRecipe(Long recipe_id) throws Exception{
         return recipeDao.getRecipe(recipe_id);
     }
