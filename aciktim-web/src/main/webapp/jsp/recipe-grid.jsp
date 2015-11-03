@@ -76,7 +76,7 @@
                                 </td>
                                 <td>
                                     <form action="${contextPath}/recipe/delete" method="post" class="form-group">
-                                        <input type="hidden" name="recipe" value="${recipe}">
+                                        <input type="hidden" name="recipe" value="${recipe.id}">
                                         <button type="submit" class="btn btn-danger">Delete Recipe</button>
                                     </form>
 

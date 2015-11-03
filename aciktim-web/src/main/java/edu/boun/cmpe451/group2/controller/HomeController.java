@@ -241,6 +241,7 @@ public class HomeController {
     @RequestMapping(value = "recipe/delete")
     public String deleteRecipe(
             @RequestParam(required = false) Long recipe_id) {
+        System.out.println("asd"+recipe_id);
         recipeModel.getRecipeDao().deleteRecipe(recipe_id);
         return "redirect:/recipes";
     }
