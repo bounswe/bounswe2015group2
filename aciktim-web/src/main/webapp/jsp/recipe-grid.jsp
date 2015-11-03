@@ -60,24 +60,54 @@
 
     <%@include file="content-bar.jsp"%>
     <c:if test="${full_name != ''}">
-        <table class="table table-bordered" style="margin-top:10px;">
-            <thead>
-                <th>Name</th>
-                <th>Picture</th>
-                <th>Description</th>
-            </thead>
-            <tbody>
-            <c:forEach var="recipe" items="${recipes}" varStatus="roop">
-                <tr>
-                    <td>${recipe.name}</td>
-                    <td>
-                        <img src = "${recipe.pictureAddress}" class = "img-rounded center-block"  width="240">
-                    </td>
-                    <td>${recipe.description}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="${contextPath}/recipeform" class="btn btn-primary">Add a new recipe</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered" style="margin-top:10px;">
+                        <thead>
+                        <th>Name</th>
+                        <th>Picture</th>
+                        <th>Description</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="recipe" items="${recipes}" varStatus="roop">
+                            <tr>
+                                <td>${recipe.name}</td>
+                                <td>
+                                    <img src = "${recipe.pictureAddress}" class = "img-rounded center-block"  width="240">
+                                </td>
+                                <td>${recipe.description}</td>
+                                <td>
+                                    <form action="${contextPath}/recipe/edit" method="post" class="form-group">
+                                        <input type="hidden" name="recipe_id" value="${recipe.id}">
+                                        <button type="submit" class="btn btn-primary">Edit Recipe</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="${contextPath}/recipe/delete" method="post" class="form-group">
+                                        <input type="hidden" name="recipe_id" value="${recipe.id}">
+                                        <button type="submit" class="btn btn-danger">Delete Recipe</button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
     </c:if>
 
     <%@include  file="footer.jsp" %>
