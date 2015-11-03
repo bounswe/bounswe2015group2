@@ -9,41 +9,39 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/>
 <c:set var="requestURI" value="${pageContext.request.requestURI}" scope="application"/>
 
-<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <script type="text/javascript" src="${contextPath}/assets/jquery/jquery-1.11.2.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/assets/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/content-bar-style.css"/>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/header-signed-out-style.css"/>
     <script type="text/javascript" src="${contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
-
 </head>
 <body>
-<div class="container" id="content-bar">
-
-    <div class="row">
-
-        <div class="col-md-6 text-left">
-
-            <ul class="nav nav-pills">
-
-                <li role="presentation" class="active"><a href="/aciktim">Home</a></li>
-                <li role="presentation"><a href="#">Restaurants</a></li>
-                <li role="presentation"><a href="/aciktim/recipes">Recipes</a></li>
-
-            </ul>
+<div class="container text-center" id="header-signed-out">
+    <div class="row" id="header-main-row">
+        <div class="col-md-6" id="header-col1">
+            <h1 id="page-name">Acıktım</h1>
         </div>
+        <div class="col-md-6 text-right" id="header-col2">
+            <div class="row">
+                <div class="navbar-form">
+                    <div class="form-group">
+                        Welcome ${full_name}!
+                        <a style="margin-left: 10px" href="${contextPath}/logout" class="btn btn-primary">Logout</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <a id="forgot-password" href="">Forgot Password</a>
+                </div>
 
-        <div class="col-md-6 text-right">
-            <input type="name" class="form-control" id="search-field" placeholder="Search">
-            <button type="button" class="btn btn-warning">Search</button>
-            <button type="button" class="btn btn-warning">Advanced Search</button>
+            </div>
+
         </div>
-
     </div>
-
 </div>
 </body>
 </html>

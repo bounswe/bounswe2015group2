@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,19 +185,21 @@ public class APIController {
             return gson.toJson(result);
         }
 
-
         return gson.toJson(result);
     }
 
     @RequestMapping("recipe/list")
-    public @ResponseBody List<Map<String, Object>> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
+    public @ResponseBody
+
+    //TODO: This function needs to return ArrayList<RecipeModel>, but the recipes function in the HomeController requires a List<Map<String, Object>, Find a way to satisfy both APIs.
+    List<Map<String,Object>> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
         // todo api_key control
         return recipeModel.getRecipes(users_id);
     }
 
     @RequestMapping("recipe/get")
     public @ResponseBody
-    Map<String, Object> getRecipe(@RequestParam String api_key, @RequestParam Long recipe_id) {
+    RecipeModel getRecipe(@RequestParam String api_key, @RequestParam Long recipe_id) throws Exception {
         // todo api_key control
         return recipeModel.getRecipe(recipe_id);
     }

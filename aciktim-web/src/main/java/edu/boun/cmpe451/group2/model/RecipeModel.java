@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.HashMap;
@@ -29,9 +30,9 @@ public class RecipeModel {
     public String name = "";
     public String pictureAddress = "";
     public Long ownerID = null;
-    public int likes = 0;
-    public List<Comment> commentList = null;
-    public Map<Ingredient, Long> IngredientAmountMap = null;
+    public Long likes = 0L;
+    public List<Comment> commentList = new ArrayList<Comment>();
+    public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
     public List<Tag> tagList = null;
     public String description = "";
 
@@ -56,21 +57,26 @@ public class RecipeModel {
         if(StringUtil.isEmpty(pictureAddress))
             pictureAddress="";
 
-        recipeDao.addRecipe(recipeName,ownerID,ingredientMap,pictureAddress,description);
+        recipeDao.addRecipe(recipeName, ownerID, ingredientMap, pictureAddress, description);
     }
-
+    
+    /**
+     * returns a list of recipes belong to a user
+     * @param users_id
+     * @return arraylist of recipemodels
+     */
     public List<Map<String, Object>> getRecipes(Long users_id) {
         return recipeDao.getRecipes(users_id);
     }
 
+
     public void deleteRecipe(Long recipeID) throws Exception {
-        if (recipeDao.getRecipe(recipeID).size() == 0)
-            throw new ExException(ExError.E_RECIPE_NOT_FOUND);
+        recipeDao.getRecipe(recipeID);
 
         recipeDao.deleteRecipe(recipeID);
     }
 
-    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress) throws Exception {
+    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress, String description) throws Exception {
         if (StringUtil.isEmpty(recipeName))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
         if (ownerID == null)
@@ -82,14 +88,20 @@ public class RecipeModel {
         for (Map.Entry entry : ingredientMapJ.entrySet()) {
             ingredientMap.put((Long) entry.getKey(), (Long) entry.getValue());
         }
-        recipeDao.updateRecipe(recipeID, recipeName, ownerID, ingredientMap, pictureAddress);
+        recipeDao.updateRecipe(recipeID, recipeName, ownerID, ingredientMap, pictureAddress, description);
     }
 
     public RecipeDao getRecipeDao() {
         return recipeDao;
     }
 
-    public Map<String, Object> getRecipe(Long recipe_id) {
+    /**
+     *  use this method when you want to view a recipe
+     * @param recipe_id
+     * @return recipe object that has the id
+     * @throws Exception when there is no recipe of that id
+     */
+    public RecipeModel getRecipe(Long recipe_id) throws Exception{
         return recipeDao.getRecipe(recipe_id);
     }
 }

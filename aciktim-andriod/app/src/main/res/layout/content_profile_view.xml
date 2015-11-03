@@ -7,8 +7,39 @@
     tools:showIn="@layout/activity_profile_view" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.boun.cmpe451.group2.android.ProfileViewActivity">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" android:baselineAligned="false"
+        android:layout_marginTop="16dp"
+        android:divider="?android:attr/dividerHorizontal" android:orientation="vertical"
+        android:showDividers="middle"
+        tools:context="edu.boun.cmpe451.group2.android.RecipeListActivity">
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin" android:text="@string/large_text" />
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textSize="24sp"
+            android:text="Full Name" />
 
+        <TextView
+            android:id="@+id/profile_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:layout_margin="@dimen/text_margin"
+            android:text="User Name" />
+
+        <TextView
+            android:id="@+id/profile_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:layout_margin="@dimen/text_margin"
+            android:text="E-Mail" />
+
+
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

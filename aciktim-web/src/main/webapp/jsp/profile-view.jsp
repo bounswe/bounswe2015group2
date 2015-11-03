@@ -11,94 +11,82 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-  <script type="text/javascript" src="${contextPath}/assets/jquery/jquery-1.11.2.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="${contextPath}/assets/bootstrap/css/bootstrap.min.css"/>
-  <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/header-signed-out-style.css"/>
-  <script type="text/javascript" src="${contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
-
-</head>
 <body>
 
-  <%@include  file="header-signed-out.jsp" %>
-  <%@include  file="content-bar.jsp" %>
-
-  <div class="container">
+<div class="container">
 
     <div class="row">
-      <div class="col-md-3">
+        <div class="col-md-3">
 
-          <div class = "row">
-             <h3>My Profile</h3>
-          </div>
+            <div class = "row">
+                <h3>My Profile</h3>
+            </div>
 
-          <div class = "row">
-              <!-- change the dummy link -->
-              <img src = "http://ris.fashion.telegraph.co.uk/RichImageService.svc/imagecontent/1/TMG10811028/m/Miranda_Kerr_2902539a.jpg" class = "img-rounded center-block"  width="240" height="320">
-          </div>
-          <div class = "row">
-              <!-- change the dummy name and surname -->
-              <h4 class="text-center">Miranda Kerr</h4>
+            <div class = "row">
+                <!-- change the dummy link -->
+                <img src = "http://ris.fashion.telegraph.co.uk/RichImageService.svc/imagecontent/1/TMG10811028/m/Miranda_Kerr_2902539a.jpg" class = "img-rounded center-block"  width="240" height="320">
+            </div>
+            <div class = "row">
+                <!-- change the dummy name and surname -->
+                <h4 class="text-center">Miranda Kerr</h4>
 
-              <table class = "table">
-                  <tr>
-                      <th><b>Followers:</b></th>
-                      <!-- change the dummy numbers -->
-                      <td>1500</td>
-                  </tr>
-                  <tr>
-                      <th><b>Followings:</b></th>
-                      <!-- change the dummy numbers -->
-                      <td>700</td>
-                  </tr>
-              </table>
-          </div>
-      </div>
+                <table class = "table">
+                    <tr>
+                        <th><b>Followers:</b></th>
+                        <!-- change the dummy numbers -->
+                        <td>1500</td>
+                    </tr>
+                    <tr>
+                        <th><b>Followings:</b></th>
+                        <!-- change the dummy numbers -->
+                        <td>700</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
-      <div class="col-md-9">
-          <div class = "row">
-              <h3>Recent Activities</h3>
-          </div>
-          <div class = "row">
-              <!-- change the dummy list items, this can be scrollable -->
-              <ul class = "list-group">
-                  <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
-                  <li class = "list-group-item">Posted a new recipe: Tagliatelle Pollo</li>
-                  <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
-                  <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
-                  <li class = "list-group-item">Posted a new recipe: Tagliatelle Pollo</li>
-                  <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
-              </ul>
-          </div>
-          <div class = "row">
-              <h3>Preferences</h3>
-          </div>
-          <div class = "row">
-              <div class="col-md-6">
-                  <form role = "form">
-                      <div class = "form-group">
-                          <input type = "text" class = "form-control" placeholder = "Enter a preference">
-                      </div>
-                  </form>
-              </div>
-              <div class="col-md-3">
-                  <button type="button" class="btn btn-warning btn-block">Add</button>
-              </div>
-              <div class="col-md-3">
-                  <button type="button" class="btn btn-warning btn-block">See Daily Consumed List</button>
-              </div>
-          </div>
-          <div class = "row">
-              <form role = "form">
-                  <div class = "form-group">
-                      <textarea class = "form-control" rows = "3" placeholder = "Some tags"></textarea>
-                  </div>
-              </form>
-          </div>
+        <div class="col-md-9">
+            <div class = "row">
+                <h3>Recent Activities</h3>
+            </div>
+            <div class = "row">
+                <!-- change the dummy list items, this can be scrollable -->
+                <ul class = "list-group">
+                    <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
+                    <li class = "list-group-item">Posted a new recipe: Tagliatelle Pollo</li>
+                    <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
+                    <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
+                    <li class = "list-group-item">Posted a new recipe: Tagliatelle Pollo</li>
+                    <li class = "list-group-item">Liked a new restaurant: J'adore Chocolatier</li>
+                </ul>
+            </div>
+            <div class = "row">
+                <h3>Preferences</h3>
+            </div>
+            <div class = "row">
+                <div class="col-md-6">
+                    <form role = "form">
+                        <div class = "form-group">
+                            <input type = "text" class = "form-control" placeholder = "Enter a preference">
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-warning btn-block">Add</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-warning btn-block">See Daily Consumed List</button>
+                </div>
+            </div>
+            <div class = "row">
+                <form role = "form">
+                    <div class = "form-group">
+                        <textarea class = "form-control" rows = "3" placeholder = "Some tags"></textarea>
+                    </div>
+                </form>
+            </div>
 
-      </div>
+        </div>
 
 
         <div class="row">
@@ -178,11 +166,7 @@
     </div>
 
 
-  </div> <!-- /container -->
-
-  <%@include  file="footer.jsp" %>
-
-</div>
+</div> <!-- /container -->
 
 </body>
 </html>
