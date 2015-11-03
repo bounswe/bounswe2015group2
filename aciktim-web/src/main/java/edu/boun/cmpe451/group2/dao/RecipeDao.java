@@ -22,6 +22,12 @@ public class RecipeDao extends BaseDao {
      * @param users_id id of user whose recipes to be get
      * @return recipe ids and recipe names of a user
      */
+    public List<Map<String, Object>> getRecipes(Long users_id) {
+        String sql = "SELECT * FROM recipes WHERE ownerID = ?";
+
+        return this.jdbcTemplate.queryForList(sql, users_id);
+    }
+    /*
     public ArrayList<RecipeModel> getRecipes(Long users_id) {
         String sql = "SELECT id,name FROM recipes WHERE ownerID = ?";
         ArrayList<RecipeModel> recipeList = new ArrayList<RecipeModel>();
@@ -34,6 +40,7 @@ public class RecipeDao extends BaseDao {
         }
         return recipeList;
     }
+    */
 
     /**
      * Returns a recipe if id has a match.

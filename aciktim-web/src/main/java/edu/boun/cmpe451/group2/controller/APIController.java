@@ -185,13 +185,14 @@ public class APIController {
             return gson.toJson(result);
         }
 
-
         return gson.toJson(result);
     }
 
     @RequestMapping("recipe/list")
     public @ResponseBody
-    ArrayList<RecipeModel> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
+
+    //TODO: This function needs to return ArrayList<RecipeModel>, but the recipes function in the HomeController requires a List<Map<String, Object>, Find a way to satisfy both APIs.
+    List<Map<String,Object>> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
         // todo api_key control
         return recipeModel.getRecipes(users_id);
     }

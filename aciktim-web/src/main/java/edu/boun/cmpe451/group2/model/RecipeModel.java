@@ -59,14 +59,13 @@ public class RecipeModel {
 
         recipeDao.addRecipe(recipeName, ownerID, ingredientMap, pictureAddress, description);
     }
-
+    
     /**
      * returns a list of recipes belong to a user
-     * only the id's and the names of the recipes are filled
      * @param users_id
      * @return arraylist of recipemodels
      */
-    public ArrayList<RecipeModel> getRecipes(Long users_id) {
+    public List<Map<String, Object>> getRecipes(Long users_id) {
         return recipeDao.getRecipes(users_id);
     }
 

@@ -1,7 +1,9 @@
 package edu.boun.cmpe451.group2.controller;
 
 import edu.boun.cmpe451.group2.exception.ExException;
+import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.UserModel;
+import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +27,9 @@ public class HomeController {
     @Qualifier("userModel")
     @Autowired
     private UserModel userModel = null;
+    @Qualifier("recipeModel")
+    @Autowired
+    private RecipeModel recipeModel = null;
 
     /**
      * Index Controller function.
@@ -53,6 +60,21 @@ public class HomeController {
         return "sign-up";
     }
 
+    @RequestMapping(value = {"/recipes"})
+    public String recipes(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id){
+
+        if (session_id != "") {
+            List<Map<String,Object>> recipes = recipeModel.getRecipes(Long.parseLong(userModel.getUser(session_id).id));
+
+            model.put("recipes", recipes);
+
+            model.put("full_name", userModel.getUser(session_id).full_name);
+        }
+        return "recipe-grid";
+    }
+
     @RequestMapping(value = {"/login"})
     public String login(
             @RequestParam String email,
@@ -60,15 +82,8 @@ public class HomeController {
             HttpServletResponse response,
             ModelMap model) {
 
-        System.out.println(email);
-        System.out.println(password);
         try {
-            System.out.println(email);
-            System.out.println(password);
             String session_id = userModel.login(email, password);
-            System.out.println(session_id);
-            System.out.println(email);
-            System.out.println(password);
             Cookie cookie = new Cookie("session_id", session_id);
             response.addCookie(cookie);
 
@@ -95,9 +110,18 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/users"})
-    public String viewUser(ModelMap model) {
+    public String viewUser(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
-
+        if (session_id.equals("")) {
+            model.put("full_name", "");
+        }
+        else {
+            UserModel user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+            model.put("email", user.email);
+        }
 
         return "profile-view";
     }
