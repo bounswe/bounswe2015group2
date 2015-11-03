@@ -123,10 +123,10 @@ public class RecipeDao extends BaseDao {
         this.jdbcTemplate.update(sql, recipeID);
     }
 
-    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, Map<Long, Long> IngredientMap, String pictureAddress) {
-        String sql = "UPDATE recipes SET pictureAddress = ?, name = ? , ownerID = ? WHERE id = ?";
+    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, Map<Long, Long> IngredientMap, String pictureAddress, String description) {
+        String sql = "UPDATE recipes SET pictureAddress = ?, name = ? , ownerID = ?, description = ? WHERE id = ?";
 
-        this.jdbcTemplate.update(sql, pictureAddress, recipeName, ownerID, recipeID);
+        this.jdbcTemplate.update(sql, pictureAddress, recipeName, ownerID, description, recipeID);
         sql = "DELETE FROM recipeIngredient where recipeID = ?";
         this.jdbcTemplate.update(sql, recipeID);
         if (IngredientMap.size() > 0) {
