@@ -68,10 +68,10 @@ public class UserDao extends BaseDao {
      * @param email  - user's email address
      * @param passwd - user's password
      */
-    public void updateUser(Long id, String email, String passwd) {
-        String sql = "UPDATE users SET email = ?, passwd = ? WHERE id = ?";
+    public void updateUser(Long id, String email, String passwd, String full_name, String username) {
+        String sql = "UPDATE users SET email = ?, passwd = ?, full_name = ?, username = ? WHERE id = ?";
 
-        this.jdbcTemplate.update(sql, email, Security.md5(passwd), id);
+        this.jdbcTemplate.update(sql, email, Security.md5(passwd), full_name, username, id);
     }
 
     /**
@@ -92,7 +92,6 @@ public class UserDao extends BaseDao {
      */
     public Map<String, Object> getUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
-
         try {
             return this.jdbcTemplate.queryForMap(sql, email);
         } catch (Exception e) {
@@ -100,6 +99,14 @@ public class UserDao extends BaseDao {
         }
     }
 
+    public Map<String, Object> getUserByApiKey(String api_key) {
+        String sql = "SELECT * FROM users WHERE api_key = ?";
+        try {
+            return this.jdbcTemplate.queryForMap(sql, api_key);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     /**
      * Checks users email and password

@@ -1,12 +1,13 @@
 package edu.boun.cmpe451.group2.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-
+import com.google.gson.*;
 import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
@@ -24,6 +25,12 @@ public class UserModel {
     @Qualifier("userDao")
     @Autowired
     private UserDao userDao = null;
+    public String id;
+    public String email;
+    public String passwd;
+    public String full_name;
+    public String username;
+    public String api_key;
 
     /**
      * login
@@ -63,7 +70,7 @@ public class UserModel {
      * @return String api_key
      * @throws Exception
      */
-    public String signup(String email, String pwd, String full_name, String username) throws Exception {
+    public String signup (String email, String pwd, String full_name, String username) throws Exception {
         if (StringUtil.isEmpty(email))
             throw new ExException(ExError.E_EMAIL_EMPTY);
 
@@ -87,6 +94,48 @@ public class UserModel {
         return (String) userDao.getUserByEmail(email).get("api_key");
     }
 
+    /**
+     *
+     * @param id
+     * @param email
+     * @param pwd
+     * @param full_name
+     * @param username
+     * @throws Exception
+     */
+    public void editProfile(Long id, String email, String pwd, String full_name, String username) throws Exception {
+        if (StringUtil.isEmpty(email))
+            throw new ExException(ExError.E_EMAIL_EMPTY);
+
+        if (StringUtil.isEmpty(pwd))
+            throw new ExException(ExError.E_PWD_EMPTY);
+
+        if (StringUtil.isEmpty(full_name))
+            full_name = "";
+
+        if (StringUtil.isEmpty(username))
+            username = "";
+
+        // checks if email is already registered
+        Map<String, Object> user = userDao.getUserByEmail(email);
+
+        if (user != null)
+            throw new ExException(ExError.E_ALREADY_REGISTERED);
+
+        userDao.updateUser(id,email, pwd, full_name, username);
+    }
+
+    public UserModel getUser(String api_key) {
+        UserModel userModel = new UserModel();
+        Map<String, Object> user = userDao.getUserByApiKey(api_key);
+        userModel.id = user.get("id").toString();
+        userModel.email = user.get("email").toString();
+        userModel.passwd = user.get("passwd").toString();
+        userModel.full_name = user.get("full_name").toString();
+        userModel.username = user.get("username").toString();
+        userModel.api_key = user.get("api_key").toString();
+        return userModel;
+    }
     public UserDao getUserDao() {
         return userDao;
     }

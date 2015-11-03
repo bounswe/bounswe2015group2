@@ -1,14 +1,22 @@
 package edu.boun.cmpe451.group2.controller;
 
+import edu.boun.cmpe451.group2.exception.ExException;
+import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.UserModel;
+import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +27,9 @@ public class HomeController {
     @Qualifier("userModel")
     @Autowired
     private UserModel userModel = null;
+    @Qualifier("recipeModel")
+    @Autowired
+    private RecipeModel recipeModel = null;
 
     /**
      * Index Controller function.
@@ -27,7 +38,133 @@ public class HomeController {
      * @return view
      */
     @RequestMapping(value = {"/", "/index"})
-    public String index(ModelMap model) {
+    public String index(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        if (session_id.equals("")) {
+            model.put("full_name", "");
+        }
+        else {
+            UserModel user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+        }
         return "home_index";
     }
+
+    @RequestMapping(value = {"/signup"})
+    public String signup(ModelMap model) {
+
+        model.put("type", "NORMAL");
+
+        return "sign-up";
+    }
+
+    @RequestMapping(value = {"/recipes"})
+    public String recipes(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id){
+
+        if (session_id != "") {
+            List<Map<String,Object>> recipes = recipeModel.getRecipes(Long.parseLong(userModel.getUser(session_id).id));
+
+            model.put("recipes", recipes);
+
+            model.put("full_name", userModel.getUser(session_id).full_name);
+        }
+        return "recipe-grid";
+    }
+
+    @RequestMapping(value = {"/login"})
+    public String login(
+            @RequestParam String email,
+            @RequestParam String password,
+            HttpServletResponse response,
+            ModelMap model) {
+
+        try {
+            String session_id = userModel.login(email, password);
+            Cookie cookie = new Cookie("session_id", session_id);
+            response.addCookie(cookie);
+
+            UserModel user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "home_index";
+    }
+
+    @RequestMapping(value = {"/logout"})
+    public String logout(
+            HttpServletResponse response,
+            ModelMap model) {
+
+        Cookie cookie = new Cookie("session_id", "");
+        response.addCookie(cookie);
+
+        model.put("full_name", "");
+
+        return "home_index";
+    }
+
+    @RequestMapping(value = {"/users"})
+    public String viewUser(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        if (session_id.equals("")) {
+            model.put("full_name", "");
+        }
+        else {
+            UserModel user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+            model.put("email", user.email);
+        }
+
+        return "profile-view";
+    }
+
+    @RequestMapping(value = {"/edituser"})
+    public String editUser(ModelMap model) {
+
+
+
+        return "profile-edit";
+    }
+
+    @RequestMapping(value = {"/addRecipe"})
+    public String addRecipe(ModelMap model) {
+
+
+
+        return "addrecipe";
+    }
+
+
+    @RequestMapping(value = {"/adduser"})
+    public String adduser(
+        @RequestParam String email,
+        @RequestParam String confirm_email,
+        @RequestParam String password,
+        @RequestParam String confirm_password,
+        @RequestParam String first_name,
+        @RequestParam String last_name,
+        ModelMap model) {
+        if (!email.equals(confirm_email) || !password.equals(confirm_password)) {
+                model.put("type", "ERROR");
+        }
+
+        try {
+            userModel.signup(email, password, first_name.concat(" ").concat(last_name), email);
+
+            model.put("type", "SUCCESS");
+        } catch (Exception e) {
+            model.put("type", "ERROR");
+        }
+
+        return "sign-up";
+    }
+
 }
