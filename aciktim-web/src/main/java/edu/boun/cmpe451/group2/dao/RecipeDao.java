@@ -1,5 +1,7 @@
 package edu.boun.cmpe451.group2.dao;
 
+import edu.boun.cmpe451.group2.exception.ExError;
+import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.context.annotation.Scope;
@@ -7,10 +9,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Recipe Dao class for User's Database Related operation.
@@ -41,18 +40,41 @@ public class RecipeDao extends BaseDao {
      * @param id id of the recipe
      * @return recipe (if found)
      */
-    public Map<String, Object> getRecipe(Long id) {
+    public RecipeModel getRecipe(Long id) throws ExException {
         String sql = "SELECT * FROM recipes WHERE recipes.id = ? ";
 
         Map<String, Object> map = this.jdbcTemplate.queryForMap(sql, id);
+        if(map.size()==0){
+            throw new ExException(ExError.E_RECIPE_NOT_FOUND);
+        }
+        RecipeModel recipeModel = new RecipeModel();
+        recipeModel.id = Long.parseLong(map.get("id").toString());
+        recipeModel.name = map.get("name").toString();
+        recipeModel.pictureAddress = map.get("pictureAddress").toString();
+        recipeModel.ownerID = Long.parseLong(map.get("ownerID").toString());
+        recipeModel.description = map.get("description").toString();
+        recipeModel.likes = Long.parseLong(map.get("likes").toString());
 
-        String sql2 = "SELECT * FROM recipeIngredient JOIN ingredients ON ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ";
+        String sql2 = "SELECT A.*,B.name as unitName FROM (SELECT * FROM recipeIngredient JOIN ingredients ON ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ) as A JOIN ingredientUnits as B WHERE A.unitID =B.id";
 
         List<Map<String, Object>> map2 = this.jdbcTemplate.queryForList(sql2, id);
+        HashMap<Ingredient,Long> ingredientMap = new HashMap<Ingredient,Long>();
+        for(Map<String,Object> ingredientEntry:map2){
+            Ingredient ingredient = new Ingredient();
+            ingredient.id = Long.parseLong(ingredientEntry.get("id").toString());
+            ingredient.name = ingredientEntry.get("name").toString();
+            ingredient.protein = Double.parseDouble(ingredientEntry.get("protein").toString());
+            ingredient.fat = Double.parseDouble(ingredientEntry.get("fat").toString());
+            ingredient.carbohydrate = Double.parseDouble(ingredientEntry.get("carbohydrate").toString());
+            ingredient.calories = Long.parseLong(ingredientEntry.get("calories").toString());
+            ingredient.unitID = Long.parseLong(ingredientEntry.get("unitID").toString());
+            ingredient.unitName = ingredientEntry.get("unitName").toString();
+            Long amount = Long.parseLong(ingredientEntry.get("amount").toString());
+            ingredientMap.put(ingredient,amount);
+        }
+        recipeModel.IngredientAmountMap = ingredientMap;
 
-        map.put("ingredients", map2);
-
-        return map;
+        return recipeModel;
     }
 
     /**

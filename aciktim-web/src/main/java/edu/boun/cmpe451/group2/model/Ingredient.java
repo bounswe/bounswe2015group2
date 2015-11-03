@@ -12,7 +12,7 @@ public class Ingredient {
     public double protein = 0;
     public double fat = 0;
     public double carbohydrate = 0;
-    public double calories = 0;
+    public Long calories = 0L;
     public Long unitID = null;
     public String unitName= "";
 
@@ -28,7 +28,7 @@ public class Ingredient {
             tempIng.protein = Double.parseDouble(ingredients.get(i).get("protein").toString());
             tempIng.fat = Double.parseDouble(ingredients.get(i).get("fat").toString());
             tempIng.carbohydrate = Double.parseDouble(ingredients.get(i).get("carbonhydrate").toString());
-            tempIng.calories = Double.parseDouble(ingredients.get(i).get("calories").toString());
+            tempIng.calories = Long.parseLong(ingredients.get(i).get("calories").toString());
             tempIng.unitID = Long.parseLong(ingredients.get(i).get("unitId").toString());
             tempIng.unitName = ingredients.get(i).get("unitName").toString();
             allIngredients.add(tempIng);

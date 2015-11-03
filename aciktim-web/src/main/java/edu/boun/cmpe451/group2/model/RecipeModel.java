@@ -30,9 +30,9 @@ public class RecipeModel {
     public String name = "";
     public String pictureAddress = "";
     public Long ownerID = null;
-    public int likes = 0;
+    public Long likes = 0L;
     public List<Comment> commentList = new ArrayList<Comment>();
-    public Map<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
+    public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
     public List<Tag> tagList = null;
     public String description = "";
 
@@ -66,8 +66,7 @@ public class RecipeModel {
 
 
     public void deleteRecipe(Long recipeID) throws Exception {
-        if (recipeDao.getRecipe(recipeID).size() == 0)
-            throw new ExException(ExError.E_RECIPE_NOT_FOUND);
+        recipeDao.getRecipe(recipeID);
 
         recipeDao.deleteRecipe(recipeID);
     }
@@ -91,7 +90,7 @@ public class RecipeModel {
         return recipeDao;
     }
 
-    public Map<String, Object> getRecipe(Long recipe_id) {
+    public RecipeModel getRecipe(Long recipe_id) throws Exception{
         return recipeDao.getRecipe(recipe_id);
     }
 }
