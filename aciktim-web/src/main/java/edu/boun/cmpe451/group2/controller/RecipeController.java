@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.UserModel;
 import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.awt.image.AreaAveragingScaleFilter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +88,9 @@ public class RecipeController {
             @RequestParam String recipe_name,
             @RequestParam String description,
             @RequestParam String image_url,
+            @RequestParam ArrayList<String> ingredient_ndb_nums,
+            @RequestParam ArrayList<Integer> ingredient_amounts,
+            @RequestParam ArrayList<String> ingredient_units,
             @CookieValue(value="session_id", defaultValue = "") String session_id,
             ModelMap model) {
 
@@ -130,5 +136,8 @@ public class RecipeController {
         recipeModel.getRecipeDao().deleteRecipe(recipe_id);
         return "redirect:/recipes";
     }
+
+
+
 
 }

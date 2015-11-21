@@ -8,7 +8,7 @@
             </div>
         </div>
         <div class="col-md-6 text-right" id="header-col2">
-            <div class="form-group">
+            <div class="form-group" id="welcome_group">
                 <span id="welcome">Welcome ${full_name}!</span>
                 <a href="${contextPath}/logout" class="btn btn-primary">Logout</a>
             </div>
