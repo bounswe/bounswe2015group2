@@ -1,14 +1,10 @@
-#forgot-password {
-    padding-right: 30px;
-
-}
 
 #header, #header-main-row, #header-col1, #header-col2 {
     height: inherit;
 
 }
 
-#header-signed-out{
+#header-signed-in{
     background-color: #f5e79e;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -18,11 +14,13 @@
 
 }
 
-#page-name {
+#page-name, div.form-group{
     position: relative;
     top: 50%;
     transform: translateY(-50%);
 
-
+}
+#welcome {
+    margin-right: 10px;
 
 }
