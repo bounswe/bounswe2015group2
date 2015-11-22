@@ -1,6 +1,7 @@
 package edu.boun.cmpe451.group2.dao;
 
 import edu.boun.cmpe451.group2.model.Menu;
+import edu.boun.cmpe451.group2.model.Recipe;
 import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,7 @@ public class MenuDao extends BaseDao{
         sql = "SELECT id FROM menus ORDER BY id DESC LIMIT 1";
         Long menuID=Long.parseLong(this.jdbcTemplate.queryForMap(sql).get("id").toString());
         sql = "INSERT INTO menuRecipe(menuID, recipeID) VALUES(?,?)";
-        for(RecipeModel recipe : menu.recipes){
+        for(Recipe recipe : menu.recipes){
             this.jdbcTemplate.update(sql,menuID,recipe.id);
         }
     }

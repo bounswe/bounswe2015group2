@@ -23,7 +23,7 @@ import java.util.Map;
 public class Menu {
     private MenuDao menuDao = null;
 
-    public ArrayList<RecipeModel> recipes;
+    public ArrayList<Recipe> recipes;
     public Long ownerID;
     public String name ;
 
@@ -34,7 +34,7 @@ public class Menu {
      * @param name menu name(must be nonempty)
      * @throws ExException throws exception when the recipe list is empty or null, name is empty or null,user is not found
      */
-    public Menu(ArrayList<RecipeModel> recipes,String api_key,String name) throws ExException {
+    public Menu(ArrayList<Recipe> recipes,String api_key,String name) throws ExException {
         if(recipes == null || recipes.size()==0){
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
         }else if(name == null || StringUtil.isEmpty(name)){
@@ -77,12 +77,12 @@ public class Menu {
         Long ownerID = Long.parseLong(user.get("id").toString());
         for (Map<String,Object> menuRecipe : menusDB){
             menuID = Long.parseLong(menuRecipe.get("id").toString());
-            RecipeModel recipe = new RecipeModel();
+            Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(menuRecipe.get("recipeID").toString());
             if(menus.containsKey(menuID)){
                 menus.get(menuID).recipes.add(recipe);
             }else{
-                ArrayList<RecipeModel> recipes = new ArrayList<RecipeModel>();
+                ArrayList<Recipe> recipes = new ArrayList<Recipe>();
                 recipes.add(recipe);
                 String name = menuRecipe.get("name").toString();
                 Menu menu= new Menu(recipes,api_key,name);
