@@ -11,7 +11,7 @@
 
     <%@include  file="../sub-element/header_signed_out.jsp" %>
 
-    <%@include  file="../sub-element/content_bar.jsp" %>
+    <%@include  file="../sub-element/content_bar_signed_out.jsp" %>
 
     <div class="container" id="sign-up">
         <div class="container">

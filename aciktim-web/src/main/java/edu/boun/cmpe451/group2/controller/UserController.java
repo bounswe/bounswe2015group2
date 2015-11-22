@@ -21,10 +21,14 @@ public class UserController {
     @Autowired
     private UserModel userModel = null;
 
+    //##########################################
+    //######## AUTHENTICATION & AUTHORIZATION
+    //##########################################
 
     @RequestMapping(value = {"/signup"})
     public String signup(ModelMap model) {
         model.put("type", "NORMAL");
+        model.put("content_bar_selection" , "none");
         return "user-views/sign_up";
     }
 
@@ -52,7 +56,8 @@ public class UserController {
 
             e.printStackTrace();
         }
-        return "user-views/home_index";
+        model.put("content_bar_selection","recipes");
+        return "user-views/recipes";
     }
 
     @RequestMapping(value = {"/logout"})
@@ -65,32 +70,10 @@ public class UserController {
         response.addCookie(cookie);
 
         model.put("full_name", "");
+        model.put("content_bar_selection","recipes");
 
-        return "user-views/home_index";
+        return "user-views/recipes";
     }
-
-//    @RequestMapping(value = {"/users"})
-//    public String viewUser(
-//            ModelMap model,
-//            @CookieValue(value="session_id", defaultValue = "") String session_id) {
-//
-//        if (session_id.equals("")) {
-//            model.put("full_name", "");
-//        }
-//        else {
-//            UserModel user = userModel.getUser(session_id);
-//            model.put("full_name", user.full_name);
-//            model.put("email", user.email);
-//        }
-//
-//        return "profile";
-//    }
-
-    @RequestMapping(value = {"/edituser"})
-    public String editUser(ModelMap model) {
-        return "user-views/profile_edit";
-    }
-
 
     @RequestMapping(value = {"/adduser"})
     public String adduser(
@@ -112,9 +95,53 @@ public class UserController {
         } catch (Exception e) {
             model.put("type", "ERROR");
         }
-
+        model.put("content_bar_selection" , "none");
         return "user-views/sign_up";
     }
+
+
+
+    //#####################
+    //######## VIEW USERS
+    //#####################
+
+    @RequestMapping(value = {"/restaurants"})
+    public String viewRestaurants(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        if (session_id.equals("")) {
+            model.put("full_name", "");
+        }
+        else {
+            UserModel user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+            model.put("email", user.email);
+        }
+
+        model.put("content_bar_selection" , "restaurants");
+        return "user-views/restaurants";
+    }
+
+
+    @RequestMapping(value = {"/profile"})
+    public String viewProfile(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        if (session_id.equals("")) {
+            model.put("full_name", "");
+        }
+        else {
+            UserModel user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+            model.put("email", user.email);
+        }
+
+        model.put("content_bar_selection" , "profile");
+        return "user-views/profile";
+    }
+
 
 
 
