@@ -19,4 +19,8 @@ public class ExError {
     public static String E_RECIPE_NAME_EMPTY = "E_RECIPE_NAME_EMPTY";
     public static String E_NULL_OWNERID = "E_NULL_OWNERID";
     public static String E_RECIPE_NOT_FOUND = "E_RECIPE_NOT_FOUND";
+
+    public static String E_RECIPELIST_EMPTY_OR_NULL = "E_RECIPELIST_EMPTY_OR_NULL";
+    public static String E_MENU_NAME_EMPTY = "E_MENU_NAME_EMPTY";
+    public static String E_USER_NOT_FOUND = "E_USER_NOT_FOUND";
 }
