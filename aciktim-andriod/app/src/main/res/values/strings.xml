@@ -128,6 +128,7 @@
 
     <string name="title_activity_favorites">My Favorites</string>
     <string name="title_activity_semantic_tag">Semantic Tag</string>
+    <string name="title_activity_todays_consumptions">Todays Consumption</string>
     <string name="title_activity_friends">FriendsActivity</string>
     <string name="title_recipe_list">Recipes</string>
     <string name="title_recipe_detail">Recipe Detail</string>
