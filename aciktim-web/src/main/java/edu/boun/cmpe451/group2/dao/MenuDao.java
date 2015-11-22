@@ -5,6 +5,9 @@ import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Menu Dao class for User's Database Related operation.
@@ -28,5 +31,10 @@ public class MenuDao extends BaseDao{
         for(RecipeModel recipe : menu.recipes){
             this.jdbcTemplate.update(sql,menuID,recipe.id);
         }
+    }
+
+    public List<Map<String, Object>> getMenus(Long ownerID){
+        String sql = "SELECT menus.id as id,menus.name as name ,menus.ownerID as ownerID,menus.likes as likes,menuRecipe.recipeID as recipeID FROM menus JOIN menuRecipe ON menus.id = menuRecipe.menuID WHERE ownerID=? AND menus.isDeleted=0";
+        return this.jdbcTemplate.queryForList(sql,ownerID);
     }
 }
