@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.android;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -65,6 +66,7 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         setupActionBar();
         // Set up the login form.
@@ -82,6 +84,12 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
                 return false;
             }
         });
+        Button b =(Button) findViewById(R.id.button);
+         b.setOnClickListener(new OnClickListener() {
+             public void onClick(View view) {
+                 startActivity(new Intent("edu.boun.cmpe451.group2.android.Semantic Tag"));
+             }
+         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -93,7 +101,10 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
     }
+
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
