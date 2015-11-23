@@ -31,23 +31,20 @@ public class RecipeModel {
     private RecipeDao recipeDao = null;
 
     /**
-     * Adds a new recipe
-     * @param recipeName recipe name to be created
-     * @param ownerID userID of the owner of the recipe
-     * @param ingredientMap ingredient map Key:ingredientID Value:amount
-     * @param pictureAddress address of the picture of the recipe
-     * @param description description of the recipe
-     * @throws Exception
+     * controls the recipe and sends it to the dao to be added to the db
+     * @param recipe recipe to be added
+     * @throws Exception when name is empty, ownerid is null,ingredient map is empty
      */
-    public void addRecipe(String recipeName, Long ownerID, Map<Ingredient,Long> ingredientMap, String pictureAddress,String description)throws Exception{
-        if(StringUtil.isEmpty(recipeName))
+    public void addRecipe(Recipe recipe)throws Exception{
+        if(StringUtil.isEmpty(recipe.getName()))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
-        if(ownerID == null)
+        if(recipe.getOwnerID() == null)
             throw new ExException(ExError.E_NULL_OWNERID);
-        if(StringUtil.isEmpty(pictureAddress))
-            pictureAddress="";
-
-        recipeDao.addRecipe(recipeName, ownerID, ingredientMap, pictureAddress, description);
+        if(StringUtil.isEmpty(recipe.getPictureAddress()))
+            recipe.pictureAddress="";
+        if(recipe.getIngredientAmountMap().size() == 0)
+            throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
+        recipeDao.addRecipe(recipe);
     }
     
     /**
