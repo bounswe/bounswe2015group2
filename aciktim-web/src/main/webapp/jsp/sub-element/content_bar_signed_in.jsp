@@ -8,24 +8,6 @@
                 <li role="presentation" id="content_bar_profile" ><a href="/aciktim/user/view">Profile</a></li>
                 <li role="presentation" id="content_bar_recipes"><a href="/aciktim/recipes">Recipes</a></li>
                 <li role="presentation" id="content_bar_restaurants"><a href="/aciktim/restaurants">Restaurants</a></li>
-
-                <%--<form class="form-horizontal row-border" action="${contextPath}recipe/form">--%>
-                    <%--<div class="form-group">--%>
-                        <%--<input type="hidden" name="action_type" value="add">--%>
-                        <%--<button type="submit" class="btn btn-success">Add Recipe</button>--%>
-                    <%--</div>--%>
-                <%--</form>--%>
-
-                <%--<form class="form-horizontal row-border" action="${contextPath}recipe/form" >--%>
-                    <%--<div class="form-group">--%>
-                        <%--<input type="hidden" name="action_type" value="addt">--%>
-                        <%--<button type="submit" class="btn btn-success">Add Menu</button>--%>
-                    <%--</div>--%>
-                <%--</form>--%>
-
-
-
-
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
             </ul>
@@ -43,6 +25,7 @@
 
 <script>
     $(document).ready(function(){
+
         var selection = "${content_bar_selection}";
         $("li").removeAttr("class");
         $("#content_bar_"+selection).attr("class","active");
@@ -57,11 +40,14 @@
         }
 
 
-
-
-
     });
 
 
 
 </script>
+
+
+
+
+
+

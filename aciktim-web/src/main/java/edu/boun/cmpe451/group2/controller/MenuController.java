@@ -1,8 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
-import edu.boun.cmpe451.group2.model.Ingredient;
-import edu.boun.cmpe451.group2.model.UserModel;
-import edu.boun.cmpe451.group2.model.RecipeModel;
+import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -42,7 +40,7 @@ public class MenuController {
             return "redirect:index";
         }
         else {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
 
@@ -55,7 +53,7 @@ public class MenuController {
             if (action_type.equals("edit")){
                 Long rp_id = Long.parseLong(recipe_id);
                 try {
-                    RecipeModel rm = recipeModel.getRecipe(rp_id);
+                    Recipe rm = recipeModel.getRecipe(rp_id);
                     model.put("existing_recipe_id" , rp_id);
                     model.put("existing_recipe_name" , rm.name);
                     model.put("existing_recipe_description" , rm.description);
@@ -81,7 +79,7 @@ public class MenuController {
             return "redirect:index";
         }
         else {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
 
@@ -94,7 +92,7 @@ public class MenuController {
             if (action_type.equals("edit")){
                 Long rp_id = Long.parseLong(recipe_id);
                 try {
-                    RecipeModel rm = recipeModel.getRecipe(rp_id);
+                    Recipe rm = recipeModel.getRecipe(rp_id);
                     model.put("existing_recipe_id" , rp_id);
                     model.put("existing_recipe_name" , rm.name);
                     model.put("existing_recipe_description" , rm.description);
@@ -122,7 +120,14 @@ public class MenuController {
         Long id = Long.parseLong(userModel.getUser(session_id).id);
 
         try {
-            recipeModel.addRecipe(recipe_name,id,null,image_url,description);
+            Recipe r = new Recipe();
+            r.name = recipe_name;
+            r.id = id;
+            r.IngredientAmountMap = null;
+            r.pictureAddress = image_url;
+            r.description = description;
+            recipeModel.addRecipe(r);
+//            recipeModel.addRecipe(recipe_name,id,null,image_url,description);
             model.put("type", "SUCCESS");
         }catch (Exception e){
             model.put("type", "ERROR");

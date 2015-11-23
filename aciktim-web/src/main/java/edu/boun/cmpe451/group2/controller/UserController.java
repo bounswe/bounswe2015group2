@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import edu.boun.cmpe451.group2.model.User;
 import edu.boun.cmpe451.group2.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,11 +43,13 @@ public class UserController {
         try {
             String session_id = userModel.login(email, password);
             Cookie cookie = new Cookie("session_id", session_id);
-            cookie.setPath("/aciktim");
+
+            cookie.setPath("/aciktim/");
+//            cookie.setDomain("aciktim");
             response.addCookie(cookie);
 
 
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             
 
 
@@ -70,7 +73,7 @@ public class UserController {
             ModelMap model) {
 
         Cookie cookie = new Cookie("session_id", "");
-
+        cookie.setPath("/aciktim/");
         response.addCookie(cookie);
 
         model.put("full_name", "");
@@ -118,7 +121,7 @@ public class UserController {
             model.put("full_name", "");
         }
         else {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
         }
@@ -137,7 +140,7 @@ public class UserController {
             model.put("full_name", "");
         }
         else {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("user_id" , user.id);
 //            model.put("email", user.email);

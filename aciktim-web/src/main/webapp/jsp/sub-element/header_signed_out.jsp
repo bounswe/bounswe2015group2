@@ -18,7 +18,7 @@
                         <input type="password" name="password" placeholder="Password" class="form-control">
                         <button type="submit" class="btn btn-success">Login</button>
                     </div>
-                    <a href="user/signup" class="btn btn-primary">Sign up</a>
+                    <a href="${contextPath}/user/signup" class="btn btn-primary">Sign up</a>
                 </form>
 
 
