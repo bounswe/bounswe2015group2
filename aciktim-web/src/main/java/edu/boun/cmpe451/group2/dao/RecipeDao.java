@@ -76,7 +76,6 @@ public class RecipeDao extends BaseDao {
             ingredient.fat = Double.parseDouble(ingredientEntry.get("fat").toString());
             ingredient.carbohydrate = Double.parseDouble(ingredientEntry.get("carbohydrate").toString());
             ingredient.calories = Long.parseLong(ingredientEntry.get("calories").toString());
-            ingredient.unitID = Long.parseLong(ingredientEntry.get("unitID").toString());
             ingredient.unitName = ingredientEntry.get("unitName").toString();
             Long amount = Long.parseLong(ingredientEntry.get("amount").toString());
             ingredientMap.put(ingredient,amount);
@@ -91,8 +90,10 @@ public class RecipeDao extends BaseDao {
      *
      */
     public void addRecipe(Recipe recipe){
-        String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description) VALUES(?,?,?,?)";
-        this.jdbcTemplate.update(sql,recipe.name,recipe.ownerID,recipe.pictureAddress,recipe.description);
+        String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description," +
+                "totalFat,totalCarb,totalProtein,totalCal) VALUES(?,?,?,?,?,?,?,?)";
+        this.jdbcTemplate.update(sql,recipe.name,recipe.ownerID,recipe.pictureAddress,recipe.description,
+                recipe.totalFat,recipe.totalCarb,recipe.totalProtein,recipe.totalCal);
         sql = "SELECT id FROM recipes ORDER BY id DESC LIMIT 1";
         Long recipeID=Long.parseLong(this.jdbcTemplate.queryForMap(sql).get("id").toString());
         if(recipe.IngredientAmountMap.size()>0){
