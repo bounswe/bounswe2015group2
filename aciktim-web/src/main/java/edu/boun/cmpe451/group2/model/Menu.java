@@ -21,7 +21,6 @@ import java.util.Map;
 @Service
 @Scope("request")
 public class Menu {
-    private MenuDao menuDao = null;
 
     public ArrayList<Recipe> recipes;
     public Long ownerID;
@@ -48,47 +47,5 @@ public class Menu {
         this.recipes = recipes;
         this.ownerID = Long.parseLong(user.get("id").toString());
         this.name = name;
-    }
-
-    /**
-     * adds a menu to the db.
-     * note that this is an INSTANCE method
-     * and please be sure that you are trying to add VALID recipes to the menu.
-     */
-    public void AddMenu(){
-        menuDao.createMenu(this);
-    }
-
-    /**
-     * Gets the menus of a user (which are not soft deleted)
-     * @param api_key api_key of the user
-     * @return HashMap of menus (keys are menuIDs values are menus)
-     * @throws ExException
-     */
-    public HashMap<Long,Menu> GetMenusByApiKey(String api_key) throws ExException {
-        UserDao userDao = null;
-        Map<String, Object> user = userDao.getUserByApiKey(api_key);
-        if(user == null){
-            throw new ExException(ExError.E_USER_NOT_FOUND);
-        }
-        List<Map<String,Object>> menusDB = menuDao.getMenus(Long.parseLong(user.get("id").toString()));
-        HashMap<Long,Menu> menus = new HashMap();
-        Long menuID;
-        Long ownerID = Long.parseLong(user.get("id").toString());
-        for (Map<String,Object> menuRecipe : menusDB){
-            menuID = Long.parseLong(menuRecipe.get("id").toString());
-            Recipe recipe = new Recipe();
-            recipe.id = Long.parseLong(menuRecipe.get("recipeID").toString());
-            if(menus.containsKey(menuID)){
-                menus.get(menuID).recipes.add(recipe);
-            }else{
-                ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-                recipes.add(recipe);
-                String name = menuRecipe.get("name").toString();
-                Menu menu= new Menu(recipes,api_key,name);
-                menus.put(menuID,menu);
-            }
-        }
-        return menus;
     }
 }
