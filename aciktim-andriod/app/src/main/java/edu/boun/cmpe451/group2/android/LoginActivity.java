@@ -37,6 +37,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
+import edu.boun.cmpe451.group2.android.api.User;
+import retrofit.Retrofit;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -105,6 +109,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
             }
         });
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api")
+                .build();
+
+        ControllerInterface api = retrofit.create(ControllerInterface.class);
+        User myuser =api.getUser("asdasd");
+        //api.;
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);

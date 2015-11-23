@@ -1,8 +1,4 @@
-package edu.boun.cmpe451.group2.controller;
-
-
-import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.User;
+package edu.boun.cmpe451.group2.android.api;
 
 import java.util.List;
 
@@ -58,6 +54,6 @@ public interface ControllerInterface {
     List<Recipe> getRecipes(@Query(API_KEY_PARAMETER) String api_key, @Query(USER_ID_PARAMETER) Long users_id);
 
     @GET(RECIPE_SVC_PATH)
-    Recipe getRecipe(@Query(API_KEY_PARAMETER)String api_key, @Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
+    Recipe getRecipe(@Query(API_KEY_PARAMETER) String api_key, @Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
 }
