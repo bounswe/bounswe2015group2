@@ -26,15 +26,15 @@ public class UserController {
     //######## AUTHENTICATION & AUTHORIZATION
     //##########################################
 
-    @RequestMapping(value = {"/signup"})
-    public String signup(ModelMap model) {
+    @RequestMapping(value = {"user/signup"})
+    public String usersignup(ModelMap model) {
         model.put("type", "NORMAL");
         model.put("content_bar_selection" , "none");
         return "user-views/sign_up";
     }
 
-    @RequestMapping(value = "/login" , method=RequestMethod.POST)
-    public String login(
+    @RequestMapping(value = "user/login" , method=RequestMethod.POST)
+    public String userlogin(
             @RequestParam String email,
             @RequestParam String password,
             HttpServletResponse response,
@@ -43,9 +43,15 @@ public class UserController {
         try {
             String session_id = userModel.login(email, password);
             Cookie cookie = new Cookie("session_id", session_id);
+
+            cookie.setPath("/aciktim/");
+//            cookie.setDomain("aciktim");
             response.addCookie(cookie);
 
+
             User user = userModel.getUser(session_id);
+            
+
 
             model.put("full_name", user.full_name);
             model.put("bad_attempt","false");
@@ -61,13 +67,13 @@ public class UserController {
         return "user-views/recipes";
     }
 
-    @RequestMapping(value = {"/logout"})
-    public String logout(
+    @RequestMapping(value = {"user/logout"})
+    public String userlogout(
             HttpServletResponse response,
             ModelMap model) {
 
         Cookie cookie = new Cookie("session_id", "");
-
+        cookie.setPath("/aciktim/");
         response.addCookie(cookie);
 
         model.put("full_name", "");
@@ -76,8 +82,8 @@ public class UserController {
         return "user-views/recipes";
     }
 
-    @RequestMapping(value = {"/adduser"})
-    public String adduser(
+    @RequestMapping(value = {"user/add"})
+    public String useradd(
             @RequestParam String email,
             @RequestParam String confirm_email,
             @RequestParam String password,
@@ -107,7 +113,7 @@ public class UserController {
     //#####################
 
     @RequestMapping(value = {"/restaurants"})
-    public String viewRestaurants(
+    public String restaurants(
             ModelMap model,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
@@ -125,8 +131,8 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = {"/profile"})
-    public String viewProfile(
+    @RequestMapping(value = {"user/view"})
+    public String userview(
             ModelMap model,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
@@ -136,7 +142,8 @@ public class UserController {
         else {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
-            model.put("email", user.email);
+            model.put("user_id" , user.id);
+//            model.put("email", user.email);
         }
 
         model.put("content_bar_selection" , "profile");

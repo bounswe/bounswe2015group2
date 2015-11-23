@@ -53,6 +53,11 @@
                             <!-- change the dummy numbers -->
                             <td>700</td>
                         </tr>
+                        <tr>
+                            <td colspan = "2" align="center" valign="middle">
+                                <a class="btn btn-success" href="${contextPath}/recipes?ownerID=${user_id}">My Recipes</a>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -101,80 +106,80 @@
             </div>
 
 
-            <div class="row">
-                <div class="col-md-3">
-                    <div class = "row">
-                        <h4>Recommended:</h4>
-                    </div>
-                    <div class = "row">
-                        <!-- change the dummy numbers -->
-                        <table class = "table">
-                            <tr>
-                                <th>Image Here</th>
-                                <td>O La La Beatrice</td>
-                            </tr>
-                            <tr>
-                                <th>Image Here</th>
-                                <td>Tagliatelle Pollo</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class = "row">
-                        <h4>My Recipes:</h4>
-                    </div>
-                    <div class = "row">
-                        <!-- change the dummy numbers -->
-                        <table class = "table">
-                            <tr>
-                                <th>Image Here</th>
-                                <td>O La La Beatrice</td>
-                            </tr>
-                            <tr>
-                                <th>Image Here</th>
-                                <td>Tagliatelle Pollo</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class = "row">
-                        <h4>Preferred Food:</h4>
-                    </div>
-                    <div class = "row">
-                        <!-- change the dummy numbers -->
-                        <table class = "table">
-                            <tr>
-                                <th>Image Here</th>
-                                <td>O La La Beatrice</td>
-                            </tr>
-                            <tr>
-                                <th>Image Here</th>
-                                <td>Tagliatelle Pollo</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class = "row">
-                        <h4>Favorite Recipes:</h4>
-                    </div>
-                    <div class = "row">
-                        <!-- change the dummy numbers -->
-                        <table class = "table">
-                            <tr>
-                                <th>Image Here</th>
-                                <td>O La La Beatrice</td>
-                            </tr>
-                            <tr>
-                                <th>Image Here</th>
-                                <td>Tagliatelle Pollo</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <%--<div class="row">--%>
+                <%--<div class="col-md-3">--%>
+                    <%--<div class = "row">--%>
+                        <%--<h4>Recommended:</h4>--%>
+                    <%--</div>--%>
+                    <%--<div class = "row">--%>
+                        <%--<!-- change the dummy numbers -->--%>
+                        <%--<table class = "table">--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>O La La Beatrice</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>Tagliatelle Pollo</td>--%>
+                            <%--</tr>--%>
+                        <%--</table>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="col-md-3">--%>
+                    <%--<div class = "row">--%>
+                        <%--<h4>My Recipes:</h4>--%>
+                    <%--</div>--%>
+                    <%--<div class = "row">--%>
+                        <%--<!-- change the dummy numbers -->--%>
+                        <%--<table class = "table">--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>O La La Beatrice</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>Tagliatelle Pollo</td>--%>
+                            <%--</tr>--%>
+                        <%--</table>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="col-md-3">--%>
+                    <%--<div class = "row">--%>
+                        <%--<h4>Preferred Food:</h4>--%>
+                    <%--</div>--%>
+                    <%--<div class = "row">--%>
+                        <%--<!-- change the dummy numbers -->--%>
+                        <%--<table class = "table">--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>O La La Beatrice</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>Tagliatelle Pollo</td>--%>
+                            <%--</tr>--%>
+                        <%--</table>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="col-md-3">--%>
+                    <%--<div class = "row">--%>
+                        <%--<h4>Favorite Recipes:</h4>--%>
+                    <%--</div>--%>
+                    <%--<div class = "row">--%>
+                        <%--<!-- change the dummy numbers -->--%>
+                        <%--<table class = "table">--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>O La La Beatrice</td>--%>
+                            <%--</tr>--%>
+                            <%--<tr>--%>
+                                <%--<th>Image Here</th>--%>
+                                <%--<td>Tagliatelle Pollo</td>--%>
+                            <%--</tr>--%>
+                        <%--</table>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
         </div>
 
 
@@ -187,4 +192,17 @@
 
 
 </body>
+
+    <script>
+        $(document).ready(function (){
+
+
+
+        });
+
+
+
+
+    </script>
+
 </html>

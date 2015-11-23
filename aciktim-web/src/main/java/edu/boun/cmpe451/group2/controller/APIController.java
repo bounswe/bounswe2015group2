@@ -137,7 +137,7 @@ public class APIController implements ControllerInterface{
         Gson gson = new Gson();
         Map<String, Object> result = new HashMap<String, Object>();
         try {
-            recipeModel.addRecipe(recipe.name,recipe.ownerID,recipe.IngredientAmountMap,recipe.pictureAddress,recipe.description);
+            recipeModel.addRecipe(recipe);
             result.put("type","SUCCESS");
             result.put("content","Recipe Added");
         }
