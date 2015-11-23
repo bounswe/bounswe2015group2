@@ -3,10 +3,9 @@ package edu.boun.cmpe451.group2.dao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.Ingredient;
-import edu.boun.cmpe451.group2.model.RecipeModel;
+import edu.boun.cmpe451.group2.model.Recipe;
+import edu.boun.cmpe451.group2.model.Tag;
 import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -19,54 +18,97 @@ import java.util.*;
 public class RecipeDao extends BaseDao {
     /**
      * gets recipe ids and recipe names of a user
+     *
      * @param users_id id of user whose recipes to be get
      * @return recipe ids and recipe names of a user
      */
-    public List<Map<String, Object>> getRecipes(Long users_id) {
-        String sql = "SELECT * FROM recipes WHERE ownerID = ?";
-
-        return this.jdbcTemplate.queryForList(sql, users_id);
-    }
-    /*
-    public ArrayList<RecipeModel> getRecipes(Long users_id) {
+    public ArrayList<Recipe> getRecipes(Long users_id) {
         String sql = "SELECT id,name FROM recipes WHERE ownerID = ?";
-        ArrayList<RecipeModel> recipeList = new ArrayList<RecipeModel>();
-        List<Map<String,Object>> resultList = this.jdbcTemplate.queryForList(sql,users_id);
-        for(Map<String,Object> resultMap: resultList){
-            RecipeModel recipe = new RecipeModel();
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+        List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, users_id);
+        for (Map<String, Object> resultMap : resultList) {
+            Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
             recipeList.add(recipe);
         }
         return recipeList;
+
     }
+
+    /**
+     * searches on recipes
+     *
+     * @param name
+     * @param ingredients
+     * @return
+     */
+    public ArrayList<Recipe> searchRecipes(String name, ArrayList<Integer> ingredients) {
+        String sql = "SELECT * FROM recipes WHERE name LIKE ?";
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+        List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
+        for (Map<String, Object> resultMap : resultList) {
+
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+
+
+            String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
+            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql, recipe.id);
+            boolean all_have = true;
+
+            for (Integer ingredient : ingredients) {
+                boolean is_exists = false;
+
+                for (Map<String, Object> resultMap2 : resultList2) {
+                    if (Integer.parseInt(resultMap2.get("ingredientID").toString()) == ingredient) {
+                        is_exists = true;
+                    }
+                }
+
+                all_have = is_exists;
+            }
+
+            if (all_have)
+                recipeList.add(recipe);
+        }
+        return recipeList;
+    }
+
+    /*
+
+        String sql = "SELECT * FROM recipes WHERE ownerID = ?";
+
+        return this.jdbcTemplate.queryForList(sql, users_id);
     */
 
     /**
      * Returns a recipe if id has a match.
+     *
      * @param id id of the recipe
      * @return recipe (if found)
      */
-    public RecipeModel getRecipe(Long id) throws ExException {
+    public Recipe getRecipe(Long id) throws ExException {
         String sql = "SELECT * FROM recipes WHERE recipes.id = ? ";
 
         Map<String, Object> map = this.jdbcTemplate.queryForMap(sql, id);
-        if(map.size()==0){
+        if (map.size() == 0) {
             throw new ExException(ExError.E_RECIPE_NOT_FOUND);
         }
-        RecipeModel recipeModel = new RecipeModel();
-        recipeModel.id = Long.parseLong(map.get("id").toString());
-        recipeModel.name = map.get("name").toString();
-        recipeModel.pictureAddress = map.get("pictureAddress").toString();
-        recipeModel.ownerID = Long.parseLong(map.get("ownerID").toString());
-        recipeModel.description = map.get("description").toString();
-        recipeModel.likes = Long.parseLong(map.get("likes").toString());
+        Recipe recipe = new Recipe();
+        recipe.id = Long.parseLong(map.get("id").toString());
+        recipe.name = map.get("name").toString();
+        recipe.pictureAddress = map.get("pictureAddress").toString();
+        recipe.ownerID = Long.parseLong(map.get("ownerID").toString());
+        recipe.description = map.get("description").toString();
+        recipe.likes = Long.parseLong(map.get("likes").toString());
 
         String sql2 = "SELECT A.*,B.name as unitName FROM (SELECT * FROM recipeIngredient JOIN ingredients ON ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ) as A JOIN ingredientUnits as B WHERE A.unitID =B.id";
 
         List<Map<String, Object>> map2 = this.jdbcTemplate.queryForList(sql2, id);
-        HashMap<Ingredient,Long> ingredientMap = new HashMap<Ingredient,Long>();
-        for(Map<String,Object> ingredientEntry:map2){
+        HashMap<Ingredient, Long> ingredientMap = new HashMap<Ingredient, Long>();
+        for (Map<String, Object> ingredientEntry : map2) {
             Ingredient ingredient = new Ingredient();
             ingredient.id = Long.parseLong(ingredientEntry.get("id").toString());
             ingredient.name = ingredientEntry.get("name").toString();
@@ -77,35 +119,38 @@ public class RecipeDao extends BaseDao {
             ingredient.unitID = Long.parseLong(ingredientEntry.get("unitID").toString());
             ingredient.unitName = ingredientEntry.get("unitName").toString();
             Long amount = Long.parseLong(ingredientEntry.get("amount").toString());
-            ingredientMap.put(ingredient,amount);
+            ingredientMap.put(ingredient, amount);
         }
-        recipeModel.IngredientAmountMap = ingredientMap;
+        recipe.IngredientAmountMap = ingredientMap;
 
-        return recipeModel;
+        return recipe;
     }
 
     /**
      * Adds a recipe with recipeName,ownerID and an ingredient list
-     *
-     * @param recipeName    name of the recipe
-     * @param ownerID       user id of the owner of the recipe
-     * @param IngredientMap ingredient list
      */
-    public void addRecipe(String recipeName,Long ownerID,Map<Ingredient,Long> IngredientMap,String pictureAdress,String description){
+    public void addRecipe(Recipe recipe) {
         String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description) VALUES(?,?,?,?)";
-        this.jdbcTemplate.update(sql,recipeName,ownerID,pictureAdress,description);
+        this.jdbcTemplate.update(sql, recipe.name, recipe.ownerID, recipe.pictureAddress, recipe.description);
         sql = "SELECT id FROM recipes ORDER BY id DESC LIMIT 1";
-        Long recipeID=Long.parseLong(this.jdbcTemplate.queryForMap(sql).get("id").toString());
-        if(IngredientMap.size()>0){
+        Long recipeID = Long.parseLong(this.jdbcTemplate.queryForMap(sql).get("id").toString());
+        if (recipe.IngredientAmountMap.size() > 0) {
             sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
-            for (Map.Entry entry : IngredientMap.entrySet()) {
+            for (Map.Entry entry : recipe.IngredientAmountMap.entrySet()) {
                 this.jdbcTemplate.update(sql, recipeID, ((Ingredient) (entry.getKey())).id, entry.getValue());
+            }
+        }
+        if (recipe.tagList.size() > 0) {
+            sql = "INSERT INTO recipeTag(recipeID, tag) VALUES(?,?)";
+            for (Tag tag : recipe.tagList) {
+                this.jdbcTemplate.update(sql, recipeID, tag);
             }
         }
     }
 
     /**
      * Deletes a recipe by recipe ID
+     *
      * @param recipeID id of the recipe to be deleted
      */
     public void deleteRecipe(Long recipeID) {

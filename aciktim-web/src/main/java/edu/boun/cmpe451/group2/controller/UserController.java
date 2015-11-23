@@ -47,6 +47,7 @@ public class UserController {
 
 
             UserModel user = userModel.getUser(session_id);
+            
 
 
             model.put("full_name", user.full_name);

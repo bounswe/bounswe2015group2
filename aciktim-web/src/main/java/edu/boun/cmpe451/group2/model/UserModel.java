@@ -25,12 +25,6 @@ public class UserModel {
     @Qualifier("userDao")
     @Autowired
     private UserDao userDao = null;
-    public String id;
-    public String email;
-    public String passwd;
-    public String full_name;
-    public String username;
-    public String api_key;
 
     /**
      * login
@@ -125,16 +119,16 @@ public class UserModel {
         userDao.updateUser(id,email, pwd, full_name, username);
     }
 
-    public UserModel getUser(String api_key) {
-        UserModel userModel = new UserModel();
-        Map<String, Object> user = userDao.getUserByApiKey(api_key);
-        userModel.id = user.get("id").toString();
-        userModel.email = user.get("email").toString();
-        userModel.passwd = user.get("passwd").toString();
-        userModel.full_name = user.get("full_name").toString();
-        userModel.username = user.get("username").toString();
-        userModel.api_key = user.get("api_key").toString();
-        return userModel;
+    public User getUser(String api_key) {
+        User user = new User();
+        Map<String, Object> userMap = userDao.getUserByApiKey(api_key);
+        user.id = userMap.get("id").toString();
+        user.email = userMap.get("email").toString();
+        user.passwd = userMap.get("passwd").toString();
+        user.full_name = userMap.get("full_name").toString();
+        user.username = userMap.get("username").toString();
+        user.api_key = userMap.get("api_key").toString();
+        return user;
     }
     public UserDao getUserDao() {
         return userDao;

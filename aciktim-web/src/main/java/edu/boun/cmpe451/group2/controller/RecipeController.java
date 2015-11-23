@@ -1,8 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
-import edu.boun.cmpe451.group2.model.Ingredient;
-import edu.boun.cmpe451.group2.model.UserModel;
-import edu.boun.cmpe451.group2.model.RecipeModel;
+import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -98,7 +95,7 @@ public class RecipeController {
             return "redirect:index";
         }
         else {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
 
@@ -111,7 +108,7 @@ public class RecipeController {
             if (action_type.equals("edit")){
                 Long rp_id = Long.parseLong(recipe_id);
                 try {
-                    RecipeModel rm = recipeModel.getRecipe(rp_id);
+                    Recipe rm = recipeModel.getRecipe(rp_id);
                     model.put("existing_recipe_id" , rp_id);
                     model.put("existing_recipe_name" , rm.name);
                     model.put("existing_recipe_description" , rm.description);
