@@ -20,26 +20,46 @@ import retrofit.http.Query;
  */
 public interface ControllerInterface {
 
+    public static final String API_KEY_PARAMETER = "api_key";
+
+    public static final String RECIPE_ID_PARAMETER = "recipeID";
+
+    public static final String USER_ID_PARAMETER = "users_id";
+
+    public static final String USERNAME_PARAMETER = "username";
+
     public static final String PASSWORD_PARAMETER = "password";
 
     public static final String EMAIL_PARAMETER = "email";
 
     public static final String LOGIN_PATH = "/login";
 
+    public static final String USER_SVC_PATH = "/user";
+
+    public static final String RECIPE_SVC_PATH = "/recipe";
+
+    public static final String RECIPE_TITLE_SEARCH_PATH = RECIPE_SVC_PATH + "/search/findByName";
+
+    public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
     @FormUrlEncoded
     @POST(LOGIN_PATH)
     String login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
 
-    User getUser(String api_key);
+    @GET(USER_SVC_PATH)
+    User getUser(@Query(API_KEY_PARAMETER) String api_key);
 
-    String signup(User user);
+    @POST(USER_SVC_PATH)
+    String signup(@Body User user);
 
-    String addrecipe(Recipe recipe);
+    @POST(RECIPE_SVC_PATH)
+    String addrecipe(@Body Recipe recipe);
 
-    String deleteRecipe(Long recipeID);
+    String deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
-    List<Recipe> getRecipes(String api_key,Long users_id);
+    @GET(RECIPE_LIST_BY_USER_PATH)
+    List<Recipe> getRecipes(@Query(API_KEY_PARAMETER) String api_key, @Query(USER_ID_PARAMETER) Long users_id);
 
-    Recipe getRecipe( String api_key,Long recipe_id) throws Exception;
+    @GET(RECIPE_SVC_PATH)
+    Recipe getRecipe(@Query(API_KEY_PARAMETER)String api_key, @Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
 }
