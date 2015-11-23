@@ -138,6 +138,13 @@ public class RecipeDao extends BaseDao {
         if(recipe.IngredientAmountMap.size()>0){
             sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
             for (Map.Entry entry : recipe.IngredientAmountMap.entrySet()) {
+                Ingredient ingr = (Ingredient)entry.getKey();
+                String sqlGet = "SELECT * FROM Ingredients WHERE id=?";
+                Map<String,Object> map =  this.jdbcTemplate.queryForMap(sqlGet,ingr.id);
+                if(map == null || map.size()==0) {
+                    String sql2 = "INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES(?,?,?,?,?,?,?)";
+                }
+                this.jdbcTemplate.update(sql,ingr.id,ingr.name,ingr.protein,ingr.fat,ingr.carbohydrate,ingr.calories,ingr.unitName);
                 this.jdbcTemplate.update(sql, recipeID, ((Ingredient) (entry.getKey())).id, entry.getValue());
             }
         }
@@ -181,7 +188,14 @@ public class RecipeDao extends BaseDao {
         if (recipe.IngredientAmountMap != null && recipe.IngredientAmountMap.size() > 0) {
             sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
             for (Map.Entry entry : recipe.IngredientAmountMap.entrySet()) {
-                this.jdbcTemplate.update(sql, recipe.id, entry.getKey(), entry.getValue());
+                Ingredient ingr = (Ingredient)entry.getKey();
+                String sqlGet = "SELECT * FROM Ingredients WHERE id=?";
+                Map<String,Object> map =  this.jdbcTemplate.queryForMap(sqlGet,ingr.id);
+                if(map == null || map.size()==0) {
+                    String sql2 = "INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES(?,?,?,?,?,?,?)";
+                }
+                this.jdbcTemplate.update(sql,ingr.id,ingr.name,ingr.protein,ingr.fat,ingr.carbohydrate,ingr.calories,ingr.unitName);
+                this.jdbcTemplate.update(sql, recipe.id, ((Ingredient) (entry.getKey())).id, entry.getValue());
             }
         }
     }
