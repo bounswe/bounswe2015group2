@@ -19,6 +19,11 @@ public class Recipe {
     public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
     public List<Tag> tagList = null;
     public String description = "";
+    public double totalProtein=0;
+    public double totalFat=0;
+    public double totalCarb=0;
+    public double totalCal=0;
+
 
     public Long getId() {
         return id;

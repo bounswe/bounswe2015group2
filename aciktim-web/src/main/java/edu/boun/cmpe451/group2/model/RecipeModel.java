@@ -44,6 +44,13 @@ public class RecipeModel {
             recipe.pictureAddress="";
         if(recipe.getIngredientAmountMap().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
+
+        for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
+            recipe.totalCal += entry.getKey().calories*entry.getValue();
+            recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
+            recipe.totalFat += entry.getKey().fat*entry.getValue();
+            recipe.totalProtein += entry.getKey().protein*entry.getValue();
+        }
         recipeDao.addRecipe(recipe);
     }
 
