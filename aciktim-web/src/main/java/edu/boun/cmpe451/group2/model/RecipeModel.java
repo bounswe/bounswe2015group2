@@ -26,16 +26,6 @@ import java.util.Map;
 @Scope("request")
 public class RecipeModel {
 
-    public Long id = null;
-    public String name = "";
-    public String pictureAddress = "";
-    public Long ownerID = null;
-    public Long likes = 0L;
-    public List<Comment> commentList = new ArrayList<Comment>();
-    public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
-    public List<Tag> tagList = null;
-    public String description = "";
-
     @Qualifier("recipeDao")
     @Autowired
     private RecipeDao recipeDao = null;
@@ -65,7 +55,7 @@ public class RecipeModel {
      * @param users_id
      * @return arraylist of recipemodels
      */
-    public List<Map<String, Object>> getRecipes(Long users_id) {
+    public List<Recipe> getRecipes(Long users_id) {
         return recipeDao.getRecipes(users_id);
     }
 
@@ -101,7 +91,7 @@ public class RecipeModel {
      * @return recipe object that has the id
      * @throws Exception when there is no recipe of that id
      */
-    public RecipeModel getRecipe(Long recipe_id) throws Exception{
+    public Recipe getRecipe(Long recipe_id) throws Exception{
         return recipeDao.getRecipe(recipe_id);
     }
 }

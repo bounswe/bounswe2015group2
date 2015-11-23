@@ -7,8 +7,7 @@ import java.util.Map;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import edu.boun.cmpe451.group2.model.Ingredient;
-import edu.boun.cmpe451.group2.model.RecipeModel;
+import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -23,7 +22,6 @@ import com.google.gson.Gson;
 
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
-import edu.boun.cmpe451.group2.model.UserModel;
 
 /**
  * API Controller Class
@@ -32,7 +30,7 @@ import edu.boun.cmpe451.group2.model.UserModel;
 @Controller
 @RequestMapping("api")
 @Scope("request")
-public class APIController {
+public class APIController implements ControllerInterface{
 
     @Qualifier("userModel")
     @Autowired
@@ -81,26 +79,28 @@ public class APIController {
     }
 
     @RequestMapping("/getuser")
-    public @ResponseBody UserModel getUser(@RequestParam String api_key){
-        UserModel user = userModel.getUser(api_key);
+    public @ResponseBody User getUser(@RequestParam String api_key){
+        User user = userModel.getUser(api_key);
         return user;
     }
 
     /**
      * Register user to database
-     * @param email     registered email
-     * @param password  password
-     * @param full_name full name
+     * @param user     User object whose email and password fields must be initialized
      * @return
      */
     @RequestMapping("/signup")
     @ResponseBody
-    public String signup(
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam(required = false) String full_name,
-            @RequestParam(required = false) String username) {
+    public String signup(@RequestBody User user) {
 
+        String email = user.email;
+        String password = user.passwd;
+        String full_name = "";
+        if(user.full_name != null)
+            full_name=user.full_name;
+        String username = "";
+        if(user.full_name != null)
+            username=user.username;
         Gson gson = new Gson();
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -133,7 +133,7 @@ public class APIController {
      * @return returns json string
      */
     @RequestMapping("/addrecipe")
-    public String addrecipe(@RequestBody RecipeModel recipe) {
+    public String addrecipe(@RequestBody Recipe recipe) {
         Gson gson = new Gson();
         Map<String, Object> result = new HashMap<String, Object>();
         try {
@@ -192,14 +192,14 @@ public class APIController {
     public @ResponseBody
 
     //TODO: This function needs to return ArrayList<RecipeModel>, but the recipes function in the HomeController requires a List<Map<String, Object>, Find a way to satisfy both APIs.
-    List<Map<String,Object>> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
+    List<Recipe> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
         // todo api_key control
         return recipeModel.getRecipes(users_id);
     }
 
     @RequestMapping("recipe/get")
-    public @ResponseBody
-    RecipeModel getRecipe(@RequestParam String api_key, @RequestParam Long recipe_id) throws Exception {
+    public @ResponseBody Recipe getRecipe
+            (@RequestParam String api_key, @RequestParam Long recipe_id) throws Exception {
         // todo api_key control
         return recipeModel.getRecipe(recipe_id);
     }
