@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import com.sun.javafx.sg.prism.NGShape;
 import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class RecipeController {
             return "redirect:index";
         }
         else {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
 
@@ -69,7 +71,7 @@ public class RecipeController {
             if (action_type.equals("edit")){
                 Long rp_id = Long.parseLong(recipe_id);
                 try {
-                    RecipeModel rm = recipeModel.getRecipe(rp_id);
+                    Recipe rm = recipeModel.getRecipe(rp_id);
                     model.put("existing_recipe_id" , rp_id);
                     model.put("existing_recipe_name" , rm.name);
                     model.put("existing_recipe_description" , rm.description);
@@ -136,7 +138,14 @@ public class RecipeController {
         Long id = Long.parseLong(userModel.getUser(session_id).id);
 
         try {
-            recipeModel.addRecipe(recipe_name,id,null,image_url,description);
+            Recipe r = new Recipe();
+            r.name=recipe_name;
+            r.id = id;
+            r.IngredientAmountMap = null ;
+            r.pictureAddress = image_url;
+            r.description = description;
+            recipeModel.addRecipe(r);
+
             model.put("type", "SUCCESS");
         }catch (Exception e){
             model.put("type", "ERROR");
@@ -153,7 +162,8 @@ public class RecipeController {
             @RequestParam(required = false) String image_url,
             @RequestParam(required = false) String recipe_name,
             @RequestParam(required = false) String description,
-            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+            @CookieValue(value="session_id", defaultValue = "") String session_id,
+            ModelMap model) {
 
 
         System.out.println(recipe_id);
@@ -164,7 +174,20 @@ public class RecipeController {
         Long userId = Long.parseLong(userModel.getUser(session_id).id);
         System.out.println(userId);
 
-        recipeModel.getRecipeDao().updateRecipe(recipe_id, recipe_name, userId,null,image_url,description);
+    try{
+        Recipe r = new Recipe();
+        r.name=recipe_name;
+        r.id = recipe_id;
+        r.IngredientAmountMap = null ;
+        r.pictureAddress = image_url;
+        r.description = description;
+        recipeModel.updateRecipe(r);
+        model.put("type", "SUCCESS");
+    }catch(Exception e){
+        model.put("type", "ERROR");
+
+    }
+
         return "redirect:/recipes";
     }
 

@@ -25,7 +25,7 @@ public class HomeController {
                         @CookieValue(value="session_id", defaultValue = "-1") String session_id) {
 
         if (!session_id.equals("-1")) {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
         }else{
             model.put("full_name", "");
