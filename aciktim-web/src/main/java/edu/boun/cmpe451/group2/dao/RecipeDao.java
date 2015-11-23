@@ -4,11 +4,8 @@ import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.RecipeModel;
 import edu.boun.cmpe451.group2.model.Tag;
 import org.springframework.context.annotation.Scope;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -39,18 +36,46 @@ public class RecipeDao extends BaseDao {
 
     }
 
-    public ArrayList<Recipe> searchRecipes(String name, ArrayList<String> ingridents) {
+    /**
+     * searches on recipes
+     *
+     * @param name
+     * @param ingredients
+     * @return
+     */
+    public ArrayList<Recipe> searchRecipes(String name, ArrayList<Integer> ingredients) {
         String sql = "SELECT * FROM recipes WHERE name LIKE ?";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
         for (Map<String, Object> resultMap : resultList) {
+
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
-            recipeList.add(recipe);
+
+
+            String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
+            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql, recipe.id);
+            boolean all_have = true;
+
+            for (Integer ingredient : ingredients) {
+                boolean is_exists = false;
+
+                for (Map<String, Object> resultMap2 : resultList2) {
+                    if (Integer.parseInt(resultMap2.get("ingredientID").toString()) == ingredient) {
+                        is_exists = true;
+                    }
+                }
+
+                all_have = is_exists;
+            }
+
+            if (all_have)
+                recipeList.add(recipe);
         }
         return recipeList;
     }
+
     /*
 
         String sql = "SELECT * FROM recipes WHERE ownerID = ?";
