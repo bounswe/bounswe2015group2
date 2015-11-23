@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.dao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.Ingredient;
+import edu.boun.cmpe451.group2.model.Recipe;
 import edu.boun.cmpe451.group2.model.RecipeModel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,24 +23,24 @@ public class RecipeDao extends BaseDao {
      * @param users_id id of user whose recipes to be get
      * @return recipe ids and recipe names of a user
      */
-    public List<Map<String, Object>> getRecipes(Long users_id) {
-        String sql = "SELECT * FROM recipes WHERE ownerID = ?";
-
-        return this.jdbcTemplate.queryForList(sql, users_id);
-    }
-    /*
-    public ArrayList<RecipeModel> getRecipes(Long users_id) {
+    public ArrayList<Recipe> getRecipes(Long users_id) {
         String sql = "SELECT id,name FROM recipes WHERE ownerID = ?";
-        ArrayList<RecipeModel> recipeList = new ArrayList<RecipeModel>();
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String,Object>> resultList = this.jdbcTemplate.queryForList(sql,users_id);
         for(Map<String,Object> resultMap: resultList){
-            RecipeModel recipe = new RecipeModel();
+            Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
             recipeList.add(recipe);
         }
         return recipeList;
+
     }
+    /*
+
+        String sql = "SELECT * FROM recipes WHERE ownerID = ?";
+
+        return this.jdbcTemplate.queryForList(sql, users_id);
     */
 
     /**
@@ -47,20 +48,20 @@ public class RecipeDao extends BaseDao {
      * @param id id of the recipe
      * @return recipe (if found)
      */
-    public RecipeModel getRecipe(Long id) throws ExException {
+    public Recipe getRecipe(Long id) throws ExException {
         String sql = "SELECT * FROM recipes WHERE recipes.id = ? ";
 
         Map<String, Object> map = this.jdbcTemplate.queryForMap(sql, id);
         if(map.size()==0){
             throw new ExException(ExError.E_RECIPE_NOT_FOUND);
         }
-        RecipeModel recipeModel = new RecipeModel();
-        recipeModel.id = Long.parseLong(map.get("id").toString());
-        recipeModel.name = map.get("name").toString();
-        recipeModel.pictureAddress = map.get("pictureAddress").toString();
-        recipeModel.ownerID = Long.parseLong(map.get("ownerID").toString());
-        recipeModel.description = map.get("description").toString();
-        recipeModel.likes = Long.parseLong(map.get("likes").toString());
+        Recipe recipe = new Recipe();
+        recipe.id = Long.parseLong(map.get("id").toString());
+        recipe.name = map.get("name").toString();
+        recipe.pictureAddress = map.get("pictureAddress").toString();
+        recipe.ownerID = Long.parseLong(map.get("ownerID").toString());
+        recipe.description = map.get("description").toString();
+        recipe.likes = Long.parseLong(map.get("likes").toString());
 
         String sql2 = "SELECT A.*,B.name as unitName FROM (SELECT * FROM recipeIngredient JOIN ingredients ON ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ) as A JOIN ingredientUnits as B WHERE A.unitID =B.id";
 
@@ -79,9 +80,9 @@ public class RecipeDao extends BaseDao {
             Long amount = Long.parseLong(ingredientEntry.get("amount").toString());
             ingredientMap.put(ingredient,amount);
         }
-        recipeModel.IngredientAmountMap = ingredientMap;
+        recipe.IngredientAmountMap = ingredientMap;
 
-        return recipeModel;
+        return recipe;
     }
 
     /**

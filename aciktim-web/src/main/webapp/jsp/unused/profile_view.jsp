@@ -1,16 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-
-
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/>
-<c:set var="requestURI" value="${pageContext.request.requestURI}" scope="application"/>
+<%@include file="../sub-element/jsp_imports.jsp"%>
 
 <!DOCTYPE html>
 <html>
+<head>
+    <%@include file="../sub-element/imports.jsp"%>
+</head>
+
 <body>
 
 <div class="container">
