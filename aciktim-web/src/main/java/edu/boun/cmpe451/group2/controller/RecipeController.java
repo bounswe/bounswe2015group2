@@ -1,9 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
-import edu.boun.cmpe451.group2.model.Ingredient;
-import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.UserModel;
-import edu.boun.cmpe451.group2.model.RecipeModel;
+import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -59,7 +56,7 @@ public class RecipeController {
             return "redirect:index";
         }
         else {
-            UserModel user = userModel.getUser(session_id);
+            User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
 
