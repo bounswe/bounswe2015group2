@@ -71,19 +71,29 @@ public class RecipeModel {
         recipeDao.deleteRecipe(recipeID);
     }
 
-    public void updateRecipe(Long recipeID, String recipeName, Long ownerID, JsonObject ingredientMapJ, String pictureAddress, String description) throws Exception {
-        if (StringUtil.isEmpty(recipeName))
+    public void updateRecipe(Recipe recipe) throws Exception {
+        if (StringUtil.isEmpty(recipe.getName()))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
-        if (ownerID == null)
+        if (recipe.ownerID == null)
             throw new ExException(ExError.E_NULL_OWNERID);
-        if (StringUtil.isEmpty(pictureAddress))
-            pictureAddress = "";
+        if (StringUtil.isEmpty(recipe.pictureAddress))
+            recipe.pictureAddress = "";
+        if(recipe.getIngredientAmountMap().size() == 0)
+            throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
-        Map<Long, Long> ingredientMap = new HashMap<Long, Long>();
-        for (Map.Entry entry : ingredientMapJ.entrySet()) {
-            ingredientMap.put((Long) entry.getKey(), (Long) entry.getValue());
+        recipe.totalProtein = 0;
+        recipe.totalFat=0;
+        recipe.totalCarb=0;
+        recipe.totalCal=0;
+
+        for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
+            recipe.totalCal += entry.getKey().calories*entry.getValue();
+            recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
+            recipe.totalFat += entry.getKey().fat*entry.getValue();
+            recipe.totalProtein += entry.getKey().protein*entry.getValue();
         }
-        recipeDao.updateRecipe(recipeID, recipeName, ownerID, ingredientMap, pictureAddress, description);
+
+        recipeDao.updateRecipe(recipe);
     }
 
     public RecipeDao getRecipeDao() {
