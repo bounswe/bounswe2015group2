@@ -46,6 +46,7 @@ public class RecipeModel {
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
         recipeDao.addRecipe(recipe);
     }
+
     
     /**
      * returns a list of recipes belong to a user

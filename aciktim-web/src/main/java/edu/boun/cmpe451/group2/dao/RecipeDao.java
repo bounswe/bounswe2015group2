@@ -5,6 +5,7 @@ import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.Recipe;
 import edu.boun.cmpe451.group2.model.RecipeModel;
+import edu.boun.cmpe451.group2.model.Tag;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -88,19 +89,22 @@ public class RecipeDao extends BaseDao {
     /**
      * Adds a recipe with recipeName,ownerID and an ingredient list
      *
-     * @param recipeName    name of the recipe
-     * @param ownerID       user id of the owner of the recipe
-     * @param IngredientMap ingredient list
      */
-    public void addRecipe(String recipeName,Long ownerID,Map<Ingredient,Long> IngredientMap,String pictureAdress,String description){
+    public void addRecipe(Recipe recipe){
         String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description) VALUES(?,?,?,?)";
-        this.jdbcTemplate.update(sql,recipeName,ownerID,pictureAdress,description);
+        this.jdbcTemplate.update(sql,recipe.name,recipe.ownerID,recipe.pictureAddress,recipe.description);
         sql = "SELECT id FROM recipes ORDER BY id DESC LIMIT 1";
         Long recipeID=Long.parseLong(this.jdbcTemplate.queryForMap(sql).get("id").toString());
-        if(IngredientMap.size()>0){
+        if(recipe.IngredientAmountMap.size()>0){
             sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
-            for (Map.Entry entry : IngredientMap.entrySet()) {
+            for (Map.Entry entry : recipe.IngredientAmountMap.entrySet()) {
                 this.jdbcTemplate.update(sql, recipeID, ((Ingredient) (entry.getKey())).id, entry.getValue());
+            }
+        }
+        if(recipe.tagList.size() > 0) {
+            sql = "INSERT INTO recipeTag(recipeID, tag) VALUES(?,?)";
+            for (Tag tag: recipe.tagList) {
+                this.jdbcTemplate.update(sql, recipeID, tag);
             }
         }
     }
