@@ -12,6 +12,7 @@ public class User {
     public String full_name;
     public String username;
     public String api_key;
+    public boolean isInst = false;
 
     public String getId() {
         return id;

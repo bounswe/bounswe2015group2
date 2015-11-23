@@ -47,7 +47,7 @@ public class APIController implements ControllerInterface{
      * @param password password
      * @return
      */
-    @RequestMapping("/login")
+    @RequestMapping(LOGIN_PATH)
     @ResponseBody
     public String login(
             @RequestParam String email,

@@ -56,36 +56,31 @@ public class UserModel {
 
     /**
      * registers the new user
-     *
-     * @param email     - new user's email
-     * @param pwd       - new user's password
-     * @param full_name - new user's full name
-     * @param username  - new user's username
-     * @return String api_key
-     * @throws Exception
+     * @param user user to be registered
+     * @return api_key
+     * @throws Exception when email is empty, when password is empty
      */
-    public String signup (String email, String pwd, String full_name, String username) throws Exception {
-        if (StringUtil.isEmpty(email))
+    public String signup (User user) throws Exception {
+        user.username = user.email;
+        if (StringUtil.isEmpty(user.email))
             throw new ExException(ExError.E_EMAIL_EMPTY);
 
-        if (StringUtil.isEmpty(pwd))
+        if (StringUtil.isEmpty(user.passwd))
             throw new ExException(ExError.E_PWD_EMPTY);
 
-        if (StringUtil.isEmpty(full_name))
-            full_name = "";
+        if (StringUtil.isEmpty(user.full_name))
+            user.full_name = "";
 
-        if (StringUtil.isEmpty(username))
-            username = "";
 
         // checks if email is already registered
-        Map<String, Object> user = userDao.getUserByEmail(email);
+        Map<String, Object> userM = userDao.getUserByEmail(user.email);
 
-        if (user != null)
+        if (userM != null)
             throw new ExException(ExError.E_ALREADY_REGISTERED);
 
-        userDao.addUser(email, pwd, full_name, username);
+        userDao.addUser(user);
 
-        return (String) userDao.getUserByEmail(email).get("api_key");
+        return (String) userDao.getUserByEmail(user.email).get("api_key");
     }
 
     /**
@@ -128,6 +123,7 @@ public class UserModel {
         user.full_name = userMap.get("full_name").toString();
         user.username = userMap.get("username").toString();
         user.api_key = userMap.get("api_key").toString();
+        user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
         return user;
     }
     public UserDao getUserDao() {
