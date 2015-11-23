@@ -61,4 +61,12 @@ public class User {
     public void setApi_key(String api_key) {
         this.api_key = api_key;
     }
+
+    public boolean isInst() {
+        return isInst;
+    }
+
+    public void setIsInst(boolean isInst) {
+        this.isInst = isInst;
+    }
 }

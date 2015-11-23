@@ -105,7 +105,7 @@ public class APIController implements ControllerInterface{
         Map<String, Object> result = new HashMap<String, Object>();
 
         try {
-            String api_key = userModel.signup(email, password, full_name, username);
+            String api_key = userModel.signup(user);
 
             result.put("type", "SUCCESS");
             result.put("content", ExError.S_OK);

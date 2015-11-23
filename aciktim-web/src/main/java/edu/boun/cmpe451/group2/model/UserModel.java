@@ -62,24 +62,31 @@ public class UserModel {
      */
     public String signup (User user) throws Exception {
         user.username = user.email;
+        System.out.println(user.username);
         if (StringUtil.isEmpty(user.email))
             throw new ExException(ExError.E_EMAIL_EMPTY);
+        System.out.println(user.username);
 
         if (StringUtil.isEmpty(user.passwd))
             throw new ExException(ExError.E_PWD_EMPTY);
+        System.out.println(user.username);
 
         if (StringUtil.isEmpty(user.full_name))
             user.full_name = "";
 
+        System.out.println(user.username);
 
         // checks if email is already registered
         Map<String, Object> userM = userDao.getUserByEmail(user.email);
 
+        System.out.println(user.username);
         if (userM != null)
             throw new ExException(ExError.E_ALREADY_REGISTERED);
 
+        System.out.println(user.username);
         userDao.addUser(user);
 
+        System.out.println(user.username);
         return (String) userDao.getUserByEmail(user.email).get("api_key");
     }
 

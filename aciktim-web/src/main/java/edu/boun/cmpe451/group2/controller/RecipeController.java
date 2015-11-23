@@ -1,6 +1,5 @@
 package edu.boun.cmpe451.group2.controller;
 
-import com.sun.javafx.sg.prism.NGShape;
 import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -82,7 +81,7 @@ public class RecipeController {
             }
         }
         model.put("content_bar_selection" , "recipes");
-        return "recipe-views/recipe_form_page";
+        return "recipe-views/recipe_grid";
     }
 
 
@@ -120,7 +119,7 @@ public class RecipeController {
                 }
             }
         }
-        model.put("content_bar_selection" , "recipes");
+        model.put("content_bar_selection" , "create_recipe");
         return "recipe-views/recipe_form_page";
     }
 
