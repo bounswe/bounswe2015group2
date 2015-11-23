@@ -1,19 +1,13 @@
 package edu.boun.cmpe451.group2.android;
 
-import android.app.LoaderManager;
-import android.database.Cursor;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-/**
- * Created by ugur_tombul on 22.11.2015.
- */
-public class SemanticTagActivity extends AppCompatActivity
+public class SemanticTagActivity extends AppCompatActivity {
 
-{
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_semantic_tag);
+        setContentView(R.layout.semantic_tag);
     }
 }

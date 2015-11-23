@@ -69,7 +69,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.boun.cmpe451.group2.android.LoginActivity" />
         </activity>
-
         <activity
             android:name=".RecipeListActivity"
             android:label="@string/title_recipe_list"
@@ -113,9 +112,8 @@
             android:parentActivityName=".RecipeAddActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.SemanticTagActivity" />
+                android:value="edu.boun.cmpe451.group2.android.RecipeAddActivity" />
         </activity>
-
 
 
 
