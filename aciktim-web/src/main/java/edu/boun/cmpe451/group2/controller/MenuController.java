@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Controller
 @Scope("request")
-public class RecipeController {
+public class MenuController {
 
     @Qualifier("userModel")
     @Autowired
@@ -29,27 +29,10 @@ public class RecipeController {
     @Autowired
     private RecipeModel recipeModel = null;
 
-//    @RequestMapping(value = {"/myrecipes"})
-//    public String viewrecipes(
-//            ModelMap model,
-//            @CookieValue(value="session_id", defaultValue = "") String session_id){
-//
-//        if (!session_id.equals("")) {
-//            List<Map<String,Object>> recipes = recipeModel.getRecipes(Long.parseLong(userModel.getUser(session_id).id));
-//
-//            model.put("recipes", recipes);
-//
-//            model.put("full_name", userModel.getUser(session_id).full_name);
-//        }else{
-//            return "redirect:index";
-//        }
-//
-//        model.put("content_bar_selection" , "recipes");
-//        return "recipe-views/recipe_grid";
-//    }
 
-    @RequestMapping(value = {"/recipe/view"})
-    public String recipeview(
+
+    @RequestMapping(value = {"/menu/view"})
+    public String menuview(
             ModelMap model ,
             @RequestParam String action_type,
             @RequestParam (required = false , defaultValue = "-1") String recipe_id,
@@ -87,8 +70,8 @@ public class RecipeController {
     }
 
 
-    @RequestMapping(value = {"/recipe/form"})
-    public String recipeform(
+    @RequestMapping(value = {"/menu/form"})
+    public String menuform(
             ModelMap model ,
             @RequestParam String action_type,
             @RequestParam (required = false , defaultValue = "-1") String recipe_id,
@@ -125,8 +108,8 @@ public class RecipeController {
         return "recipe-views/recipe_form_page";
     }
 
-    @RequestMapping(value = {"/recipe/add" } , method = RequestMethod.POST)
-    public String recipeadd(
+    @RequestMapping(value = {"/menu/add" } , method = RequestMethod.POST)
+    public String menuadd(
             @RequestParam String recipe_name,
             @RequestParam String description,
             @RequestParam String image_url,
@@ -145,13 +128,12 @@ public class RecipeController {
             model.put("type", "ERROR");
 
         }
-
         return "redirect:recipes";
     }
 
 
-    @RequestMapping(value = "recipe/edit")
-    public String recipeedit(
+    @RequestMapping(value = "menu/edit")
+    public String menuedit(
             @RequestParam(required = false) Long recipe_id,
             @RequestParam(required = false) String image_url,
             @RequestParam(required = false) String recipe_name,
@@ -167,12 +149,13 @@ public class RecipeController {
         Long userId = Long.parseLong(userModel.getUser(session_id).id);
         System.out.println(userId);
 
-        recipeModel.getRecipeDao().updateRecipe(recipe_id, recipe_name, userId,null,image_url,description);
+        recipeModel.getRecipeDao().updateRecipe(recipe_id , recipe_name, userId,null,image_url,description);
+
         return "redirect:/recipes";
     }
 
-    @RequestMapping(value = "recipe/delete")
-    public String recipedelete(
+    @RequestMapping(value = "menu/delete")
+    public String menudelete(
             @RequestParam(required = false) Long recipe_id) {
         System.out.println("asd"+recipe_id);
         recipeModel.getRecipeDao().deleteRecipe(recipe_id);

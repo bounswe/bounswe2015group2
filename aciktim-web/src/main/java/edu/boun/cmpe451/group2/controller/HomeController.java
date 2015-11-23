@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import edu.boun.cmpe451.group2.model.RecipeModel;
 import edu.boun.cmpe451.group2.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
 
 @Controller
 @Scope("request")
@@ -18,10 +22,12 @@ public class HomeController {
     private UserModel userModel = null;
 
     @RequestMapping(value = {"/", "/index", "/recipes"})
-    public String index(ModelMap model, @CookieValue(value="session_id", defaultValue = "-1") String session_id) {
+    public String index(ModelMap model,
+                        @CookieValue(value="session_id", defaultValue = "-1") String session_id) {
 
         if (!session_id.equals("-1")) {
             UserModel user = userModel.getUser(session_id);
+            String user_id = user.id;
             model.put("full_name", user.full_name);
         }else{
             model.put("full_name", "");

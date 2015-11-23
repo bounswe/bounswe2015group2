@@ -9,17 +9,20 @@
         </div>
         <div class="col-md-6" id="header-col2">
             <div class="row">
-                <form action="${contextPath}/login" method="post" class="navbar-form">
+                <form action="${contextPath}/user/login" method="post" class="navbar-form">
                     <div class="form-group">
                         <input type="text" name="email" placeholder="Email" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <input type="password" name="password" placeholder="Password" class="form-control">
-                        <button type="submit" class="btn btn-success">Sign in</button>
-                        <a href="signup" class="btn btn-primary">Sign up</a>
+                        <button type="submit" class="btn btn-success">Login</button>
                     </div>
+                    <a href="user/signup" class="btn btn-primary">Sign up</a>
                 </form>
+
+
+
             </div>
             <div class="row">
                 <div class="col-md-12 text-right">

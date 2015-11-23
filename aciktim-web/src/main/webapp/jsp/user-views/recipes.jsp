@@ -42,12 +42,12 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var bad_attempt = ${bad_attempt};
-        console.log("Ballshot");
         if(bad_attempt){
             bootbox.alert("Invalid Credentials", function(){
                 window.location.replace("${contextPath}/index");
             });
         }
+
     })
 </script>
 
