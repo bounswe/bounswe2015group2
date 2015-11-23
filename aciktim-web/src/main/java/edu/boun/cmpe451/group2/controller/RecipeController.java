@@ -45,8 +45,47 @@ public class RecipeController {
 //        return "recipe-views/recipe_grid";
 //    }
 
-    @RequestMapping(value = {"/recipeform"})
-    public String formrecipe(
+    @RequestMapping(value = {"/recipe/view"})
+    public String recipeview(
+            ModelMap model ,
+            @RequestParam String action_type,
+            @RequestParam (required = false , defaultValue = "-1") String recipe_id,
+            @CookieValue(value="session_id" , defaultValue = "") String session_id) {
+
+        if (session_id.equals("")) {
+            return "redirect:index";
+        }
+        else {
+            User user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+            model.put("email", user.email);
+
+            model.put("action_type" , action_type);
+
+            model.put("existing_recipe_name" , "");
+            model.put("existing_recipe_description" , "");
+            model.put("existing_recipe_image_url" , "");
+
+            if (action_type.equals("edit")){
+                Long rp_id = Long.parseLong(recipe_id);
+                try {
+                    Recipe rm = recipeModel.getRecipe(rp_id);
+                    model.put("existing_recipe_id" , rp_id);
+                    model.put("existing_recipe_name" , rm.name);
+                    model.put("existing_recipe_description" , rm.description);
+                    model.put("existing_recipe_image_url" , rm.pictureAddress);
+                }catch (Exception e){
+                    System.out.printf("Bullshit");
+                }
+            }
+        }
+        model.put("content_bar_selection" , "recipes");
+        return "recipe-views/recipe_form_page";
+    }
+
+
+    @RequestMapping(value = {"/recipe/form"})
+    public String recipeform(
             ModelMap model ,
             @RequestParam String action_type,
             @RequestParam (required = false , defaultValue = "-1") String recipe_id,
@@ -84,7 +123,7 @@ public class RecipeController {
     }
 
     @RequestMapping(value = {"/recipe/add" } , method = RequestMethod.POST)
-    public String addrecipe(
+    public String recipeadd(
             @RequestParam String recipe_name,
             @RequestParam String description,
             @RequestParam String image_url,
@@ -97,23 +136,32 @@ public class RecipeController {
         Long id = Long.parseLong(userModel.getUser(session_id).id);
 
         try {
-            recipeModel.addRecipe(recipe_name,id,null,image_url,description);
+            Recipe r = new Recipe();
+            r.name=recipe_name;
+            r.id = id;
+            r.IngredientAmountMap = null ;
+            r.pictureAddress = image_url;
+            r.description = description;
+            recipeModel.addRecipe(r);
+
             model.put("type", "SUCCESS");
         }catch (Exception e){
             model.put("type", "ERROR");
 
         }
+
         return "redirect:recipes";
     }
 
 
     @RequestMapping(value = "recipe/edit")
-    public String editrecipe(
+    public String recipeedit(
             @RequestParam(required = false) Long recipe_id,
             @RequestParam(required = false) String image_url,
             @RequestParam(required = false) String recipe_name,
             @RequestParam(required = false) String description,
-            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+            @CookieValue(value="session_id", defaultValue = "") String session_id,
+            ModelMap model) {
 
 
         System.out.println(recipe_id);
@@ -124,13 +172,25 @@ public class RecipeController {
         Long userId = Long.parseLong(userModel.getUser(session_id).id);
         System.out.println(userId);
 
-        recipeModel.getRecipeDao().updateRecipe(recipe_id , recipe_name, userId,null,image_url,description);
+    try{
+        Recipe r = new Recipe();
+        r.name=recipe_name;
+        r.id = recipe_id;
+        r.IngredientAmountMap = null ;
+        r.pictureAddress = image_url;
+        r.description = description;
+        recipeModel.updateRecipe(r);
+        model.put("type", "SUCCESS");
+    }catch(Exception e){
+        model.put("type", "ERROR");
+
+    }
 
         return "redirect:/recipes";
     }
 
     @RequestMapping(value = "recipe/delete")
-    public String deleterecipe(
+    public String recipedelete(
             @RequestParam(required = false) Long recipe_id) {
         System.out.println("asd"+recipe_id);
         recipeModel.getRecipeDao().deleteRecipe(recipe_id);
