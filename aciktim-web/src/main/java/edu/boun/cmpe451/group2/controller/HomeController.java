@@ -27,7 +27,6 @@ public class HomeController {
 
         if (!session_id.equals("-1")) {
             UserModel user = userModel.getUser(session_id);
-            String user_id = user.id;
             model.put("full_name", user.full_name);
         }else{
             model.put("full_name", "");
