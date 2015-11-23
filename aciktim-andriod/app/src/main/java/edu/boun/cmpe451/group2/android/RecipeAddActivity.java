@@ -67,7 +67,7 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_recipe_add);
         setupActionBar();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -84,10 +84,10 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
                 return false;
             }
         });
-        Button b =(Button) findViewById(R.id.button);
-         b.setOnClickListener(new OnClickListener() {
+        Button b =(Button) findViewById(R.id.semantic_tag_add_button);
+        b.setOnClickListener(new OnClickListener() {
              public void onClick(View view) {
-                 startActivity(new Intent("edu.boun.cmpe451.group2.android.Semantic Tag"));
+                 startActivity(new Intent(getApplicationContext(),SemanticTagActivity.class));
              }
          });
 
