@@ -24,13 +24,19 @@ public class RecipeDao extends BaseDao {
      * @return recipe ids and recipe names of a user
      */
     public ArrayList<Recipe> getRecipes(Long users_id) {
-        String sql = "SELECT id,name FROM recipes WHERE ownerID = ?";
+        String sql = "SELECT id,name,pictureAddress,description,totalFat,totalCarb,totalProtein,totalCal FROM recipes WHERE ownerID = ?";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, users_id);
         for (Map<String, Object> resultMap : resultList) {
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
+            recipe.pictureAddress = resultMap.get("pictureAdress").toString();
+            recipe.description = resultMap.get("description").toString();
+            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
+            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
+            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
+            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
             recipeList.add(recipe);
         }
         return recipeList;

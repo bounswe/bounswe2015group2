@@ -124,6 +124,10 @@ public class RecipeModel {
         recipeDao.updateRecipe(recipe);
     }
 
+    public void getRecommendations(User user) {
+        recipeDao.getRecommendations(user);
+    }
+
     public RecipeDao getRecipeDao() {
         return recipeDao;
     }
