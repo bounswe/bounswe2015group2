@@ -5,6 +5,7 @@ import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.Ingredient;
 import edu.boun.cmpe451.group2.model.Recipe;
 import edu.boun.cmpe451.group2.model.Tag;
+import edu.boun.cmpe451.group2.model.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -198,5 +199,40 @@ public class RecipeDao extends BaseDao {
                 this.jdbcTemplate.update(sql, recipe.id, ((Ingredient) (entry.getKey())).id, entry.getValue());
             }
         }
+    }
+    public List<Map<String, Object>> getRecommendations(User user) {
+        Long fat = 0L;
+        Long carb = 0L;
+        Long protein=0L;
+        ArrayList<Long> recipe = new ArrayList<Long>();
+        String sql = "SELECT recipeID from dailyConsumption where userID = ?";
+        List<Map<String, Object>> recipes = this.jdbcTemplate.queryForList(sql, user.id);
+        for(Map<String,Object> map: recipes) {
+            recipe.add(Long.parseLong(map.get("recipeID").toString()));
+        }
+        for(Long rec: recipe) {
+            sql = "SELECT totalFat, totalCarb, totalProtein, totalCal where id = ?";
+            List<Map<String,Object>> nutValues = this.jdbcTemplate.queryForList(sql,rec);
+            for(Map<String,Object> map: nutValues) {
+                fat+=Long.parseLong(map.get("totalFat").toString());
+                carb+=Long.parseLong(map.get("totalCarb").toString());
+                protein+=Long.parseLong(map.get("totalProtein").toString());
+            }
+        }
+        double recFat = (double)70/430;
+        double recCarb = (double)310/430;
+        double recProtein = (double)50/430;
+
+        double fatPerc = ((double)fat/(fat + carb + protein))/recFat;
+        double carbPerc = ((double)carb/(fat + carb + protein))/recCarb;
+        double proteinPerc = ((double)protein/(fat + carb + protein))/recProtein;
+
+        double leastMin=Math.min(fatPerc, Math.min(carbPerc, proteinPerc));
+        String min = "";
+        if(leastMin == fatPerc) {min = "totalFat";}
+        else if(leastMin == carbPerc) {min = "totalCarb";}
+        else {min = "totalProtein";}
+        sql = "SELECT TOP 5 recipeID order by desc ?/(totalFat+totalCarb+totalProtein)";
+        return this.jdbcTemplate.queryForList(sql,min);
     }
 }
