@@ -58,7 +58,7 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -70,20 +70,11 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
         setContentView(R.layout.activity_recipe_add);
         setupActionBar();
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (EditText) findViewById(R.id.recipe_add_name_text);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+        mPasswordView = (EditText) findViewById(R.id.recipe_add_description_text);
+
         Button b =(Button) findViewById(R.id.semantic_tag_add_button);
         b.setOnClickListener(new OnClickListener() {
              public void onClick(View view) {
@@ -91,13 +82,8 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
              }
          });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        Button mEmailSignInButton = (Button) findViewById(R.id.recipe_add_button);
+
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -165,62 +151,6 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
-        }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
 
     /**
      * Shows the progress UI and hides the login form.
@@ -304,12 +234,7 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
 
 
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(RecipeAddActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
     }
 
     /**
