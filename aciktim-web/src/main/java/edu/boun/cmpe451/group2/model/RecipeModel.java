@@ -124,8 +124,8 @@ public class RecipeModel {
         recipeDao.updateRecipe(recipe);
     }
 
-    public void getRecommendations(User user) {
-        recipeDao.getRecommendations(user);
+    public List<Map<String, Object>> getRecommendations(User user) {
+        return recipeDao.getRecommendations(user);
     }
 
     public RecipeDao getRecipeDao() {

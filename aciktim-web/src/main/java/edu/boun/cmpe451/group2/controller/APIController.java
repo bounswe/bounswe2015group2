@@ -1,10 +1,10 @@
 package edu.boun.cmpe451.group2.controller;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import edu.boun.cmpe451.group2.model.*;
@@ -200,6 +200,39 @@ public class APIController implements ControllerInterface{
     @RequestMapping("recipe/get")
     public @ResponseBody Recipe getRecipe(@RequestParam Long recipe_id) throws Exception {
         return recipeModel.getRecipe(recipe_id);
+    }
+
+    @RequestMapping(RECIPE_SVC_PATH + "/update")
+    public String updateRecipe(@RequestBody Recipe recipe) {
+        Gson gson = new Gson();
+        Map<String, Object> result = new HashMap<String, Object>();
+        try {
+            recipeModel.updateRecipe(recipe);
+            result.put("type","SUCCESS");
+            result.put("content","Recipe Added");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            if (e instanceof ExException)
+                result.put("content", ((ExException) e).getErrCode());
+            else
+                result.put("content", ExError.E_UNKNOWN);
+
+            return gson.toJson(result);
+        }
+        return gson.toJson(result);
+    }
+
+    @RequestMapping(USER_SVC_PATH + "/recommendations")
+    public List<Map<String, Object>> getRecommendations(@RequestBody User user) {
+
+        try {
+            recipeModel.getRecommendations(user);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return recipeModel.getRecommendations(user);
     }
 
     /**
