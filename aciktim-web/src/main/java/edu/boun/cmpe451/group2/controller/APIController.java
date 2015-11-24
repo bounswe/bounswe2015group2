@@ -40,6 +40,9 @@ public class APIController implements ControllerInterface{
     @Autowired
     private RecipeModel recipeModel = null;
 
+    @Qualifier("menuModel")
+    @Autowired
+    private MenuModel menuModel = null;
     /**
      * Checks login
      *
@@ -197,5 +200,84 @@ public class APIController implements ControllerInterface{
     @RequestMapping("recipe/get")
     public @ResponseBody Recipe getRecipe(@RequestParam Long recipe_id) throws Exception {
         return recipeModel.getRecipe(recipe_id);
+    }
+
+    /**
+     * default search function
+     * @param name name of the recipe
+     * @return an arraylist of recipe object
+     */
+    @RequestMapping("/search")
+    public @ResponseBody ArrayList<Recipe> search(@RequestParam String name){
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        try {
+            recipes = recipeModel.searchRecipes(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return recipes;
+    }
+
+    /**
+     * advanced search
+     * filters the results by the given ingredient names
+     * this filter has AND relationship between the ingredient names
+     * @param name name of the recipe
+     * @param ingrNames ingredient names to be included in the recipe
+     * @return an array list of recipes that satisfies the criteria
+     */
+    @RequestMapping("/advancedSearch")
+    public @ResponseBody ArrayList<Recipe> search(@RequestParam String name,@RequestParam ArrayList<String> ingrNames){
+        ArrayList<Recipe> result = new ArrayList<Recipe>();
+        try {
+            result = recipeModel.searchRecipes(name,ingrNames);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * adds a menu
+     * @param menu menu to be added
+     * @return type and content of the result in a hashmap
+     */
+    @RequestMapping(USER_SVC_PATH+"/addMenu")
+    public String addMenu(@RequestParam Menu menu){
+        Gson gson = new Gson();
+        Map<String,Object> result = new HashMap<String, Object>();
+        try {
+            menuModel.AddMenu(menu);
+            result.put("type","SUCCESS");
+            result.put("content","Menu Added!");
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+
+            result.put("type", "ERROR");
+
+            if (e instanceof ExException)
+                result.put("content", ((ExException) e).getErrCode());
+            else
+                result.put("content", ExError.E_UNKNOWN);
+        }
+        return gson.toJson(result);
+    }
+
+    /**
+     * gets menus of the user
+     * @param api_key api_key of the user
+     * @return a hashmap of long and menu (keys are ids, values are menues)
+     */
+    @RequestMapping(USER_SVC_PATH+"/getMenus")
+    public @ResponseBody HashMap<Long,Menu> getMenusByApiKey(@RequestParam String api_key){
+        HashMap<Long,Menu> menus = new HashMap<Long,Menu>();
+        try{
+            menus = menuModel.GetMenusByApiKey(api_key);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return menus;
     }
 }
