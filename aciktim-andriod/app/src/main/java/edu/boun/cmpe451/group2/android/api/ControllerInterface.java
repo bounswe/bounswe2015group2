@@ -1,9 +1,5 @@
-package edu.boun.cmpe451.group2.controller;
+package edu.boun.cmpe451.group2.android.api;
 
-
-import edu.boun.cmpe451.group2.model.Menu;
-import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;

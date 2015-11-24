@@ -15,13 +15,6 @@
 
     <div class="container" id="sign-up">
         <div class="container">
-            <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#">Regular User</a></li>
-                <li role="presentation"><a href="#">Institutional User</a></li>
-            </ul>
-        </div>
-
-        <div class="container">
 
             <c:if test="${type == 'ERROR'}">
                 <div class="alert alert-danger">
@@ -31,7 +24,7 @@
             <!-- ${type} -->
 
 
-            <form action="${contextPath}/adduser" method="post" class="form-group">
+            <form action="${contextPath}/user/add" method="post" class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">First Name : </span>
                     <input type="text" name="first_name" class="form-control" placeholder="First Name" aria-describedby="basic-addon1">
@@ -63,13 +56,16 @@
                 </div>
 
                 <div class="input-group">
-                    <button type="submit" class="btn btn-success">Register</button>
+                    <span class="input-group-addon">Institutional User? </span>
+                    <input type="checkbox" name="is_institution" aria-describedby="basic-addon1">
                 </div>
 
+                <div class="input-group">
+                    <button type="submit" class="btn btn-success">Register</button>
+                </div>
             </form>
         </div>
     </div>
-
 
 </div>
 

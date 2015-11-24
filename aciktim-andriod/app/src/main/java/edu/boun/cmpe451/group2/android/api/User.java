@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.model;
+package edu.boun.cmpe451.group2.android.api;
 
 /**
  * This class includes all attributes of a User

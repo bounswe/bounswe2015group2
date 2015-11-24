@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.dao;
 import java.util.List;
 import java.util.Map;
 
+import edu.boun.cmpe451.group2.model.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -36,30 +37,15 @@ public class UserDao extends BaseDao {
     }
 
     /**
-     * Adds a new user
-     *
-     * @param email  - user's email address
-     * @param passwd - users's password
+     * adds user to the db
+     * @param user user to be added
      */
-    public void addUser(String email, String passwd) {
-        String sql = "INSERT INTO users(email, passwd) VALUES(?, ?)";
+    public void addUser(User user) {
+        String sql = "INSERT INTO users(email, passwd,full_name,username,isInst,api_key) VALUES(?,?,?,?,?,?)";
 
-        this.jdbcTemplate.update(sql, email, Security.md5(passwd));
+        this.jdbcTemplate.update(sql, user.email, Security.md5(user.passwd),user.full_name,user.username,user.isInst, Security.randomKey());
     }
 
-    /**
-     * Adds a new user
-     *
-     * @param email     - user's email address
-     * @param passwd    - users's password
-     * @param full_name - user's full name
-     * @param full_name - user's username
-     */
-    public void addUser(String email, String passwd, String full_name, String username) {
-        String sql = "INSERT INTO users(email, passwd, full_name, username, api_key) VALUES(?, ?, ?, ?, ?)";
-
-        this.jdbcTemplate.update(sql, email, Security.md5(passwd), full_name, username, Security.randomKey());
-    }
 
     /**
      * Updates user

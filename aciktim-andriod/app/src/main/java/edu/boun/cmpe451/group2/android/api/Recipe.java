@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.model;
+package edu.boun.cmpe451.group2.android.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
