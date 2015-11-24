@@ -38,6 +38,28 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recipe_add_ingredient_text"
+                    android:hint="Ingredient Name"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_weight="1" />
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADD INGREDIENT"
+                    android:id="@+id/recipe_add_ingredient_button" />
+            </LinearLayout>
+
             <Button android:id="@+id/recipe_add_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" android:text="ADD RECIPE"

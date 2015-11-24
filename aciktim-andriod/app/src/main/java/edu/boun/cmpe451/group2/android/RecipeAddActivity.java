@@ -60,6 +60,10 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
+    private EditText ingredientName;
+    private Button mEmailSignInButton;
+    private Button ingredientAddButton;
+    private Button b;
     private View mProgressView;
     private View mLoginFormView;
 
@@ -75,14 +79,17 @@ public class RecipeAddActivity extends AppCompatActivity implements LoaderCallba
 
         mPasswordView = (EditText) findViewById(R.id.recipe_add_description_text);
 
-        Button b =(Button) findViewById(R.id.semantic_tag_add_button);
+        ingredientName = (EditText) findViewById(R.id.recipe_add_ingredient_text);
+        ingredientAddButton = (Button) findViewById(R.id.recipe_add_ingredient_button);
+
+        b =(Button) findViewById(R.id.semantic_tag_add_button);
         b.setOnClickListener(new OnClickListener() {
              public void onClick(View view) {
-                 startActivity(new Intent(getApplicationContext(),SemanticTagActivity.class));
+                 startActivity(new Intent(getApplicationContext(), SemanticTagActivity.class));
              }
          });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.recipe_add_button);
+        mEmailSignInButton = (Button) findViewById(R.id.recipe_add_button);
 
 
         mLoginFormView = findViewById(R.id.login_form);
