@@ -27,4 +27,8 @@ public class ProfileViewActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+
+
+
 }

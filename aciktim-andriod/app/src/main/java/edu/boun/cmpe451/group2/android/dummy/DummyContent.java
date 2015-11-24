@@ -23,31 +23,16 @@ public class DummyContent {
      */
     public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
-    private static final int COUNT = 25;
-
     static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
-        }
+        // Add 3 sample items.
+        addItem(new DummyItem("1", "Item 1"));
+        addItem(new DummyItem("2", "Item 2"));
+        addItem(new DummyItem("3", "Item 3"));
     }
 
     private static void addItem(DummyItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
-    }
-
-    private static DummyItem createDummyItem(int position) {
-        return new DummyItem(String.valueOf(position), "Item " + position, makeDetails(position));
-    }
-
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
     }
 
     /**
@@ -56,12 +41,10 @@ public class DummyContent {
     public static class DummyItem {
         public String id;
         public String content;
-        public String details;
 
-        public DummyItem(String id, String content, String details) {
+        public DummyItem(String id, String content) {
             this.id = id;
             this.content = content;
-            this.details = details;
         }
 
         @Override
