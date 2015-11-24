@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.model;
+package edu.boun.cmpe451.group2.client;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;

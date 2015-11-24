@@ -2,10 +2,10 @@ package edu.boun.cmpe451.group2.dao;
 
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
-import edu.boun.cmpe451.group2.model.Ingredient;
-import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.Tag;
-import edu.boun.cmpe451.group2.model.User;
+import edu.boun.cmpe451.group2.client.Ingredient;
+import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.Tag;
+import edu.boun.cmpe451.group2.client.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -256,7 +256,7 @@ public class RecipeDao extends BaseDao {
             recipe.add(Long.parseLong(map.get("recipeID").toString()));
         }
         for(Long rec: recipe) {
-            sql = "SELECT totalFat, totalCarb, totalProtein, totalCal where id = ?";
+            sql = "SELECT totalFat, totalCarb, totalProtein, totalCal from recipes where id = ?";
             List<Map<String,Object>> nutValues = this.jdbcTemplate.queryForList(sql,rec);
             for(Map<String,Object> map: nutValues) {
                 fat+=Long.parseLong(map.get("totalFat").toString());

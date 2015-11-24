@@ -1,6 +1,9 @@
 package edu.boun.cmpe451.group2.controller;
 
-import com.google.gson.Gson;
+import edu.boun.cmpe451.group2.client.Ingredient;
+import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.Tag;
+import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Scope("request")
