@@ -4,6 +4,4 @@ public class Comment {
     public Long id = null;
     public Long userID= null;
     public String comment = "";
-
-
 }
