@@ -34,6 +34,8 @@
             $(".search_group").css("display","none");
         }else if(selection == "recipes"){
             $(".search_group").css("display","");
+        }else if(selection == "create_recipe"){
+            $(".search_group").css("display","");
         }else{
             $(".search_group").css("display","");
             $("#content_bar_advanced").css("display","none");

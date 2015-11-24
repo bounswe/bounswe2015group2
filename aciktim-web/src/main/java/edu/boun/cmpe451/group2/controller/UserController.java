@@ -90,16 +90,32 @@ public class UserController {
             @RequestParam String confirm_password,
             @RequestParam String first_name,
             @RequestParam String last_name,
+            @RequestParam (required = false, defaultValue = "false") Boolean is_institution,
+
             ModelMap model) {
+
+        System.out.println(is_institution);
+        System.out.println(password);
+        System.out.println(confirm_password);
+
         if (!email.equals(confirm_email) || !password.equals(confirm_password)) {
             model.put("type", "ERROR");
         }
 
+        System.out.println("yarrak");
+
         try {
-            userModel.signup(email, password, first_name.concat(" ").concat(last_name), email);
+            User user = new User();
+            user.setFull_name(first_name.concat(" ").concat(last_name));
+            user.setEmail(email);
+            user.setPasswd(password);
+            user.setIsInst(is_institution);
+            userModel.signup(user);
 
             model.put("type", "SUCCESS");
         } catch (Exception e) {
+            System.out.println("wut?");
+            e.printStackTrace();
             model.put("type", "ERROR");
         }
         model.put("content_bar_selection" , "none");

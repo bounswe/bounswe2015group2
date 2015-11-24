@@ -75,12 +75,11 @@ public class RecipeController {
                     model.put("existing_recipe_description" , rm.description);
                     model.put("existing_recipe_image_url" , rm.pictureAddress);
                 }catch (Exception e){
-                    System.out.printf("Bullshit");
                 }
             }
         }
         model.put("content_bar_selection" , "recipes");
-        return "recipe-views/recipe_form_page";
+        return "recipe-views/recipe_grid";
     }
 
 
@@ -114,11 +113,10 @@ public class RecipeController {
                     model.put("existing_recipe_description" , rm.description);
                     model.put("existing_recipe_image_url" , rm.pictureAddress);
                 }catch (Exception e){
-                    System.out.printf("Bullshit");
                 }
             }
         }
-        model.put("content_bar_selection" , "recipes");
+        model.put("content_bar_selection" , "create_recipe");
         return "recipe-views/recipe_form_page";
     }
 
@@ -164,14 +162,8 @@ public class RecipeController {
             ModelMap model) {
 
 
-        System.out.println(recipe_id);
-        System.out.println(image_url);
-        System.out.println(recipe_name);
-        System.out.println(description);
 
         Long userId = Long.parseLong(userModel.getUser(session_id).id);
-        System.out.println(userId);
-
     try{
         Recipe r = new Recipe();
         r.name=recipe_name;
@@ -192,7 +184,6 @@ public class RecipeController {
     @RequestMapping(value = "recipe/delete")
     public String recipedelete(
             @RequestParam(required = false) Long recipe_id) {
-        System.out.println("asd"+recipe_id);
         recipeModel.getRecipeDao().deleteRecipe(recipe_id);
         return "redirect:/recipes";
     }

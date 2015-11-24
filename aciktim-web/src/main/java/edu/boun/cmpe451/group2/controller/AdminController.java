@@ -79,8 +79,8 @@ public class AdminController {
 
         if (id != null)
             userModel.getUserDao().updateUser(id, email, passwd, full_name, username);
-        else
-            userModel.getUserDao().addUser(email, passwd);
+//        else
+//            userModel.getUserDao().addUser(email, passwd);
 
         return "redirect:/admin/index";
     }

@@ -55,9 +55,9 @@ public interface ControllerInterface {
     String deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
-    List<Recipe> getRecipes(@Query(API_KEY_PARAMETER) String api_key, @Query(USER_ID_PARAMETER) Long users_id);
+    List<Recipe> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
 
     @GET(RECIPE_SVC_PATH)
-    Recipe getRecipe(@Query(API_KEY_PARAMETER)String api_key, @Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
+    Recipe getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
 }
