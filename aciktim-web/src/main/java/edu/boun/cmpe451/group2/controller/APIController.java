@@ -99,8 +99,9 @@ public class APIController implements ControllerInterface{
         if(user.full_name != null)
             full_name=user.full_name;
         String username = "";
-        if(user.full_name != null)
+        if(user.username != null)
             username=user.username;
+        boolean isInst = user.isInst;
         Gson gson = new Gson();
         Map<String, Object> result = new HashMap<String, Object>();
 
@@ -189,18 +190,12 @@ public class APIController implements ControllerInterface{
     }
 
     @RequestMapping("recipe/list")
-    public @ResponseBody
-
-    //TODO: This function needs to return ArrayList<RecipeModel>, but the recipes function in the HomeController requires a List<Map<String, Object>, Find a way to satisfy both APIs.
-    List<Recipe> getRecipes(@RequestParam String api_key, @RequestParam Long users_id) {
-        // todo api_key control
+    public @ResponseBody List<Recipe> getRecipes(@RequestParam Long users_id) {
         return recipeModel.getRecipes(users_id);
     }
 
     @RequestMapping("recipe/get")
-    public @ResponseBody Recipe getRecipe
-            (@RequestParam String api_key, @RequestParam Long recipe_id) throws Exception {
-        // todo api_key control
+    public @ResponseBody Recipe getRecipe(@RequestParam Long recipe_id) throws Exception {
         return recipeModel.getRecipe(recipe_id);
     }
 }
