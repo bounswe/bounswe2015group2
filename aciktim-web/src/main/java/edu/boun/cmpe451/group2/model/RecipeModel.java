@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,33 @@ public class RecipeModel {
     @Autowired
     private RecipeDao recipeDao = null;
 
+    /**
+     * default search function
+     * @param name name of the recipe
+     * @return returns a list of recipes
+     * @throws ExException when the name is empty or null
+     */
+    public ArrayList<Recipe> searchRecipes(String name) throws ExException{
+        if(name==null || StringUtil.isEmpty(name)){
+            throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
+        }
+        return recipeDao.searchRecipes(name);
+    }
+
+    /**
+     * advanced search function by ingredient list filter
+     * @param name name of the recipe
+     * @param ingredients names of the ingredients
+     * @return a list of recipes that contains all the ingredients
+     * @throws ExException when the list is null or empty
+     */
+    public ArrayList<Recipe> searchRecipes(String name,ArrayList<String> ingredients) throws ExException{
+        if(ingredients==null || ingredients.size() == 0){
+            throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
+        }
+
+        return recipeDao.searchRecipes(name,ingredients);
+    }
     /**
      * controls the recipe and sends it to the dao to be added to the db
      * @param recipe recipe to be added

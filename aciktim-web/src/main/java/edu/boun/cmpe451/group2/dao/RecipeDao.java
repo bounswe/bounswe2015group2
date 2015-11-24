@@ -39,12 +39,14 @@ public class RecipeDao extends BaseDao {
 
     /**
      * searches on recipes
-     *
-     * @param name
-     * @param ingredients
+     * first it searches the recipes by name,
+     * then it searches the ingredients that matches the given strings
+     * ingredient list has AND relationship
+     * @param name name of the recipe
+     * @param ingredients names of ingredients
      * @return
      */
-    public ArrayList<Recipe> searchRecipes(String name, ArrayList<Integer> ingredients) {
+    public ArrayList<Recipe> searchRecipes(String name, ArrayList<String> ingredients) {
         String sql = "SELECT * FROM recipes WHERE name LIKE ?";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
@@ -53,22 +55,31 @@ public class RecipeDao extends BaseDao {
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
-
+            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
+            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
+            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
+            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
 
             String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
             List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql, recipe.id);
             boolean all_have = true;
 
-            for (Integer ingredient : ingredients) {
+            for (String ingredientName : ingredients) {
                 boolean is_exists = false;
-
+                String sqlSearchIngr="SELECT * FROM Ingredients WHERE name LIKE ? ";
+                List<Map<String,Object>> ingredientsFound = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
+                ArrayList<Integer> ids = new ArrayList<Integer>();
+                for(Map<String,Object> rows: ingredientsFound){
+                    ids.add(Integer.parseInt(rows.get("id").toString()));
+                }
                 for (Map<String, Object> resultMap2 : resultList2) {
-                    if (Integer.parseInt(resultMap2.get("ingredientID").toString()) == ingredient) {
+                    int id = Integer.parseInt(resultMap2.get("ingredientID").toString());
+                    if (ids.contains(id)) {
                         is_exists = true;
                     }
                 }
 
-                all_have = is_exists;
+                all_have = all_have && is_exists;
             }
 
             if (all_have)
@@ -77,6 +88,29 @@ public class RecipeDao extends BaseDao {
         return recipeList;
     }
 
+    /**
+     * default search function
+     * @param name name of the recipe
+     * @return recipe list
+     */
+    public ArrayList<Recipe> searchRecipes(String name) {
+        String sql = "SELECT * FROM recipes WHERE name LIKE ?";
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+        List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
+        for (Map<String, Object> resultMap : resultList) {
+
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
+            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
+            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
+            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
+
+            recipeList.add(recipe);
+        }
+        return recipeList;
+    }
     /*
 
         String sql = "SELECT * FROM recipes WHERE ownerID = ?";
@@ -127,7 +161,8 @@ public class RecipeDao extends BaseDao {
     }
 
     /**
-     * Adds a recipe with recipeName,ownerID and an ingredient list
+     * adds a recipe to the db
+     * @param recipe recipe to be added
      */
     public void addRecipe(Recipe recipe){
         String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description," +
@@ -177,6 +212,10 @@ public class RecipeDao extends BaseDao {
         this.jdbcTemplate.update(sql, recipeID);
     }
 
+    /**
+     * updates a recipe
+     * @param recipe recipe to be added
+     */
     public void updateRecipe(Recipe recipe) {
         String sql = "UPDATE recipes SET pictureAddress = ?, name = ? , ownerID = ?, description = ?," +
                 "totalFat = ?, totalCarb = ?, totalProtein = ?, totalCal = ? WHERE id = ?";
