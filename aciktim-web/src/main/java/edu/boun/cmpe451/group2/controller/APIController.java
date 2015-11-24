@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -217,5 +218,17 @@ public class APIController implements ControllerInterface{
             return gson.toJson(result);
         }
         return gson.toJson(result);
+    }
+
+    @RequestMapping(USER_SVC_PATH + "/recommendations")
+    public List<Map<String, Object>> getRecommendations(@RequestBody User user) {
+
+        try {
+            recipeModel.getRecommendations(user);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return recipeModel.getRecommendations(user);
     }
 }
