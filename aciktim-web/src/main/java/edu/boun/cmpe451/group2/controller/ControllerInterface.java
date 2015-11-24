@@ -1,17 +1,17 @@
 package edu.boun.cmpe451.group2.controller;
 
 
+import edu.boun.cmpe451.group2.model.Menu;
 import edu.boun.cmpe451.group2.model.Recipe;
 import edu.boun.cmpe451.group2.model.User;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.FormUrlEncoded;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Query;
+import retrofit.http.*;
+
 /**
  * This class includes all documentation about the API
  * extensive documentation should be written about the functionality of every method
@@ -59,5 +59,23 @@ public interface ControllerInterface {
 
     @GET(RECIPE_SVC_PATH)
     Recipe getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
+
+    @PUT(RECIPE_SVC_PATH + "/update")
+    String updateRecipe(@Body Recipe recipe);
+
+    @GET(USER_SVC_PATH + "/recommendations")
+    List<Map<String, Object>> getRecommendations(@Body User user);
+
+    @GET("/search")
+    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
+
+    @GET("/advancedSearch")
+    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
+
+    @POST(USER_SVC_PATH+"/addMenu")
+    String addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
+
+    @GET(USER_SVC_PATH+"/getMenus")
+    HashMap<Long,Menu> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
 
 }
