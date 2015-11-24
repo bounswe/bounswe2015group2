@@ -3,7 +3,7 @@ package edu.boun.cmpe451.group2.dao;
 import java.util.List;
 import java.util.Map;
 
-import edu.boun.cmpe451.group2.model.User;
+import edu.boun.cmpe451.group2.client.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
