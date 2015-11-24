@@ -256,7 +256,7 @@ public class RecipeDao extends BaseDao {
             recipe.add(Long.parseLong(map.get("recipeID").toString()));
         }
         for(Long rec: recipe) {
-            sql = "SELECT totalFat, totalCarb, totalProtein, totalCal where id = ?";
+            sql = "SELECT totalFat, totalCarb, totalProtein, totalCal from recipes where id = ?";
             List<Map<String,Object>> nutValues = this.jdbcTemplate.queryForList(sql,rec);
             for(Map<String,Object> map: nutValues) {
                 fat+=Long.parseLong(map.get("totalFat").toString());
