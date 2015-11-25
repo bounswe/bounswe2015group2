@@ -121,10 +121,31 @@ public class RecipeDao extends BaseDao {
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
-            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
-            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
-            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
-            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
+
+            Object pictureAddress = resultMap.get("pictureAddress");
+            if(pictureAddress != null)
+                recipe.pictureAddress = pictureAddress.toString();
+
+            Object description = resultMap.get("description");
+            if(description != null)
+                recipe.description = description.toString();
+
+
+            Object totalFat = resultMap.get("totalFat");
+            if(totalFat != null)
+                recipe.totalFat = Double.parseDouble(totalFat.toString());
+
+            Object totalCarb = resultMap.get("totalCarb");
+            if(totalCarb != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb.toString());
+
+            Object totalProtein = resultMap.get("totalProtein");
+            if(totalProtein != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein.toString());
+
+            Object totalCal = resultMap.get("totalCal");
+            if(totalCal != null)
+                recipe.totalCal = Double.parseDouble(totalCal.toString());
 
             recipeList.add(recipe);
         }

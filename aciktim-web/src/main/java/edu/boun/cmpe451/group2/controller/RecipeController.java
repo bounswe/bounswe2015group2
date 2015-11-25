@@ -52,6 +52,21 @@ public class RecipeController {
 
     }
 
+    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
+    public String searchRecipe(
+            @RequestParam String search_keyword,
+            ModelMap model) {
+
+        try {
+            List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+            model.put("recipeResults", recipeResults);
+        } catch (ExException e) {
+            e.printStackTrace();
+        }
+        model.put("content_bar_selection","recipes");
+        return "user-views/recipes";
+    }
+
     @RequestMapping(value = {"/recipe/view"})
     public String recipeview(
             ModelMap model ,
