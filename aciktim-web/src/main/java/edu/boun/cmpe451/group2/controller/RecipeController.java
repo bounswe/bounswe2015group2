@@ -32,24 +32,28 @@ public class RecipeController {
     @Autowired
     private RecipeModel recipeModel = null;
 
-//    @RequestMapping(value = {"/myrecipes"})
-//    public String viewrecipes(
-//            ModelMap model,
-//            @CookieValue(value="session_id", defaultValue = "") String session_id){
-//
-//        if (!session_id.equals("")) {
+
+    @RequestMapping(value = {"/recipes"})
+    public String viewrecipes(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id){
+
+        if (session_id.equals("")) {
+            return "redirect:index";
+        }else{
 //            List<Map<String,Object>> recipes = recipeModel.getRecipes(Long.parseLong(userModel.getUser(session_id).id));
-//
 //            model.put("recipes", recipes);
-//
 //            model.put("full_name", userModel.getUser(session_id).full_name);
-//        }else{
-//            return "redirect:index";
-//        }
-//
-//        model.put("content_bar_selection" , "recipes");
-//        return "recipe-views/recipe_grid";
-//    }
+
+            User user = userModel.getUser(session_id);
+            List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));
+            model.put("recipes", recipes);
+            model.put("content_bar_selection" , "recipes");
+
+            return "user-views/recipes";
+        }
+
+    }
 
     @RequestMapping(value = {"/recipe/view"})
     public String recipeview(
@@ -127,6 +131,7 @@ public class RecipeController {
         model.put("content_bar_selection" , "create_recipe");
         return "recipe-views/recipe_form_page";
     }
+
 
     @RequestMapping(value = {"/recipe/add" } , method = RequestMethod.POST)
     public String recipeadd(

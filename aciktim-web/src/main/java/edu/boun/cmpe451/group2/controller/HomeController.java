@@ -18,7 +18,7 @@ public class HomeController {
     @Autowired
     private UserModel userModel = null;
 
-    @RequestMapping(value = {"/", "/index", "/recipes"})
+    @RequestMapping(value = {"/", "/index"})
     public String index(ModelMap model,
                         @CookieValue(value="session_id", defaultValue = "-1") String session_id) {
 

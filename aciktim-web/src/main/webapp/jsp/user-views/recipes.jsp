@@ -25,15 +25,41 @@
         <%@include file="../sub-element/content_bar_signed_in.jsp"%>
     </c:if>
 
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-sm-12">
-                <h4>Hello, there will be public recipes here</h4>
-            </div>
-        </div>
+    <%--<div class="container text-center">--%>
+        <%--<div class="row">--%>
+            <%--<div class="col-sm-12">--%>
+                <%--<h4>Hello, there will be public recipes here</h4>--%>
+            <%--</div>--%>
+        <%--</div>--%>
 
-    </div>
+    <%--</div>--%>
 
+    <%--<div class="row">--%>
+        <%--<div class="col-sm-12">--%>
+            <%--<table class="table table-bordered" style="margin-top:10px;">--%>
+                <%--<thead>--%>
+                <%--<th>Name</th>--%>
+                <%--<th>Picture</th>--%>
+                <%--<th>Description</th>--%>
+                <%--&lt;%&ndash;<th>Red</th>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<th>Delete</th>&ndash;%&gt;--%>
+                <%--</thead>--%>
+                <%--<tbody>--%>
+                <%--<c:forEach var="recipe" items="${recipes}" varStatus="roop">--%>
+                    <%--<tr>--%>
+                        <%--<td>${recipe.name}</td>--%>
+                        <%--<td>--%>
+                            <%--<img src = "${recipe.pictureAddress}" class = "img-rounded center-block"  width="240">--%>
+                        <%--</td>--%>
+                        <%--<td>${recipe.description}</td>--%>
+                    <%--</tr>--%>
+                <%--</c:forEach>--%>
+                <%--</tbody>--%>
+            <%--</table>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+
+    <%@include  file="../recipe-views/recipe_grid_2.jsp" %>
 
     <%@include  file="../sub-element/footer.jsp" %>
 
