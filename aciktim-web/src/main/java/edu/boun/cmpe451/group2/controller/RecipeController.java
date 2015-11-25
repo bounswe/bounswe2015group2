@@ -44,9 +44,9 @@ public class RecipeController {
 
             User user = userModel.getUser(session_id);
             List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));
+            model.put("full_name", user.full_name);
             model.put("recipes", recipes);
             model.put("content_bar_selection" , "recipes");
-
             return "user-views/recipes";
         }
 
@@ -55,10 +55,13 @@ public class RecipeController {
     @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
     public String searchRecipe(
             @RequestParam String search_keyword,
-            ModelMap model) {
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
         try {
+            User user = userModel.getUser(session_id);
             List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+            model.put("full_name", user.full_name);
             model.put("recipeResults", recipeResults);
         } catch (ExException e) {
             e.printStackTrace();
