@@ -41,9 +41,6 @@ public class RecipeController {
         if (session_id.equals("")) {
             return "redirect:index";
         }else{
-//            List<Map<String,Object>> recipes = recipeModel.getRecipes(Long.parseLong(userModel.getUser(session_id).id));
-//            model.put("recipes", recipes);
-//            model.put("full_name", userModel.getUser(session_id).full_name);
 
             User user = userModel.getUser(session_id);
             List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));

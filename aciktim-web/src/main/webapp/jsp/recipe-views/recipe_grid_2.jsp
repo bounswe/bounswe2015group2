@@ -39,11 +39,11 @@
             <tbody>
             <c:forEach var="recipe" items="${recipes}" varStatus="roop">
               <tr>
-                <td>${recipe.name}</td>
+                <td width="20%">${recipe.name}</td>
                 <td>
                   <img src = "${recipe.pictureAddress}" class = "img-rounded center-block"  width="240">
                 </td>
-                <td>${recipe.description}</td>
+                <td width="60%">${recipe.description}</td>
                 <%--<td>--%>
                   <%--<form action="${contextPath}/recipeform" method="post" class="form-group">--%>
                     <%--<input type="hidden" name="action_type" value="edit">--%>
