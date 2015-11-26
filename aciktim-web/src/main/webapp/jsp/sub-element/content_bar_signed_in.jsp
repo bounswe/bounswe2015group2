@@ -94,7 +94,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control"   id="carbon">
+                        <input type="text" class="form-control" placeholder="100" id="carbon">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control"   id="fat">
+                        <input type="text" class="form-control" placeholder="100" id="fat">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control"   id="protein">
+                        <input type="text" class="form-control" placeholder="100" id="protein">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control"   id="calories">
+                        <input type="text" class="form-control" placeholder="100" id="calories">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -137,16 +137,17 @@
 
         <div class="col-xs-7 col-md-5">
             <div class="col-xs-9 col-md-6">
-                <label>Popular tags <span class="glyphicon glyphicon-tags"></span></label><br>
+                <label>Popular Tags <span class="glyphicon glyphicon-tags"></span></label><br>
                 <div id="c_b">
-                    <input type="checkbox" name="tag_cheap" value="Cheap">Cheap<br>
+                    <input type="checkbox" name="tag_cheap" value="Cheap" >Cheap<br>
                     <input type="checkbox" name="tag_fat_free" value="Fat-free">Fat-free<br>
                     <input type="checkbox" name="tag_quick" value="Quick">Quick<br>
                     <input type="checkbox" name="tag_for_guest" value="Forguest">For guest<br>
                 </div>
             </div>
             <div class="col-xs-9 col-md-6">
-                <textarea id="t"></textarea>
+                <label>Enter Tags </label><br>
+                <textarea id="t" placeholder="Tag1, Tag2, Tag3"></textarea>
                 <button type="submit" id="searchAlert" class="btn btn-warning search_group"><span class="glyphicon glyphicon-search"></span>Search</button>
             </div>
             <script>
