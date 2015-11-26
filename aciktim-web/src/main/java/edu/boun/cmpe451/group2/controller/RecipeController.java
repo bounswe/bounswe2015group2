@@ -52,37 +52,11 @@ public class RecipeController {
 
     }
 
-//  used for both search and advanced search
-    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
-    public String searchRecipe(
-            @RequestParam String search_keyword,
-            @RequestParam String ingredients_string,
-            ModelMap model,
-            @CookieValue(value="session_id", defaultValue = "") String session_id) {
-
-        try {
-            if (!session_id.equals("")) {
-                User user = userModel.getUser(session_id);
-                model.put("full_name", user.full_name);
-            }
-            if(ingredients_string == null) {
-                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
-                model.put("recipeResults", recipeResults);
-            }else{
-                ArrayList<String> ingredientList = new ArrayList<String>(Arrays.asList(ingredients_string.split(" , ")));
-                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
-                model.put("recipeResults", recipeResults);
-            }
-        } catch (ExException e) {
-            e.printStackTrace();
-        }
-        model.put("content_bar_selection","recipes");
-        return "user-views/recipes";
-    }
-
+////  used for both search and advanced search
 //    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
 //    public String searchRecipe(
 //            @RequestParam String search_keyword,
+//            @RequestParam String ingredients_string,
 //            ModelMap model,
 //            @CookieValue(value="session_id", defaultValue = "") String session_id) {
 //
@@ -91,14 +65,40 @@ public class RecipeController {
 //                User user = userModel.getUser(session_id);
 //                model.put("full_name", user.full_name);
 //            }
-//            List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
-//            model.put("recipeResults", recipeResults);
+//            if(ingredients_string == null) {
+//                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+//                model.put("recipeResults", recipeResults);
+//            }else{
+//                ArrayList<String> ingredientList = new ArrayList<String>(Arrays.asList(ingredients_string.split(",")));
+//                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+//                model.put("recipeResults", recipeResults);
+//            }
 //        } catch (ExException e) {
 //            e.printStackTrace();
 //        }
 //        model.put("content_bar_selection","recipes");
 //        return "user-views/recipes";
 //    }
+
+    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
+    public String searchRecipe(
+            @RequestParam String search_keyword,
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        try {
+            if (!session_id.equals("")) {
+                User user = userModel.getUser(session_id);
+                model.put("full_name", user.full_name);
+            }
+            List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+            model.put("recipeResults", recipeResults);
+        } catch (ExException e) {
+            e.printStackTrace();
+        }
+        model.put("content_bar_selection","recipes");
+        return "user-views/recipes";
+    }
 
     @RequestMapping(value = {"/recipe/view"})
     public String recipeview(
