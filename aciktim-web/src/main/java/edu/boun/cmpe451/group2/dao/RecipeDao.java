@@ -66,18 +66,29 @@ public class RecipeDao extends BaseDao {
      * @return
      */
     public ArrayList<Recipe> searchRecipes(String name, ArrayList<String> ingredients) {
+
+//      aradýðýmýz ingredientlardan sistemde bulunanlar
+
+        ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
+        for (String ingredientName : ingredients) {
+            String sqlSearchIngr="SELECT id FROM Ingredients WHERE name LIKE ? ";
+            List<Map<String,Object>> matchedIngredients = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
+            for(Map<String,Object> rows : matchedIngredients){
+                matchedIngredientIDs.add(Integer.parseInt(rows.get("id").toString()));
+            }
+        }
+
+
         String sql = "SELECT * FROM recipes WHERE name LIKE ?";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
-        for (Map<String, Object> resultMap : resultList) {
 
+//      bu yemek
+
+        for (Map<String, Object> resultMap : resultList) {
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
-//            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
-//            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
-//            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
-//            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
 
             Object pictureAddress = resultMap.get("pictureAddress");
             if(pictureAddress != null)
@@ -98,30 +109,47 @@ public class RecipeDao extends BaseDao {
             if(totalCal != null)
                 recipe.totalCal = Double.parseDouble(totalCal.toString());
 
-            String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
+
+//          bu yemeðin içerdiði ingredientlarýn id'leri
+
+            String sql2 = "SELECT ingredientID FROM recipeIngredient WHERE recipeID = ?";
             List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql, recipe.id);
-            boolean all_have = true;
-
-            for (String ingredientName : ingredients) {
-                boolean is_exists = false;
-                String sqlSearchIngr="SELECT * FROM Ingredients WHERE name LIKE ? ";
-                List<Map<String,Object>> ingredientsFound = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
-                ArrayList<Integer> ids = new ArrayList<Integer>();
-                for(Map<String,Object> rows: ingredientsFound){
-                    ids.add(Integer.parseInt(rows.get("id").toString()));
-                }
-                for (Map<String, Object> resultMap2 : resultList2) {
-                    int id = Integer.parseInt(resultMap2.get("ingredientID").toString());
-                    if (ids.contains(id)) {
-                        is_exists = true;
-                    }
-                }
-
-                all_have = all_have && is_exists;
+            ArrayList<Integer> recipesIngredientIDs = new ArrayList<Integer>();
+            for(Map<String, Object> rows : resultList2) {
+                recipesIngredientIDs.add(Integer.parseInt(rows.get("ingredientID").toString()));
             }
 
-            if (all_have)
+//          eðer aranan ingredientlarýn tamamý bu yemeðinkilerde varsa bu yemeði ekle
+
+            boolean has_all = true;
+            for(int matchedID : matchedIngredientIDs) {
+                if(!recipesIngredientIDs.contains(matchedID))
+                    has_all = false;
+            }
+            if(has_all)
                 recipeList.add(recipe);
+
+//            for (String ingredientName : ingredients) {
+//                boolean is_exists = false;
+//                String sqlSearchIngr="SELECT * FROM Ingredients WHERE name LIKE ? ";
+//                List<Map<String,Object>> ingredientsFound = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
+////              above is the ingredients in the system that we're looking for
+//                ArrayList<Integer> ids = new ArrayList<Integer>();
+//                for(Map<String,Object> rows: ingredientsFound){
+//                    ids.add(Integer.parseInt(rows.get("id").toString()));
+//                }
+////              id's of the ingredients in the system that we're looking for
+//                for (Map<String, Object> resultMap2 : resultList2) {
+//                    int id = Integer.parseInt(resultMap2.get("ingredientID").toString());
+//                    if (ids.contains(id)) {
+//                        is_exists = true;
+//                    }
+//                }
+//
+//                all_have = all_have && is_exists;
+//            }
+//            if (all_have)
+//                recipeList.add(recipe);
         }
         return recipeList;
     }

@@ -71,7 +71,7 @@
                     <label >Ingredients</label>
                 </div>
                 <div class="col-xs-12 col-md-8">
-                    <input type="text" name="ingredients_string" class="form-control" placeholder="Meat, Egg, Onion"id="ingredients">
+                    <input type="text" name="ingredients_string" class="form-control" placeholder="Meat, Egg, Onion" id="ingredients_string">
                 </div>
             </div>
             <div class="form-group">
