@@ -41,7 +41,6 @@ public class RecipeController {
         if (session_id.equals("")) {
             return "redirect:index";
         }else{
-
             User user = userModel.getUser(session_id);
             List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));
             model.put("full_name", user.full_name);
@@ -59,9 +58,11 @@ public class RecipeController {
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
         try {
-            User user = userModel.getUser(session_id);
+            if (!session_id.equals("")) {
+                User user = userModel.getUser(session_id);
+                model.put("full_name", user.full_name);
+            }
             List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
-            model.put("full_name", user.full_name);
             model.put("recipeResults", recipeResults);
         } catch (ExException e) {
             e.printStackTrace();

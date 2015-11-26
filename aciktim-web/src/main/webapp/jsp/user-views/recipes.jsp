@@ -10,29 +10,22 @@
 <div class="container" id="main-container">
 
 
-    <c:if test="${full_name == ''}">
+    <%--<c:if test="${full_name == ''}">--%>
+        <%--<c:if test="${full_name != ''}">--%>
+    <c:if test="${empty full_name}">
         <%@include  file="../sub-element/header_signed_out.jsp" %>
     </c:if>
-    <c:if test="${full_name != ''}">
+    <c:if test="${not empty full_name}">
         <%@include file="../sub-element/header_signed_in.jsp"%>
     </c:if>
 
 
-    <c:if test="${full_name == ''}">
+    <c:if test="${empty full_name}">
         <%@include file="../sub-element/content_bar_signed_out.jsp"%>
     </c:if>
-    <c:if test="${full_name != ''}">
+    <c:if test="${not empty full_name}">
         <%@include file="../sub-element/content_bar_signed_in.jsp"%>
     </c:if>
-
-    <%--<div class="container text-center">--%>
-        <%--<div class="row">--%>
-            <%--<div class="col-sm-12">--%>
-                <%--<h4>Hello, there will be public recipes here</h4>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-
-    <%--</div>--%>
 
     <%@include  file="../recipe-views/recipe_grid_2.jsp" %>
     <%@include  file="../sub-element/footer.jsp" %>

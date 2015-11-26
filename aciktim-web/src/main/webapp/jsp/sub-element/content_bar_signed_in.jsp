@@ -23,11 +23,6 @@
             </form>
         </div>
 
-        <%--<div class="col-md-4 text-right">--%>
-            <%--<input type="name" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">--%>
-            <%--<button type="button" class="btn btn-warning search_group" id="content_bar_search">Search</button>--%>
-            <%--<button type="button" class="btn btn-warning search_group" id="content_bar_advanced">Advanced Search</button>--%>
-        <%--</div>--%>
     </div>
 
 </div>
