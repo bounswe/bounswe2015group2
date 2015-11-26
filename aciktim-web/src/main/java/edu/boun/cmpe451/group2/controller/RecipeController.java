@@ -69,8 +69,9 @@ public class RecipeController {
                 List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
                 model.put("recipeResults", recipeResults);
             }else{
-                ArrayList<String> ingredientList = new ArrayList<String>(Arrays.asList(ingredients_string.split(",")));
-                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+                List<String> tempList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
+                ArrayList<String> ingredientList = new ArrayList<>(tempList);
+                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
                 model.put("recipeResults", recipeResults);
             }
         } catch (ExException e) {

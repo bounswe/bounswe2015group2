@@ -67,14 +67,13 @@ public class RecipeDao extends BaseDao {
      */
     public ArrayList<Recipe> searchRecipes(String name, ArrayList<String> ingredients) {
 
-//      aradýðýmýz ingredientlardan sistemde bulunanlar
-
+//      aradýðýmýz ingredientlardan sistemde bulunanlarýn id'leri
         ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
         for (String ingredientName : ingredients) {
-            String sqlSearchIngr="SELECT id FROM Ingredients WHERE name LIKE ? ";
+            String sqlSearchIngr = "SELECT * FROM Ingredients WHERE name LIKE ? ";
             List<Map<String,Object>> matchedIngredients = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
-            for(Map<String,Object> rows : matchedIngredients){
-                matchedIngredientIDs.add(Integer.parseInt(rows.get("id").toString()));
+            for(Map<String,Object> resultMap : matchedIngredients){
+                matchedIngredientIDs.add(Integer.parseInt(resultMap.get("id").toString()));
             }
         }
 
@@ -112,8 +111,9 @@ public class RecipeDao extends BaseDao {
 
 //          bu yemeðin içerdiði ingredientlarýn id'leri
 
-            String sql2 = "SELECT ingredientID FROM recipeIngredient WHERE recipeID = ?";
-            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql, recipe.id);
+            String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
+            // Spent 2 hours on this. Problem was for the following statement it was written "sql" instead of "sql2" as a parameter.
+            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql2, recipe.id);
             ArrayList<Integer> recipesIngredientIDs = new ArrayList<Integer>();
             for(Map<String, Object> rows : resultList2) {
                 recipesIngredientIDs.add(Integer.parseInt(rows.get("ingredientID").toString()));
