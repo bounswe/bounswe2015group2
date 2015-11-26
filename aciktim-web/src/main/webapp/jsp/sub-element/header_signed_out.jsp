@@ -2,12 +2,12 @@
 <div class="container text-center" id="header-signed-out">
     <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/header-signed-out-style.css"/>
     <div class="row" id="header-main-row">
-        <div class="col-md-6" id="header-col1">
+        <div class="col-md-5" id="header-col1">
             <div id="page-name">
-                <img src="${contextPath}/assets/img/aciktim_logo.png" alt=""/>
+                <img src="${contextPath}/assets/img/logo.png" width="360" alt=""/>
             </div>
         </div>
-        <div class="col-md-6" id="header-col2">
+        <div class="col-md-7" id="header-col2">
             <div class="row">
                 <form action="${contextPath}/user/login" method="post" class="navbar-form">
                     <div class="form-group">
