@@ -67,7 +67,7 @@ public class RecipeDao extends BaseDao {
      */
     public ArrayList<Recipe> searchRecipes(String name, ArrayList<String> ingredients) {
 
-//      aradýðýmýz ingredientlardan sistemde bulunanlarýn id'leri
+//      aradigimiz ingredientlardan sistemde bulunanlarin id'leri
         ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
         for (String ingredientName : ingredients) {
             String sqlSearchIngr = "SELECT * FROM Ingredients WHERE name LIKE ? ";
@@ -109,7 +109,7 @@ public class RecipeDao extends BaseDao {
                 recipe.totalCal = Double.parseDouble(totalCal.toString());
 
 
-//          bu yemeðin içerdiði ingredientlarýn id'leri
+//          bu yemegin icerdigi ingredientlarin id'leri
 
             String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
             // Spent 2 hours on this. Problem was for the following statement it was written "sql" instead of "sql2" as a parameter.
@@ -119,7 +119,7 @@ public class RecipeDao extends BaseDao {
                 recipesIngredientIDs.add(Integer.parseInt(rows.get("ingredientID").toString()));
             }
 
-//          eðer aranan ingredientlarýn tamamý bu yemeðinkilerde varsa bu yemeði ekle
+//          eger aranan ingredientlarin tamami bu yemeginkilerde varsa bu yemegi ekle
 
             boolean has_all = true;
             for(int matchedID : matchedIngredientIDs) {
