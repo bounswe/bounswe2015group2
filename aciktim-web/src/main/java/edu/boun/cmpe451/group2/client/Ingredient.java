@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.model;
+package edu.boun.cmpe451.group2.client;
 
 import edu.boun.cmpe451.group2.dao.IngredientDao;
 

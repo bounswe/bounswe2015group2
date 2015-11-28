@@ -2,10 +2,10 @@ package edu.boun.cmpe451.group2.dao;
 
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
-import edu.boun.cmpe451.group2.model.Ingredient;
-import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.Tag;
-import edu.boun.cmpe451.group2.model.User;
+import edu.boun.cmpe451.group2.client.Ingredient;
+import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.Tag;
+import edu.boun.cmpe451.group2.client.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -31,12 +31,25 @@ public class RecipeDao extends BaseDao {
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
-            recipe.pictureAddress = resultMap.get("pictureAdress").toString();
+            recipe.pictureAddress = resultMap.get("pictureAddress").toString();
             recipe.description = resultMap.get("description").toString();
-            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
-            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
-            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
-            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
+
+            Object totalFat = resultMap.get("totalFat");
+            if(totalFat != null)
+                recipe.totalFat = Double.parseDouble(totalFat.toString());
+
+            Object totalCarb = resultMap.get("totalCarb");
+            if(totalCarb != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb.toString());
+
+            Object totalProtein = resultMap.get("totalProtein");
+            if(totalProtein != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein.toString());
+
+            Object totalCal = resultMap.get("totalCal");
+            if(totalCal != null)
+                recipe.totalCal = Double.parseDouble(totalCal.toString());
+
             recipeList.add(recipe);
         }
         return recipeList;
@@ -53,43 +66,90 @@ public class RecipeDao extends BaseDao {
      * @return
      */
     public ArrayList<Recipe> searchRecipes(String name, ArrayList<String> ingredients) {
+
+//      aradýðýmýz ingredientlardan sistemde bulunanlarýn id'leri
+        ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
+        for (String ingredientName : ingredients) {
+            String sqlSearchIngr = "SELECT * FROM Ingredients WHERE name LIKE ? ";
+            List<Map<String,Object>> matchedIngredients = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
+            for(Map<String,Object> resultMap : matchedIngredients){
+                matchedIngredientIDs.add(Integer.parseInt(resultMap.get("id").toString()));
+            }
+        }
+
+
         String sql = "SELECT * FROM recipes WHERE name LIKE ?";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
-        for (Map<String, Object> resultMap : resultList) {
 
+//      bu yemek
+
+        for (Map<String, Object> resultMap : resultList) {
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
-            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
-            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
-            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
-            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
+
+            Object pictureAddress = resultMap.get("pictureAddress");
+            if(pictureAddress != null)
+                recipe.pictureAddress = pictureAddress.toString();
+            Object description = resultMap.get("description");
+            if(description != null)
+                recipe.description = description.toString();
+            Object totalFat = resultMap.get("totalFat");
+            if(totalFat != null)
+                recipe.totalFat = Double.parseDouble(totalFat.toString());
+            Object totalCarb = resultMap.get("totalCarb");
+            if(totalCarb != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb.toString());
+            Object totalProtein = resultMap.get("totalProtein");
+            if(totalProtein != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein.toString());
+            Object totalCal = resultMap.get("totalCal");
+            if(totalCal != null)
+                recipe.totalCal = Double.parseDouble(totalCal.toString());
+
+
+//          bu yemeðin içerdiði ingredientlarýn id'leri
 
             String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
-            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql, recipe.id);
-            boolean all_have = true;
-
-            for (String ingredientName : ingredients) {
-                boolean is_exists = false;
-                String sqlSearchIngr="SELECT * FROM Ingredients WHERE name LIKE ? ";
-                List<Map<String,Object>> ingredientsFound = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
-                ArrayList<Integer> ids = new ArrayList<Integer>();
-                for(Map<String,Object> rows: ingredientsFound){
-                    ids.add(Integer.parseInt(rows.get("id").toString()));
-                }
-                for (Map<String, Object> resultMap2 : resultList2) {
-                    int id = Integer.parseInt(resultMap2.get("ingredientID").toString());
-                    if (ids.contains(id)) {
-                        is_exists = true;
-                    }
-                }
-
-                all_have = all_have && is_exists;
+            // Spent 2 hours on this. Problem was for the following statement it was written "sql" instead of "sql2" as a parameter.
+            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql2, recipe.id);
+            ArrayList<Integer> recipesIngredientIDs = new ArrayList<Integer>();
+            for(Map<String, Object> rows : resultList2) {
+                recipesIngredientIDs.add(Integer.parseInt(rows.get("ingredientID").toString()));
             }
 
-            if (all_have)
+//          eðer aranan ingredientlarýn tamamý bu yemeðinkilerde varsa bu yemeði ekle
+
+            boolean has_all = true;
+            for(int matchedID : matchedIngredientIDs) {
+                if(!recipesIngredientIDs.contains(matchedID))
+                    has_all = false;
+            }
+            if(has_all)
                 recipeList.add(recipe);
+
+//            for (String ingredientName : ingredients) {
+//                boolean is_exists = false;
+//                String sqlSearchIngr="SELECT * FROM Ingredients WHERE name LIKE ? ";
+//                List<Map<String,Object>> ingredientsFound = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
+////              above is the ingredients in the system that we're looking for
+//                ArrayList<Integer> ids = new ArrayList<Integer>();
+//                for(Map<String,Object> rows: ingredientsFound){
+//                    ids.add(Integer.parseInt(rows.get("id").toString()));
+//                }
+////              id's of the ingredients in the system that we're looking for
+//                for (Map<String, Object> resultMap2 : resultList2) {
+//                    int id = Integer.parseInt(resultMap2.get("ingredientID").toString());
+//                    if (ids.contains(id)) {
+//                        is_exists = true;
+//                    }
+//                }
+//
+//                all_have = all_have && is_exists;
+//            }
+//            if (all_have)
+//                recipeList.add(recipe);
         }
         return recipeList;
     }
@@ -108,10 +168,25 @@ public class RecipeDao extends BaseDao {
             Recipe recipe = new Recipe();
             recipe.id = Long.parseLong(resultMap.get("id").toString());
             recipe.name = resultMap.get("name").toString();
-            recipe.totalCal = Double.parseDouble(resultMap.get("totalCal").toString());
-            recipe.totalFat = Double.parseDouble(resultMap.get("totalFat").toString());
-            recipe.totalCarb = Double.parseDouble(resultMap.get("totalCarb").toString());
-            recipe.totalProtein = Double.parseDouble(resultMap.get("totalProtein").toString());
+
+            Object pictureAddress = resultMap.get("pictureAddress");
+            if(pictureAddress != null)
+                recipe.pictureAddress = pictureAddress.toString();
+            Object description = resultMap.get("description");
+            if(description != null)
+                recipe.description = description.toString();
+            Object totalFat = resultMap.get("totalFat");
+            if(totalFat != null)
+                recipe.totalFat = Double.parseDouble(totalFat.toString());
+            Object totalCarb = resultMap.get("totalCarb");
+            if(totalCarb != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb.toString());
+            Object totalProtein = resultMap.get("totalProtein");
+            if(totalProtein != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein.toString());
+            Object totalCal = resultMap.get("totalCal");
+            if(totalCal != null)
+                recipe.totalCal = Double.parseDouble(totalCal.toString());
 
             recipeList.add(recipe);
         }
@@ -256,7 +331,7 @@ public class RecipeDao extends BaseDao {
             recipe.add(Long.parseLong(map.get("recipeID").toString()));
         }
         for(Long rec: recipe) {
-            sql = "SELECT totalFat, totalCarb, totalProtein, totalCal where id = ?";
+            sql = "SELECT totalFat, totalCarb, totalProtein, totalCal from recipes where id = ?";
             List<Map<String,Object>> nutValues = this.jdbcTemplate.queryForList(sql,rec);
             for(Map<String,Object> map: nutValues) {
                 fat+=Long.parseLong(map.get("totalFat").toString());

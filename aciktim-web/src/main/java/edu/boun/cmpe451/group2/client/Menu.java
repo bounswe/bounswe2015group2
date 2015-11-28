@@ -1,6 +1,5 @@
-package edu.boun.cmpe451.group2.model;
+package edu.boun.cmpe451.group2.client;
 
-import edu.boun.cmpe451.group2.dao.MenuDao;
 import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
@@ -9,8 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -1,13 +1,12 @@
 package edu.boun.cmpe451.group2.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import edu.boun.cmpe451.group2.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import com.google.gson.*;
 import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
