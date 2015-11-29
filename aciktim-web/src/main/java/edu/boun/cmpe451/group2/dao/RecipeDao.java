@@ -297,13 +297,17 @@ public class RecipeDao extends BaseDao {
             sql = "INSERT INTO recipeIngredient(recipeID,ingredientID,amount) VALUES(?,?,?)";
             for (Map.Entry entry : recipe.IngredientAmountMap.entrySet()) {
                 Ingredient ingr = (Ingredient)entry.getKey();
-                String sqlGet = "SELECT * FROM Ingredients WHERE id=?";
+                String sqlGet = "SELECT COUNT(*) FROM Ingredients WHERE id=?";
                 Map<String,Object> map =  this.jdbcTemplate.queryForMap(sqlGet,ingr.id);
-                if(map == null || map.size()==0) {
+                int count = Integer.parseInt( map.get("COUNT(*)").toString());
+                if(count == 0) {
+                    System.out.println("sql statement is:");
+                    System.out.println("INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES("+ingr.id+","+ingr.name+","+ingr.protein+","+ingr.fat+","+ingr.carbohydrate+","+ingr.calories+","+ingr.unitName+")");
                     String sql2 = "INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES(?,?,?,?,?,?,?)";
+                    this.jdbcTemplate.update(sql2,ingr.id,ingr.name,ingr.protein,ingr.fat,ingr.carbohydrate,ingr.calories,ingr.unitName);
                 }
-                this.jdbcTemplate.update(sql,ingr.id,ingr.name,ingr.protein,ingr.fat,ingr.carbohydrate,ingr.calories,ingr.unitName);
-                this.jdbcTemplate.update(sql, recipeID, ((Ingredient) (entry.getKey())).id, entry.getValue());
+                long amount = (long)entry.getValue();
+                this.jdbcTemplate.update(sql,recipeID,ingr.id,amount);
             }
         }
         if (recipe.tagList.size() > 0) {
