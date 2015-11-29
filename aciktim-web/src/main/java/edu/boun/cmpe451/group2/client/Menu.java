@@ -21,7 +21,7 @@ public class Menu {
 
     public ArrayList<Recipe> recipes;
     public Long ownerID;
-    public String name ;
+    public String name = "";
 
     /**
      * Constructor method of Menu model
@@ -43,6 +43,24 @@ public class Menu {
         }
         this.recipes = recipes;
         this.ownerID = Long.parseLong(user.get("id").toString());
+        this.name = name;
+    }
+
+    /**
+     * Constructor method of Menu model
+     * @param recipes arraylist of recipes that this menu contains, only the recipeIDs have to be filled
+     * @param id id of the user
+     * @param name menu name(must be nonempty)
+     * @throws ExException throws exception when the recipe list is empty or null, name is empty or null,user is not found
+     */
+    public Menu(ArrayList<Recipe> recipes,Long id,String name) throws ExException {
+        if(recipes == null || recipes.size()==0){
+            throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
+        }else if(name == null || StringUtil.isEmpty(name)){
+            throw new ExException(ExError.E_MENU_NAME_EMPTY);
+        }
+        this.recipes = recipes;
+        this.ownerID = id;
         this.name = name;
     }
 }

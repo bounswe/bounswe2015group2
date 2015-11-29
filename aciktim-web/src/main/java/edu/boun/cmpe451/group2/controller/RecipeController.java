@@ -221,6 +221,7 @@ public class RecipeController {
             ModelMap model,
             HttpServletRequest request) {
 
+
         String[] ingredient_no = request.getParameterValues("ingredient_ndbno");
         String[] ingredient_name = request.getParameterValues("ingredient_name");
         String[] ingredient_amount = request.getParameterValues("ingredient_amount");

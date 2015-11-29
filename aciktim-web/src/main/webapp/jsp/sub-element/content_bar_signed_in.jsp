@@ -10,6 +10,7 @@
                 <li role="presentation" id="content_bar_restaurants"><a href="/aciktim/restaurants">Restaurants</a></li>
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
+                <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
             </ul>
         </div>
 

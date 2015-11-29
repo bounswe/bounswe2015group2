@@ -67,4 +67,31 @@ public class MenuModel {
         }
         return menus;
     }
+    /**
+     * Gets the menus of a user (which are not soft deleted)
+     * @param id id of the user
+     * @return HashMap of menus (keys are menuIDs values are menus)
+     * @throws ExException
+     */
+    public HashMap<Long,Menu> GetMenusByID(Long id) throws ExException {
+        List<Map<String,Object>> menusDB = menuDao.getMenus(id);
+        HashMap<Long,Menu> menus = new HashMap();
+        Long menuID;
+
+        for (Map<String,Object> menuRecipe : menusDB){
+            menuID = Long.parseLong(menuRecipe.get("id").toString());
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(menuRecipe.get("recipeID").toString());
+            if(menus.containsKey(menuID)){
+                menus.get(menuID).recipes.add(recipe);
+            }else{
+                ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+                recipes.add(recipe);
+                String name = menuRecipe.get("name").toString();
+                Menu menu = new Menu(recipes,id,name);
+                menus.put(menuID,menu);
+            }
+        }
+        return menus;
+    }
 }

@@ -234,6 +234,7 @@ public class RecipeDao extends BaseDao {
      * @throws ExException when there is no recipe of that id
      */
     public Recipe getRecipe(Long id) throws ExException {
+        System.out.println(id);
         String sql = "SELECT * FROM recipes WHERE recipes.id = ? ";
         String sqlCount = "SELECT COUNT(*) FROM recipes WHERE recipes.id = ?";
         Map<String, Object> mapCount = this.jdbcTemplate.queryForMap(sqlCount, id);
