@@ -65,7 +65,7 @@ public class RecipeDao extends BaseDao {
      * @param ingredients names of ingredients
      * @return
      */
-    public ArrayList<Recipe> searchRecipes(String name, ArrayList<String> ingredients) {
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients) {
 
 //      aradigimiz ingredientlardan sistemde bulunanlarin id'leri
         ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
@@ -150,6 +150,40 @@ public class RecipeDao extends BaseDao {
 //            }
 //            if (all_have)
 //                recipeList.add(recipe);
+        }
+        return recipeList;
+    }
+
+    public List<Recipe> searchRecipesRandom(int amount) {
+
+        String sql = "SELECT id,name,pictureAddress,description,totalFat,totalCarb,totalProtein,totalCal FROM recipes ORDER BY RAND() LIMIT ?";
+        List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql,amount);
+        List<Recipe> recipeList = new ArrayList<>();
+
+        for (Map<String, Object> resultMap : resultList) {
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+            recipe.pictureAddress = resultMap.get("pictureAddress").toString();
+            recipe.description = resultMap.get("description").toString();
+
+            Object totalFat = resultMap.get("totalFat");
+            if(totalFat != null)
+                recipe.totalFat = Double.parseDouble(totalFat.toString());
+
+            Object totalCarb = resultMap.get("totalCarb");
+            if(totalCarb != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb.toString());
+
+            Object totalProtein = resultMap.get("totalProtein");
+            if(totalProtein != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein.toString());
+
+            Object totalCal = resultMap.get("totalCal");
+            if(totalCal != null)
+                recipe.totalCal = Double.parseDouble(totalCal.toString());
+
+            recipeList.add(recipe);
         }
         return recipeList;
     }
@@ -248,6 +282,13 @@ public class RecipeDao extends BaseDao {
     public void addRecipe(Recipe recipe){
         String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description," +
                 "totalFat,totalCarb,totalProtein,totalCal) VALUES(?,?,?,?,?,?,?,?)";
+        System.out.println(recipe.name);
+        System.out.println(recipe.ownerID);
+        System.out.println(recipe.pictureAddress);
+        System.out.println(recipe.description);
+
+
+
         this.jdbcTemplate.update(sql,recipe.name,recipe.ownerID,recipe.pictureAddress,recipe.description,
                 recipe.totalFat,recipe.totalCarb,recipe.totalProtein,recipe.totalCal);
         sql = "SELECT id FROM recipes ORDER BY id DESC LIMIT 1";

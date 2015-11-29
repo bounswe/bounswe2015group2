@@ -37,34 +37,36 @@ public class UserController {
     public String userlogin(
             @RequestParam String email,
             @RequestParam String password,
-            HttpServletResponse response,
-            ModelMap model) {
+            HttpServletResponse response
+//            ModelMap model
+    ) {
 
         try {
             String session_id = userModel.login(email, password);
             Cookie cookie = new Cookie("session_id", session_id);
 
             cookie.setPath("/aciktim/");
-//            cookie.setDomain("aciktim");
             response.addCookie(cookie);
+            return "redirect:../recipes/?bad_a=false";
+
+//            model.put("bad_attempt","false");
+//            User user = userModel.getUser(session_id);
+//            model.put("full_name", user.full_name);
 
 
-            User user = userModel.getUser(session_id);
-            
-
-
-            model.put("full_name", user.full_name);
-            model.put("bad_attempt","false");
 
         } catch (Exception e) {
-            // Invalid Credentials
-            model.put("full_name", "");
-            model.put("bad_attempt","true");
-
             e.printStackTrace();
+            return "redirect:../recipes/?bad_a=true";
+            // Invalid Credentials
+//            model.put("full_name", "");
+//            model.put("bad_attempt","true");
+
+
         }
-        model.put("content_bar_selection","recipes");
-        return "user-views/recipes";
+//        model.put("content_bar_selection","recipes");
+
+//        return "user-views/recipes";
     }
 
     @RequestMapping(value = {"user/logout"})
@@ -76,10 +78,11 @@ public class UserController {
         cookie.setPath("/aciktim/");
         response.addCookie(cookie);
 
-        model.put("full_name", "");
-        model.put("content_bar_selection","recipes");
-
-        return "user-views/recipes";
+        return "redirect:../index";
+//        model.put("full_name", "");
+//        model.put("content_bar_selection","recipes");
+//
+//        return "user-views/recipes";
     }
 
     @RequestMapping(value = {"user/add"})

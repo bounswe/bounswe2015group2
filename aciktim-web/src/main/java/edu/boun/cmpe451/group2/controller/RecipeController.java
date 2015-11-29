@@ -37,49 +37,82 @@ public class RecipeController {
     @RequestMapping(value = {"/recipes"})
     public String viewrecipes(
             ModelMap model,
+
+            @RequestParam (required = false, defaultValue = "false") String bad_a,
+
+            @RequestParam (required = false, defaultValue = "-1") String ownerID,
+            @RequestParam (required = false, defaultValue = "-1") String search_keyword,
+            @RequestParam (required = false, defaultValue = "-1") String ingredients_string,
+
             @CookieValue(value="session_id", defaultValue = "") String session_id){
 
-        if (session_id.equals("")) {
-            return "redirect:index";
-        }else{
-            User user = userModel.getUser(session_id);
-            List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));
+
+        model.put("bad_attempt", bad_a);
+
+        model.put("content_bar_selection" , "recipes");
+        User user = null;
+        if (!session_id.equals("")){
+            user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
-            model.put("recipes", recipes);
-            model.put("content_bar_selection" , "recipes");
-            return "user-views/recipes";
         }
 
-    }
 
-////  used for both search and advanced search
-    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
-    public String searchRecipe(
-            @RequestParam String search_keyword,
-            @RequestParam(required = false, defaultValue = "") String ingredients_string,
-            ModelMap model,
-            @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
-        try {
-            if (!session_id.equals("")) {
-                User user = userModel.getUser(session_id);
-                model.put("full_name", user.full_name);
+        if (user != null && ownerID.equals(user.id)){ //bring my recipes
+            List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));
+            model.put("recipeResults",recipes);
+        }else{
+            try{
+                if (!search_keyword.equals("-1")){
+                    if (!ingredients_string.equals("-1")){ // bring keyword + ingredients
+                        List<String> ingredientList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
+                        List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
+                        model.put("recipeResults", recipeResults);
+                    }else{ // bring keyword
+                        List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+                        model.put("recipeResults", recipeResults);
+                    }
+                }else{ // bring random recipes
+                    List<Recipe> recipeResults = recipeModel.searchRecipesRandom(10);
+                    model.put("recipeResults", recipeResults);
+                }
+            }catch (ExException e){
+                e.printStackTrace();
+                System.out.println("Shit man");
             }
-            if(ingredients_string.equals("")) {
-                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
-                model.put("recipeResults", recipeResults);
-            }else{
-                List<String> tempList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
-                ArrayList<String> ingredientList = new ArrayList<>(tempList);
-                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
-                model.put("recipeResults", recipeResults);
-            }
-        } catch (ExException e) {
-            e.printStackTrace();
         }
-        model.put("content_bar_selection","recipes");
         return "user-views/recipes";
+
     }
+
+    ////  used for both search and advanced search
+//    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
+//    public String searchRecipe(
+//            @RequestParam String search_keyword,
+//            @RequestParam(required = false, defaultValue = "") String ingredients_string,
+//            ModelMap model,
+//            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+//
+//        try {
+//            if (!session_id.equals("")) {
+//                User user = userModel.getUser(session_id);
+//                model.put("full_name", user.full_name);
+//            }
+//            if(ingredients_string.equals("")) {
+//                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+//                model.put("recipeResults", recipeResults);
+//            }else{
+//                List<String> tempList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
+//                ArrayList<String> ingredientList = new ArrayList<>(tempList);
+//                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
+//                model.put("recipeResults", recipeResults);
+//            }
+//        } catch (ExException e) {
+//            e.printStackTrace();
+//        }
+//        model.put("content_bar_selection","recipes");
+//        return "user-views/recipes";
+//    }
 
 //    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
 //    public String searchRecipe(
@@ -243,19 +276,19 @@ public class RecipeController {
         Long userId = Long.parseLong(userModel.getUser(session_id).id);
         System.out.println(userId);
 
-    try{
-        Recipe r = new Recipe();
-        r.name=recipe_name;
-        r.id = recipe_id;
-        r.IngredientAmountMap = null ;
-        r.pictureAddress = image_url;
-        r.description = description;
-        recipeModel.updateRecipe(r);
-        model.put("type", "SUCCESS");
-    }catch(Exception e){
-        model.put("type", "ERROR");
+        try{
+            Recipe r = new Recipe();
+            r.name=recipe_name;
+            r.id = recipe_id;
+            r.IngredientAmountMap = null ;
+            r.pictureAddress = image_url;
+            r.description = description;
+            recipeModel.updateRecipe(r);
+            model.put("type", "SUCCESS");
+        }catch(Exception e){
+            model.put("type", "ERROR");
 
-    }
+        }
 
         return "redirect:/recipes";
     }

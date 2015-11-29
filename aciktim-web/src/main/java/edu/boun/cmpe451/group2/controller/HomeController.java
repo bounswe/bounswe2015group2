@@ -13,25 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("request")
 public class HomeController {
-
-    @Qualifier("userModel")
-    @Autowired
-    private UserModel userModel = null;
-
     @RequestMapping(value = {"/", "/index"})
-    public String index(ModelMap model,
-                        @CookieValue(value="session_id", defaultValue = "-1") String session_id) {
-
-        if (!session_id.equals("-1")) {
-            User user = userModel.getUser(session_id);
-            model.put("full_name", user.full_name);
-        }else{
-            model.put("full_name", "");
-        }
-        model.put("bad_attempt", "false");
-        model.put("content_bar_selection" , "recipes");
-        return "user-views/recipes";
+    public String index() {
+        return "redirect:recipes";
     }
-
-
 }

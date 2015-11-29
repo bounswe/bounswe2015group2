@@ -42,6 +42,10 @@ public class RecipeModel {
         return recipeDao.searchRecipes(name);
     }
 
+    public List<Recipe> searchRecipesRandom(int amount) throws ExException{
+        return recipeDao.searchRecipesRandom(amount);
+    }
+
     /**
      * advanced search function by ingredient list filter
      * @param name name of the recipe
@@ -49,7 +53,7 @@ public class RecipeModel {
      * @return a list of recipes that contains all the ingredients
      * @throws ExException when the list is null or empty
      */
-    public ArrayList<Recipe> searchRecipes(String name,ArrayList<String> ingredients) throws ExException{
+    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients) throws ExException{
         if(ingredients==null || ingredients.size() == 0){
             throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
         }
