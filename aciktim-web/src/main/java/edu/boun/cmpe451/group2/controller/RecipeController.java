@@ -272,7 +272,7 @@ public class RecipeController {
 
         }
 
-        return "redirect:recipes";
+        return "redirect:/recipes";
     }
 
 
