@@ -221,14 +221,24 @@ public class RecipeController {
             ModelMap model,
             HttpServletRequest request) {
 
+        String[] ingredient_no = request.getParameterValues("ingredient_ndbno");
         String[] ingredient_name = request.getParameterValues("ingredient_name");
         String[] ingredient_amount = request.getParameterValues("ingredient_amount");
-        String[] ingredient_no = request.getParameterValues("ingredient_no");
+
 
         String[] ingredient_en = request.getParameterValues("ingredient_en");
         String[] ingredient_carb = request.getParameterValues("ingredient_carb");
         String[] ingredient_prot = request.getParameterValues("ingredient_prot");
         String[] ingredient_fat = request.getParameterValues("ingredient_fat");
+        String[] ingredient_unit = request.getParameterValues("ingredient_unit");
+
+        for (String str : ingredient_name){
+            System.out.println("AL LAN : "+str);
+        }
+        for (String en : ingredient_en){
+            System.out.println("AL LAN 2: "+en);
+        }
+
 
         String[] tag = request.getParameterValues("tag");
 
@@ -239,7 +249,15 @@ public class RecipeController {
             Recipe r = new Recipe();
             r.ownerID = id;
             System.out.println("1");
-            fillRecipe(r, recipe_name, id, image_url, description, formAmountMap(ingredient_name, ingredient_amount, ingredient_no, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat), formTagList(tag));
+
+            fillRecipe(r,
+                    recipe_name,
+                    id,
+                    image_url,
+                    description,
+                    formAmountMap(ingredient_name, ingredient_amount, ingredient_no, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
+                    formTagList(tag));
+
             System.out.println("2");
             recipeModel.addRecipe(r);
             System.out.println("3");
@@ -317,19 +335,26 @@ public class RecipeController {
 
     }
 
-    public HashMap<Ingredient,Long> formAmountMap(String[] names, String[] nos, String[] amounts, String[] en,String[] carb,String[] prot,String[] fat){
+    public HashMap<Ingredient,Long> formAmountMap(String[] names,
+                                                  String[] nos,
+                                                  String[] amounts,
+                                                  String[] ens,
+                                                  String[] carbs,
+                                                  String[] prots,
+                                                  String[] fats,
+                                                  String[] units){
+
         HashMap<Ingredient,Long> m = new HashMap<>();
         int counter = 0;
         for (String no : nos){
             Ingredient i = new Ingredient();
-            System.out.println("Calories:");
-            System.out.println(en[counter]);
-            i.calories = Double.parseDouble(en[counter]);
-            i.carbohydrate = Double.parseDouble(carb[counter]);
-            i.protein = Double.parseDouble(prot[counter]);
-            i.fat = Double.parseDouble(fat[counter]);
+            i.id = Long.parseLong(nos[counter]);
             i.name = names[counter];
-            i.unitName = "grams";
+            i.calories = Double.parseDouble(ens[counter]);
+            i.carbohydrate = Double.parseDouble(carbs[counter]);
+            i.protein = Double.parseDouble(prots[counter]);
+            i.fat = Double.parseDouble(fats[counter]);
+            i.unitName = units[counter];
             m.put(i,Long.parseLong(amounts[counter]));
             counter++;
         }

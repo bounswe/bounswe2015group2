@@ -1,106 +1,83 @@
 
 $(document).ready(function() {
-    var tag_counter         = 0;
-    var max_fields          = 10; //maximum input boxes allowed
-    var wrapper             = $("#ingredients"); //Fields wrapper
-    var add_button          = $("#add_ingredient_button"); //Add button ID
+    var max_fields          = 10;
+
+    var wrapper_searched_ingredients    = $("#searchedingredients");
+    var wrapper_added_ingredients       = $("#addedingredients");
+    var wrapper_added_tags              = $("#tags");
+
+    var template_tag                    = $("#tag_template");
+    var template_searched_ingredient    = $("#searched_ingredient_template");
+    var template_added_ingredient       = $("#added_ingredient_template");
+
+    var search_call_p1  = "http://api.nal.usda.gov/ndb/search/?format=json&q=";
+    var search_call_p2  = "&sort=r&max=10&offset=0&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX";
+
+    var find_call_p1    = "http://api.nal.usda.gov/ndb/reports/?ndbno=";
+    var find_call_p2    = "&type=b&format=json&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX";
 
 
-    var before_search = "http://api.nal.usda.gov/ndb/search/?format=json&q=";
-    var after_search = "&sort=r&max=10&offset=0&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX";
-
-    var food_buffer=[];
-
-
-
-
-    var ingredient_buffer_en=[];
-    var ingredient_buffer_carb=[];
-    var ingredient_buffer_prot=[];
-    var ingredient_buffer_fat=[];
-
-    var ingredient_buffer_name=[];
-    var ingredient_buffer_ndb_num=[];
-
-
-    var ingredient_name     = ["ingredient_name[0]","ingredient_name[1]","ingredient_name[2]","ingredient_name[3]","ingredient_name[4]","ingredient_name[5]","ingredient_name[6]","ingredient_name[7]","ingredient_name[8]","ingredient_name[9]"];
-    var ingredient_amount   = ["ingredient_amount[0]","ingredient_amount[1]","ingredient_amount[2]","ingredient_amount[3]","ingredient_amount[4]","ingredient_amount[5]","ingredient_amount[6]","ingredient_amount[7]","ingredient_amount[8]","ingredient_amount[9]"];
-    var ingredient_no       = ["ingredient_no[0]","ingredient_no[1]","ingredient_no[2]","ingredient_no[3]","ingredient_no[4]","ingredient_no[5]","ingredient_no[6]","ingredient_no[7]","ingredient_no[8]","ingredient_no[9]"];
-
-    var arrayForTags        = ["tag[0]","tag[1]","tag[2]","tag[3]","tag[4]","tag[5]","tag[6]","tag[7]","tag[8]","tag[9]"];
-
-
-
-    $("#add_tag").on("click",function(){
-        if(tag_counter<max_fields){
-            tag_counter++;
-            var tag_template = $("#tag_template").clone();
-
-            tag_template.removeAttr("id");
-            tag_template.addClass("tag_instance");
-            tag_template.removeAttr("style");
-
-            //tag_template.find("input").attr("name" , arrayForTags[tag_counter-1]);
-            tag_template.find("input").attr("name" , "tag");
-
-            $("#tags").append(tag_template);
-        }
-    });
-
-    $("#remove_tag").on("click",function(){
-        if(tag_counter>0){
-            tag_counter--;
-            $("#tags").children().last().remove();
-        }
-    });
-
+    //// LOOK FOR ANIMATION
+    $("#look_for_panel_body").slideToggle( "slow" );
     $("#look_for").on("click",function() {
         $("#look_for_panel_body").slideToggle( "slow" );
     });
 
+    //// SEARCH BUTTON LISTENER ON SEARCHED INGREDIENTS
+    $("#search").on("click",function(){
+        var query = $("#query").val();
+        var search_call = search_call_p1+ query + search_call_p2;
+        $.getJSON(search_call,function(data){
+            wrapper_searched_ingredients.children().remove();
+            var searched_ingredients = data["list"]['item'];
+            searched_ingredients.forEach(function(ingredient){
+                var ingredient_to_be_added = generateSearchedIngredientHTML(ingredient.ndbno,ingredient.name);
+                wrapper_searched_ingredients.append(ingredient_to_be_added);
+            });
+
+
+
+        });
+    });
+
+    //// ADD BUTTON LISTENER ON SEARCHED INGREDIENTS
     $(document.body).on("click", ".add_button" , function () {
-
-        if(ingredient_buffer_name.length < max_fields) {
-
+        var added_ingredient_count = wrapper_added_ingredients.children().length;
+        if(added_ingredient_count < max_fields) {
             var btn = $(this);
-            var ndbnum = btn.data("ndb-num");
-            var foodname = btn.data("food-name");
 
-            var apicall = "http://api.nal.usda.gov/ndb/reports/?ndbno="+ndbnum+"&type=b&format=json&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX";
-            $.getJSON(apicall,function(data){
-                nutrients = data["report"]['food']['nutrients'];
+            var ndbno   = btn.data("ingredient-ndbno");
+            var name    = btn.data("ingredient-name");
+            var find_ingredient_call = find_call_p1 + ndbno + find_call_p2;
 
-                var kcal;
+            $.getJSON(find_ingredient_call,function(data){
+                var nutrients = data["report"]['food']['nutrients'];
+
+
+                var en;
                 var carb;
                 var prot;
                 var fat;
+                var unit;
 
                 for(var i = 0; i< nutrients.length ; i++){
                     if(nutrients[i].name == "Energy" && nutrients[i].unit == "kcal" ){
-                        kcal = nutrients[i].value;
-                    }
-                    if(nutrients[i].name == "Protein"){
-                        prot = nutrients[i].value;
-                    }
-                    if(nutrients[i].name == "Total lipid (fat)"){
-                        fat = nutrients[i].value;
+                        en  = nutrients[i].measures[0].value;
                     }
                     if(nutrients[i].name == "Carbohydrate, by difference"){
-                        carb= nutrients[i].value;
+                        carb = nutrients[i].measures[0].value;
+                    }
+                    if(nutrients[i].name == "Protein"){
+                        prot = nutrients[i].measures[0].value;
+                    }
+                    if(nutrients[i].name == "Total lipid (fat)"){
+                        fat = nutrients[i].measures[0].value;
+                        unit = nutrients[i].measures[0].label;
                     }
                 }
 
-                ingredient_buffer_en.push(kcal);
-                ingredient_buffer_carb.push(carb);
-                ingredient_buffer_prot.push(prot);
-                ingredient_buffer_fat.push(fat);
-
-                ingredient_buffer_name.push(foodname);
-                ingredient_buffer_ndb_num.push(ndbnum);
-
-                displayIngredientBuffer();
-
-
+                var ingredient_to_be_added = generateAddedIngredientHTML(ndbno,name,en,carb,prot,fat,unit);
+                wrapper_added_ingredients.append(ingredient_to_be_added);
             });
 
 
@@ -110,104 +87,65 @@ $(document).ready(function() {
 
 
 
-    $(document.body).on("click", "#rm_button" , function () {
+    //// REMOVE BUTTON LISTENER ON ADDED INGREDIENTS
+    $(document.body).on("click", ".rm_button" , function () {
         var index  = $(this).index();
-        ingredient_buffer_name.splice(index,1);
-        ingredient_buffer_ndb_num.splice(index,1);
-
-        ingredient_buffer_en.splice(index,1);
-        ingredient_buffer_carb.splice(index,1);
-        ingredient_buffer_prot.splice(index,1);
-        ingredient_buffer_fat.splice(index,1);
-
-
-        displayIngredientBuffer();
-
-    });
-
-    $("#search").on("click",function(){
-        var query = $("#query").val();
-        lookfor(query);
+        wrapper_added_ingredients.children()[index].remove();
     });
 
 
 
+    //// TAG BUTTON LISTENERS
+    $("#add_tag").on("click",function(){
+        var tag_count = wrapper_added_tags.children().length;
+        if(tag_count<max_fields){
+            var candidate_tag = template_tag.clone();
 
+            candidate_tag.removeAttr("id");
+            candidate_tag.addClass("tag_instance");
+            candidate_tag.removeAttr("style");
+            candidate_tag.find("input").attr("name" , "tag");
 
-
-
-
-    function lookfor(q){
-        var fullurl = before_search + q + after_search;
-        $.getJSON(fullurl,function(data){
-            food_buffer = data["list"]['item'];
-            displayFoodBuffer();
-        });
-    }
-
-    function displayFoodBuffer() {
-        $(".table_row_instance").remove();
-//            var table_row = $('#table_row_template').clone();
-        for (i = 0; i < food_buffer.length; i++) {
-            var table_row = $('#table_row_template').clone();
-            table_row.children().first().text(food_buffer[i].name);
-            table_row.children().find(".add_button").attr("data-ndb-num", food_buffer[i].ndbno);
-            table_row.children().find(".add_button").attr("data-food-name", food_buffer[i].name);
-
-            table_row.removeAttr("class", "table_row_template");
-            table_row.attr("class", "table_row_instance");
-
-            $(".table").append(table_row);
+            $("#tags").append(candidate_tag);
         }
-    }
-
-    function displayIngredientBuffer() {
-        $(wrapper).children().remove();
-        for (var i = 0; i < ingredient_buffer_name.length; i++) {
-            var foodname = ingredient_buffer_name[i];
-            var ndbnum = ingredient_buffer_ndb_num[i];
-            var en = ingredient_buffer_en[i];
-            var carb = ingredient_buffer_carb[i];
-            var prot = ingredient_buffer_prot[i];
-            var fat = ingredient_buffer_fat[i];
-            var toberinserted = generateIngredientHtml(i,ndbnum,foodname,en,carb,prot,fat);
-
-            $(wrapper).append(toberinserted);
+    });
+    $("#remove_tag").on("click",function(){
+        var tag_count = wrapper_added_tags.children().length;
+        if(tag_count>0){
+            $("#tags").children().last().remove();
         }
+    });
+
+
+
+    function generateSearchedIngredientHTML(ndbno,name){
+        var searched_ingrendient = template_searched_ingredient.clone();
+
+        searched_ingrendient.children().first().text(name);
+        searched_ingrendient.children().find(".add_button").attr("data-ingredient-ndbno", ndbno);
+        searched_ingrendient.children().find(".add_button").attr("data-ingredient-name", name);
+
+        searched_ingrendient.removeAttr("class", "table_row_template");
+        searched_ingrendient.attr("class", "table_row_instance");
+
+        return searched_ingrendient;
     }
 
+    function generateAddedIngredientHTML(ndbno,name,en,carb,prot,fat,unit) {
 
+        var template = template_added_ingredient.clone();
 
+        template.find(".control-label").text("Ingredient");
 
-
-
-
-    function generateIngredientHtml(num,ndbnum,foodname,en,carb,prot,fat) {
-
-        var template = $("#ingredient_template").clone();
-
-        var label   = "Ingredient";
-
-        template.find(".control-label").text(label);
-
-
-        //template.find("#name").attr("name" , ingredient_name[num]);
-        template.find("#name").attr("name" , "ingredient_name");
-        template.find("#name").attr("value" , foodname);
-
-        //template.find("#amount").attr("name" , ingredient_amount[num]);
-        template.find("#amount").attr("name" , "ingredient_amount");
-
-        //template.find("#ndb_no").attr("name" , ingredient_no[num]);
-        template.find("#ndb_no").attr("name" , "ingredient_no");
-
-        template.find("#ndb_no").attr("value" , ndbnum);
+        template.find("#ndbno").attr("value" , ndbno);
+        template.find("#name").attr("value" , name);
 
         template.find("#en").attr("value" , en);
         template.find("#carb").attr("value" , carb);
         template.find("#prot").attr("value" , prot);
         template.find("#fat").attr("value" , fat);
 
+        template.find("#unit").attr("value" , unit);
 
 
         template.removeAttr('style');
@@ -216,6 +154,8 @@ $(document).ready(function() {
         return template;
 
     }
+
+
 
 
 
