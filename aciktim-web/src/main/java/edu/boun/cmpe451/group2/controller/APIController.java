@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import edu.boun.cmpe451.group2.client.ControllerInterface;
+import edu.boun.cmpe451.group2.client.Menu;
+import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,7 +29,7 @@ import edu.boun.cmpe451.group2.exception.ExException;
 @Controller
 @RequestMapping("api")
 @Scope("request")
-public class APIController implements ControllerInterface{
+public class APIController implements ControllerInterface {
 
     @Qualifier("userModel")
     @Autowired
@@ -76,7 +81,8 @@ public class APIController implements ControllerInterface{
     }
 
     @RequestMapping("/getuser")
-    public @ResponseBody User getUser(@RequestParam String api_key){
+    public @ResponseBody
+    User getUser(@RequestParam String api_key){
         User user = userModel.getUser(api_key);
         return user;
     }

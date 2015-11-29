@@ -1,8 +1,7 @@
 package edu.boun.cmpe451.group2.dao;
 
-import edu.boun.cmpe451.group2.model.Menu;
-import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.RecipeModel;
+import edu.boun.cmpe451.group2.client.Menu;
+import edu.boun.cmpe451.group2.client.Recipe;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
