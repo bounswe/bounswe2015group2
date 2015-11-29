@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.friend;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+
+import edu.boun.cmpe451.group2.android.R;
 
 /**
  * An activity representing a list of Friends. This activity

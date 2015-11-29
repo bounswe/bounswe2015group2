@@ -4,7 +4,7 @@
     android:layout_marginRight="16dp" android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="edu.boun.cmpe451.group2.android.RecipeListActivity">
+    tools:context=".recipe.RecipeListActivity">
 
     <!--
     This layout is a two-pane layout for the Recipes
@@ -13,7 +13,7 @@
     -->
 
     <fragment android:id="@+id/recipe_list"
-        android:name="edu.boun.cmpe451.group2.android.RecipeListFragment" android:layout_width="0dp"
+        android:name="edu.boun.cmpe451.group2.android.recipe.RecipeListFragment" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="1"
         tools:layout="@android:layout/list_content" />
 

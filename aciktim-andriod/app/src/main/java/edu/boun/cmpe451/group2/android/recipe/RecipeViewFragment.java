@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.recipe;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.dummy.DummyContent;
 
 /**

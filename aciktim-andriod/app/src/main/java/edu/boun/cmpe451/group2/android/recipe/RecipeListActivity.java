@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.recipe;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+
+import edu.boun.cmpe451.group2.android.R;
 
 /**
  * An activity representing a list of Recipes. This activity

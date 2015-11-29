@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.recipe;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,18 +7,25 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
+import edu.boun.cmpe451.group2.android.api.Recipe;
 import edu.boun.cmpe451.group2.android.dummy.DummyContent;
+import retrofit.Retrofit;
 
 /**
- * A list fragment representing a list of Friends. This fragment
+ * A list fragment representing a list of Recipes. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link FriendDetailFragment}.
+ * currently being viewed in a {@link RecipeViewFragment}.
  * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class FriendListFragment extends ListFragment {
+public class RecipeListFragment extends ListFragment {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -49,6 +56,8 @@ public class FriendListFragment extends ListFragment {
         public void onItemSelected(String id);
     }
 
+    ControllerInterface api;
+
     /**
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
@@ -63,19 +72,22 @@ public class FriendListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FriendListFragment() {
+    public RecipeListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api")
+                .build();
+        api = retrofit.create(ControllerInterface.class);
+        long userID = 42;
+        List<Recipe> recipeList = api.getRecipes(userID);
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), R.id.textView,recipeList);
+        setListAdapter(recipeAdapter);
     }
 
     @Override

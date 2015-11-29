@@ -54,13 +54,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -70,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,13 +104,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api")
                 .build();
-
-        ControllerInterface api = retrofit.create(ControllerInterface.class);
-        User myuser =api.getUser("asdasd");
-        //api.;
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -336,36 +326,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            ControllerInterface api = retrofit.create(ControllerInterface.class);
+            String api_key = api.login(mEmail, mPassword);
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            // The connection URL
-            String url = "http://ec2-52-28-126-194.eu-central-1.compute." +
-                    "amazonaws.com:8080/aciktim/user/update?" +
-                    "email="+mEmail +
-                    "&passwd="+mPassword;
-
-            // Create a new RestTemplate instance
-            RestTemplate restTemplate = new RestTemplate();
-
-            // Add the String message converter
-            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-
-            // Make the HTTP GET request, marshaling the response to a String
-            String result = restTemplate.getForObject(url, String.class, "Android");
             return true;
         }
 
@@ -376,6 +339,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("api_key","as");
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

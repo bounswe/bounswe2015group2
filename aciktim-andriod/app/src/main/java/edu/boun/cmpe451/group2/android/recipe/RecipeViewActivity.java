@@ -1,30 +1,31 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.recipe;
 
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import edu.boun.cmpe451.group2.android.R;
+
 /**
- * An activity representing a single Friend detail screen. This
+ * An activity representing a single Recipe detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link FriendListActivity}.
+ * in a {@link RecipeListActivity}.
  * <p/>
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link FriendDetailFragment}.
+ * more than a {@link RecipeViewFragment}.
  */
-public class FriendDetailActivity extends AppCompatActivity {
+public class RecipeViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_detail);
+        setContentView(R.layout.activity_recipe_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -32,8 +33,8 @@ public class FriendDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(),RecipeEditActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -53,12 +54,12 @@ public class FriendDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(FriendDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(FriendDetailFragment.ARG_ITEM_ID));
-            FriendDetailFragment fragment = new FriendDetailFragment();
+            arguments.putString(RecipeViewFragment.ARG_ITEM_ID,
+                    getIntent().getStringExtra(RecipeViewFragment.ARG_ITEM_ID));
+            RecipeViewFragment fragment = new RecipeViewFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.friend_detail_container, fragment)
+                    .add(R.id.recipe_detail_container, fragment)
                     .commit();
         }
     }
@@ -74,7 +75,7 @@ public class FriendDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, FriendListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, RecipeListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
