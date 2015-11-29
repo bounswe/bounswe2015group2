@@ -226,26 +226,21 @@ public class RecipeDao extends BaseDao {
         }
         return recipeList;
     }
-    /*
-
-        String sql = "SELECT * FROM recipes WHERE ownerID = ?";
-
-        return this.jdbcTemplate.queryForList(sql, users_id);
-    */
 
     /**
-     * Returns a recipe if id has a match.
      *
      * @param id id of the recipe
      * @return recipe (if found)
+     * @throws ExException when there is no recipe of that id
      */
     public Recipe getRecipe(Long id) throws ExException {
         String sql = "SELECT * FROM recipes WHERE recipes.id = ? ";
-
-        Map<String, Object> map = this.jdbcTemplate.queryForMap(sql, id);
-        if (map.size() == 0) {
+        String sqlCount = "SELECT COUNT(*) FROM recipes WHERE recipes.id = ?";
+        Map<String, Object> mapCount = this.jdbcTemplate.queryForMap(sqlCount, id);
+        if(Integer.parseInt(mapCount.get("COUNT(*)").toString()) == 0){
             throw new ExException(ExError.E_RECIPE_NOT_FOUND);
         }
+        Map<String, Object> map = this.jdbcTemplate.queryForMap(sql, id);
         Recipe recipe = new Recipe();
         recipe.id = Long.parseLong(map.get("id").toString());
         recipe.name = map.get("name").toString();
@@ -254,7 +249,7 @@ public class RecipeDao extends BaseDao {
         recipe.description = map.get("description").toString();
         recipe.likes = Long.parseLong(map.get("likes").toString());
 
-        String sql2 = "SELECT A.*,B.name as unitName FROM (SELECT * FROM recipeIngredient JOIN ingredients ON ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ) as A JOIN ingredientUnits as B WHERE A.unitID =B.id";
+        String sql2 = "SELECT A.*,B.name as unitName FROM (SELECT * FROM recipeIngredient JOIN Ingredients ON Ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ) as A JOIN ingredientUnits as B WHERE A.unitID =B.id";
 
         List<Map<String, Object>> map2 = this.jdbcTemplate.queryForList(sql2, id);
         HashMap<Ingredient, Long> ingredientMap = new HashMap<Ingredient, Long>();
