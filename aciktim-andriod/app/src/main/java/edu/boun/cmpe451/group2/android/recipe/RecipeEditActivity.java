@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.recipe;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -32,12 +32,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.boun.cmpe451.group2.android.R;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class ProfileEditActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RecipeEditActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -65,7 +67,7 @@ public class ProfileEditActivity extends AppCompatActivity implements LoaderCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_edit);
+        setContentView(R.layout.activity_login);
         setupActionBar();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -82,14 +84,14 @@ public class ProfileEditActivity extends AppCompatActivity implements LoaderCall
                 return false;
             }
         });
-        Button mProfileEditButton = (Button) findViewById(R.id.profile_edit_button);
-        mProfileEditButton.setOnClickListener(new OnClickListener() {
+
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -295,7 +297,7 @@ public class ProfileEditActivity extends AppCompatActivity implements LoaderCall
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(ProfileEditActivity.this,
+                new ArrayAdapter<>(RecipeEditActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);

@@ -22,6 +22,10 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.boun.cmpe451.group2.android.friend.FriendListActivity;
+import edu.boun.cmpe451.group2.android.profile.ProfileViewActivity;
+import edu.boun.cmpe451.group2.android.recipe.RecipeListActivity;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,TodaysActivitiesFragment.OnFragmentInteractionListener {
 

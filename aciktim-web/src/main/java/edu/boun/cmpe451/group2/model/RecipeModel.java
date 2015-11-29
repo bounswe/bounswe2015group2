@@ -1,7 +1,8 @@
 package edu.boun.cmpe451.group2.model;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import edu.boun.cmpe451.group2.client.Ingredient;
+import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.dao.RecipeDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
@@ -10,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,6 +42,10 @@ public class RecipeModel {
         return recipeDao.searchRecipes(name);
     }
 
+    public List<Recipe> searchRecipesRandom(int amount) throws ExException{
+        return recipeDao.searchRecipesRandom(amount);
+    }
+
     /**
      * advanced search function by ingredient list filter
      * @param name name of the recipe
@@ -51,7 +53,7 @@ public class RecipeModel {
      * @return a list of recipes that contains all the ingredients
      * @throws ExException when the list is null or empty
      */
-    public ArrayList<Recipe> searchRecipes(String name,ArrayList<String> ingredients) throws ExException{
+    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients) throws ExException{
         if(ingredients==null || ingredients.size() == 0){
             throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
         }
@@ -74,6 +76,9 @@ public class RecipeModel {
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
         for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
+            if(((Ingredient)entry.getKey()).id == null){
+                throw new ExException(ExError.E_INGREDIENT_ID_NULL);
+            }
             recipe.totalCal += entry.getKey().calories*entry.getValue();
             recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
             recipe.totalFat += entry.getKey().fat*entry.getValue();

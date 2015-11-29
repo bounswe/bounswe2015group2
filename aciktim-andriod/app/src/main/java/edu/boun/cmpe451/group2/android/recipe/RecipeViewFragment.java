@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.recipe;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,15 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.dummy.DummyContent;
 
 /**
- * A fragment representing a single Friend detail screen.
- * This fragment is either contained in a {@link FriendListActivity}
- * in two-pane mode (on tablets) or a {@link FriendDetailActivity}
+ * A fragment representing a single Recipe detail screen.
+ * This fragment is either contained in a {@link RecipeListActivity}
+ * in two-pane mode (on tablets) or a {@link RecipeViewActivity}
  * on handsets.
  */
-public class FriendDetailFragment extends Fragment {
+public class RecipeViewFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -33,7 +34,7 @@ public class FriendDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FriendDetailFragment() {
+    public RecipeViewFragment() {
     }
 
     @Override
@@ -57,11 +58,11 @@ public class FriendDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_friend_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_recipe_view, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.friend_detail)).setText(mItem.content);
+            ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(mItem.content);
         }
 
         return rootView;

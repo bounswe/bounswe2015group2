@@ -44,7 +44,7 @@
 
                                 <div class="row">
                                     <div class="col-sm-6 col-sm-offset-2 ">
-                                        <input class="form-control" type="text" placeholder="Armut" id="query">
+                                        <input class="form-control" type="text" placeholder="Pear" id="query">
                                     </div>
                                     <div class="col-sm-2">
                                         <span class="btn btn-primary" id="search">Search!</span>
@@ -52,17 +52,18 @@
                                 </div>
 
                                 <div class="row">
-                                    <table class="table">
+                                    <table class="table" id="searchedingredients">
                                         <thead>
                                         <tr>
                                             <th>Food Name</th>
                                         </tr>
                                         </thead>
-                                        <%--Place to insert table rows--%>
+                                        <%--Place to insert searched ingredients--%>
                                     </table>
                                 </div>
                             </div>
                         </div>
+
 
                         <%--Choosen Ingredients Panel--%>
                         <div class="panel panel-default">
@@ -71,8 +72,8 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div id="ingredients">
-                                        <%--Place to insert ingredient--%>
+                                    <div id="addedingredients">
+                                        <%--Place to insert added ingredient--%>
                                     </div>
                                 </div>
                             </div>
@@ -86,11 +87,9 @@
                             <div class="panel-body">
                                 <div class="row" >
                                     <div class="col-sm-12" id="tags">
-
+                                        <%--Place to insert tags--%>
                                     </div>
-                                    <%--<div id="tags">--%>
-                                    <%--Place to insert tag--%>
-                                    <%--</div>--%>
+
 
                                 </div>
                                 <div class="row">
@@ -120,41 +119,43 @@
 
 
 
-<%--------- Ingredient (Look For Ingrendient) -------------%>
-<div class="form-group" id="ingredient_template" style="display: none">
+<%--------- Added Ingredient Template -------------%>
+<div class="form-group" id="added_ingredient_template" style="display: none">
 
     <div class="col-sm-2">
         <label class="control-label">Ingredient </label>
     </div>
 
-    <div class="col-sm-6">
-        <%--<div class="input-group" style="width: inherit;">--%>
-        <input type="text" class="form-control"  id="name"   readonly>
-        <%--</div>--%>
+    <div class="col-sm-3">
+        <input type="text" class="form-control"  id="name"   name="ingredient_name" readonly>
     </div>
 
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <div class="input-group">
-            <input type="hidden" id="ndb_no">
-
+            <input type="hidden" id="ndbno" name="ingredient_ndbno" >
             <input type="hidden" id="en" name="ingredient_en">
             <input type="hidden" id="carb" name="ingredient_carb">
             <input type="hidden" id="prot" name="ingredient_prot">
             <input type="hidden" id="fat" name="ingredient_fat">
 
-            <input type="text" class="form-control" id="amount">
-            <span class="input-group-addon">grams</span>
+            <input type="text" class="form-control" id="amount" name="ingredient_amount" placeholder="Quantity">
         </div>
     </div>
+        <div class="col-sm-3">
+            <input type="text" class="form-control" id="unit" name="ingredient_unit" readonly>
+        </div>
 
-    <div class="col-sm-1">
-        <button type="button" class="btn btn-default " id="rm_button">X</button>
+
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-default rm_button">X</button>
     </div>
 </div>
 
-<%--------- Table Row (On Choosen Ingredients) -------------%>
+
+
+<%--------- Searched Ingredient Template -------------%>
 <table style="display: none;">
-    <tr id="table_row_template">
+    <tr id="searched_ingredient_template">
         <td>
 
         </td>
@@ -166,7 +167,7 @@
 
 
 
-<%--------- Tag (On Tags) -------------%>
+<%--------- Tag Template -------------%>
 
 <%--<div class="form-group"  id="tag_template" style="display: none ; margin-top: 10px;">--%>
 <div class="row" id="tag_template" style="display: none ; margin-top: 10px;">

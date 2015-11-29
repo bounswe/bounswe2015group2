@@ -32,6 +32,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
+import edu.boun.cmpe451.group2.android.api.User;
+import retrofit.Retrofit;
+
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -54,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private SignUpTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -63,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private ControllerInterface api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptSignUp();
                     return true;
                 }
                 return false;
@@ -95,9 +100,14 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         mSingUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptSignUp();
             }
         });
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api")
+                .build();
+        api = retrofit.create(ControllerInterface.class);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -162,7 +172,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptSignUp() {
         if (mAuthTask != null) {
             return;
         }
@@ -174,6 +184,8 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String userName = mUserNameView.getText().toString();
+        String fullName = mNameView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -204,7 +216,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new SignUpTask(email, password,fullName,userName);
             mAuthTask.execute((Void) null);
         }
     }
@@ -313,36 +325,28 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class SignUpTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
+        private final String mFullName;
+        private final String mUserName;
 
-        UserLoginTask(String email, String password) {
+        SignUpTask(String email, String password,String fullName, String username) {
             mEmail = email;
             mPassword = password;
+            mFullName = fullName;
+            mUserName = username;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
+            User user = new User();
+            user.setEmail(mEmail);
+            user.setFull_name(mFullName);
+            user.setPasswd(mPassword);
+            user.setUsername(mUserName);
+            String api_key = api.signup(user);
             return true;
         }
 

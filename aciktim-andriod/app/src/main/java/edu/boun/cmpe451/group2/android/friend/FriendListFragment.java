@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android;
+package edu.boun.cmpe451.group2.android.friend;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,15 +10,15 @@ import android.widget.ListView;
 import edu.boun.cmpe451.group2.android.dummy.DummyContent;
 
 /**
- * A list fragment representing a list of Recipes. This fragment
+ * A list fragment representing a list of Friends. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link RecipeViewFragment}.
+ * currently being viewed in a {@link FriendDetailFragment}.
  * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class RecipeListFragment extends ListFragment {
+public class FriendListFragment extends ListFragment {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -63,7 +63,7 @@ public class RecipeListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public RecipeListFragment() {
+    public FriendListFragment() {
     }
 
     @Override

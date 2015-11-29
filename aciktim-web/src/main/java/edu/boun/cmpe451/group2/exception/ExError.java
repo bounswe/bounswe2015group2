@@ -25,4 +25,5 @@ public class ExError {
     public static String E_USER_NOT_FOUND = "E_USER_NOT_FOUND";
 
     public static String E_INGREDIENT_LIST_EMPTY_OR_NULL = "E_INGREDIENT_LIST_EMPTY_OR_NULL";
+    public static String E_INGREDIENT_ID_NULL = "E_INGREDIENT_ID_NULL";
 }

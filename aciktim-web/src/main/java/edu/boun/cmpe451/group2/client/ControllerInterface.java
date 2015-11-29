@@ -1,9 +1,9 @@
-package edu.boun.cmpe451.group2.controller;
+package edu.boun.cmpe451.group2.client;
 
 
-import edu.boun.cmpe451.group2.model.Menu;
-import edu.boun.cmpe451.group2.model.Recipe;
-import edu.boun.cmpe451.group2.model.User;
+import edu.boun.cmpe451.group2.client.Menu;
+import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;

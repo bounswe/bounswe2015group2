@@ -6,7 +6,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_profile_view" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.boun.cmpe451.group2.android.ProfileViewActivity">
+    tools:context=".profile.ProfileViewActivity">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_marginLeft="16dp"
@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:divider="?android:attr/dividerHorizontal" android:orientation="vertical"
         android:showDividers="middle"
-        tools:context="edu.boun.cmpe451.group2.android.RecipeListActivity">
+        tools:context=".recipe.RecipeListActivity">
 
         <TextView
             android:id="@+id/profile_name"

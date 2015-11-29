@@ -1,5 +1,7 @@
 package edu.boun.cmpe451.group2.model;
 
+import edu.boun.cmpe451.group2.client.Menu;
+import edu.boun.cmpe451.group2.client.Recipe;
 import edu.boun.cmpe451.group2.dao.MenuDao;
 import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;

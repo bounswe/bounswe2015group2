@@ -9,11 +9,18 @@
       </ul>
     </div>
 
-    <div class="col-md-6 text-right">
-      <input type="name" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">
-      <button type="button" class="btn btn-warning search_group" id="content_bar_search">Search</button>
-      <button type="button" class="btn btn-warning search_group" id="content_bar_advanced">Advanced Search</button>
+
+    <div class="col-md-4 text-right">
+      <form action="${contextPath}/recipes" method="post" class="navbar-form">
+        <div class="form-group">
+          <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">
+          <button type="submit" class="btn btn-warning search_group" id="content_bar_search">Search</button>
+        </div>
+        <%--<button type="button" class="btn btn-warning search_group" id="content_bar_advanced">Advanced Search</button>--%>
+      </form>
     </div>
+
+
   </div>
 
 </div>
