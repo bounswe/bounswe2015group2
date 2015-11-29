@@ -249,7 +249,7 @@ public class RecipeDao extends BaseDao {
         recipe.description = map.get("description").toString();
         recipe.likes = Long.parseLong(map.get("likes").toString());
 
-        String sql2 = "SELECT A.*,B.name as unitName FROM (SELECT * FROM recipeIngredient JOIN Ingredients ON Ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ) as A JOIN ingredientUnits as B WHERE A.unitID =B.id";
+        String sql2 = "SELECT * FROM recipeIngredient JOIN Ingredients ON Ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ";
 
         List<Map<String, Object>> map2 = this.jdbcTemplate.queryForList(sql2, id);
         HashMap<Ingredient, Long> ingredientMap = new HashMap<Ingredient, Long>();
@@ -259,8 +259,8 @@ public class RecipeDao extends BaseDao {
             ingredient.name = ingredientEntry.get("name").toString();
             ingredient.protein = Double.parseDouble(ingredientEntry.get("protein").toString());
             ingredient.fat = Double.parseDouble(ingredientEntry.get("fat").toString());
-            ingredient.carbohydrate = Double.parseDouble(ingredientEntry.get("carbohydrate").toString());
-            ingredient.calories = Long.parseLong(ingredientEntry.get("calories").toString());
+            ingredient.carbohydrate = Double.parseDouble(ingredientEntry.get("carb").toString());
+            ingredient.calories = Long.parseLong(ingredientEntry.get("cal").toString());
             ingredient.unitName = ingredientEntry.get("unitName").toString();
             Long amount = Long.parseLong(ingredientEntry.get("amount").toString());
             ingredientMap.put(ingredient, amount);
