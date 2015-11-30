@@ -1,9 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
-import edu.boun.cmpe451.group2.client.Ingredient;
-import edu.boun.cmpe451.group2.client.Recipe;
-import edu.boun.cmpe451.group2.client.Tag;
-import edu.boun.cmpe451.group2.client.User;
+import edu.boun.cmpe451.group2.client.*;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @Scope("request")
@@ -31,6 +30,9 @@ public class RecipeController {
     private RecipeModel recipeModel = null;
 
 
+    //################################################
+    //####### RECIPES SEARCH AND LIST DISPLAY
+    //################################################
     @RequestMapping(value = {"/recipes"})
     public String viewrecipes(
             ModelMap model,
@@ -45,12 +47,11 @@ public class RecipeController {
             @CookieValue(value = "session_id", defaultValue = "") String session_id) {
 
 
-        model.put("bad_attempt", bad_a);
 
-        model.put("content_bar_selection", "recipes");
         User user = null;
         if (!session_id.equals("")) {
             user = userModel.getUser(session_id);
+            model.put("isInst", user.isInst);
             model.put("full_name", user.full_name);
         }
 
@@ -99,57 +100,53 @@ public class RecipeController {
                 e.printStackTrace();
             }
         }
+
+        model.put("bad_attempt", bad_a);
+        model.put("content_bar_selection", "recipes");
+
         return "user-views/recipes";
 
     }
 
-    ////  used for both search and advanced search
-//    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
-//    public String searchRecipe(
-//            @RequestParam String search_keyword,
-//            @RequestParam(required = false, defaultValue = "") String ingredients_string,
-//            ModelMap model,
-//            @CookieValue(value="session_id", defaultValue = "") String session_id) {
-//
-//        try {
-//            if (!session_id.equals("")) {
-//                User user = userModel.getUser(session_id);
-//                model.put("full_name", user.full_name);
-//            }
-//            if(ingredients_string.equals("")) {
-//                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
-//                model.put("recipeResults", recipeResults);
-//            }else{
-//                List<String> tempList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
-//                ArrayList<String> ingredientList = new ArrayList<>(tempList);
-//                List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
-//                model.put("recipeResults", recipeResults);
-//            }
-//        } catch (ExException e) {
-//            e.printStackTrace();
-//        }
-//        model.put("content_bar_selection","recipes");
-//        return "user-views/recipes";
-//    }
 
-//    @RequestMapping(value = "/recipes" , method=RequestMethod.POST)
-//    public String searchRecipe(
-//            @RequestParam String search_keyword,
+    //################################################
+    //####### DISPLAY ONE RECIPE ONSCREEN
+    //################################################
+//    @RequestMapping(value = {"/recipe/view"})
+//    public String recipeview(
 //            ModelMap model,
-//            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+//            @RequestParam String action_type,
+//            @RequestParam(required = false, defaultValue = "-1") String recipe_id,
+//            @CookieValue(value = "session_id", defaultValue = "") String session_id) {
 //
-//        try {
-//            if (!session_id.equals("")) {
-//                User user = userModel.getUser(session_id);
-//                model.put("full_name", user.full_name);
+//        if (session_id.equals("")) {
+//            return "redirect:index";
+//        } else {
+//            User user = userModel.getUser(session_id);
+//            model.put("full_name", user.full_name);
+//            model.put("email", user.email);
+//
+//            model.put("action_type", action_type);
+//
+//            model.put("existing_recipe_name", "");
+//            model.put("existing_recipe_description", "");
+//            model.put("existing_recipe_image_url", "");
+//
+//            if (action_type.equals("edit")) {
+//                Long rp_id = Long.parseLong(recipe_id);
+//                try {
+//                    Recipe rm = recipeModel.getRecipe(rp_id);
+//                    model.put("existing_recipe_id", rp_id);
+//                    model.put("existing_recipe_name", rm.name);
+//                    model.put("existing_recipe_description", rm.description);
+//                    model.put("existing_recipe_image_url", rm.pictureAddress);
+//                } catch (Exception e) {
+//                    System.out.printf("Bullshit");
+//                }
 //            }
-//            List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
-//            model.put("recipeResults", recipeResults);
-//        } catch (ExException e) {
-//            e.printStackTrace();
 //        }
-//        model.put("content_bar_selection","recipes");
-//        return "user-views/recipes";
+//        model.put("content_bar_selection", "recipes");
+//        return "recipe-views/recipe_grid";
 //    }
 
     @RequestMapping(value = {"/recipe/view"})
@@ -190,6 +187,9 @@ public class RecipeController {
     }
 
 
+    //################################################
+    //####### RECIPE FORM SCREEN FOR CREATE AND EDIT
+    //################################################
     @RequestMapping(value = {"/recipe/form"})
     public String recipeform(
             ModelMap model,
@@ -197,12 +197,14 @@ public class RecipeController {
             @RequestParam(required = false, defaultValue = "-1") String recipe_id,
             @CookieValue(value = "session_id", defaultValue = "") String session_id) {
 
+        User user = null;
         if (session_id.equals("")) {
             return "redirect:index";
         } else {
-            User user = userModel.getUser(session_id);
+            user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("email", user.email);
+            model.put("isInst", user.isInst);
 
             model.put("action_type", action_type);
 
@@ -227,6 +229,10 @@ public class RecipeController {
         return "recipe-views/recipe_form_page";
     }
 
+
+    //################################################
+    //####### DISPLAY ONE RECIPE ONSCREEN
+    //################################################
     @RequestMapping(value = {"/recipe/single"}, method = RequestMethod.POST)
     public String singlerecipe(
             @RequestParam String recipe_id,
@@ -253,6 +259,9 @@ public class RecipeController {
         return "recipe-views/single_recipe";
     }
 
+    //################################################
+    //####### RECIPE CONSUME LOGIC
+    //################################################
     @RequestMapping(value = {"/recipe/consume"}, method = RequestMethod.POST)
     public String consume(
             @RequestParam String recipe_id,
@@ -266,8 +275,8 @@ public class RecipeController {
         try {
             User user = userModel.getUser(session_id);
             Calendar date = new GregorianCalendar();
-            date.set(Integer.parseInt(year),Integer.parseInt(month), Integer.parseInt(day));
-            userModel.consume(Long.parseLong(user.id),Long.parseLong(recipe_id),date);
+            date.set(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+            userModel.consume(Long.parseLong(user.id), Long.parseLong(recipe_id), date);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -276,7 +285,9 @@ public class RecipeController {
 
         return "redirect:/recipes";
     }
-
+    //################################################
+    //####### RECIPE ADD LOGIC
+    //################################################
     @RequestMapping(value = {"/recipe/add"}, method = RequestMethod.POST)
     public String recipeadd(
             @RequestParam String recipe_name,
@@ -320,7 +331,7 @@ public class RecipeController {
             model.put("type", "SUCCESS");
         } catch (ExException e) {
             e.printStackTrace();
-            model.put("type", "ERROR");
+            model.put("type", "ERROR_EX");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -332,6 +343,9 @@ public class RecipeController {
     }
 
 
+    //################################################
+    //####### RECIPE EDIT LOGIC
+    //################################################
     @RequestMapping(value = "recipe/edit")
     public String recipeedit(
             @RequestParam(required = false) Long recipe_id,
@@ -360,13 +374,98 @@ public class RecipeController {
         return "redirect:/recipes";
     }
 
-    @RequestMapping(value = "recipe/delete")
-    public String recipedelete(
-            @RequestParam(required = false) Long recipe_id) {
-        recipeModel.getRecipeDao().deleteRecipe(recipe_id);
-        return "redirect:/recipes";
+
+
+
+    //################################################
+    //####### CONSUMPTION AND RECOMMENDATIONS
+    //################################################
+    @RequestMapping(value = {"user/recommendations"})
+    public String userrecommendations(
+            ModelMap model,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        if (!session_id.equals("")) {
+            User user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+
+
+            // something like
+            //userModel.getDailyComsumptionList(Long.parseLong(user.id))
+            List<Menu> list = new ArrayList<Menu>();
+            model.put("recommendations", list);
+
+            model.put("isInst", user.isInst);
+            model.put("content_bar_selection", "recommendations");
+
+            return "user-views/recommendations";
+        }else {
+            return "redirect:/recipes";
+        }
+
+    }
+    @RequestMapping(value = {"user/dailyconsumption"})
+    public String userdailyconsumption(
+            ModelMap model,
+            @RequestParam (required = false) String queried_date,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        if (!session_id.equals("")) {
+            User user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+            Calendar queriedCal = null;
+            if (queried_date == null){
+                Date currentDate = new Date();
+                System.out.println(currentDate.toString());
+                queriedCal = Calendar.getInstance();
+                queriedCal.setTime(currentDate);
+            }else{
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+                try {
+                    Date date = formatter.parse(queried_date);
+                    queriedCal = Calendar.getInstance();
+                    queriedCal.setTime(date);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            try{
+                System.out.println(Long.parseLong(user.id));
+                System.out.println(queriedCal.getTime());
+                ArrayList<Recipe> recipes = userModel.getDailyConsumption(Long.parseLong(user.id), queriedCal);
+                System.out.println("SIZE : "+recipes.size());
+                model.put("consumed_recipes", recipes);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return "user-views/daily_consumption";
+        }else{
+            return "redirect:/recipes";
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
+
+
+
+
+
+    //################################################
+    //####### HELPER FUNCTIONS
+    //################################################
     public void fillRecipe(Recipe r,
                            String recipe_name,
                            Long id,
@@ -423,6 +522,22 @@ public class RecipeController {
         }
         return tl;
     }
+
+
+
+
+
+    //################################################
+    //####### DEPO FONKSIYONLAR
+    //################################################
+
+
+    //    @RequestMapping(value = "recipe/delete")
+//    public String recipedelete(
+//            @RequestParam(required = false) Long recipe_id) {
+//        recipeModel.getRecipeDao().deleteRecipe(recipe_id);
+//        return "redirect:/recipes";
+//    }
 
 
 }

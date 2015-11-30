@@ -25,6 +25,9 @@
     </c:if>
 
     <%@include  file="../recipe-views/recipe_grid_2.jsp" %>
+
+
+
     <%@include  file="../sub-element/footer.jsp" %>
 
 </div>

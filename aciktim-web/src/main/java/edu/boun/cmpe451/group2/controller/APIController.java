@@ -224,7 +224,7 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping(USER_SVC_PATH + "/recommendations")
-    public List<Map<String, Object>> getRecommendations(@RequestBody User user) {
+    public List<Map<String, Object>> getRecommendations(@RequestBody User user){
 
         try {
             recipeModel.getRecommendations(user);

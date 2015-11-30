@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import edu.boun.cmpe451.group2.client.Menu;
 import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.model.RecipeModel;
 import edu.boun.cmpe451.group2.model.UserModel;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @Scope("request")
 public class UserController {
@@ -25,6 +29,8 @@ public class UserController {
     @Qualifier("recipeModel")
     @Autowired
     private RecipeModel recipeModel = null;
+
+
 
     //##########################################
     //######## AUTHENTICATION & AUTHORIZATION
@@ -176,9 +182,5 @@ public class UserController {
         return "user-views/profile";
     }
 
-    //##########################################
-    //######## USER'S DAILY CONSUMPTION
-    //##########################################
-
-
 }
+

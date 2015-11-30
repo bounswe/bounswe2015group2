@@ -11,7 +11,8 @@
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
                 <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
-                <li role="presentation" id="content_bar_dailyconsuption"><a href="/aciktim/user/dailyconsupmtion">Daily Consumption</a></li>
+                <li role="presentation" id="content_bar_dailyconsumption"><a href="/aciktim/user/dailyconsumption">Daily Consumption</a></li>
+                <li role="presentation" id="content_bar_recommendations"><a href="/aciktim/user/recommendations">Recommendations</a></li>
             </ul>
         </div>
 
@@ -34,8 +35,15 @@
     $(document).ready(function(){
 
         var selection = "${content_bar_selection}";
+        var isInst = "${isInst}";
+
+
+
         $("li").removeAttr("class");
         $("#content_bar_"+selection).attr("class","active");
+
+
+
 
 
         if(selection == "profile"){
