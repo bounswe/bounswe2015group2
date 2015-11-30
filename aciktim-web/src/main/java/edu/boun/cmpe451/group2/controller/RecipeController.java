@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import sun.util.resources.cldr.aa.CalendarData_aa_ER;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -450,33 +451,39 @@ public class RecipeController {
     @RequestMapping(value = {"user/dailyconsumption"})
     public String userdailyconsumption(
             ModelMap model,
-            @RequestParam (required = false) String queried_date,
+            @RequestParam (required = false) String date,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
         if (!session_id.equals("")) {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             Calendar queriedCal = null;
-            if (queried_date == null){
+            if (date == null){
                 Date currentDate = new Date();
-                System.out.println(currentDate.toString());
                 queriedCal = Calendar.getInstance();
                 queriedCal.setTime(currentDate);
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
                 try {
-                    Date date = formatter.parse(queried_date);
+                    Date queried_date = formatter.parse(date);
                     queriedCal = Calendar.getInstance();
-                    queriedCal.setTime(date);
+                    queriedCal.setTime(queried_date);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
             try{
-                System.out.println(Long.parseLong(user.id));
-                System.out.println(queriedCal.getTime());
+
+                int year = queriedCal.get(Calendar.YEAR);
+                int month = queriedCal.get(Calendar.MONTH);
+                int day = queriedCal.get(Calendar.DAY_OF_MONTH);
+
+                queriedCal.add(Calendar.MONTH, 1);
                 ArrayList<Recipe> recipes = userModel.getDailyConsumption(Long.parseLong(user.id), queriedCal);
                 System.out.println("SIZE : "+recipes.size());
+                model.put("year", year);
+                model.put("month", month);
+                model.put("day", day);
                 model.put("consumed_recipes", recipes);
             }catch (Exception e){
                 e.printStackTrace();
@@ -486,24 +493,7 @@ public class RecipeController {
             return "redirect:/recipes";
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
 
 
     //################################################
