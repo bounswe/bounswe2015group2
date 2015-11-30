@@ -281,12 +281,14 @@ public class RecipeDao extends BaseDao {
                 this.jdbcTemplate.update(sql,recipeID,ingr.id,amount);
             }
         }
+        System.out.println(recipe.tagList.size());
         if (recipe.tagList.size() > 0) {
-            sql = "INSERT INTO recipeTag(recipeID, tag) VALUES(?,?)";
+            sql = "INSERT INTO recipeTag(recipeID, tag, parentTag) VALUES(?,?,?)";
 
-//            for (Tag tag : recipe.tagList) {
-//                this.jdbcTemplate.update(sql, recipeID, tag.name);
-//            }
+            for (Tag tag : recipe.tagList) {
+                System.out.println(tag.name);
+                this.jdbcTemplate.update(sql, recipeID, tag.name, tag.parentTag);
+            }
         }
     }
 
