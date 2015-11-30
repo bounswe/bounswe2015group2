@@ -134,8 +134,20 @@ public class RecipeModel {
         recipeDao.updateRecipe(recipe);
     }
 
-    public List<Map<String, Object>> getRecommendations(User user) {
-        return recipeDao.getRecommendations(user);
+    /**
+     * returns 5 recipes according to daily consumption of the user
+     * @param user user to be recommended
+     * @return arraylist of recipes that contains maximum 5 recipes
+     * @throws Exception
+     */
+    public ArrayList<Recipe> getRecommendations(User user) throws Exception{
+        List<Map<String, Object>> list = recipeDao.getRecommendations(user);
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        for(Map<String,Object> row : list){
+            Recipe r = getRecipe(Long.parseLong(row.get("recipeID").toString()));
+            recipes.add(r);
+        }
+        return recipes;
     }
 
     public RecipeDao getRecipeDao() {

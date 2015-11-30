@@ -369,7 +369,7 @@ public class RecipeDao extends BaseDao {
         if(leastMin == fatPerc) {min = "totalFat";}
         else if(leastMin == carbPerc) {min = "totalCarb";}
         else {min = "totalProtein";}
-        sql = "SELECT TOP 5 recipeID order by desc ?/(totalFat+totalCarb+totalProtein)";
+        sql = "SELECT recipeID FROM recipes order by ?/(totalFat+totalCarb+totalProtein) DESC LIMIT 5";
         return this.jdbcTemplate.queryForList(sql,min);
     }
 }
