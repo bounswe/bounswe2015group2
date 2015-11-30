@@ -1,6 +1,7 @@
 package edu.boun.cmpe451.group2.controller;
 
 import edu.boun.cmpe451.group2.client.User;
+import edu.boun.cmpe451.group2.model.RecipeModel;
 import edu.boun.cmpe451.group2.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +22,9 @@ public class UserController {
     @Qualifier("userModel")
     @Autowired
     private UserModel userModel = null;
+    @Qualifier("recipeModel")
+    @Autowired
+    private RecipeModel recipeModel = null;
 
     //##########################################
     //######## AUTHENTICATION & AUTHORIZATION
@@ -160,7 +164,12 @@ public class UserController {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("user_id" , user.id);
-//            model.put("email", user.email);
+            try {
+                model.put("recommendations", recipeModel.getRecommendations(user));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "redirect:/index";
+            }
         }
 
         model.put("content_bar_selection" , "profile");

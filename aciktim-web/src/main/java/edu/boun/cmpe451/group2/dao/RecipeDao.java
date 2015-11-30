@@ -446,9 +446,9 @@ public class RecipeDao extends BaseDao {
         }
     }
     public List<Map<String, Object>> getRecommendations(User user) {
-        Long fat = 0L;
-        Long carb = 0L;
-        Long protein=0L;
+        Double fat = 0d;
+        Double carb = 0d;
+        Double protein=0d;
         ArrayList<Long> recipe = new ArrayList<Long>();
         String sql = "SELECT recipeID from dailyConsumption where userID = ?";
         List<Map<String, Object>> recipes = this.jdbcTemplate.queryForList(sql, user.id);
@@ -459,9 +459,9 @@ public class RecipeDao extends BaseDao {
             sql = "SELECT totalFat, totalCarb, totalProtein, totalCal from recipes where id = ?";
             List<Map<String,Object>> nutValues = this.jdbcTemplate.queryForList(sql,rec);
             for(Map<String,Object> map: nutValues) {
-                fat+=Long.parseLong(map.get("totalFat").toString());
-                carb+=Long.parseLong(map.get("totalCarb").toString());
-                protein+=Long.parseLong(map.get("totalProtein").toString());
+                fat+=Double.parseDouble(map.get("totalFat").toString());
+                carb+=Double.parseDouble(map.get("totalCarb").toString());
+                protein+=Double.parseDouble(map.get("totalProtein").toString());
             }
         }
         double recFat = (double)70/430;
