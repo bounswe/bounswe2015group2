@@ -172,7 +172,7 @@ public class RecipeDao extends BaseDao {
      * @param name name of the recipe
      * @return recipe list
      */
-    public ArrayList<Recipe> searchRecipes(String name) {
+    public ArrayList<Recipe> searchRecipes(String name) throws ExException{
         String sql = "SELECT * FROM recipes WHERE name LIKE ?";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
@@ -203,8 +203,104 @@ public class RecipeDao extends BaseDao {
 
             recipeList.add(recipe);
         }
+
+        if(recipeList.size()<50){
+            AddSemanticallyRelatedRecipes(recipeList);
+        }
+        if(recipeList.size()<50){
+            AddSemanticallyRelatedRecipesClass(recipeList);
+        }
         return recipeList;
     }
+
+    public void AddSemanticallyRelatedRecipesClass(ArrayList<Recipe> recipeList) throws ExException {
+        HashMap<Long,Recipe> temp = new HashMap<Long,Recipe>();
+        for(Recipe r:recipeList){
+            temp.put(r.id,r);
+        }
+
+        for(Recipe r : recipeList){
+            ArrayList<Tag> tags = getTags(r.id);
+            for(Tag t : tags){
+                ArrayList<Recipe> tempList = searchByTagClass(t);
+                for(Recipe r2:tempList){
+                    temp.put(r2.id,r2);
+                    if(temp.size()>=50) break;
+                }
+                if(temp.size()>=50) break;
+            }
+            if(temp.size()>=50) break;
+        }
+
+        recipeList.clear();
+        for(HashMap.Entry<Long,Recipe> entry : temp.entrySet()){
+            recipeList.add(entry.getValue());
+        }
+    }
+
+    public ArrayList<Recipe> searchByTagClass(Tag t) throws ExException{
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        String sql = "SELECT recipeID FROM recipeTag WHERE parentTag=? ";
+        List<Map<String,Object>> list = this.jdbcTemplate.queryForList(sql,t.parentTag);
+        for(Map<String,Object> row :  list){
+            Long id = Long.parseLong(row.get("recipeID").toString());
+            Recipe r = getRecipe(id);
+            r.id = id;
+            recipes.add(r);
+        }
+        return recipes;
+    }
+
+    public ArrayList<Tag> getTags(Long recipeID){
+        ArrayList<Tag> tags = new ArrayList<Tag>();
+        String sql = "SELECT * FROM recipeTag WHERE recipeID=?";
+        List<Map<String,Object>> res = this.jdbcTemplate.queryForList(sql,recipeID);
+        for(Map<String,Object> row : res){
+            Tag t = new Tag();
+            t.id = Long.parseLong(row.get("recipeID").toString());
+            t.name = row.get("tag").toString();
+            t.parentTag = row.get("parentTag").toString();
+            tags.add(t);
+        }
+        return tags;
+    }
+
+    public void AddSemanticallyRelatedRecipes(ArrayList<Recipe> recipeList) throws ExException{
+        HashMap<Long,Recipe> temp = new HashMap<Long,Recipe>();
+        for(Recipe r:recipeList){
+            temp.put(r.id,r);
+        }
+        for(Recipe r : recipeList){
+            ArrayList<Tag> tags = getTags(r.id);
+            for(Tag t : tags){
+                ArrayList<Recipe> tempList = searchByTag(t);
+                for(Recipe r2:tempList){
+                    temp.put(r2.id,r2);
+                    if(temp.size()>=50) break;
+                }
+                if(temp.size()>=50) break;
+            }
+            if(temp.size()>=50) break;
+        }
+        recipeList.clear();
+        for(HashMap.Entry<Long,Recipe> entry : temp.entrySet()){
+            recipeList.add(entry.getValue());
+        }
+    }
+
+    public ArrayList<Recipe> searchByTag(Tag t) throws ExException {
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        String sql = "SELECT recipeID FROM recipeTag WHERE tag=? ";
+        List<Map<String,Object>> list = this.jdbcTemplate.queryForList(sql,t.name);
+        for(Map<String,Object> row :  list){
+            Long id = Long.parseLong(row.get("recipeID").toString());
+            Recipe r = getRecipe(id);
+            r.id = id;
+            recipes.add(r);
+        }
+        return recipes;
+    }
+
 
     /**
      *
