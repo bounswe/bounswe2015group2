@@ -227,6 +227,10 @@ public class RecipeDao extends BaseDao {
         recipe.ownerID = Long.parseLong(map.get("ownerID").toString());
         recipe.description = map.get("description").toString();
         recipe.likes = Long.parseLong(map.get("likes").toString());
+        recipe.totalFat = Double.parseDouble(map.get("totalFat").toString());
+        recipe.totalCarb = Double.parseDouble(map.get("totalCarb").toString());
+        recipe.totalProtein = Double.parseDouble(map.get("totalProtein").toString());
+        recipe.totalCal = Double.parseDouble(map.get("totalCal").toString());
 
         String sql2 = "SELECT * FROM recipeIngredient JOIN Ingredients ON Ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ";
 
