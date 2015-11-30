@@ -160,15 +160,19 @@
             <div class="col-xs-9 col-md-6">
                 <label>Popular Tags <span class="glyphicon glyphicon-tags"></span></label><br>
                 <div id="c_b">
-                    <input type="checkbox" name="tag_cheap" value="Cheap" >Cheap<br>
-                    <input type="checkbox" name="tag_fat_free" value="Fat-free">Fat-free<br>
-                    <input type="checkbox" name="tag_quick" value="Quick">Quick<br>
-                    <input type="checkbox" name="tag_for_guest" value="Forguest">For guest<br>
+                    <%--<input type="checkbox" name="tag_cheap" value="Cheap" >Cheap<br>--%>
+                    <%--<input type="checkbox" name="tag_fat_free" value="Fat-free">Fat-free<br>--%>
+                    <%--<input type="checkbox" name="tag_quick" value="Quick">Quick<br>--%>
+                    <%--<input type="checkbox" name="tag_for_guest" value="Forguest">For guest<br>--%>
+                    <div class="row">Cheap</div>
+                    <div class="row">Fat-free</div>
+                    <div class="row">Quick</div>
+                    <div class="row">For guest</div>
                 </div>
             </div>
             <div class="col-xs-9 col-md-6">
                 <label>Enter Tags </label><br>
-                <textarea id="t" placeholder="Tag1, Tag2, Tag3"></textarea>
+                <textarea name="t" id="t" placeholder="Tag1, Tag2, Tag3"></textarea>
                 <button type="submit" id="searchAlert" class="btn btn-warning search_group"><span class="glyphicon glyphicon-search"></span>Search</button>
             </div>
             <script>

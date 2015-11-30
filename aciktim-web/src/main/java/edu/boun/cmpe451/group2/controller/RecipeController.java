@@ -42,6 +42,7 @@ public class RecipeController {
             @RequestParam(required = false, defaultValue = "-1") String ownerID,
             @RequestParam(required = false, defaultValue = "-1") String search_keyword,
             @RequestParam(required = false, defaultValue = "-1") String ingredients_string,
+            @RequestParam(required = false, defaultValue = "-1") String t,
             @RequestParam(required = false, defaultValue = "-1") String madeAt,
 
             @CookieValue(value = "session_id", defaultValue = "") String session_id) {
@@ -66,30 +67,72 @@ public class RecipeController {
                         List<String> ingredientList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
 
-                        // made at filter is used only here because of the advanced search functionality
-//                        if(madeAt.equals("home")) {
-//                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
-//                                Recipe current = iterator.next();
-//                                User owner = userModel.getUserByID(current.getOwnerID());
-//                                if (owner.isInst()) {
-//                                    iterator.remove();
-//                                }
-//                            }
-////                            works finally
-////                            recipeResults.removeAll(recipeResults);
-//                        } else if(madeAt.equals("restaurant")) {
-//                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
-//                                Recipe current = iterator.next();
-//                                User owner = userModel.getUserByID(current.getOwnerID());
-//                                if (!owner.isInst()) {
-//                                    iterator.remove();
-//                                }
-//                            }
-//                        }
+                        // yemekler içinde arancak taglerin listi
+                        if(!t.equals("-1")) {
+                            List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
+                            ArrayList<Tag> tagList = new ArrayList<Tag>();
+                            for(String tagName : tagNameList) {
+                                ArrayList<Tag> tempList = new ArrayList(recipeModel.getRecipeDao().getTagsByName(tagName));
+                                tagList.removeAll(tempList);
+                                tagList.addAll(tempList);
+                            }
+
+
+                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                                Recipe current = iterator.next();
+                                ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
+
+                                boolean hasAtLeastOne = false;
+                                outerloop:
+                                for(int i=0; i<tagList.size(); i++) {
+                                    for(int j=0; j<recipeTagList.size(); j++) {
+                                        if(tagList.get(i).getName().equals(recipeTagList.get(i).getName())) {
+                                            hasAtLeastOne = true;
+                                            break outerloop;
+                                        }
+                                    }
+                                }
+                                if(!hasAtLeastOne)
+                                   iterator.remove();
+                            }
+                        }
 
                         model.put("recipeResults", recipeResults);
                     } else { // bring keyword
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+
+                        // yemekler içinde arancak taglerin listi
+                        if(!t.equals("-1")) {
+                            List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
+                            ArrayList<Tag> tagList = new ArrayList<Tag>();
+                            for(String tagName : tagNameList) {
+                                ArrayList<Tag> tempList = new ArrayList(recipeModel.getRecipeDao().getTagsByName(tagName));
+                                tagList.removeAll(tempList);
+                                tagList.addAll(tempList);
+                            }
+
+
+                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                                Recipe current = iterator.next();
+                                ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
+
+                                boolean hasAtLeastOne = false;
+                                outerloop:
+                                for(int i=0; i<tagList.size(); i++) {
+                                    for(int j=0; j<recipeTagList.size(); j++) {
+                                        if(tagList.get(i).getName().equals(recipeTagList.get(i).getName())) {
+                                            hasAtLeastOne = true;
+                                            break outerloop;
+                                        }
+                                    }
+                                }
+                                if(!hasAtLeastOne)
+                                    iterator.remove();
+                            }
+                        }
+
                         model.put("recipeResults", recipeResults);
                     }
                 } else { // bring random recipes

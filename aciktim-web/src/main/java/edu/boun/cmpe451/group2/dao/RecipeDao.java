@@ -265,6 +265,20 @@ public class RecipeDao extends BaseDao {
         return tags;
     }
 
+    public ArrayList<Tag> getTagsByName(String tagName){
+        ArrayList<Tag> tags = new ArrayList<Tag>();
+        String sql = "SELECT * FROM recipeTag WHERE tag LIKE ?";
+        List<Map<String,Object>> res = this.jdbcTemplate.queryForList(sql,"%" + tagName + "%");
+        for(Map<String,Object> row : res){
+            Tag t = new Tag();
+            t.id = Long.parseLong(row.get("recipeID").toString());
+            t.name = row.get("tag").toString();
+            t.parentTag = row.get("parentTag").toString();
+            tags.add(t);
+        }
+        return tags;
+    }
+
     public void AddSemanticallyRelatedRecipes(ArrayList<Recipe> recipeList) throws ExException{
         HashMap<Long,Recipe> temp = new HashMap<Long,Recipe>();
         for(Recipe r:recipeList){
