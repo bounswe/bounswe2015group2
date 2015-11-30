@@ -128,4 +128,12 @@ public class UserDao extends BaseDao {
 
         return true;
     }
+
+    public List<Map<String,Object>> getDailyConsumption(Long userID,Calendar calendar){
+        String sql = "SELECT * FROM dailyConsumption WHERE userID=? AND day=?";
+        String day = ""+calendar.get(Calendar.YEAR)+"-";
+        day += calendar.get(Calendar.MONTH)+"-";
+        day += calendar.get(Calendar.DAY_OF_MONTH);
+        return this.jdbcTemplate.queryForList(sql,userID,day);
+    }
 }

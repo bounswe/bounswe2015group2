@@ -1,9 +1,13 @@
 package edu.boun.cmpe451.group2.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
+import edu.boun.cmpe451.group2.client.Recipe;
 import edu.boun.cmpe451.group2.client.User;
+import edu.boun.cmpe451.group2.dao.RecipeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -158,6 +162,26 @@ public class UserModel {
         return userDao.consume(userID,recipeID,calendar);
     }
 
+    /**
+     * returns daily consumption list of a user, given that day
+     * @param userID id of the user
+     * @param calendar calendar that contains the date
+     * @return Arraylist of recipes that consumed that day
+     * @throws ExException
+     */
+    public ArrayList<Recipe> getDailyConsumption(Long userID,Calendar calendar) throws ExException{
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        List<Map<String,Object>> list = userDao.getDailyConsumption(userID,calendar);
+        for(Map<String,Object> entry : list){
+            Recipe r = new Recipe();
+            Long id = Long.parseLong(entry.get("recipeID").toString());
+            RecipeDao recipeDao = null;
+            r = recipeDao.getRecipe(id);
+            r.id = id;
+            recipes.add(r);
+        }
+        return recipes;
+    }
     public UserDao getUserDao() {
         return userDao;
     }
