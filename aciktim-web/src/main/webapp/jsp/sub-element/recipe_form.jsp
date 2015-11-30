@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal row-border" action="${contextPath}/recipe/${action_type}" method="post">
+                    <form class="form-horizontal row-border" id="add_recipe_form" action="${contextPath}/recipe/${action_type}" method="post">
 
                         <div class="form-group">
                             <label class="col-md-2 control-label">Recipe Name</label>
@@ -138,12 +138,12 @@
             <input type="hidden" id="prot" name="ingredient_prot">
             <input type="hidden" id="fat" name="ingredient_fat">
 
-            <input type="text" class="form-control" id="amount" name="ingredient_amount" placeholder="Quantity" required>
+            <input type="number" class="form-control" id="amount" name="ingredient_amount" placeholder="Quantity" required>
         </div>
     </div>
-        <div class="col-sm-3">
-            <input type="text" class="form-control" id="unit" name="ingredient_unit" readonly>
-        </div>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" id="unit" name="ingredient_unit" readonly>
+    </div>
 
 
     <div class="col-sm-2">
@@ -170,16 +170,27 @@
 <%--------- Tag Template -------------%>
 
 <%--<div class="form-group"  id="tag_template" style="display: none ; margin-top: 10px;">--%>
-<div class="row" id="tag_template" style="display: none ; margin-top: 10px;">
-    <div class="col-sm-4 col-sm-offset-4">
-        <div class="form-group">
-            <b>Tag Name:</b>
-            <input type="text" class="form-control" name="tag_name" required>
-            <b>Tag Class:</b>
-            <input type="text" class="form-control" name="tag_class" required>
+<%--<div class="row" id="tag_template" style="display: none ; margin-top: 10px;">--%>
+<%--<div class="col-sm-8 col-sm-offset-2">--%>
+<div class="form-inline" id="tag_template" style="display: none ; margin-top: 10px;">
+
+    <div class="form-group" style="margin-left: 0px; margin-right: 0px; margin-bottom: 10px">
+        <label class="col-md-4 control-label">Tag Name   </label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="one" name="tag_name" required>
         </div>
     </div>
+
+    <div class="form-group" style="margin-left: 0px; margin-right: 0px; margin-bottom: 10px">
+        <label class="col-md-4 control-label">Tag Class   </label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="two" name="tag_class" required>
+        </div>
+    </div>
+
 </div>
+
+<%--</div>--%>
 
 
 

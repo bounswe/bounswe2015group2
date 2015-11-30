@@ -85,15 +85,11 @@ $(document).ready(function() {
         }
     });
 
-
-
     //// REMOVE BUTTON LISTENER ON ADDED INGREDIENTS
     $(document.body).on("click", ".rm_button" , function () {
         var index  = $(this).index();
         wrapper_added_ingredients.children()[index].remove();
     });
-
-
 
     //// TAG BUTTON LISTENERS
     $("#add_tag").on("click",function(){
@@ -116,7 +112,15 @@ $(document).ready(function() {
         }
     });
 
-
+    $('#add_recipe_form').submit(function() {
+        var ingredient_count = wrapper_added_ingredients.children().length;
+        var tag_count = wrapper_added_tags.children().length;
+        if(ingredient_count == 0 || tag_count == 0){
+            bootbox.alert("Tag list or Ingredient list cannot be empty!");
+            return false;
+        }
+        return true;
+    });
 
     function generateSearchedIngredientHTML(ndbno,name){
         var searched_ingrendient = template_searched_ingredient.clone();
