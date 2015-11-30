@@ -75,14 +75,19 @@ public class RecipeModel {
         if(recipe.getIngredientAmountMap().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
+        int counter=0;
         for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
             if(((Ingredient)entry.getKey()).id == null){
                 throw new ExException(ExError.E_INGREDIENT_ID_NULL);
             }
+            System.out.println("Counter : " + counter);
+            System.out.println("CALORIES : "+entry.getKey().calories);
+            System.out.println("INGREDIENT AMOUNT : "+entry.getValue());
             recipe.totalCal += entry.getKey().calories*entry.getValue();
             recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
             recipe.totalFat += entry.getKey().fat*entry.getValue();
             recipe.totalProtein += entry.getKey().protein*entry.getValue();
+            counter++;
         }
         recipeDao.addRecipe(recipe);
     }

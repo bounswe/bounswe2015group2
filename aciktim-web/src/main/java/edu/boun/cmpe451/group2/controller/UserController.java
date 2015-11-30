@@ -37,9 +37,7 @@ public class UserController {
     public String userlogin(
             @RequestParam String email,
             @RequestParam String password,
-            HttpServletResponse response
-//            ModelMap model
-    ) {
+            HttpServletResponse response) {
 
         try {
             String session_id = userModel.login(email, password);
@@ -169,7 +167,9 @@ public class UserController {
         return "user-views/profile";
     }
 
-
+    //##########################################
+    //######## USER'S DAILY CONSUMPTION
+    //##########################################
 
 
 }

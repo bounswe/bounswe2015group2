@@ -52,14 +52,20 @@
                                 </div>
 
                                 <div class="row">
-                                    <table class="table" id="searchedingredients">
-                                        <thead>
-                                        <tr>
-                                            <th>Food Name</th>
-                                        </tr>
-                                        </thead>
-                                        <%--Place to insert searched ingredients--%>
-                                    </table>
+                                        <table class="table table-striped col-sm-12"style="margin-bottom: 0px">
+                                            <thead>
+                                            <tr>
+                                                <th>Food Name</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="searchedingredients">
+
+                                            </tbody>
+
+
+                                        </table>
+
+
                                 </div>
                             </div>
                         </div>
@@ -156,9 +162,7 @@
 <%--------- Searched Ingredient Template -------------%>
 <table style="display: none;">
     <tr id="searched_ingredient_template">
-        <td>
-
-        </td>
+        <td style="vertical-align: middle"></td>
         <td>
             <span class="btn btn-default add_button"  >Add!</span>
         </td>
@@ -168,10 +172,6 @@
 
 
 <%--------- Tag Template -------------%>
-
-<%--<div class="form-group"  id="tag_template" style="display: none ; margin-top: 10px;">--%>
-<%--<div class="row" id="tag_template" style="display: none ; margin-top: 10px;">--%>
-<%--<div class="col-sm-8 col-sm-offset-2">--%>
 <div class="form-inline" id="tag_template" style="display: none ; margin-top: 10px;">
 
     <div class="form-group" style="margin-left: 0px; margin-right: 0px; margin-bottom: 10px">
@@ -184,13 +184,12 @@
     <div class="form-group" style="margin-left: 0px; margin-right: 0px; margin-bottom: 10px">
         <label class="col-md-4 control-label">Tag Class   </label>
         <div class="col-md-8">
-            <input type="text" class="form-control" id="two" name="tag_class" required>
+            <input type="text" class="form-control" id="two" name="tag_class" value="">
         </div>
     </div>
 
 </div>
 
-<%--</div>--%>
 
 
 

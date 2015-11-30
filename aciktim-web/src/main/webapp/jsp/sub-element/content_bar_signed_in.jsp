@@ -11,6 +11,7 @@
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
                 <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
+                <li role="presentation" id="content_bar_dailyconsuption"><a href="/aciktim/user/dailyconsupmtion">Daily Consumption</a></li>
             </ul>
         </div>
 
@@ -36,6 +37,7 @@
         $("li").removeAttr("class");
         $("#content_bar_"+selection).attr("class","active");
 
+
         if(selection == "profile"){
             $(".search_group").css("display","none");
         }else if(selection == "recipes"){
@@ -46,12 +48,16 @@
             $(".search_group").css("display","");
             $("#content_bar_advanced").css("display","none");
         }
+
+
+
+
+
+
         $("#content_bar_advanced").click(function(){
             $("#searchForm").show();
         });
-//        $("#searchAlert").click(function(){
-//            alert("You enter a search");
-//        })
+
     });
 </script>
 

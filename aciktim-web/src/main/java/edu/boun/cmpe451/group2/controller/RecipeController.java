@@ -313,8 +313,8 @@ public class RecipeController {
                     id,
                     image_url,
                     description,
-                    formAmountMap(ingredient_name, ingredient_amount, ingredient_no, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
-                    formTagList(tag_name, tag_class));
+                    formAmountMap(ingredient_no, ingredient_name, ingredient_amount, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
+                    formTagList(tag_name,tag_class));
 
             recipeModel.addRecipe(r);
             model.put("type", "SUCCESS");
@@ -383,14 +383,14 @@ public class RecipeController {
 
     }
 
-    public HashMap<Ingredient, Long> formAmountMap(String[] names,
-                                                   String[] nos,
-                                                   String[] amounts,
-                                                   String[] ens,
-                                                   String[] carbs,
-                                                   String[] prots,
-                                                   String[] fats,
-                                                   String[] units) {
+    public HashMap<Ingredient,Long> formAmountMap(String[] nos,
+                                                  String[] names,
+                                                  String[] amounts,
+                                                  String[] ens,
+                                                  String[] carbs,
+                                                  String[] prots,
+                                                  String[] fats,
+                                                  String[] units){
 
         HashMap<Ingredient, Long> m = new HashMap<>();
         int counter = 0;
@@ -410,14 +410,14 @@ public class RecipeController {
         return m;
     }
 
-    public List<Tag> formTagList(String[] tag_name, String[] tag_class) {
+    public List<Tag> formTagList(String[] tag_name, String[]parent_tag){
         List<Tag> tl = new ArrayList<>();
         int counter = 0;
         if (tag_name == null) return tl;
         for (String tag : tag_name) {
             Tag t = new Tag();
-            //t.tag_name = tag;
-            //t.tag_class = tag_class[counter];
+            t.name = tag;
+            t.parentTag= parent_tag[counter];
             tl.add(t);
             counter++;
         }
