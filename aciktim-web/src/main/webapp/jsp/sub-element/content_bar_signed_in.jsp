@@ -80,10 +80,10 @@
                     <label>Made At</label><br>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeWhere" value="male">Home<br>
+                    <input type="radio" name="madeWhere" value="home">Home<br>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeWhere" value="female">Restaurant
+                    <input type="radio" name="madeWhere" value="restaurant">Restaurant
                 </div>
             </div>
         </div>

@@ -43,6 +43,7 @@ public class RecipeController {
             @RequestParam (required = false, defaultValue = "-1") String ownerID,
             @RequestParam (required = false, defaultValue = "-1") String search_keyword,
             @RequestParam (required = false, defaultValue = "-1") String ingredients_string,
+            @RequestParam (required = false, defaultValue = "-1") String madeWhere,
 
             @CookieValue(value="session_id", defaultValue = "") String session_id){
 
@@ -67,9 +68,49 @@ public class RecipeController {
                     if (!ingredients_string.equals("-1")){ // bring keyword + ingredients
                         List<String> ingredientList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
+
+//                      filters according to madeWhere
+//                        if(madeWhere.equals("home")) {
+//                            for (int i = 0; i < recipeResults.size(); i++) {
+//                                User owner = userModel.getUserByID(recipeResults.get(i).getOwnerID());
+//                                if (owner.isInst()) {
+//                                    recipeResults.remove(i);
+//                                    i--;
+//                                }
+//                            }
+//                        } else if(madeWhere.equals("restaurant")) {
+//                            for (int i = 0; i < recipeResults.size(); i++) {
+//                                User owner = userModel.getUserByID(recipeResults.get(i).getOwnerID());
+//                                if (!owner.isInst()) {
+//                                    recipeResults.remove(i);
+//                                    i--;
+//                                }
+//                            }
+//                        }
+
                         model.put("recipeResults", recipeResults);
                     }else{ // bring keyword
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+
+//                      filters according to madeWhere
+//                        if(madeWhere.equals("home")) {
+//                            for (int i = 0; i < recipeResults.size(); i++) {
+//                                User owner = userModel.getUserByID(recipeResults.get(i).getOwnerID());
+//                                if (owner.isInst()) {
+//                                    recipeResults.remove(i);
+//                                    i--;
+//                                }
+//                            }
+//                        } else if(madeWhere.equals("restaurant")) {
+//                            for (int i = 0; i < recipeResults.size(); i++) {
+//                                User owner = userModel.getUserByID(recipeResults.get(i).getOwnerID());
+//                                if (!owner.isInst()) {
+//                                    recipeResults.remove(i);
+//                                    i--;
+//                                }
+//                            }
+//                        }
+
                         model.put("recipeResults", recipeResults);
                     }
                 }else{ // bring random recipes

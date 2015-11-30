@@ -132,6 +132,20 @@ public class UserModel {
         user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
         return user;
     }
+
+    public User getUserByID(Long user_id) {
+        User user = new User();
+        Map<String, Object> userMap = userDao.getUser(user_id);
+        user.id = userMap.get("id").toString();
+        user.email = userMap.get("email").toString();
+        user.passwd = userMap.get("passwd").toString();
+        user.full_name = userMap.get("full_name").toString();
+        user.username = userMap.get("username").toString();
+        user.api_key = userMap.get("api_key").toString();
+        user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
+        return user;
+    }
+
     public UserDao getUserDao() {
         return userDao;
     }

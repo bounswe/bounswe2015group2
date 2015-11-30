@@ -129,27 +129,6 @@ public class RecipeDao extends BaseDao {
             if(has_all)
                 recipeList.add(recipe);
 
-//            for (String ingredientName : ingredients) {
-//                boolean is_exists = false;
-//                String sqlSearchIngr="SELECT * FROM Ingredients WHERE name LIKE ? ";
-//                List<Map<String,Object>> ingredientsFound = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
-////              above is the ingredients in the system that we're looking for
-//                ArrayList<Integer> ids = new ArrayList<Integer>();
-//                for(Map<String,Object> rows: ingredientsFound){
-//                    ids.add(Integer.parseInt(rows.get("id").toString()));
-//                }
-////              id's of the ingredients in the system that we're looking for
-//                for (Map<String, Object> resultMap2 : resultList2) {
-//                    int id = Integer.parseInt(resultMap2.get("ingredientID").toString());
-//                    if (ids.contains(id)) {
-//                        is_exists = true;
-//                    }
-//                }
-//
-//                all_have = all_have && is_exists;
-//            }
-//            if (all_have)
-//                recipeList.add(recipe);
         }
         return recipeList;
     }
@@ -309,10 +288,10 @@ public class RecipeDao extends BaseDao {
         if (recipe.tagList.size() > 0) {
             sql = "INSERT INTO recipeTag(recipeID, tag) VALUES(?,?)";
 
-            for (Tag tag : recipe.tagList) {
-                System.out.println(tag.id);
-                this.jdbcTemplate.update(sql, recipeID, tag.name);
-            }
+//            for (Tag tag : recipe.tagList) {
+//                System.out.println(tag.id);
+//                this.jdbcTemplate.update(sql, recipeID, tag.name);
+//            }
         }
     }
 
