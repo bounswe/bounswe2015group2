@@ -17,7 +17,7 @@ public class Recipe {
     public Long likes = 0L;
     public List<Comment> commentList = new ArrayList<Comment>();
     public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
-    public List<Tag> tagList = null;
+    public List<Tag> tagList = new ArrayList<Tag>();
     public String description = "";
     public double totalProtein=0;
 

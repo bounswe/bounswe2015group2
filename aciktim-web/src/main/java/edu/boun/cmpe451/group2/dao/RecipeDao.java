@@ -250,6 +250,16 @@ public class RecipeDao extends BaseDao {
         }
         recipe.IngredientAmountMap = ingredientMap;
 
+        String sql3 = "SELECT * FROM recipeTag  WHERE recipeID = ?";
+
+        List<Map<String, Object>> map3 = this.jdbcTemplate.queryForList(sql3, id);
+        for (Map<String, Object> tagEntry : map3) {
+            Tag tag = new Tag();
+            tag.name = tagEntry.get("tag").toString();
+            tag.parentTag = tagEntry.get("parentTag").toString();
+            recipe.tagList.add(tag);
+        }
+
         return recipe;
     }
 
