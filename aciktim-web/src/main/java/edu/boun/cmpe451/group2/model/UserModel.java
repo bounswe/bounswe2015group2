@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.model;
 
+import java.util.Calendar;
 import java.util.Map;
 
 import edu.boun.cmpe451.group2.client.User;
@@ -144,6 +145,17 @@ public class UserModel {
         user.api_key = userMap.get("api_key").toString();
         user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
         return user;
+    }
+
+    /**
+     * this method adds the consume info of the user
+     * @param userID id of the user who consumes
+     * @param recipeID id of the recipe that user consumes
+     * @param calendar calendar that contains the date
+     * @return true if success, false if there is an error
+     */
+    public boolean consume(Long userID,Long recipeID,Calendar calendar){
+        return userDao.consume(userID,recipeID,calendar);
     }
 
     public UserDao getUserDao() {

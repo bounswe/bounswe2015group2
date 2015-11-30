@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.dao;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -111,5 +112,20 @@ public class UserDao extends BaseDao {
             return false;
         else
             return true;
+    }
+
+    public boolean consume(Long userID,Long recipeID, Calendar calendar){
+        String sql = "INSERT INTO dailyConsumption(day,userID,recipeID) VALUES(?,?,?)";
+        String time = "";
+        time = time + calendar.get(Calendar.YEAR) +"-";
+        time = time + calendar.get(Calendar.MONTH)+"-";
+        time = time + calendar.get(Calendar.DAY_OF_MONTH);
+        this.jdbcTemplate.update(sql,time,userID,recipeID);
+
+        String sqlCheck = "SELECT COUNT(*) FROM dailyConsumption WHERE userID=? AND day=? and recipeID=?";
+        Map<String,Object> res = this.jdbcTemplate.queryForMap(sqlCheck,userID,time,recipeID);
+        if(Integer.parseInt(res.get("COUNT(*)").toString()) == 0) return false;
+
+        return true;
     }
 }
