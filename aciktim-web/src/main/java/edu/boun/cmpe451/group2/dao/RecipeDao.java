@@ -233,8 +233,8 @@ public class RecipeDao extends BaseDao {
         }
 
         recipeList.clear();
-        for(HashMap.Entry<Long,Recipe> entry : temp.entrySet()){
-            recipeList.add(entry.getValue());
+        for(Recipe r : temp.values()){
+            recipeList.add(r);
         }
     }
 
@@ -283,8 +283,8 @@ public class RecipeDao extends BaseDao {
             if(temp.size()>=50) break;
         }
         recipeList.clear();
-        for(HashMap.Entry<Long,Recipe> entry : temp.entrySet()){
-            recipeList.add(entry.getValue());
+        for(Recipe r : temp.values()){
+            recipeList.add(r);
         }
     }
 
