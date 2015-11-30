@@ -134,6 +134,7 @@ public class UserDao extends BaseDao {
         String day = ""+calendar.get(Calendar.YEAR)+"-";
         day += calendar.get(Calendar.MONTH)+"-";
         day += calendar.get(Calendar.DAY_OF_MONTH);
+        day += " 00:00:00";
         return this.jdbcTemplate.queryForList(sql,userID,day);
     }
 }
