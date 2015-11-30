@@ -30,6 +30,10 @@ public class UserModel {
     @Autowired
     private UserDao userDao = null;
 
+    @Qualifier("recipeDao")
+    @Autowired
+    RecipeDao recipeDao = null;
+
     /**
      * login
      *
@@ -175,7 +179,6 @@ public class UserModel {
         for(Map<String,Object> entry : list){
             Recipe r = new Recipe();
             Long id = Long.parseLong(entry.get("recipeID").toString());
-            RecipeDao recipeDao = null;
             r = recipeDao.getRecipe(id);
             r.id = id;
             recipes.add(r);
