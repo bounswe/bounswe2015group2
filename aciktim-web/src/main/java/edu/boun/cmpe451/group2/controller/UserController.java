@@ -107,7 +107,7 @@ public class UserController {
             model.put("type", "ERROR");
         }
 
-        System.out.println("yarrak");
+        System.out.println("oops!");
 
         try {
             User user = new User();

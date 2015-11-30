@@ -6,7 +6,7 @@
             <ul class="nav nav-pills">
 
                 <li role="presentation" id="content_bar_profile" ><a href="/aciktim/user/view">Profile</a></li>
-                <li role="presentation" id="content_bar_recipes"><a href="/aciktim/recipes">Recipes</a></li>
+                <li role="presentation" id="content_bar_recipes"><a href="${contextPath}/recipes">Recipes</a></li>
                 <li role="presentation" id="content_bar_restaurants"><a href="/aciktim/restaurants">Restaurants</a></li>
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
@@ -86,11 +86,17 @@
                     <label>Made At</label><br>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeWhere" value="home">Home<br>
+                    <input type="radio" name="madeAt" value="home">Home<br>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeWhere" value="restaurant">Restaurant
+                    <input type="radio" name="madeAt" value="restaurant">Restaurant
                 </div>
+                <%--<div class="col-xs-6 col-md-4">&ndash;%&gt;--%>
+                    <%--<div class="input-group">--%>
+                        <%--<span class="input-group-addon">Institutional User? </span>--%>
+                        <%--<input type="checkbox" name="is_institution" aria-describedby="basic-addon1">--%>
+                    <%--</div>--%>
+                <%--</div>--%>
             </div>
         </div>
 
