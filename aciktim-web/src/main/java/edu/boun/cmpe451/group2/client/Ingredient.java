@@ -16,6 +16,62 @@ public class Ingredient {
     public String unitName = "";
     public IngredientDao ingDao = null;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getProtein() {
+        return protein;
+    }
+
+    public void setProtein(double protein) {
+        this.protein = protein;
+    }
+
+    public double getFat() {
+        return fat;
+    }
+
+    public void setFat(double fat) {
+        this.fat = fat;
+    }
+
+    public double getCarbohydrate() {
+        return carbohydrate;
+    }
+
+    public void setCarbohydrate(double carbohydrate) {
+        this.carbohydrate = carbohydrate;
+    }
+
+    public double getCalories() {
+        return calories;
+    }
+
+    public void setCalories(double calories) {
+        this.calories = calories;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public IngredientDao getIngDao() {
+        return ingDao;
+    }
+
+    public void setIngDao(IngredientDao ingDao) {
+        this.ingDao = ingDao;
+    }
+
     /*public List<Ingredient> getIngredients() {
         List<Ingredient> allIngredients = null;
         List<Map<String, Object>> ingredients = ingDao.getAllIngredients();

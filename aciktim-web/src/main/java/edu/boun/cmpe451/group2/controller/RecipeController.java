@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @Scope("request")
@@ -202,7 +199,7 @@ public class RecipeController {
                     model.put("existing_recipe_description", rm.description);
                     model.put("existing_recipe_image_url", rm.pictureAddress);
                 } catch (Exception e) {
-                    System.out.printf("Bullshit");
+                    e.printStackTrace();
                 }
             }
         }
@@ -240,7 +237,7 @@ public class RecipeController {
                     model.put("existing_recipe_description", rm.description);
                     model.put("existing_recipe_image_url", rm.pictureAddress);
                 } catch (Exception e) {
-                    System.out.printf("Bullshit");
+                    e.printStackTrace();
                 }
             }
         }
@@ -262,20 +259,41 @@ public class RecipeController {
             model.put("full_name", user.full_name);
             if (Long.parseLong(user.id) == recipe.ownerID) {
                 model.put("is_owner", true);
-            }
-            else {
+            } else {
                 model.put("is_owner", false);
             }
             model.put("recipe", recipe);
             model.put("owner_name", userModel.getUserByID(recipe.ownerID).full_name);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/index";
         }
         return "recipe-views/single_recipe";
     }
 
+    @RequestMapping(value = {"/recipe/consume"}, method = RequestMethod.POST)
+    public String consume(
+            @RequestParam String recipe_id,
+            @RequestParam String day,
+            @RequestParam String month,
+            @RequestParam String year,
+            @CookieValue(value = "session_id", defaultValue = "") String session_id,
+            ModelMap model
+    ) {
+
+        try {
+            User user = userModel.getUser(session_id);
+            Calendar date = new GregorianCalendar();
+            date.set(Integer.parseInt(year),Integer.parseInt(month), Integer.parseInt(day));
+            userModel.consume(Long.parseLong(user.id),Long.parseLong(recipe_id),date);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/index";
+        }
+
+        return "redirect:/recipes";
+    }
 
     @RequestMapping(value = {"/recipe/add"}, method = RequestMethod.POST)
     public String recipeadd(
@@ -314,7 +332,7 @@ public class RecipeController {
                     image_url,
                     description,
                     formAmountMap(ingredient_no, ingredient_name, ingredient_amount, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
-                    formTagList(tag_name,tag_class));
+                    formTagList(tag_name, tag_class));
 
             recipeModel.addRecipe(r);
             model.put("type", "SUCCESS");
@@ -383,14 +401,14 @@ public class RecipeController {
 
     }
 
-    public HashMap<Ingredient,Long> formAmountMap(String[] nos,
-                                                  String[] names,
-                                                  String[] amounts,
-                                                  String[] ens,
-                                                  String[] carbs,
-                                                  String[] prots,
-                                                  String[] fats,
-                                                  String[] units){
+    public HashMap<Ingredient, Long> formAmountMap(String[] nos,
+                                                   String[] names,
+                                                   String[] amounts,
+                                                   String[] ens,
+                                                   String[] carbs,
+                                                   String[] prots,
+                                                   String[] fats,
+                                                   String[] units) {
 
         HashMap<Ingredient, Long> m = new HashMap<>();
         int counter = 0;
@@ -410,14 +428,14 @@ public class RecipeController {
         return m;
     }
 
-    public List<Tag> formTagList(String[] tag_name, String[]parent_tag){
+    public List<Tag> formTagList(String[] tag_name, String[] parent_tag) {
         List<Tag> tl = new ArrayList<>();
         int counter = 0;
         if (tag_name == null) return tl;
         for (String tag : tag_name) {
             Tag t = new Tag();
             t.name = tag;
-            t.parentTag= parent_tag[counter];
+            t.parentTag = parent_tag[counter];
             tl.add(t);
             counter++;
         }
