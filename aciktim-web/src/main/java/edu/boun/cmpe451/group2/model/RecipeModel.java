@@ -144,7 +144,7 @@ public class RecipeModel {
         List<Map<String, Object>> list = recipeDao.getRecommendations(user);
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
         for(Map<String,Object> row : list){
-            Recipe r = getRecipe(Long.parseLong(row.get("recipeID").toString()));
+            Recipe r = getRecipe(Long.parseLong(row.get("id").toString()));
             recipes.add(r);
         }
         return recipes;
