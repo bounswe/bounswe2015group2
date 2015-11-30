@@ -119,7 +119,6 @@ public class RecipeController {
                 }
             }catch (ExException e){
                 e.printStackTrace();
-                System.out.println("Shit man");
             }
         }
         return "user-views/recipes";
@@ -284,7 +283,6 @@ public class RecipeController {
         try {
             Recipe r = new Recipe();
             r.ownerID = id;
-            System.out.println("1");
 
             fillRecipe(r,
                     recipe_name,
@@ -294,9 +292,7 @@ public class RecipeController {
                     formAmountMap(ingredient_name, ingredient_amount, ingredient_no, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
                     formTagList(tag_name,tag_class));
 
-            System.out.println("2");
             recipeModel.addRecipe(r);
-            System.out.println("3");
             model.put("type", "SUCCESS");
         }catch (ExException e){
             e.printStackTrace();
@@ -321,14 +317,7 @@ public class RecipeController {
             @CookieValue(value="session_id", defaultValue = "") String session_id,
             ModelMap model) {
 
-
-        System.out.println(recipe_id);
-        System.out.println(image_url);
-        System.out.println(recipe_name);
-        System.out.println(description);
-
         Long userId = Long.parseLong(userModel.getUser(session_id).id);
-        System.out.println(userId);
 
         try{
             Recipe r = new Recipe();
@@ -350,7 +339,6 @@ public class RecipeController {
     @RequestMapping(value = "recipe/delete")
     public String recipedelete(
             @RequestParam(required = false) Long recipe_id) {
-        System.out.println("asd" + recipe_id);
         recipeModel.getRecipeDao().deleteRecipe(recipe_id);
         return "redirect:/recipes";
     }
@@ -404,8 +392,8 @@ public class RecipeController {
         if(tag_name == null) return tl;
         for (String tag : tag_name){
             Tag t = new Tag();
-            t.tag_name = tag;
-            t.tag_class = tag_class[counter];
+            //t.tag_name = tag;
+            //t.tag_class = tag_class[counter];
             tl.add(t);
             counter++;
         }

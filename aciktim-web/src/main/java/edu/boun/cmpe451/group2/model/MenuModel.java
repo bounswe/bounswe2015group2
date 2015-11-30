@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.model;
 import edu.boun.cmpe451.group2.client.Menu;
 import edu.boun.cmpe451.group2.client.Recipe;
 import edu.boun.cmpe451.group2.dao.MenuDao;
+import edu.boun.cmpe451.group2.dao.RecipeDao;
 import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
@@ -26,6 +27,9 @@ public class MenuModel {
     @Qualifier("menuDao")
     @Autowired
     private MenuDao menuDao = null;
+    @Qualifier("recipeDao")
+    @Autowired
+    private RecipeDao recipeDao = null;
     /**
      * adds a menu to the db.
      * note that this is an INSTANCE method
@@ -80,14 +84,13 @@ public class MenuModel {
 
         for (Map<String,Object> menuRecipe : menusDB){
             menuID = Long.parseLong(menuRecipe.get("id").toString());
-            Recipe recipe = new Recipe();
-            recipe.id = Long.parseLong(menuRecipe.get("recipeID").toString());
+            Recipe recipe = recipeDao.getRecipe(Long.parseLong(menuRecipe.get("recipeID").toString()));
             if(menus.containsKey(menuID)){
                 menus.get(menuID).recipes.add(recipe);
             }else{
                 ArrayList<Recipe> recipes = new ArrayList<Recipe>();
                 recipes.add(recipe);
-                String name = menuRecipe.get("name").toString();
+                String name = String.format("hasan: %d", menuID);
                 Menu menu = new Menu(recipes,id,name);
                 menus.put(menuID,menu);
             }

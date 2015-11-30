@@ -93,17 +93,12 @@ public class MenuController {
         for (int i = 0; i < recipe_ids.length; i++) {
             if (recipe_included[i].equals("true")) {
                 try {
-                    Recipe r = new Recipe();
-                    r.id = Long.parseLong(recipe_ids[i]);
-                    recipes.add(r);
-                    //TODO (mcenkbatman): when getRecipe is fixed, use this instead
-                    //recipes.add(recipeModel.getRecipe(Long.parseLong(recipe_ids[i])));
+                    recipes.add(recipeModel.getRecipe(Long.parseLong(recipe_ids[i])));
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            System.out.println(recipe_ids[i] + " " + recipe_names[i] + " " + recipe_included[i]);
         }
 
 
@@ -115,7 +110,6 @@ public class MenuController {
         catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(menu_name);
 
         return "redirect:/recipes";
     }
@@ -150,7 +144,7 @@ public class MenuController {
 
 
 
-        return "menu-views/menu_form_page";
+        return "menu-views/menu_view_page";
 
     }
 

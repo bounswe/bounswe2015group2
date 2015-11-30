@@ -213,7 +213,6 @@ public class RecipeDao extends BaseDao {
      * @throws ExException when there is no recipe of that id
      */
     public Recipe getRecipe(Long id) throws ExException {
-        System.out.println(id);
         String sql = "SELECT * FROM recipes WHERE recipes.id = ? ";
         String sqlCount = "SELECT COUNT(*) FROM recipes WHERE recipes.id = ?";
         Map<String, Object> mapCount = this.jdbcTemplate.queryForMap(sqlCount, id);
@@ -240,7 +239,7 @@ public class RecipeDao extends BaseDao {
             ingredient.protein = Double.parseDouble(ingredientEntry.get("protein").toString());
             ingredient.fat = Double.parseDouble(ingredientEntry.get("fat").toString());
             ingredient.carbohydrate = Double.parseDouble(ingredientEntry.get("carb").toString());
-            ingredient.calories = Long.parseLong(ingredientEntry.get("cal").toString());
+            ingredient.calories = Double.parseDouble(ingredientEntry.get("cal").toString());
             ingredient.unitName = ingredientEntry.get("unitName").toString();
             Long amount = Long.parseLong(ingredientEntry.get("amount").toString());
             ingredientMap.put(ingredient, amount);
@@ -257,11 +256,6 @@ public class RecipeDao extends BaseDao {
     public void addRecipe(Recipe recipe){
         String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description," +
                 "totalFat,totalCarb,totalProtein,totalCal) VALUES(?,?,?,?,?,?,?,?)";
-        System.out.println(recipe.name);
-        System.out.println(recipe.ownerID);
-        System.out.println(recipe.pictureAddress);
-        System.out.println(recipe.description);
-
 
 
         this.jdbcTemplate.update(sql,recipe.name,recipe.ownerID,recipe.pictureAddress,recipe.description,
@@ -276,8 +270,6 @@ public class RecipeDao extends BaseDao {
                 Map<String,Object> map =  this.jdbcTemplate.queryForMap(sqlGet,ingr.id);
                 int count = Integer.parseInt( map.get("COUNT(*)").toString());
                 if(count == 0) {
-                    System.out.println("sql statement is:");
-                    System.out.println("INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES("+ingr.id+","+ingr.name+","+ingr.protein+","+ingr.fat+","+ingr.carbohydrate+","+ingr.calories+","+ingr.unitName+")");
                     String sql2 = "INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES(?,?,?,?,?,?,?)";
                     this.jdbcTemplate.update(sql2,ingr.id,ingr.name,ingr.protein,ingr.fat,ingr.carbohydrate,ingr.calories,ingr.unitName);
                 }
@@ -289,7 +281,6 @@ public class RecipeDao extends BaseDao {
             sql = "INSERT INTO recipeTag(recipeID, tag) VALUES(?,?)";
 
 //            for (Tag tag : recipe.tagList) {
-//                System.out.println(tag.id);
 //                this.jdbcTemplate.update(sql, recipeID, tag.name);
 //            }
         }

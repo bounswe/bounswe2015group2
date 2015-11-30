@@ -97,5 +97,9 @@ public class Recipe {
         this.description = description;
     }
 
+    public String toString() {
+        return name + " " + id;
+    }
+
 
 }
