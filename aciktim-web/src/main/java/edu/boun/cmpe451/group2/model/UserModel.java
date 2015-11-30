@@ -1,8 +1,13 @@
 package edu.boun.cmpe451.group2.model;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 
+import edu.boun.cmpe451.group2.client.Recipe;
 import edu.boun.cmpe451.group2.client.User;
+import edu.boun.cmpe451.group2.dao.RecipeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -24,6 +29,10 @@ public class UserModel {
     @Qualifier("userDao")
     @Autowired
     private UserDao userDao = null;
+
+    @Qualifier("recipeDao")
+    @Autowired
+    RecipeDao recipeDao = null;
 
     /**
      * login
@@ -131,6 +140,50 @@ public class UserModel {
         user.api_key = userMap.get("api_key").toString();
         user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
         return user;
+    }
+
+    public User getUserByID(Long user_id) {
+        User user = new User();
+        Map<String, Object> userMap = userDao.getUser(user_id);
+        user.id = userMap.get("id").toString();
+        user.email = userMap.get("email").toString();
+        user.passwd = userMap.get("passwd").toString();
+        user.full_name = userMap.get("full_name").toString();
+        user.username = userMap.get("username").toString();
+        user.api_key = userMap.get("api_key").toString();
+        user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
+        return user;
+    }
+
+    /**
+     * this method adds the consume info of the user
+     * @param userID id of the user who consumes
+     * @param recipeID id of the recipe that user consumes
+     * @param calendar calendar that contains the date
+     * @return true if success, false if there is an error
+     */
+    public boolean consume(Long userID,Long recipeID,Calendar calendar){
+        return userDao.consume(userID,recipeID,calendar);
+    }
+
+    /**
+     * returns daily consumption list of a user, given that day
+     * @param userID id of the user
+     * @param calendar calendar that contains the date
+     * @return Arraylist of recipes that consumed that day
+     * @throws ExException
+     */
+    public ArrayList<Recipe> getDailyConsumption(Long userID,Calendar calendar) throws ExException{
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        List<Map<String,Object>> list = userDao.getDailyConsumption(userID,calendar);
+        for(Map<String,Object> entry : list){
+            Recipe r = new Recipe();
+            Long id = Long.parseLong(entry.get("recipeID").toString());
+            r = recipeDao.getRecipe(id);
+            r.id = id;
+            recipes.add(r);
+        }
+        return recipes;
     }
     public UserDao getUserDao() {
         return userDao;

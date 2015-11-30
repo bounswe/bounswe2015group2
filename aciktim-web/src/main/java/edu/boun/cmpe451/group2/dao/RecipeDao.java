@@ -129,27 +129,6 @@ public class RecipeDao extends BaseDao {
             if(has_all)
                 recipeList.add(recipe);
 
-//            for (String ingredientName : ingredients) {
-//                boolean is_exists = false;
-//                String sqlSearchIngr="SELECT * FROM Ingredients WHERE name LIKE ? ";
-//                List<Map<String,Object>> ingredientsFound = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
-////              above is the ingredients in the system that we're looking for
-//                ArrayList<Integer> ids = new ArrayList<Integer>();
-//                for(Map<String,Object> rows: ingredientsFound){
-//                    ids.add(Integer.parseInt(rows.get("id").toString()));
-//                }
-////              id's of the ingredients in the system that we're looking for
-//                for (Map<String, Object> resultMap2 : resultList2) {
-//                    int id = Integer.parseInt(resultMap2.get("ingredientID").toString());
-//                    if (ids.contains(id)) {
-//                        is_exists = true;
-//                    }
-//                }
-//
-//                all_have = all_have && is_exists;
-//            }
-//            if (all_have)
-//                recipeList.add(recipe);
         }
         return recipeList;
     }
@@ -193,7 +172,7 @@ public class RecipeDao extends BaseDao {
      * @param name name of the recipe
      * @return recipe list
      */
-    public ArrayList<Recipe> searchRecipes(String name) {
+    public ArrayList<Recipe> searchRecipes(String name) throws ExException{
         String sql = "SELECT * FROM recipes WHERE name LIKE ?";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
@@ -224,8 +203,104 @@ public class RecipeDao extends BaseDao {
 
             recipeList.add(recipe);
         }
+
+        if(recipeList.size()<50){
+            AddSemanticallyRelatedRecipes(recipeList);
+        }
+        if(recipeList.size()<50){
+            AddSemanticallyRelatedRecipesClass(recipeList);
+        }
         return recipeList;
     }
+
+    public void AddSemanticallyRelatedRecipesClass(ArrayList<Recipe> recipeList) throws ExException {
+        HashMap<Long,Recipe> temp = new HashMap<Long,Recipe>();
+        for(Recipe r:recipeList){
+            temp.put(r.id,r);
+        }
+
+        for(Recipe r : recipeList){
+            ArrayList<Tag> tags = getTags(r.id);
+            for(Tag t : tags){
+                ArrayList<Recipe> tempList = searchByTagClass(t);
+                for(Recipe r2:tempList){
+                    temp.put(r2.id,r2);
+                    if(temp.size()>=50) break;
+                }
+                if(temp.size()>=50) break;
+            }
+            if(temp.size()>=50) break;
+        }
+
+        recipeList.clear();
+        for(Recipe r : temp.values()){
+            recipeList.add(r);
+        }
+    }
+
+    public ArrayList<Recipe> searchByTagClass(Tag t) throws ExException{
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        String sql = "SELECT recipeID FROM recipeTag WHERE parentTag=? ";
+        List<Map<String,Object>> list = this.jdbcTemplate.queryForList(sql,t.parentTag);
+        for(Map<String,Object> row :  list){
+            Long id = Long.parseLong(row.get("recipeID").toString());
+            Recipe r = getRecipe(id);
+            r.id = id;
+            recipes.add(r);
+        }
+        return recipes;
+    }
+
+    public ArrayList<Tag> getTags(Long recipeID){
+        ArrayList<Tag> tags = new ArrayList<Tag>();
+        String sql = "SELECT * FROM recipeTag WHERE recipeID=?";
+        List<Map<String,Object>> res = this.jdbcTemplate.queryForList(sql,recipeID);
+        for(Map<String,Object> row : res){
+            Tag t = new Tag();
+            t.id = Long.parseLong(row.get("recipeID").toString());
+            t.name = row.get("tag").toString();
+            t.parentTag = row.get("parentTag").toString();
+            tags.add(t);
+        }
+        return tags;
+    }
+
+    public void AddSemanticallyRelatedRecipes(ArrayList<Recipe> recipeList) throws ExException{
+        HashMap<Long,Recipe> temp = new HashMap<Long,Recipe>();
+        for(Recipe r:recipeList){
+            temp.put(r.id,r);
+        }
+        for(Recipe r : recipeList){
+            ArrayList<Tag> tags = getTags(r.id);
+            for(Tag t : tags){
+                ArrayList<Recipe> tempList = searchByTag(t);
+                for(Recipe r2:tempList){
+                    temp.put(r2.id,r2);
+                    if(temp.size()>=50) break;
+                }
+                if(temp.size()>=50) break;
+            }
+            if(temp.size()>=50) break;
+        }
+        recipeList.clear();
+        for(Recipe r : temp.values()){
+            recipeList.add(r);
+        }
+    }
+
+    public ArrayList<Recipe> searchByTag(Tag t) throws ExException {
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        String sql = "SELECT recipeID FROM recipeTag WHERE tag=? ";
+        List<Map<String,Object>> list = this.jdbcTemplate.queryForList(sql,t.name);
+        for(Map<String,Object> row :  list){
+            Long id = Long.parseLong(row.get("recipeID").toString());
+            Recipe r = getRecipe(id);
+            r.id = id;
+            recipes.add(r);
+        }
+        return recipes;
+    }
+
 
     /**
      *
@@ -248,8 +323,12 @@ public class RecipeDao extends BaseDao {
         recipe.ownerID = Long.parseLong(map.get("ownerID").toString());
         recipe.description = map.get("description").toString();
         recipe.likes = Long.parseLong(map.get("likes").toString());
+        recipe.totalFat = Double.parseDouble(map.get("totalFat").toString());
+        recipe.totalCarb = Double.parseDouble(map.get("totalCarb").toString());
+        recipe.totalProtein = Double.parseDouble(map.get("totalProtein").toString());
+        recipe.totalCal = Double.parseDouble(map.get("totalCal").toString());
 
-        String sql2 = "SELECT A.*,B.name as unitName FROM (SELECT * FROM recipeIngredient JOIN Ingredients ON Ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ) as A JOIN ingredientUnits as B WHERE A.unitID =B.id";
+        String sql2 = "SELECT * FROM recipeIngredient JOIN Ingredients ON Ingredients.id = recipeIngredient.ingredientID WHERE recipeIngredient.recipeID = ? ";
 
         List<Map<String, Object>> map2 = this.jdbcTemplate.queryForList(sql2, id);
         HashMap<Ingredient, Long> ingredientMap = new HashMap<Ingredient, Long>();
@@ -259,13 +338,23 @@ public class RecipeDao extends BaseDao {
             ingredient.name = ingredientEntry.get("name").toString();
             ingredient.protein = Double.parseDouble(ingredientEntry.get("protein").toString());
             ingredient.fat = Double.parseDouble(ingredientEntry.get("fat").toString());
-            ingredient.carbohydrate = Double.parseDouble(ingredientEntry.get("carbohydrate").toString());
-            ingredient.calories = Long.parseLong(ingredientEntry.get("calories").toString());
+            ingredient.carbohydrate = Double.parseDouble(ingredientEntry.get("carb").toString());
+            ingredient.calories = Double.parseDouble(ingredientEntry.get("cal").toString());
             ingredient.unitName = ingredientEntry.get("unitName").toString();
             Long amount = Long.parseLong(ingredientEntry.get("amount").toString());
             ingredientMap.put(ingredient, amount);
         }
         recipe.IngredientAmountMap = ingredientMap;
+
+        String sql3 = "SELECT * FROM recipeTag  WHERE recipeID = ?";
+
+        List<Map<String, Object>> map3 = this.jdbcTemplate.queryForList(sql3, id);
+        for (Map<String, Object> tagEntry : map3) {
+            Tag tag = new Tag();
+            tag.name = tagEntry.get("tag").toString();
+            tag.parentTag = tagEntry.get("parentTag").toString();
+            recipe.tagList.add(tag);
+        }
 
         return recipe;
     }
@@ -277,11 +366,6 @@ public class RecipeDao extends BaseDao {
     public void addRecipe(Recipe recipe){
         String sql = "INSERT INTO recipes(name,ownerID,pictureAddress,description," +
                 "totalFat,totalCarb,totalProtein,totalCal) VALUES(?,?,?,?,?,?,?,?)";
-        System.out.println(recipe.name);
-        System.out.println(recipe.ownerID);
-        System.out.println(recipe.pictureAddress);
-        System.out.println(recipe.description);
-
 
 
         this.jdbcTemplate.update(sql,recipe.name,recipe.ownerID,recipe.pictureAddress,recipe.description,
@@ -296,8 +380,6 @@ public class RecipeDao extends BaseDao {
                 Map<String,Object> map =  this.jdbcTemplate.queryForMap(sqlGet,ingr.id);
                 int count = Integer.parseInt( map.get("COUNT(*)").toString());
                 if(count == 0) {
-                    System.out.println("sql statement is:");
-                    System.out.println("INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES("+ingr.id+","+ingr.name+","+ingr.protein+","+ingr.fat+","+ingr.carbohydrate+","+ingr.calories+","+ingr.unitName+")");
                     String sql2 = "INSERT INTO Ingredients(id,name,protein,fat,carb,cal,unitName) VALUES(?,?,?,?,?,?,?)";
                     this.jdbcTemplate.update(sql2,ingr.id,ingr.name,ingr.protein,ingr.fat,ingr.carbohydrate,ingr.calories,ingr.unitName);
                 }
@@ -305,12 +387,13 @@ public class RecipeDao extends BaseDao {
                 this.jdbcTemplate.update(sql,recipeID,ingr.id,amount);
             }
         }
+        System.out.println(recipe.tagList.size());
         if (recipe.tagList.size() > 0) {
-            sql = "INSERT INTO recipeTag(recipeID, tag) VALUES(?,?)";
+            sql = "INSERT INTO recipeTag(recipeID, tag, parentTag) VALUES(?,?,?)";
 
             for (Tag tag : recipe.tagList) {
-                System.out.println(tag.id);
-                this.jdbcTemplate.update(sql, recipeID, tag.name);
+                System.out.println(tag.name);
+                this.jdbcTemplate.update(sql, recipeID, tag.name, tag.parentTag);
             }
         }
     }
@@ -363,9 +446,9 @@ public class RecipeDao extends BaseDao {
         }
     }
     public List<Map<String, Object>> getRecommendations(User user) {
-        Long fat = 0L;
-        Long carb = 0L;
-        Long protein=0L;
+        Double fat = 0d;
+        Double carb = 0d;
+        Double protein=0d;
         ArrayList<Long> recipe = new ArrayList<Long>();
         String sql = "SELECT recipeID from dailyConsumption where userID = ?";
         List<Map<String, Object>> recipes = this.jdbcTemplate.queryForList(sql, user.id);
@@ -376,9 +459,9 @@ public class RecipeDao extends BaseDao {
             sql = "SELECT totalFat, totalCarb, totalProtein, totalCal from recipes where id = ?";
             List<Map<String,Object>> nutValues = this.jdbcTemplate.queryForList(sql,rec);
             for(Map<String,Object> map: nutValues) {
-                fat+=Long.parseLong(map.get("totalFat").toString());
-                carb+=Long.parseLong(map.get("totalCarb").toString());
-                protein+=Long.parseLong(map.get("totalProtein").toString());
+                fat+=Double.parseDouble(map.get("totalFat").toString());
+                carb+=Double.parseDouble(map.get("totalCarb").toString());
+                protein+=Double.parseDouble(map.get("totalProtein").toString());
             }
         }
         double recFat = (double)70/430;
@@ -394,7 +477,7 @@ public class RecipeDao extends BaseDao {
         if(leastMin == fatPerc) {min = "totalFat";}
         else if(leastMin == carbPerc) {min = "totalCarb";}
         else {min = "totalProtein";}
-        sql = "SELECT TOP 5 recipeID order by desc ?/(totalFat+totalCarb+totalProtein)";
-        return this.jdbcTemplate.queryForList(sql,min);
+        sql = "SELECT id FROM recipes order by "+min+"/(totalFat+totalCarb+totalProtein) DESC LIMIT 5";
+        return this.jdbcTemplate.queryForList(sql);
     }
 }

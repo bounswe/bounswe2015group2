@@ -9,9 +9,6 @@
 <body>
 <div class="container" id="main-container">
 
-
-    <%--<c:if test="${full_name == ''}">--%>
-        <%--<c:if test="${full_name != ''}">--%>
     <c:if test="${empty full_name}">
         <%@include  file="../sub-element/header_signed_out.jsp" %>
     </c:if>
@@ -28,6 +25,9 @@
     </c:if>
 
     <%@include  file="../recipe-views/recipe_grid_2.jsp" %>
+
+
+
     <%@include  file="../sub-element/footer.jsp" %>
 
 </div>

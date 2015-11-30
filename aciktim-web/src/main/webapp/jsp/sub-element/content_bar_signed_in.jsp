@@ -6,10 +6,13 @@
             <ul class="nav nav-pills">
 
                 <li role="presentation" id="content_bar_profile" ><a href="/aciktim/user/view">Profile</a></li>
-                <li role="presentation" id="content_bar_recipes"><a href="/aciktim/recipes">Recipes</a></li>
+                <li role="presentation" id="content_bar_recipes"><a href="${contextPath}/recipes">Recipes</a></li>
                 <li role="presentation" id="content_bar_restaurants"><a href="/aciktim/restaurants">Restaurants</a></li>
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
+                <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
+                <li role="presentation" id="content_bar_dailyconsumption"><a href="/aciktim/user/dailyconsumption">Daily Consumption</a></li>
+                <li role="presentation" id="content_bar_recommendations"><a href="/aciktim/user/recommendations">Recommendations</a></li>
             </ul>
         </div>
 
@@ -32,8 +35,16 @@
     $(document).ready(function(){
 
         var selection = "${content_bar_selection}";
+        var isInst = "${isInst}";
+
+
+
         $("li").removeAttr("class");
         $("#content_bar_"+selection).attr("class","active");
+
+
+
+
 
         if(selection == "profile"){
             $(".search_group").css("display","none");
@@ -45,12 +56,16 @@
             $(".search_group").css("display","");
             $("#content_bar_advanced").css("display","none");
         }
+
+
+
+
+
+
         $("#content_bar_advanced").click(function(){
             $("#searchForm").show();
         });
-//        $("#searchAlert").click(function(){
-//            alert("You enter a search");
-//        })
+
     });
 </script>
 
@@ -79,11 +94,17 @@
                     <label>Made At</label><br>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeWhere" value="male">Home<br>
+                    <input type="radio" name="madeAt" value="home">Home<br>
                 </div>
                 <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeWhere" value="female">Restaurant
+                    <input type="radio" name="madeAt" value="restaurant">Restaurant
                 </div>
+                <%--<div class="col-xs-6 col-md-4">&ndash;%&gt;--%>
+                    <%--<div class="input-group">--%>
+                        <%--<span class="input-group-addon">Institutional User? </span>--%>
+                        <%--<input type="checkbox" name="is_institution" aria-describedby="basic-addon1">--%>
+                    <%--</div>--%>
+                <%--</div>--%>
             </div>
         </div>
 

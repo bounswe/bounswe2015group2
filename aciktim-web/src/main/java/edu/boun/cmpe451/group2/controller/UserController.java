@@ -1,6 +1,8 @@
 package edu.boun.cmpe451.group2.controller;
 
+import edu.boun.cmpe451.group2.client.Menu;
 import edu.boun.cmpe451.group2.client.User;
+import edu.boun.cmpe451.group2.model.RecipeModel;
 import edu.boun.cmpe451.group2.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @Scope("request")
 public class UserController {
@@ -21,6 +26,11 @@ public class UserController {
     @Qualifier("userModel")
     @Autowired
     private UserModel userModel = null;
+    @Qualifier("recipeModel")
+    @Autowired
+    private RecipeModel recipeModel = null;
+
+
 
     //##########################################
     //######## AUTHENTICATION & AUTHORIZATION
@@ -37,9 +47,7 @@ public class UserController {
     public String userlogin(
             @RequestParam String email,
             @RequestParam String password,
-            HttpServletResponse response
-//            ModelMap model
-    ) {
+            HttpServletResponse response) {
 
         try {
             String session_id = userModel.login(email, password);
@@ -105,7 +113,7 @@ public class UserController {
             model.put("type", "ERROR");
         }
 
-        System.out.println("yarrak");
+        System.out.println("oops!");
 
         try {
             User user = new User();
@@ -162,14 +170,17 @@ public class UserController {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("user_id" , user.id);
-//            model.put("email", user.email);
+            try {
+                model.put("recommendations", recipeModel.getRecommendations(user));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "redirect:/index";
+            }
         }
 
         model.put("content_bar_selection" , "profile");
         return "user-views/profile";
     }
 
-
-
-
 }
+
