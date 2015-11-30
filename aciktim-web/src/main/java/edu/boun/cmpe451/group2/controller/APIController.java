@@ -232,7 +232,8 @@ public class APIController implements ControllerInterface {
         catch (Exception e){
             e.printStackTrace();
         }
-        return recipeModel.getRecommendations(user);
+
+        return null;
     }
 
     /**
