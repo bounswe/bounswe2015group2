@@ -104,7 +104,7 @@ $(document).ready(function() {
             candidate_tag.removeAttr("id");
             candidate_tag.addClass("tag_instance");
             candidate_tag.removeAttr("style");
-            candidate_tag.find("input").attr("name" , "tag");
+            //candidate_tag.find("input").attr("name" , "tag");
 
             $("#tags").append(candidate_tag);
         }

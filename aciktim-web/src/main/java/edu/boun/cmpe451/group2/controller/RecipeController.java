@@ -222,26 +222,20 @@ public class RecipeController {
             HttpServletRequest request) {
 
 
+        // INGREDIENT METADATA
         String[] ingredient_no = request.getParameterValues("ingredient_ndbno");
         String[] ingredient_name = request.getParameterValues("ingredient_name");
         String[] ingredient_amount = request.getParameterValues("ingredient_amount");
-
-
+        // INGREDIENT NUTRITIONAL DATA
         String[] ingredient_en = request.getParameterValues("ingredient_en");
         String[] ingredient_carb = request.getParameterValues("ingredient_carb");
         String[] ingredient_prot = request.getParameterValues("ingredient_prot");
         String[] ingredient_fat = request.getParameterValues("ingredient_fat");
         String[] ingredient_unit = request.getParameterValues("ingredient_unit");
+        // TAG DATA
+        String[] tag_name = request.getParameterValues("tag_name");
+        String[] tag_class= request.getParameterValues("tag_class");
 
-        for (String str : ingredient_name){
-            System.out.println("AL LAN : "+str);
-        }
-        for (String en : ingredient_en){
-            System.out.println("AL LAN 2: "+en);
-        }
-
-
-        String[] tag = request.getParameterValues("tag");
 
 
         Long id = Long.parseLong(userModel.getUser(session_id).id);
@@ -257,7 +251,7 @@ public class RecipeController {
                     image_url,
                     description,
                     formAmountMap(ingredient_name, ingredient_amount, ingredient_no, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
-                    formTagList(tag));
+                    formTagList(tag_name,tag_class));
 
             System.out.println("2");
             recipeModel.addRecipe(r);
@@ -347,6 +341,7 @@ public class RecipeController {
 
         HashMap<Ingredient,Long> m = new HashMap<>();
         int counter = 0;
+        if (names == null) return m;
         for (String no : nos){
             Ingredient i = new Ingredient();
             i.id = Long.parseLong(nos[counter]);
@@ -362,16 +357,18 @@ public class RecipeController {
         return m;
     }
 
-    public List<Tag> formTagList(String[] tagList){
-        List<Tag> list = new ArrayList<Tag>();
-        for (String tag : tagList){
-            System.out.println("Tag:");
-            System.out.println(tag);
+    public List<Tag> formTagList(String[] tag_name, String[]tag_class ){
+        List<Tag> tl = new ArrayList<>();
+        int counter = 0;
+        if(tag_name == null) return tl;
+        for (String tag : tag_name){
             Tag t = new Tag();
-            t.name = tag;
-            list.add(t);
+            t.tag_name = tag;
+            t.tag_class = tag_class[counter];
+            tl.add(t);
+            counter++;
         }
-        return list;
+        return tl;
     }
 
 

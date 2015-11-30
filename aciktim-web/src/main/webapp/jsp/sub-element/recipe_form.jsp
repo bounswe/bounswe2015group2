@@ -16,19 +16,19 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Recipe Name</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="recipe_name" value="${existing_recipe_name}" placeholder="e.g. Şakşuka">
+                                <input class="form-control" type="text" name="recipe_name" value="${existing_recipe_name}" placeholder="e.g. Şakşuka" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Image Url</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="image_url" value="${existing_recipe_image_url}" placeholder="http://someimageurl.png">
+                                <input class="form-control" type="text" name="image_url" value="${existing_recipe_image_url}" placeholder="http://someimageurl.png" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 control-label">Recipe Description</label>
                             <div class="col-md-10">
-                                <textarea class="form-control" name="description" rows="10">${existing_recipe_description}</textarea>
+                                <textarea class="form-control" name="description" rows="10" required>${existing_recipe_description}</textarea>
                             </div>
                         </div>
 
@@ -138,7 +138,7 @@
             <input type="hidden" id="prot" name="ingredient_prot">
             <input type="hidden" id="fat" name="ingredient_fat">
 
-            <input type="text" class="form-control" id="amount" name="ingredient_amount" placeholder="Quantity">
+            <input type="text" class="form-control" id="amount" name="ingredient_amount" placeholder="Quantity" required>
         </div>
     </div>
         <div class="col-sm-3">
@@ -173,7 +173,10 @@
 <div class="row" id="tag_template" style="display: none ; margin-top: 10px;">
     <div class="col-sm-4 col-sm-offset-4">
         <div class="form-group">
-            <input type="text" class="form-control">
+            <b>Tag Name:</b>
+            <input type="text" class="form-control" name="tag_name" required>
+            <b>Tag Class:</b>
+            <input type="text" class="form-control" name="tag_class" required>
         </div>
     </div>
 </div>
