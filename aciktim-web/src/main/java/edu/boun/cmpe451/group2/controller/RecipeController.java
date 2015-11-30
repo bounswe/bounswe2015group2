@@ -92,8 +92,8 @@ public class RecipeController {
                         model.put("recipeResults", recipeResults);
                     }
                 } else { // bring random recipes
-//                    List<Recipe> recipeResults = recipeModel.searchRecipesRandom(10);
-//                    model.put("recipeResults", recipeResults);
+                    List<Recipe> recipeResults = recipeModel.searchRecipesRandom(10);
+                    model.put("recipeResults", recipeResults);
                 }
             } catch (ExException e) {
                 e.printStackTrace();
