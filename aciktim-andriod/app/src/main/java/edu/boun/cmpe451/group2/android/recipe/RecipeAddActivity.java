@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.SemanticTagActivity;
 
 import static android.Manifest.permission.READ_CONTACTS;
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import retrofit.Call;
 import retrofit.http.*;
 
 /**
@@ -28,7 +29,7 @@ public interface ControllerInterface {
 
     public static final String LOGIN_PATH = "/login";
 
-    public static final String USER_SVC_PATH = "/user";
+    public static final String USER_SVC_PATH = "getuser";
 
     public static final String RECIPE_SVC_PATH = "/recipe";
 
@@ -40,7 +41,7 @@ public interface ControllerInterface {
     String login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
 
     @GET(USER_SVC_PATH)
-    User getUser(@Query(API_KEY_PARAMETER) String api_key);
+    Call<User> getUser(@Query(API_KEY_PARAMETER) String api_key);
 
     @POST(USER_SVC_PATH)
     String signup(@Body User user);
