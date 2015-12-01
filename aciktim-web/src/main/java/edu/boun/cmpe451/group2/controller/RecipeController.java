@@ -81,7 +81,7 @@ public class RecipeController {
                         List<String> ingredientList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
 
-                        // yemekler içinde arancak taglerin listi
+                        // yemekler iÃ§inde arancak taglerin listi
                         if(!t.equals("-1")) {
                             List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
                             ArrayList<Tag> tagList = new ArrayList<Tag>();
@@ -92,7 +92,7 @@ public class RecipeController {
                             }
 
 
-                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            // sonuÃ§ olan yemeklerden taglerden hiÃ§birini iÃ§ermeyenleri ele
                             for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
                                 Recipe current = iterator.next();
                                 ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
@@ -125,7 +125,7 @@ public class RecipeController {
                     } else { // bring keyword
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
 
-                        // yemekler içinde arancak taglerin listi
+                        // yemekler iÃ§inde arancak taglerin listi
                         if(!t.equals("-1")) {
                             List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
                             ArrayList<Tag> tagList = new ArrayList<Tag>();
@@ -136,7 +136,7 @@ public class RecipeController {
                             }
 
 
-                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            // sonuÃ§ olan yemeklerden taglerden hiÃ§birini iÃ§ermeyenleri ele
                             for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
                                 Recipe current = iterator.next();
                                 ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
@@ -484,6 +484,7 @@ public class RecipeController {
             @RequestParam (required = false) String date,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
+        model.put("content_bar_selection", "dailyconsumption");
         if (!session_id.equals("")) {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
@@ -510,7 +511,7 @@ public class RecipeController {
 
                 queriedCal.add(Calendar.MONTH, 1);
                 ArrayList<Recipe> recipes = userModel.getDailyConsumption(Long.parseLong(user.id), queriedCal);
-                System.out.println("SIZE : "+recipes.size());
+
                 model.put("year", year);
                 model.put("month", month);
                 model.put("day", day);

@@ -12,17 +12,17 @@
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
                 <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
                 <li role="presentation" id="content_bar_dailyconsumption"><a href="/aciktim/user/dailyconsumption">Daily Consumption</a></li>
-                <li role="presentation" id="content_bar_recommendations"><a href="/aciktim/user/recommendations">Recommendations</a></li>
+                <%--<li role="presentation" id="content_bar_recommendations"><a href="/aciktim/user/recommendations">Recommendations</a></li>--%>
             </ul>
         </div>
 
         <div class="col-md-4 text-right">
             <form action="${contextPath}/recipes" method="post" class="navbar-form">
                 <div class="form-group">
-                    <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">
-                    <button type="submit" class="btn btn-warning search_group" id="content_bar_search">Search</button>
+                    <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input" style="display: none">
+                    <button type="submit" class="btn btn-warning search_group" id="content_bar_search" style="display: none">Search</button>
                 </div>
-                <button type="button" class="btn btn-warning search_group" id="content_bar_advanced">Advanced Search</button>
+                <button type="button" class="btn btn-warning search_group" id="content_bar_advanced" style="display: none">Advanced Search</button>
             </form>
         </div>
 
@@ -46,16 +46,25 @@
 
 
 
-        if(selection == "profile"){
-            $(".search_group").css("display","none");
-        }else if(selection == "recipes"){
+        if(selection == "recipes"){
             $(".search_group").css("display","");
-        }else if(selection == "create_recipe"){
-            $(".search_group").css("display","");
-        }else{
+        }else if(selection == "restaurants"){
             $(".search_group").css("display","");
             $("#content_bar_advanced").css("display","none");
+        }else{
+            $(".search_group").css("display","none");
         }
+
+//        if(selection == "profile" || selection == "create_recipe"){
+//            $(".search_group").css("display","none");
+//        }else if(selection == "recipes"){
+//            $(".search_group").css("display","");
+//        }else if(selection == "create_recipe"){
+//            $(".search_group").css("display","");
+//        }else{
+//            $(".search_group").css("display","");
+//            $("#content_bar_advanced").css("display","none");
+//        }
 
 
 

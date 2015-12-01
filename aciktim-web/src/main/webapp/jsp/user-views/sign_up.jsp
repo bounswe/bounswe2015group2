@@ -7,23 +7,25 @@
     <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/sign-up-style.css"/>
 </head>
 <body>
-<div class="container" id="main-container">
+<%--<div class="container text-center" id="main-container">--%>
 
-    <%@include  file="../sub-element/header_signed_out.jsp" %>
+<%@include  file="../sub-element/header_signed_out.jsp" %>
 
-    <%@include  file="../sub-element/content_bar_signed_out.jsp" %>
+<%@include  file="../sub-element/content_bar_signed_out.jsp" %>
 
-    <div class="container" id="sign-up">
-        <div class="container">
+<div class="container text-center" id="sign-up">
+    <%--<div class="container">--%>
 
-            <c:if test="${type == 'ERROR'}">
-                <div class="alert alert-danger">
-                    <strong>ERROR:</strong> Check your data.
-                </div>
-            </c:if>
-            <!-- ${type} -->
+    <c:if test="${type == 'ERROR'}">
+        <div class="alert alert-danger">
+            <strong>ERROR:</strong> Check your data.
+        </div>
+    </c:if>
+    <!-- ${type} -->
 
 
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
             <form action="${contextPath}/user/add" method="post" class="form-group">
                 <div class="input-group">
                     <span class="input-group-addon">First Name : </span>
@@ -67,7 +69,11 @@
         </div>
     </div>
 
+
 </div>
+<%--</div>--%>
+
+<%--</div>--%>
 
 
 

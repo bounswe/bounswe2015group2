@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-7" id="header-col2">
             <div class="row">
-                <form action="${contextPath}/user/login" method="post" class="navbar-form">
+                <form action="${contextPath}/user/login" method="post" class="navbar-form text-right">
                     <div class="form-group">
                         <input type="text" name="email" placeholder="Email" class="form-control">
                     </div>
@@ -20,10 +20,8 @@
                     </div>
                     <a href="${contextPath}/user/signup" class="btn btn-primary">Sign up</a>
                 </form>
-
-
-
             </div>
+
             <div class="row">
                 <div class="col-md-12 text-right">
                     <a id="forgot-password" href="">Forgot Password</a>
