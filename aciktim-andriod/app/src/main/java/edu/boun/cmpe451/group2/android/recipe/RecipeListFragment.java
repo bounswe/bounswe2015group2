@@ -15,6 +15,7 @@ import java.util.List;
 
 import edu.boun.cmpe451.group2.android.MainActivity;
 import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 import edu.boun.cmpe451.group2.android.api.Recipe;
 import edu.boun.cmpe451.group2.android.dummy.DummyContent;
@@ -85,12 +86,8 @@ public class RecipeListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        api = retrofit.create(ControllerInterface.class);
+        ApiProxy apiProxy = new ApiProxy();
+        api = apiProxy.getApi();
         Long userID = Long.valueOf(59);
         GetRecipeListTask recipeListTask = new GetRecipeListTask(userID);
         recipeListTask.execute();

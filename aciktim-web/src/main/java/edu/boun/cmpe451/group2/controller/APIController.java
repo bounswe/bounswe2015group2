@@ -5,10 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.boun.cmpe451.group2.client.ControllerInterface;
-import edu.boun.cmpe451.group2.client.Menu;
-import edu.boun.cmpe451.group2.client.Recipe;
-import edu.boun.cmpe451.group2.client.User;
+import edu.boun.cmpe451.group2.client.*;
 import edu.boun.cmpe451.group2.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,33 +47,29 @@ public class APIController implements ControllerInterface {
      * @return
      */
     @RequestMapping(LOGIN_PATH)
-    @ResponseBody
-    public String login(
+    public @ResponseBody Response login(
             @RequestParam String email,
             @RequestParam String password) {
 
-        Gson gson = new Gson();
-        Map<String, Object> result = new HashMap<String, Object>();
-
+        Response response = new Response();
         try {
             String api_key = userModel.login(email, password);
-            result.put("type", "SUCCESS");
-            result.put("content", ExError.S_OK);
-            result.put("api_key", api_key);
+            response.status = Response.STATUS.OK;
+            response.message = ExError.S_OK;
+            response.api_key = api_key;
 
-            return gson.toJson(result);
+            return response;
 
         } catch (Exception e) {
             e.printStackTrace();
-
-            result.put("type", "ERROR");
+            response.status= Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                result.put("content", ((ExException) e).getErrCode());
+                response.message =  ((ExException) e).getErrCode();
             else
-                result.put("content", ExError.E_UNKNOWN);
+                response.message =  ExError.E_UNKNOWN;
 
-            return gson.toJson(result);
+            return response;
         }
     }
 
@@ -94,7 +87,7 @@ public class APIController implements ControllerInterface {
      */
     @RequestMapping("/signup")
     @ResponseBody
-    public String signup(@RequestBody User user) {
+    public Response signup(@RequestBody User user) {
 
         String email = user.email;
         String password = user.passwd;
@@ -105,29 +98,24 @@ public class APIController implements ControllerInterface {
         if(user.username != null)
             username=user.username;
         boolean isInst = user.isInst;
-        Gson gson = new Gson();
-        Map<String, Object> result = new HashMap<String, Object>();
-
+        Response response = new Response();
         try {
             String api_key = userModel.signup(user);
+            response.status = Response.STATUS.OK;
+            response.api_key = api_key;
 
-            result.put("type", "SUCCESS");
-            result.put("content", ExError.S_OK);
-            result.put("api_key", api_key);
-
-            return gson.toJson(result);
+            return response;
 
         } catch (Exception e) {
             e.printStackTrace();
-
-            result.put("type", "ERROR");
+            response.status=Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                result.put("content", ((ExException) e).getErrCode());
+                response.message =  ((ExException) e).getErrCode();
             else
-                result.put("content", ExError.E_UNKNOWN);
+                response.message =   ExError.E_UNKNOWN;
 
-            return gson.toJson(result);
+            return response;
         }
     }
 
@@ -137,28 +125,26 @@ public class APIController implements ControllerInterface {
      * @return returns json string
      */
     @RequestMapping("/addrecipe")
-    public String addrecipe(@RequestBody Recipe recipe) {
-        Gson gson = new Gson();
-        Map<String, Object> result = new HashMap<String, Object>();
+    public @ResponseBody Response addrecipe(@RequestBody Recipe recipe) {
+        Response response = new Response();
         try {
             recipeModel.addRecipe(recipe);
-            result.put("type","SUCCESS");
-            result.put("content","Recipe Added");
+            response.status = Response.STATUS.OK;
+            response.message ="Recipe Added";
+            return response;
         }
         catch (Exception e){
             e.printStackTrace();
 
-            result.put("type", "ERROR");
+            response.status = Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                result.put("content", ((ExException) e).getErrCode());
+                response.message = ((ExException) e).getErrCode();
             else
-                result.put("content", ExError.E_UNKNOWN);
+                response.message= ExError.E_UNKNOWN;
 
-            return gson.toJson(result);
+            return response;
         }
-
-        return gson.toJson(result);
 
     }
 
@@ -167,29 +153,27 @@ public class APIController implements ControllerInterface {
      * @param recipeID id of the recipe to be deleted
      * @return
      */
-    public String deleteRecipe(
+    public @ResponseBody Response deleteRecipe(
             @RequestParam Long recipeID
     ) {
-        Gson gson = new Gson();
-        Map<String, Object> result = new HashMap<String, Object>();
+        Response response = new Response();
         try {
             recipeModel.deleteRecipe(recipeID);
-            result.put("type", "SUCCESS");
-            result.put("content", "Recipe Deleted");
-        } catch (Exception e) {
+            response.status = Response.STATUS.OK;
+            response.message ="Recipe Deleted";
+            return response;
+        }catch (Exception e){
             e.printStackTrace();
 
-            result.put("type", "ERROR");
+            response.status = Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                result.put("content", ((ExException) e).getErrCode());
+                response.message = ((ExException) e).getErrCode();
             else
-                result.put("content", ExError.E_UNKNOWN);
+                response.message= ExError.E_UNKNOWN;
 
-            return gson.toJson(result);
+            return response;
         }
-
-        return gson.toJson(result);
     }
 
     @RequestMapping("recipe/list")
@@ -203,28 +187,30 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping(RECIPE_SVC_PATH + "/update")
-    public String updateRecipe(@RequestBody Recipe recipe) {
-        Gson gson = new Gson();
-        Map<String, Object> result = new HashMap<String, Object>();
+    public @ResponseBody Response updateRecipe(@RequestBody Recipe recipe) {
+        Response response = new Response();
         try {
             recipeModel.updateRecipe(recipe);
-            result.put("type","SUCCESS");
-            result.put("content","Recipe Added");
+            response.status = Response.STATUS.OK;
+            response.message = "Recipe Added";
+            return response;
         }
         catch (Exception e){
             e.printStackTrace();
-            if (e instanceof ExException)
-                result.put("content", ((ExException) e).getErrCode());
-            else
-                result.put("content", ExError.E_UNKNOWN);
 
-            return gson.toJson(result);
+            response.status = Response.STATUS.ERROR;
+
+            if (e instanceof ExException)
+                response.message = ((ExException) e).getErrCode();
+            else
+                response.message= ExError.E_UNKNOWN;
+
+            return response;
         }
-        return gson.toJson(result);
     }
 
     @RequestMapping(USER_SVC_PATH + "/recommendations")
-    public List<Map<String, Object>> getRecommendations(@RequestBody User user) {
+    public @ResponseBody List<Map<String, Object>> getRecommendations(@RequestBody User user) {
 
         try {
             recipeModel.getRecommendations(user);
@@ -276,26 +262,26 @@ public class APIController implements ControllerInterface {
      * @return type and content of the result in a hashmap
      */
     @RequestMapping(USER_SVC_PATH+"/addMenu")
-    public String addMenu(@RequestParam Menu menu){
-        Gson gson = new Gson();
-        Map<String,Object> result = new HashMap<String, Object>();
+    public @ResponseBody Response addMenu(@RequestParam Menu menu){
+        Response response = new Response();
         try {
             menuModel.AddMenu(menu);
-            result.put("type","SUCCESS");
-            result.put("content","Menu Added!");
+            response.status = Response.STATUS.OK;
+            response.message = "Menu Added!";
+            return response;
         }
-        catch(Exception e)
-        {
+        catch (Exception e){
             e.printStackTrace();
 
-            result.put("type", "ERROR");
+            response.status = Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                result.put("content", ((ExException) e).getErrCode());
+                response.message = ((ExException) e).getErrCode();
             else
-                result.put("content", ExError.E_UNKNOWN);
+                response.message= ExError.E_UNKNOWN;
+
+            return response;
         }
-        return gson.toJson(result);
     }
 
     /**
@@ -303,7 +289,7 @@ public class APIController implements ControllerInterface {
      * @param api_key api_key of the user
      * @return a hashmap of long and menu (keys are ids, values are menues)
      */
-    @RequestMapping(USER_SVC_PATH+"/getMenus")
+    @RequestMapping(USER_SVC_PATH + "/getMenus")
     public @ResponseBody HashMap<Long,Menu> getMenusByApiKey(@RequestParam String api_key){
         HashMap<Long,Menu> menus = new HashMap<Long,Menu>();
         try{
