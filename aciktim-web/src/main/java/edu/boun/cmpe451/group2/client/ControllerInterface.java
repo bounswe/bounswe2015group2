@@ -41,18 +41,18 @@ public interface ControllerInterface {
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
     @FormUrlEncoded
     @POST(LOGIN_PATH)
-    String login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
+    Response login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
 
     @GET(USER_SVC_PATH)
     User getUser(@Query(API_KEY_PARAMETER) String api_key);
 
     @POST(USER_SVC_PATH)
-    String signup(@Body User user);
+    Response signup(@Body User user);
 
     @POST(RECIPE_SVC_PATH)
-    String addrecipe(@Body Recipe recipe);
+    Response addrecipe(@Body Recipe recipe);
 
-    String deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
+    Response deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
     List<Recipe> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
@@ -61,7 +61,7 @@ public interface ControllerInterface {
     Recipe getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
     @PUT(RECIPE_SVC_PATH + "/update")
-    String updateRecipe(@Body Recipe recipe);
+    Response updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
     List<Map<String, Object>> getRecommendations(@Body User user);
@@ -73,7 +73,7 @@ public interface ControllerInterface {
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
 
     @POST(USER_SVC_PATH+"/addMenu")
-    String addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
+    Response addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")
     HashMap<Long,Menu> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
