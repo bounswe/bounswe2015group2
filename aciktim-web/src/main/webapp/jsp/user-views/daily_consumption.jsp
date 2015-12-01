@@ -38,7 +38,7 @@
                                 <span class="btn btn-primary pull-left" id="prev_btn">Prev</span>
                             </div>
                             <div class="col-sm-8">
-                                <h3 class="panel-title text-center" >${year}/${month}/${day} Consumption Summary</h3>
+                                <h3 class="panel-title text-center" >${year}/${month+1}/${day} Consumption Summary</h3>
                             </div>
                             <div class="col-sm-2">
                                 <span class="btn btn-primary pull-right" id="next_btn">Next</span>
