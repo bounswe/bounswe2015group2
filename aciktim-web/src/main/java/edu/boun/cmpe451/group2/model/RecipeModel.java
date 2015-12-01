@@ -58,7 +58,11 @@ public class RecipeModel {
             throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
         }
 
-        return recipeDao.searchRecipes(name, ingredients);
+        return recipeDao.searchRecipes(name, ingredients,null);
+    }
+
+    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients,List<String> tags) throws ExException{
+        return recipeDao.searchRecipes(name,ingredients,tags);
     }
     /**
      * controls the recipe and sends it to the dao to be added to the db

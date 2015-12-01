@@ -65,7 +65,7 @@ public class RecipeDao extends BaseDao {
      * @param ingredients names of ingredients
      * @return
      */
-    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients) {
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients,List<String> tags) {
 
 //      aradigimiz ingredientlardan sistemde bulunanlarin id'leri
         ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
@@ -130,7 +130,24 @@ public class RecipeDao extends BaseDao {
                 recipeList.add(recipe);
 
         }
+        if(tags != null){
+            filterListByTags(recipeList,tags);
+        }
         return recipeList;
+    }
+
+    public void filterListByTags(ArrayList<Recipe> recipeList,List<String> tags) {
+        ArrayList<Recipe> temp = new ArrayList<Recipe>();
+        String sql = "SELECT * FROM recipeTag WHERE recipeID=?";
+        for(Recipe r:recipeList){
+            List<Map<String,Object>> rows = this.jdbcTemplate.queryForList(sql,r.id);
+            boolean includes = false;
+            for(Map<String,Object> row : rows){
+                if(tags.contains(row.get("tag").toString())) includes=true;
+            }
+            if(includes) temp.add(r);
+        }
+        recipeList = temp;
     }
 
     public List<Recipe> searchRecipesRandom(int amount) {
