@@ -45,7 +45,10 @@ public class RecipeController {
             @RequestParam(required = false, defaultValue = "-1") String ingredients_string,
             @RequestParam(required = false, defaultValue = "-1") String t,
             @RequestParam(required = false, defaultValue = "-1") String madeAt,
-
+            @RequestParam(required = false, defaultValue = "-1") String carbo,
+            @RequestParam(required = false, defaultValue = "-1") String fat,
+            @RequestParam(required = false, defaultValue = "-1") String protein,
+            @RequestParam(required = false, defaultValue = "-1") String calories,
             @CookieValue(value = "session_id", defaultValue = "") String session_id) {
 
 
@@ -56,6 +59,16 @@ public class RecipeController {
             model.put("isInst", user.isInst);
             model.put("full_name", user.full_name);
         }
+
+        if(carbo.equals("-1"))
+            carbo = String.valueOf(Double.MAX_VALUE);
+        if(fat.equals("-1"))
+            fat = String.valueOf(Double.MAX_VALUE);
+        if(protein.equals("-1"))
+            protein = String.valueOf(Double.MAX_VALUE);
+        if(calories.equals("-1"))
+            calories = String.valueOf(Double.MAX_VALUE);
+
 
 
         if (user != null && ownerID.equals(user.id)) { //bring my recipes
@@ -99,6 +112,15 @@ public class RecipeController {
                             }
                         }
 
+                        // calories limit
+                        for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                            Recipe current = iterator.next();
+                            if((current.getTotalCarb() >= Double.parseDouble(carbo) || (current.getTotalFat() >= Double.parseDouble(fat)) ||
+                                    (current.getTotalProtein() >= Double.parseDouble(protein)) || (current.getTotalCal() >= Double.parseDouble(calories))))
+                                iterator.remove();
+                        }
+
+
                         model.put("recipeResults", recipeResults);
                     } else { // bring keyword
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
@@ -132,6 +154,14 @@ public class RecipeController {
                                 if(!hasAtLeastOne)
                                     iterator.remove();
                             }
+                        }
+
+                        // calories limit
+                        for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                            Recipe current = iterator.next();
+                            if((current.getTotalCarb() >= Double.parseDouble(carbo) || (current.getTotalFat() >= Double.parseDouble(fat)) ||
+                                    (current.getTotalProtein() >= Double.parseDouble(protein)) || (current.getTotalCal() >= Double.parseDouble(calories))))
+                                iterator.remove();
                         }
 
                         model.put("recipeResults", recipeResults);

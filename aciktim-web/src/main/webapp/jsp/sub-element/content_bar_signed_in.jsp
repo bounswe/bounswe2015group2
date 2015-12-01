@@ -99,12 +99,6 @@
                 <div class="col-xs-6 col-md-4">
                     <input type="radio" name="madeAt" value="restaurant">Restaurant
                 </div>
-                <%--<div class="col-xs-6 col-md-4">&ndash;%&gt;--%>
-                    <%--<div class="input-group">--%>
-                        <%--<span class="input-group-addon">Institutional User? </span>--%>
-                        <%--<input type="checkbox" name="is_institution" aria-describedby="basic-addon1">--%>
-                    <%--</div>--%>
-                <%--</div>--%>
             </div>
         </div>
 
@@ -115,7 +109,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="carbon">
+                        <input type="text" class="form-control" placeholder="100" id="carbo" name="carbo">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -126,7 +120,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="fat">
+                        <input type="text" class="form-control" placeholder="100" id="fat" name="fat">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -137,7 +131,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="protein">
+                        <input type="text" class="form-control" placeholder="100" id="protein" name="protein">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -148,7 +142,7 @@
                 </div>
                 <div class="col-xs-12 col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="calories">
+                        <input type="text" class="form-control" placeholder="100" id="calories" name="calories">
                         <span class="input-group-addon">g</span>
                     </div>
                 </div>
@@ -160,10 +154,6 @@
             <div class="col-xs-9 col-md-6">
                 <label>Popular Tags <span class="glyphicon glyphicon-tags"></span></label><br>
                 <div id="c_b">
-                    <%--<input type="checkbox" name="tag_cheap" value="Cheap" >Cheap<br>--%>
-                    <%--<input type="checkbox" name="tag_fat_free" value="Fat-free">Fat-free<br>--%>
-                    <%--<input type="checkbox" name="tag_quick" value="Quick">Quick<br>--%>
-                    <%--<input type="checkbox" name="tag_for_guest" value="Forguest">For guest<br>--%>
                     <div class="row">Cheap</div>
                     <div class="row">Fat-free</div>
                     <div class="row">Quick</div>
