@@ -373,6 +373,40 @@ public class RecipeDao extends BaseDao {
         return recipe;
     }
 
+    public List<Recipe> getRecipesAll() throws ExException {
+        String sql = "SELECT * FROM recipes;";
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+        List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> resultMap : resultList) {
+
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+
+            Object pictureAddress = resultMap.get("pictureAddress");
+            if(pictureAddress != null)
+                recipe.pictureAddress = pictureAddress.toString();
+            Object description = resultMap.get("description");
+            if(description != null)
+                recipe.description = description.toString();
+            Object totalFat = resultMap.get("totalFat");
+            if(totalFat != null)
+                recipe.totalFat = Double.parseDouble(totalFat.toString());
+            Object totalCarb = resultMap.get("totalCarb");
+            if(totalCarb != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb.toString());
+            Object totalProtein = resultMap.get("totalProtein");
+            if(totalProtein != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein.toString());
+            Object totalCal = resultMap.get("totalCal");
+            if(totalCal != null)
+                recipe.totalCal = Double.parseDouble(totalCal.toString());
+
+            recipeList.add(recipe);
+        }
+        return recipeList;
+    }
+
     /**
      * adds a recipe to the db
      * @param recipe recipe to be added

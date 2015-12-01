@@ -71,6 +71,7 @@ public class RecipeController {
 
 
 
+
         if (user != null && ownerID.equals(user.id)) { //bring my recipes
             List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));
             model.put("recipeResults", recipes);
@@ -307,23 +308,26 @@ public class RecipeController {
     //################################################
     //####### DISPLAY ONE RECIPE ONSCREEN
     //################################################
-    @RequestMapping(value = {"/recipe/single"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/recipe/single"})
     public String singlerecipe(
             @RequestParam String recipe_id,
             @CookieValue(value = "session_id", defaultValue = "") String session_id,
             ModelMap model
     ) {
 
-
-        try {
+        if (!session_id.equals("")){
             User user = userModel.getUser(session_id);
-            Recipe recipe = recipeModel.getRecipe(Long.parseLong(recipe_id));
             model.put("full_name", user.full_name);
-            if (Long.parseLong(user.id) == recipe.ownerID) {
-                model.put("is_owner", true);
-            } else {
-                model.put("is_owner", false);
-            }
+//            if (Long.parseLong(user.id) == recipe.ownerID) {
+//                model.put("is_owner", true);
+//            } else {
+//                model.put("is_owner", false);
+//            }
+        }else{
+            model.put("full_name" , "");
+        }
+        try {
+            Recipe recipe = recipeModel.getRecipe(Long.parseLong(recipe_id));
             model.put("recipe", recipe);
             model.put("owner_name", userModel.getUserByID(recipe.ownerID).full_name);
         } catch (Exception e) {
@@ -483,6 +487,8 @@ public class RecipeController {
             ModelMap model,
             @RequestParam (required = false) String date,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+
 
         model.put("content_bar_selection", "dailyconsumption");
         if (!session_id.equals("")) {

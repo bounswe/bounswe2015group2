@@ -58,7 +58,7 @@ public class RecipeModel {
             throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
         }
 
-        return recipeDao.searchRecipes(name,ingredients);
+        return recipeDao.searchRecipes(name, ingredients);
     }
     /**
      * controls the recipe and sends it to the dao to be added to the db
@@ -160,4 +160,9 @@ public class RecipeModel {
     public Recipe getRecipe(Long recipe_id) throws Exception{
         return recipeDao.getRecipe(recipe_id);
     }
+
+    public List<Recipe> getRecipesAll() throws Exception{
+        return recipeDao.getRecipesAll();
+    }
+
 }
