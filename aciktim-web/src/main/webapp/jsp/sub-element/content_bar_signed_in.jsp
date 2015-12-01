@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<div class="container" id="content-bar">
-    <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/content-bar-style.css"/>
-    <div class="row">
+<link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/content-bar-style.css"/>
+
+<div class="container">
+    <div class="row" id="content-bar">
         <div class="col-md-8 text-left">
             <ul class="nav nav-pills">
 
@@ -25,10 +26,127 @@
                 <button type="button" class="btn btn-warning search_group" id="content_bar_advanced" style="display: none">Advanced Search</button>
             </form>
         </div>
-
     </div>
 
+
+    <div class="row" style="background-color:#F5E599; border-radius: 5px"  >
+        <div class="col-sm-12">
+
+            <form action="${contextPath}/recipes" class="form-horizontal" id="searchForm" hidden="hidden" method="post" class="navbar-form">
+                <div class="row" style="margin-top: 10px">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="col-xs-6 col-md-4">
+                                <label >Name</label>
+                            </div>
+                            <div class="col-xs-12 col-md-8">
+                                <input type="text" name="search_keyword" class="form-control" placeholder="Pizza"  id="search_keyword">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-md-4">
+                                <label >Ingredients</label>
+                            </div>
+                            <div class="col-xs-12 col-md-8">
+                                <input type="text" name="ingredients_string" class="form-control" placeholder="Meat, Egg, Onion" id="ingredients_string">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-md-4">
+                                <label>Made At</label><br>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <input type="radio" name="madeAt" value="home">Home<br>
+                            </div>
+                            <div class="col-xs-6 col-md-4">
+                                <input type="radio" name="madeAt" value="restaurant">Restaurant
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="col-xs-6 col-md-4">
+                                <label  >Carbohydrate</label>
+                            </div>
+                            <div class="col-xs-12 col-md-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="100" id="carbo" name="carbo">
+                                    <span class="input-group-addon">g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-md-4">
+                                <label >Fat</label>
+                            </div>
+                            <div class="col-xs-12 col-md-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="100" id="fat" name="fat">
+                                    <span class="input-group-addon">g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-md-4">
+                                <label >Protein</label>
+                            </div>
+                            <div class="col-xs-12 col-md-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="100" id="protein" name="protein">
+                                    <span class="input-group-addon">g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-6 col-md-4">
+                                <label >Calories</label>
+                            </div>
+                            <div class="col-xs-12 col-md-8">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="100" id="calories" name="calories">
+                                    <span class="input-group-addon">g</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-5">
+                        <div class="col-xs-9 col-md-6">
+                            <label>Popular Tags <span class="glyphicon glyphicon-tags"></span></label><br>
+                            <div id="c_b">
+                                <div class="row">Cheap</div>
+                                <div class="row">Fat-free</div>
+                                <div class="row">Quick</div>
+                                <div class="row">For guest</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-9 col-md-6">
+                            <label>Enter Tags </label><br>
+                            <textarea name="t" id="t" placeholder="Tag1, Tag2, Tag3"></textarea>
+                            <button type="submit" id="searchAlert" class="btn btn-warning search_group"><span class="glyphicon glyphicon-search"></span>Search</button>
+                        </div>
+                        <script>
+                            function updateTextArea() {
+                                var allVals = [];
+                                $('#c_b :checked').each(function() {
+                                    allVals.push($(this).val());
+                                });
+                                $("#t").val(allVals);
+                            }
+                            $(function() {
+                                $("#c_b input").click(updateTextArea);
+                                updateTextArea();
+                            });
+                        </script>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+
 
 
 <script>
@@ -55,138 +173,10 @@
             $(".search_group").css("display","none");
         }
 
-//        if(selection == "profile" || selection == "create_recipe"){
-//            $(".search_group").css("display","none");
-//        }else if(selection == "recipes"){
-//            $(".search_group").css("display","");
-//        }else if(selection == "create_recipe"){
-//            $(".search_group").css("display","");
-//        }else{
-//            $(".search_group").css("display","");
-//            $("#content_bar_advanced").css("display","none");
-//        }
-
-
-
-
-
-
         $("#content_bar_advanced").click(function(){
-            $("#searchForm").show();
+            $("#searchForm").toggle("fast",null);
         });
 
     });
 </script>
 
-<div class="row" style="background-color:#fff1c6 "  >
-    <form action="${contextPath}/recipes" class="form-horizontal" id="searchForm" hidden="hidden" method="post" class="navbar-form">
-
-        <div class="col-xs-6 col-md-4">
-            <div class="form-group">
-                <div class="col-xs-6 col-md-4">
-                    <label >Name</label>
-                </div>
-                <div class="col-xs-12 col-md-8">
-                    <input type="text" name="search_keyword" class="form-control" placeholder="Pizza"  id="search_keyword">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-6 col-md-4">
-                    <label >Ingredients</label>
-                </div>
-                <div class="col-xs-12 col-md-8">
-                    <input type="text" name="ingredients_string" class="form-control" placeholder="Meat, Egg, Onion" id="ingredients_string">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-6 col-md-4">
-                    <label>Made At</label><br>
-                </div>
-                <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeAt" value="home">Home<br>
-                </div>
-                <div class="col-xs-6 col-md-4">
-                    <input type="radio" name="madeAt" value="restaurant">Restaurant
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-5 col-md-3">
-            <div class="form-group">
-                <div class="col-xs-6 col-md-4">
-                    <label  >Carbohydrate</label>
-                </div>
-                <div class="col-xs-12 col-md-8">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="carbo" name="carbo">
-                        <span class="input-group-addon">g</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-6 col-md-4">
-                    <label >Fat</label>
-                </div>
-                <div class="col-xs-12 col-md-8">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="fat" name="fat">
-                        <span class="input-group-addon">g</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-6 col-md-4">
-                    <label >Protein</label>
-                </div>
-                <div class="col-xs-12 col-md-8">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="protein" name="protein">
-                        <span class="input-group-addon">g</span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-6 col-md-4">
-                    <label >Calories</label>
-                </div>
-                <div class="col-xs-12 col-md-8">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="100" id="calories" name="calories">
-                        <span class="input-group-addon">g</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-xs-7 col-md-5">
-            <div class="col-xs-9 col-md-6">
-                <label>Popular Tags <span class="glyphicon glyphicon-tags"></span></label><br>
-                <div id="c_b">
-                    <div class="row">Cheap</div>
-                    <div class="row">Fat-free</div>
-                    <div class="row">Quick</div>
-                    <div class="row">For guest</div>
-                </div>
-            </div>
-            <div class="col-xs-9 col-md-6">
-                <label>Enter Tags </label><br>
-                <textarea name="t" id="t" placeholder="Tag1, Tag2, Tag3"></textarea>
-                <button type="submit" id="searchAlert" class="btn btn-warning search_group"><span class="glyphicon glyphicon-search"></span>Search</button>
-            </div>
-            <script>
-                function updateTextArea() {
-                    var allVals = [];
-                    $('#c_b :checked').each(function() {
-                        allVals.push($(this).val());
-                    });
-                    $("#t").val(allVals);
-                }
-                $(function() {
-                    $("#c_b input").click(updateTextArea);
-                    updateTextArea();
-                });
-            </script>
-        </div>
-    </form>
-</div>
