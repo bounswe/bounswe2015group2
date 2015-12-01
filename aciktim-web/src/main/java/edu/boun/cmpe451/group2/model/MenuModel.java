@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.model;
 import edu.boun.cmpe451.group2.client.Menu;
 import edu.boun.cmpe451.group2.client.Recipe;
 import edu.boun.cmpe451.group2.dao.MenuDao;
+import edu.boun.cmpe451.group2.dao.RecipeDao;
 import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Menu Model Class
@@ -26,6 +24,9 @@ public class MenuModel {
     @Qualifier("menuDao")
     @Autowired
     private MenuDao menuDao = null;
+    @Qualifier("recipeDao")
+    @Autowired
+    private RecipeDao recipeDao = null;
     /**
      * adds a menu to the db.
      * note that this is an INSTANCE method
@@ -60,8 +61,34 @@ public class MenuModel {
             }else{
                 ArrayList<Recipe> recipes = new ArrayList<Recipe>();
                 recipes.add(recipe);
-                String name = menuRecipe.get("name").toString();
+                String name = menuRecipe.get("menu_name").toString();
                 Menu menu= new Menu(recipes,api_key,name);
+                menus.put(menuID,menu);
+            }
+        }
+        return menus;
+    }
+    /**
+     * Gets the menus of a user (which are not soft deleted)
+     * @param id id of the user
+     * @return HashMap of menus (keys are menuIDs values are menus)
+     * @throws ExException
+     */
+    public HashMap<Long,Menu> GetMenusByID(Long id) throws ExException {
+        List<Map<String,Object>> menusDB = menuDao.getMenus(id);
+        HashMap<Long,Menu> menus = new HashMap();
+        Long menuID;
+
+        for (Map<String,Object> menuRecipe : menusDB){
+            menuID = Long.parseLong(menuRecipe.get("id").toString());
+            Recipe recipe = recipeDao.getRecipe(Long.parseLong(menuRecipe.get("recipeID").toString()));
+            if(menus.containsKey(menuID)){
+                menus.get(menuID).recipes.add(recipe);
+            }else{
+                ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+                recipes.add(recipe);
+                String name = (String)menuRecipe.get("menu_name");
+                Menu menu = new Menu(recipes,id, name);
                 menus.put(menuID,menu);
             }
         }

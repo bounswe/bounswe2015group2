@@ -75,6 +75,7 @@ public class RecipeModel {
         if(recipe.getIngredientAmountMap().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
+        int counter=0;
         for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
             if(((Ingredient)entry.getKey()).id == null){
                 throw new ExException(ExError.E_INGREDIENT_ID_NULL);
@@ -83,6 +84,7 @@ public class RecipeModel {
             recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
             recipe.totalFat += entry.getKey().fat*entry.getValue();
             recipe.totalProtein += entry.getKey().protein*entry.getValue();
+            counter++;
         }
         recipeDao.addRecipe(recipe);
     }
@@ -129,8 +131,20 @@ public class RecipeModel {
         recipeDao.updateRecipe(recipe);
     }
 
-    public List<Map<String, Object>> getRecommendations(User user) {
-        return recipeDao.getRecommendations(user);
+    /**
+     * returns 5 recipes according to daily consumption of the user
+     * @param user user to be recommended
+     * @return arraylist of recipes that contains maximum 5 recipes
+     * @throws Exception
+     */
+    public ArrayList<Recipe> getRecommendations(User user) throws Exception{
+        List<Map<String, Object>> list = recipeDao.getRecommendations(user);
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        for(Map<String,Object> row : list){
+            Recipe r = getRecipe(Long.parseLong(row.get("id").toString()));
+            recipes.add(r);
+        }
+        return recipes;
     }
 
     public RecipeDao getRecipeDao() {

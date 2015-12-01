@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.dao;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ public class UserDao extends BaseDao {
         String sql = "INSERT INTO users(email, passwd,full_name,username,isInst,api_key) VALUES(?,?,?,?,?,?)";
 
         this.jdbcTemplate.update(sql, user.email, Security.md5(user.passwd),user.full_name,user.username,user.isInst, Security.randomKey());
+
     }
 
 
@@ -110,5 +112,29 @@ public class UserDao extends BaseDao {
             return false;
         else
             return true;
+    }
+
+    public boolean consume(Long userID,Long recipeID, Calendar calendar){
+        String sql = "INSERT INTO dailyConsumption(day,userID,recipeID) VALUES(?,?,?)";
+        String time = "";
+        time = time + calendar.get(Calendar.YEAR) +"-";
+        time = time + calendar.get(Calendar.MONTH)+"-";
+        time = time + calendar.get(Calendar.DAY_OF_MONTH);
+        this.jdbcTemplate.update(sql,time,userID,recipeID);
+
+        String sqlCheck = "SELECT COUNT(*) FROM dailyConsumption WHERE userID=? AND day=? and recipeID=?";
+        Map<String,Object> res = this.jdbcTemplate.queryForMap(sqlCheck,userID,time,recipeID);
+        if(Integer.parseInt(res.get("COUNT(*)").toString()) == 0) return false;
+
+        return true;
+    }
+
+    public List<Map<String,Object>> getDailyConsumption(Long userID,Calendar calendar){
+        String sql = "SELECT * FROM dailyConsumption WHERE userID=? AND day=?";
+        String day = ""+calendar.get(Calendar.YEAR)+"-";
+        day += calendar.get(Calendar.MONTH)+"-";
+        day += calendar.get(Calendar.DAY_OF_MONTH);
+        day += " 00:00:00";
+        return this.jdbcTemplate.queryForList(sql,userID,day);
     }
 }

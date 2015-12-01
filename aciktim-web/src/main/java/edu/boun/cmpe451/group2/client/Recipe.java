@@ -17,9 +17,42 @@ public class Recipe {
     public Long likes = 0L;
     public List<Comment> commentList = new ArrayList<Comment>();
     public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
-    public List<Tag> tagList = null;
+    public List<Tag> tagList = new ArrayList<Tag>();
     public String description = "";
     public double totalProtein=0;
+
+    public double getTotalProtein() {
+        return totalProtein;
+    }
+
+    public void setTotalProtein(double totalProtein) {
+        this.totalProtein = totalProtein;
+    }
+
+    public double getTotalFat() {
+        return totalFat;
+    }
+
+    public void setTotalFat(double totalFat) {
+        this.totalFat = totalFat;
+    }
+
+    public double getTotalCarb() {
+        return totalCarb;
+    }
+
+    public void setTotalCarb(double totalCarb) {
+        this.totalCarb = totalCarb;
+    }
+
+    public double getTotalCal() {
+        return totalCal;
+    }
+
+    public void setTotalCal(double totalCal) {
+        this.totalCal = totalCal;
+    }
+
     public double totalFat=0;
     public double totalCarb=0;
     public double totalCal=0;
@@ -95,6 +128,10 @@ public class Recipe {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String toString() {
+        return name + " " + id;
     }
 
 
