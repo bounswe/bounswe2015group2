@@ -27,29 +27,28 @@ public interface ControllerInterface {
 
     public static final String EMAIL_PARAMETER = "email";
 
-    public static final String LOGIN_PATH = "/login";
+    public static final String LOGIN_PATH = "login";
 
-    public static final String USER_SVC_PATH = "/user";
+    public static final String USER_SVC_PATH = "user";
 
     public static final String RECIPE_SVC_PATH = "recipe";
 
-    public static final String RECIPE_TITLE_SEARCH_PATH = RECIPE_SVC_PATH + "/search/findByName";
+    public static final String RECIPE_TITLE_SEARCH_PATH = RECIPE_SVC_PATH + "search";
 
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
-    @FormUrlEncoded
     @POST(LOGIN_PATH)
-    String login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
+    Call<Response> login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
 
     @GET(USER_SVC_PATH)
-    User getUser(@Query(API_KEY_PARAMETER) String api_key);
+    Call<User> getUser(@Query(API_KEY_PARAMETER) String api_key);
 
     @POST(USER_SVC_PATH)
-    String signup(@Body User user);
+    Call<Response> signup(@Body User user);
 
     @POST(RECIPE_SVC_PATH)
-    String addrecipe(@Body Recipe recipe);
+    Call<Response> addrecipe(@Body Recipe recipe);
 
-    String deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
+    Call<Response> deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
     Call<List<Recipe>> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
@@ -58,21 +57,21 @@ public interface ControllerInterface {
     Call<Recipe> getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
     @PUT(RECIPE_SVC_PATH + "/update")
-    String updateRecipe(@Body Recipe recipe);
+    Call<Response> updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    List<Map<String, Object>> getRecommendations(@Body User user);
+    Call<List<Map<String, Object>>> getRecommendations(@Body User user);
 
-    @GET("/search")
-    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
+    @GET(RECIPE_TITLE_SEARCH_PATH)
+    Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name);
 
-    @GET("/advancedSearch")
-    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
+    @GET("advancedSearch")
+    Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
 
     @POST(USER_SVC_PATH+"/addMenu")
-    String addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
+    Call<Response> addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")
-    HashMap<Long,Menu> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
+    Call<HashMap<Long,Menu>> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
 
 }
