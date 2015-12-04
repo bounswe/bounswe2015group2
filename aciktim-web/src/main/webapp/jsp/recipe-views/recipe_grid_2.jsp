@@ -51,8 +51,7 @@
                             </td>
                             <td width="60%">${recipe.description}</td>
                             <td>
-                                <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
-                                      method="post">
+                                <form class="form-horizontal row-border" action="${contextPath}/recipe/single">
                                     <input type="hidden" name="recipe_id" value="${recipe.id}"/>
                                     <button type="submit" class="btn btn-default"
                                             style="text-transform: capitalize">View</button>

@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row" id="content-bar">
         <div class="col-md-8 text-left">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills" >
 
                 <li role="presentation" id="content_bar_profile" ><a href="/aciktim/user/view">Profile</a></li>
                 <li role="presentation" id="content_bar_recipes"><a href="${contextPath}/recipes">Recipes</a></li>
@@ -12,13 +12,13 @@
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
                 <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
                 <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
-                <li role="presentation" id="content_bar_dailyconsumption"><a href="/aciktim/user/dailyconsumption">Daily Consumption</a></li>
+                <li role="presentation" id="content_bar_dailyconsumption"><a href="/aciktim/user/dailyconsumption"> Consumption</a></li>
                 <%--<li role="presentation" id="content_bar_recommendations"><a href="/aciktim/user/recommendations">Recommendations</a></li>--%>
             </ul>
         </div>
 
         <div class="col-md-4 text-right">
-            <form action="${contextPath}/recipes" method="post" class="navbar-form">
+            <form action="${contextPath}/recipes" method="get" class="navbar-form">
                 <div class="form-group">
                     <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input" style="display: none">
                     <button type="submit" class="btn btn-warning search_group" id="content_bar_search" style="display: none">Search</button>
@@ -32,7 +32,7 @@
     <div class="row" style="background-color:#F5E599; border-radius: 5px"  >
         <div class="col-sm-12">
 
-            <form action="${contextPath}/recipes" class="form-horizontal" id="searchForm" hidden="hidden" method="post" class="navbar-form">
+            <form action="${contextPath}/recipes" class="form-horizontal" id="searchForm" hidden="hidden" method="get" class="navbar-form">
                 <div class="row" style="margin-top: 10px">
                     <div class="col-sm-4">
                         <div class="form-group">

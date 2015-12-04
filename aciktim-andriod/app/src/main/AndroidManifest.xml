@@ -70,7 +70,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.boun.cmpe451.group2.android.LoginActivity" />
         </activity>
-
         <activity
             android:name=".recipe.RecipeListActivity"
             android:label="@string/title_recipe_list"
@@ -107,6 +106,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".friend.FriendListActivity" />
         </activity>
+
+        <activity
+            android:name=".SemanticTagActivity"
+            android:label="@string/title_activity_semantic_tag"
+            android:parentActivityName=".RecipeAddActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.RecipeAddActivity" />
+        </activity>
+
+
+
+
+
     </application>
 
 </manifest>

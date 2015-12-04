@@ -65,7 +65,7 @@ public class RecipeDao extends BaseDao {
      * @param ingredients names of ingredients
      * @return
      */
-    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients) {
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients,List<String> tags) {
 
 //      aradigimiz ingredientlardan sistemde bulunanlarin id'leri
         ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
@@ -130,7 +130,24 @@ public class RecipeDao extends BaseDao {
                 recipeList.add(recipe);
 
         }
+        if(tags != null){
+            filterListByTags(recipeList,tags);
+        }
         return recipeList;
+    }
+
+    public void filterListByTags(ArrayList<Recipe> recipeList,List<String> tags) {
+        ArrayList<Recipe> temp = new ArrayList<Recipe>();
+        String sql = "SELECT * FROM recipeTag WHERE recipeID=?";
+        for(Recipe r:recipeList){
+            List<Map<String,Object>> rows = this.jdbcTemplate.queryForList(sql,r.id);
+            boolean includes = false;
+            for(Map<String,Object> row : rows){
+                if(tags.contains(row.get("tag").toString())) includes=true;
+            }
+            if(includes) temp.add(r);
+        }
+        recipeList = temp;
     }
 
     public List<Recipe> searchRecipesRandom(int amount) {
@@ -371,6 +388,40 @@ public class RecipeDao extends BaseDao {
         }
 
         return recipe;
+    }
+
+    public List<Recipe> getRecipesAll() throws ExException {
+        String sql = "SELECT * FROM recipes;";
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+        List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> resultMap : resultList) {
+
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+
+            Object pictureAddress = resultMap.get("pictureAddress");
+            if(pictureAddress != null)
+                recipe.pictureAddress = pictureAddress.toString();
+            Object description = resultMap.get("description");
+            if(description != null)
+                recipe.description = description.toString();
+            Object totalFat = resultMap.get("totalFat");
+            if(totalFat != null)
+                recipe.totalFat = Double.parseDouble(totalFat.toString());
+            Object totalCarb = resultMap.get("totalCarb");
+            if(totalCarb != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb.toString());
+            Object totalProtein = resultMap.get("totalProtein");
+            if(totalProtein != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein.toString());
+            Object totalCal = resultMap.get("totalCal");
+            if(totalCal != null)
+                recipe.totalCal = Double.parseDouble(totalCal.toString());
+
+            recipeList.add(recipe);
+        }
+        return recipeList;
     }
 
     /**

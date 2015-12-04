@@ -30,7 +30,6 @@ import edu.boun.cmpe451.group2.android.recipe.RecipeListFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,RecipeListFragment.Callbacks{
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -146,8 +145,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(String id) {
-
-
     }
 
     /**
@@ -164,7 +161,7 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            switch (position){
+             switch (position){
                 case 0:
                     return new RecipeListFragment();
                 default:

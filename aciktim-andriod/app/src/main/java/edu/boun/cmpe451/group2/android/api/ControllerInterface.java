@@ -29,7 +29,7 @@ public interface ControllerInterface {
 
     public static final String LOGIN_PATH = "login";
 
-    public static final String USER_SVC_PATH = "user";
+    public static final String USER_SVC_PATH = "getuser";
 
     public static final String RECIPE_SVC_PATH = "recipe";
 

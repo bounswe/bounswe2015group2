@@ -24,9 +24,9 @@
 
 
 
-  <c:if test="${full_name != ''}">
-    <%@include  file="../sub-element/single_recipe.jsp" %>
-  </c:if>
+  <%--<c:if test="${full_name != ''}">--%>
+  <%@include  file="../sub-element/single_recipe.jsp" %>
+  <%--</c:if>--%>
 
 
 

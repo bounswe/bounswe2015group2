@@ -5,25 +5,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".recipe.RecipeAddActivity">
+    tools:context="edu.boun.cmpe451.group2.android.RecipeAddActivity">
 
     <!-- Login progress -->
-    <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
+    <ProgressBar android:id="@+id/recipe_add_progress" style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
-    <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
+    <ScrollView android:id="@+id/recipe_add_form1" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical">
+        <LinearLayout android:id="@+id/recipe_add_form2" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical"
+            android:weightSum="1">
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress" android:maxLines="1"
+                <EditText android:id="@+id/recipe_add_name_text" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Recipe Name"
+                    android:inputType="text" android:maxLines="1"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
@@ -31,20 +32,63 @@
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/password" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/prompt_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                    android:maxLines="1" android:singleLine="true" />
+                <EditText android:id="@+id/recipe_add_description_text" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Recipe Description"
+                    android:inputType="textMultiLine" />
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
+
+            <ScrollView android:id="@+id/ingredient_add_form1" android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recipe_add_ingredient_text"
+                        android:hint="Ingredient Name"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:layout_weight="1" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recipe_add_ingredient_quantity"
+                        android:hint="Quantity"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:layout_weight="1" />
+
+                    <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ADD INGREDIENT"
+                        android:id="@+id/recipe_add_ingredient_button" />
+
+                </LinearLayout>
+            </ScrollView>
+
+            <Button android:id="@+id/recipe_add_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/action_sign_in"
+                android:layout_marginTop="16dp" android:text="ADD RECIPE"
                 android:textStyle="bold" />
+
+
+            <Button
+                android:layout_width="224dp"
+                android:layout_height="wrap_content"
+                android:text="Add Semantic Tag"
+                android:id="@+id/semantic_tag_add_button"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
