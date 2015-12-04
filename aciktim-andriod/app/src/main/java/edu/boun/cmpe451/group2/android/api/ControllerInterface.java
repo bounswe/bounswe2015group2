@@ -31,7 +31,7 @@ public interface ControllerInterface {
 
     public static final String USER_SVC_PATH = "getuser";
 
-    public static final String RECIPE_SVC_PATH = "/recipe";
+    public static final String RECIPE_SVC_PATH = "recipe";
 
     public static final String RECIPE_TITLE_SEARCH_PATH = RECIPE_SVC_PATH + "/search/findByName";
 
@@ -52,10 +52,10 @@ public interface ControllerInterface {
     String deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
-    List<Recipe> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
+    Call<List<Recipe>> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
 
     @GET(RECIPE_SVC_PATH)
-    Recipe getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
+    Call<Recipe> getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
     @PUT(RECIPE_SVC_PATH + "/update")
     String updateRecipe(@Body Recipe recipe);

@@ -58,7 +58,11 @@ public class RecipeModel {
             throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
         }
 
-        return recipeDao.searchRecipes(name,ingredients);
+        return recipeDao.searchRecipes(name, ingredients,null);
+    }
+
+    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients,List<String> tags) throws ExException{
+        return recipeDao.searchRecipes(name,ingredients,tags);
     }
     /**
      * controls the recipe and sends it to the dao to be added to the db
@@ -80,9 +84,6 @@ public class RecipeModel {
             if(((Ingredient)entry.getKey()).id == null){
                 throw new ExException(ExError.E_INGREDIENT_ID_NULL);
             }
-            System.out.println("Counter : " + counter);
-            System.out.println("CALORIES : "+entry.getKey().calories);
-            System.out.println("INGREDIENT AMOUNT : "+entry.getValue());
             recipe.totalCal += entry.getKey().calories*entry.getValue();
             recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
             recipe.totalFat += entry.getKey().fat*entry.getValue();
@@ -163,4 +164,9 @@ public class RecipeModel {
     public Recipe getRecipe(Long recipe_id) throws Exception{
         return recipeDao.getRecipe(recipe_id);
     }
+
+    public List<Recipe> getRecipesAll() throws Exception{
+        return recipeDao.getRecipesAll();
+    }
+
 }

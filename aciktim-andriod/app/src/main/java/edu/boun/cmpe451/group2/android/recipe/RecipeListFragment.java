@@ -1,19 +1,27 @@
 package edu.boun.cmpe451.group2.android.recipe;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.boun.cmpe451.group2.android.MainActivity;
 import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 import edu.boun.cmpe451.group2.android.api.Recipe;
 import edu.boun.cmpe451.group2.android.dummy.DummyContent;
+import retrofit.Call;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
@@ -78,16 +86,12 @@ public class RecipeListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ApiProxy apiProxy = new ApiProxy();
+        api = apiProxy.getApi();
+        Long userID = Long.valueOf(59);
+        GetRecipeListTask recipeListTask = new GetRecipeListTask(userID);
+        recipeListTask.execute();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api")
-                .build();
-        api = retrofit.create(ControllerInterface.class);
-        long userID = 42;
-        List<Recipe> recipeList = api.getRecipes(userID);
-        // TODO: replace with a real list adapter.
-        ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), R.id.textView,recipeList);
-        setListAdapter(recipeAdapter);
     }
 
     @Override
@@ -159,5 +163,39 @@ public class RecipeListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    public class GetRecipeListTask extends AsyncTask<Void, Void, Response<List<Recipe>>> {
+
+        private final Long userId;
+
+        GetRecipeListTask(Long userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        protected Response<List<Recipe>> doInBackground(Void... params) {
+            Call<List<Recipe>> call = api.getRecipes(userId);
+            Response<List<Recipe>> recipeListResponce = null;
+            try {
+                recipeListResponce = call.execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return recipeListResponce;
+        }
+
+        @Override
+        protected void onPostExecute(final Response<List<Recipe>> response) {
+            List<Recipe> recipeList = response.body();
+            ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), R.id.textView,recipeList);
+            setListAdapter(recipeAdapter);
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
     }
 }

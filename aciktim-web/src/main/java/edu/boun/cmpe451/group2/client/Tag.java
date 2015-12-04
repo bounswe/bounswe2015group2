@@ -33,4 +33,14 @@ public class Tag {
     public String toString() {
         return name;
     }
+
+//    will be used more wisely next time
+//    @Override
+//    public boolean equals(Object o) {
+//        if (o instanceof Tag) {
+//            Tag that = (Tag)o;
+//            return (name == that.name);
+//        }
+//        return false;
+//    }
 }

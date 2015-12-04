@@ -34,6 +34,7 @@ public class UserModel {
     @Autowired
     RecipeDao recipeDao = null;
 
+
     /**
      * login
      *
@@ -126,7 +127,7 @@ public class UserModel {
         if (user != null)
             throw new ExException(ExError.E_ALREADY_REGISTERED);
 
-        userDao.updateUser(id,email, pwd, full_name, username);
+        userDao.updateUser(id, email, pwd, full_name, username);
     }
 
     public User getUser(String api_key) {

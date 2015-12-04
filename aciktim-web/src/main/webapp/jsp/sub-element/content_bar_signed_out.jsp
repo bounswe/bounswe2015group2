@@ -2,7 +2,7 @@
 <div class="container" id="content-bar">
   <link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/content-bar-style.css"/>
   <div class="row">
-    <div class="col-md-6 text-left">
+    <div class="col-md-8 text-left">
       <ul class="nav nav-pills">
         <li role="presentation" id="content_bar_recipes"><a href="/aciktim/recipes">Recipes</a></li>
         <li role="presentation" id="content_bar_restaurants"><a href="/aciktim/restaurants">Restaurants</a></li>
@@ -16,7 +16,6 @@
           <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">
           <button type="submit" class="btn btn-warning search_group" id="content_bar_search">Search</button>
         </div>
-        <%--<button type="button" class="btn btn-warning search_group" id="content_bar_advanced">Advanced Search</button>--%>
       </form>
     </div>
 

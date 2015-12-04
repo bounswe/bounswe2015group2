@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import sun.util.resources.cldr.aa.CalendarData_aa_ER;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -42,8 +43,12 @@ public class RecipeController {
             @RequestParam(required = false, defaultValue = "-1") String ownerID,
             @RequestParam(required = false, defaultValue = "-1") String search_keyword,
             @RequestParam(required = false, defaultValue = "-1") String ingredients_string,
+            @RequestParam(required = false, defaultValue = "-1") String t,
             @RequestParam(required = false, defaultValue = "-1") String madeAt,
-
+            @RequestParam(required = false, defaultValue = "-1") String carbo,
+            @RequestParam(required = false, defaultValue = "-1") String fat,
+            @RequestParam(required = false, defaultValue = "-1") String protein,
+            @RequestParam(required = false, defaultValue = "-1") String calories,
             @CookieValue(value = "session_id", defaultValue = "") String session_id) {
 
 
@@ -54,6 +59,17 @@ public class RecipeController {
             model.put("isInst", user.isInst);
             model.put("full_name", user.full_name);
         }
+
+        if(carbo.equals("-1"))
+            carbo = String.valueOf(Double.MAX_VALUE);
+        if(fat.equals("-1"))
+            fat = String.valueOf(Double.MAX_VALUE);
+        if(protein.equals("-1"))
+            protein = String.valueOf(Double.MAX_VALUE);
+        if(calories.equals("-1"))
+            calories = String.valueOf(Double.MAX_VALUE);
+
+
 
 
         if (user != null && ownerID.equals(user.id)) { //bring my recipes
@@ -66,30 +82,89 @@ public class RecipeController {
                         List<String> ingredientList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
 
-                        // made at filter is used only here because of the advanced search functionality
-//                        if(madeAt.equals("home")) {
-//                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
-//                                Recipe current = iterator.next();
-//                                User owner = userModel.getUserByID(current.getOwnerID());
-//                                if (owner.isInst()) {
-//                                    iterator.remove();
-//                                }
-//                            }
-////                            works finally
-////                            recipeResults.removeAll(recipeResults);
-//                        } else if(madeAt.equals("restaurant")) {
-//                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
-//                                Recipe current = iterator.next();
-//                                User owner = userModel.getUserByID(current.getOwnerID());
-//                                if (!owner.isInst()) {
-//                                    iterator.remove();
-//                                }
-//                            }
-//                        }
+                        // yemekler içinde arancak taglerin listi
+                        if(!t.equals("-1")) {
+                            List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
+                            ArrayList<Tag> tagList = new ArrayList<Tag>();
+                            for(String tagName : tagNameList) {
+                                ArrayList<Tag> tempList = new ArrayList(recipeModel.getRecipeDao().getTagsByName(tagName));
+                                tagList.removeAll(tempList);
+                                tagList.addAll(tempList);
+                            }
+
+
+                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                                Recipe current = iterator.next();
+                                ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
+
+                                boolean hasAtLeastOne = false;
+                                outerloop:
+                                for(int i=0; i<tagList.size(); i++) {
+                                    for(int j=0; j<recipeTagList.size(); j++) {
+                                        if(tagList.get(i).getName().equals(recipeTagList.get(i).getName())) {
+                                            hasAtLeastOne = true;
+                                            break outerloop;
+                                        }
+                                    }
+                                }
+                                if(!hasAtLeastOne)
+                                   iterator.remove();
+                            }
+                        }
+
+                        // calories limit
+                        for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                            Recipe current = iterator.next();
+                            if((current.getTotalCarb() >= Double.parseDouble(carbo) || (current.getTotalFat() >= Double.parseDouble(fat)) ||
+                                    (current.getTotalProtein() >= Double.parseDouble(protein)) || (current.getTotalCal() >= Double.parseDouble(calories))))
+                                iterator.remove();
+                        }
+
 
                         model.put("recipeResults", recipeResults);
                     } else { // bring keyword
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
+
+                        // yemekler içinde arancak taglerin listi
+                        if(!t.equals("-1")) {
+                            List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
+                            ArrayList<Tag> tagList = new ArrayList<Tag>();
+                            for(String tagName : tagNameList) {
+                                ArrayList<Tag> tempList = new ArrayList(recipeModel.getRecipeDao().getTagsByName(tagName));
+                                tagList.removeAll(tempList);
+                                tagList.addAll(tempList);
+                            }
+
+
+                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                                Recipe current = iterator.next();
+                                ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
+
+                                boolean hasAtLeastOne = false;
+                                outerloop:
+                                for(int i=0; i<tagList.size(); i++) {
+                                    for(int j=0; j<recipeTagList.size(); j++) {
+                                        if(tagList.get(i).getName().equals(recipeTagList.get(i).getName())) {
+                                            hasAtLeastOne = true;
+                                            break outerloop;
+                                        }
+                                    }
+                                }
+                                if(!hasAtLeastOne)
+                                    iterator.remove();
+                            }
+                        }
+
+                        // calories limit
+                        for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
+                            Recipe current = iterator.next();
+                            if((current.getTotalCarb() >= Double.parseDouble(carbo) || (current.getTotalFat() >= Double.parseDouble(fat)) ||
+                                    (current.getTotalProtein() >= Double.parseDouble(protein)) || (current.getTotalCal() >= Double.parseDouble(calories))))
+                                iterator.remove();
+                        }
+
                         model.put("recipeResults", recipeResults);
                     }
                 } else { // bring random recipes
@@ -233,23 +308,26 @@ public class RecipeController {
     //################################################
     //####### DISPLAY ONE RECIPE ONSCREEN
     //################################################
-    @RequestMapping(value = {"/recipe/single"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/recipe/single"})
     public String singlerecipe(
             @RequestParam String recipe_id,
             @CookieValue(value = "session_id", defaultValue = "") String session_id,
             ModelMap model
     ) {
 
-
-        try {
+        if (!session_id.equals("")){
             User user = userModel.getUser(session_id);
-            Recipe recipe = recipeModel.getRecipe(Long.parseLong(recipe_id));
             model.put("full_name", user.full_name);
-            if (Long.parseLong(user.id) == recipe.ownerID) {
-                model.put("is_owner", true);
-            } else {
-                model.put("is_owner", false);
-            }
+//            if (Long.parseLong(user.id) == recipe.ownerID) {
+//                model.put("is_owner", true);
+//            } else {
+//                model.put("is_owner", false);
+//            }
+        }else{
+            model.put("full_name" , "");
+        }
+        try {
+            Recipe recipe = recipeModel.getRecipe(Long.parseLong(recipe_id));
             model.put("recipe", recipe);
             model.put("owner_name", userModel.getUserByID(recipe.ownerID).full_name);
         } catch (Exception e) {
@@ -407,33 +485,42 @@ public class RecipeController {
     @RequestMapping(value = {"user/dailyconsumption"})
     public String userdailyconsumption(
             ModelMap model,
-            @RequestParam (required = false) String queried_date,
+            @RequestParam (required = false) String date,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
+
+
+        model.put("content_bar_selection", "dailyconsumption");
         if (!session_id.equals("")) {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             Calendar queriedCal = null;
-            if (queried_date == null){
+            if (date == null){
                 Date currentDate = new Date();
-                System.out.println(currentDate.toString());
                 queriedCal = Calendar.getInstance();
                 queriedCal.setTime(currentDate);
             }else{
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
                 try {
-                    Date date = formatter.parse(queried_date);
+                    Date queried_date = formatter.parse(date);
                     queriedCal = Calendar.getInstance();
-                    queriedCal.setTime(date);
+                    queriedCal.setTime(queried_date);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
             }
             try{
-                System.out.println(Long.parseLong(user.id));
-                System.out.println(queriedCal.getTime());
+
+                int year = queriedCal.get(Calendar.YEAR);
+                int month = queriedCal.get(Calendar.MONTH);
+                int day = queriedCal.get(Calendar.DAY_OF_MONTH);
+
+                queriedCal.add(Calendar.MONTH, 1);
                 ArrayList<Recipe> recipes = userModel.getDailyConsumption(Long.parseLong(user.id), queriedCal);
-                System.out.println("SIZE : "+recipes.size());
+
+                model.put("year", year);
+                model.put("month", month);
+                model.put("day", day);
                 model.put("consumed_recipes", recipes);
             }catch (Exception e){
                 e.printStackTrace();
@@ -443,24 +530,7 @@ public class RecipeController {
             return "redirect:/recipes";
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
 
 
     //################################################
