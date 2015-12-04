@@ -353,9 +353,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         startActivity(intent);
                     }else if(apiResponse.api_key!= null){
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("api_key",apiResponse.api_key);
-                        intent.putExtras(bundle);
+                        intent.putExtra("api_key",apiResponse.api_key);
                         startActivity(intent);
                     }
                     else {

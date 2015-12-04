@@ -25,12 +25,17 @@ import retrofit.Retrofit;
 
 public class ProfileViewActivity extends AppCompatActivity {
 
-    ControllerInterface api;
+    private ControllerInterface api;
+    private String api_key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
+        Intent intent = getIntent();
+
+        api_key = intent.getStringExtra("api_key");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -42,6 +47,7 @@ public class ProfileViewActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -57,10 +63,9 @@ public class ProfileViewActivity extends AppCompatActivity {
 
         @Override
         protected Response<User> doInBackground(Void... params) {
-            Call<User> call = api.getUser("f456d783a786287bf5fa2a7b2e59ce5f");
+            Call<User> call = api.getUser(api_key);
             try {
-                Response<User> response= call.execute();
-                return response;
+                return  call.execute();
             } catch (IOException e) {
                 return null;
             }

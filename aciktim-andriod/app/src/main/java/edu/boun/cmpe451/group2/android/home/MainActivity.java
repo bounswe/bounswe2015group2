@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 import edu.boun.cmpe451.group2.android.friend.FriendListActivity;
 import edu.boun.cmpe451.group2.android.profile.ProfileViewActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListActivity;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    private String api_key;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -50,9 +52,15 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
-
+        try {
+            Intent intent =  getIntent();
+            api_key = intent.getStringExtra("api_key");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -69,10 +77,14 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view,api_key, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+
+        ApiProxy apiProxy = new ApiProxy();
+        ControllerInterface api = apiProxy.getApi();
+        //api.getUser()
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -133,6 +145,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this,ProfileViewActivity.class);
+            intent.putExtra("api_key", api_key);
             startActivity(intent);
         } else if (id == R.id.nav_sign_out) {
 
