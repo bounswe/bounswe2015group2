@@ -37,18 +37,18 @@ public interface ControllerInterface {
 
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
     @POST(LOGIN_PATH)
-    Call<Response> login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
+    Call<ApiResponse> login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
 
     @GET(USER_SVC_PATH)
     Call<User> getUser(@Query(API_KEY_PARAMETER) String api_key);
 
     @POST(USER_SVC_PATH)
-    Call<Response> signup(@Body User user);
+    Call<ApiResponse> signup(@Body User user);
 
     @POST(RECIPE_SVC_PATH)
-    Call<Response> addrecipe(@Body Recipe recipe);
+    Call<ApiResponse> addrecipe(@Body Recipe recipe);
 
-    Call<Response> deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
+    Call<ApiResponse> deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
     Call<List<Recipe>> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
@@ -57,7 +57,7 @@ public interface ControllerInterface {
     Call<Recipe> getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
     @PUT(RECIPE_SVC_PATH + "/update")
-    Call<Response> updateRecipe(@Body Recipe recipe);
+    Call<ApiResponse> updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
     Call<List<Map<String, Object>>> getRecommendations(@Body User user);
@@ -69,7 +69,7 @@ public interface ControllerInterface {
     Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
 
     @POST(USER_SVC_PATH+"/addMenu")
-    Call<Response> addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
+    Call<ApiResponse> addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")
     Call<HashMap<Long,Menu>> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);

@@ -29,17 +29,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
-import edu.boun.cmpe451.group2.android.api.User;
-import retrofit.Retrofit;
+import edu.boun.cmpe451.group2.android.api.ApiResponse;
+import edu.boun.cmpe451.group2.android.home.MainActivity;
+import retrofit.Call;
+import retrofit.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -63,7 +63,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Retrofit retrofit;
+
+    private ControllerInterface api;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,20 +99,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
 
-
         Button mSignUpButton = (Button) findViewById(R.id.sign_up_button);
         mSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),SignUpActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(intent);
             }
         });
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api")
-                .build();
-
+        ApiProxy apiProxy = new ApiProxy();
+        api = apiProxy.getApi();
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -129,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                    .setAction(android.R.string.ok, new OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
@@ -288,6 +289,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -312,7 +314,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Response<ApiResponse>> {
 
         private final String mEmail;
         private final String mPassword;
@@ -323,28 +325,44 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Response<ApiResponse> doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            ControllerInterface api = retrofit.create(ControllerInterface.class);
-            String api_key = api.login(mEmail, mPassword);
+            Call<ApiResponse> responseCall = api.login(mEmail, mPassword);
 
-            return true;
+            try {
+                return responseCall.execute();
+            } catch (IOException e) {
+                return null;
+            }
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Response<ApiResponse> response) {
             mAuthTask = null;
             showProgress(false);
-
-            if (success) {
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("api_key","as");
-                startActivity(intent);
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            if (response != null){
+            ApiResponse apiResponse = response.body();
+                if(apiResponse != null){
+                    //TODO the first if statement is not working
+                    if (apiResponse.status == ApiResponse.STATUS.OK) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("api_key",apiResponse.api_key);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }else if(apiResponse.api_key!= null){
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("api_key",apiResponse.api_key);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
+                    else {
+                        mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        mPasswordView.requestFocus();
+                    }
+                }
             }
         }
 

@@ -1,9 +1,9 @@
-package edu.boun.cmpe451.group2.android.api;
+package edu.boun.cmpe451.group2.client;
 
 /**
  * Created by Mustafa Taha on 1.12.2015.
  */
-public class Response {
+public class ApiResponse {
     public enum STATUS{
         OK,ERROR
     }

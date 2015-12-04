@@ -17,17 +17,17 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" >
-
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main_drawer"
-            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".home.MainActivity"
+            android:label="@string/title_activity_main_drawer"
+            android:theme="@style/AppTheme.NoActionBar" >
+
         </activity>
         <activity
             android:name=".recipe.RecipeAddActivity"
@@ -48,11 +48,11 @@
         <activity
             android:name=".profile.ProfileViewActivity"
             android:label="@string/title_activity_profile_view"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".home.MainActivity" />
         </activity>
         <activity
             android:name=".profile.ProfileEditActivity"
@@ -74,11 +74,11 @@
         <activity
             android:name=".recipe.RecipeListActivity"
             android:label="@string/title_recipe_list"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MainActivity" />
+                android:value=".home.MainActivity" />
         </activity>
         <activity
             android:name=".recipe.RecipeViewActivity"
@@ -92,11 +92,11 @@
         <activity
             android:name=".friend.FriendListActivity"
             android:label="@string/title_friend_list"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MainActivity" />
+                android:value=".home.MainActivity" />
         </activity>
         <activity
             android:name=".friend.FriendDetailActivity"
