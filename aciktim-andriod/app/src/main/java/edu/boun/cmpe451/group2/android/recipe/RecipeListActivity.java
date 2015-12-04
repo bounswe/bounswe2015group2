@@ -10,6 +10,8 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 
 /**
  * An activity representing a list of Recipes. This activity
@@ -55,6 +57,10 @@ public class RecipeListActivity extends AppCompatActivity
         });
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ApiProxy apiProxy =new ApiProxy();
+        ControllerInterface api =apiProxy.getApi();
+
 
         if (findViewById(R.id.recipe_detail_container) != null) {
             // The detail container view will be present only in the
