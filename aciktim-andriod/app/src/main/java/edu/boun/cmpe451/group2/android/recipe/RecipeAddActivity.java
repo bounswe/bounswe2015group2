@@ -39,7 +39,7 @@ public class RecipeAddActivity extends AppCompatActivity {
     private AutoCompleteTextView ingredientName;
     private EditText ingredientQuantity;
     private Button recipeAddButton;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
