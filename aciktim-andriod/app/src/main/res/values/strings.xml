@@ -122,6 +122,7 @@
     </string>
     <string name="title_activity_recipe_add">Recipe Add</string>
     <string name="title_activity_recipe_edit">Edit Recipe</string>
+    <string name="title_activity_ingredient_add">Add Ingredient</string>
     <string name="title_activity_profile_view">ProfileViewActivity</string>
     <string name="title_activity_profile_edit">Profile Edit</string>
     <string name="title_activity_sign_up">Sign Up</string>
