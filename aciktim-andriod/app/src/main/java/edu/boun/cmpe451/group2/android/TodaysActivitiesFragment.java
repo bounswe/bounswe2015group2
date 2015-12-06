@@ -1,9 +1,11 @@
 package edu.boun.cmpe451.group2.android;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -12,8 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import edu.boun.cmpe451.group2.android.dummy.DummyContent;
+import java.io.IOException;
 
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
+import edu.boun.cmpe451.group2.android.api.User;
+import edu.boun.cmpe451.group2.android.dummy.DummyContent;
+import retrofit.Call;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -34,8 +43,10 @@ public class TodaysActivitiesFragment extends Fragment implements AbsListView.On
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
 
+    private OnFragmentInteractionListener mListener;
+    private ControllerInterface api;
+    private String api_key;
     /**
      * The fragment's ListView/GridView.
      */
@@ -68,6 +79,10 @@ public class TodaysActivitiesFragment extends Fragment implements AbsListView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getActivity().getIntent();
+        api_key = intent.getStringExtra("api_key");
+
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -76,7 +91,48 @@ public class TodaysActivitiesFragment extends Fragment implements AbsListView.On
         // TODO: Change Adapter to display your content
         mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        api = retrofit.create(ControllerInterface.class);
+         GetDailyConsumption DailyConsumption  = new GetDailyConsumption();
+        DailyConsumption.execute();
     }
+
+    public class  GetDailyConsumption  extends AsyncTask<Void, Void, Response<User>> {
+
+
+        @Override
+        protected Response<User> doInBackground(Void... params) {
+            Call<User> call = api.getUser(api_key);
+            try {
+                return  call.execute();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Response<User> response) {
+            User user = response.body();
+            TextView profileNameTextView = (TextView) getView().findViewById(R.id.recipe_list);
+
+
+            profileNameTextView.setText(user.full_name);
+
+        }
+
+
+        @Override
+        protected void onCancelled() {
+
+        }
+    }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

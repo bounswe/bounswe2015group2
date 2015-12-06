@@ -32,7 +32,7 @@ public class ProfileViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-        Intent intent = getIntent();
+        Intent intent =getIntent();
 
         api_key = intent.getStringExtra("api_key");
 
@@ -41,6 +41,7 @@ public class ProfileViewActivity extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ProfileEditActivity.class);

@@ -66,6 +66,7 @@ public class ProfileEditActivity extends AppCompatActivity implements LoaderCall
     private View mProgressView;
     private View mLoginFormView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,7 @@ public class ProfileEditActivity extends AppCompatActivity implements LoaderCall
                 attemptLogin();
             }
         });
+
 
 
 
