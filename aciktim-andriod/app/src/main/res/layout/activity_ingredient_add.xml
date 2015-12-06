@@ -7,24 +7,28 @@
     android:paddingTop="16dp"
     tools:context="edu.boun.cmpe451.group2.android.IngredientAddActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ingredient_add_name"
-        android:hint="Ingredient Name"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:layout_weight="1" />
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ingredient_add_name"
+            android:hint="Ingredient Name"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:layout_weight="1" />
+
+        </LinearLayout>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ingredient_add_quantity"
-        android:hint="Quantity"
-        android:inputType="number"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:layout_weight="1" />
+        android:text="SEARCH INGREDIENT"
+        android:id="@+id/ingredient_add_search_button" />
 
     <ListView
         android:id="@+id/recipe_add_ingredient_listView"

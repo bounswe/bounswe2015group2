@@ -36,8 +36,6 @@ public class RecipeAddActivity extends AppCompatActivity {
     // UI references.
     private EditText recipeName;
     private EditText recipeDescription;
-    private AutoCompleteTextView ingredientName;
-    private EditText ingredientQuantity;
     private Button recipeAddButton;
 
     @Override
@@ -49,9 +47,6 @@ public class RecipeAddActivity extends AppCompatActivity {
         recipeName = (EditText) findViewById(R.id.recipe_add_name_text);
 
         recipeDescription = (EditText) findViewById(R.id.recipe_add_description_text);
-
-        ingredientName = (AutoCompleteTextView) findViewById(R.id.recipe_add_ingredient_text);
-        ingredientQuantity  = (EditText) findViewById(R.id.recipe_add_ingredient_quantity);
 
         Button ingredientAddButton = (Button) findViewById(R.id.recipe_add_ingredient_button);
         ingredientAddButton.setOnClickListener(new OnClickListener() {
