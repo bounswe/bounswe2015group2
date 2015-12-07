@@ -48,7 +48,7 @@ public class RecipeAddActivity extends AppCompatActivity {
     private EditText recipeName;
     private EditText recipeDescription;
     private Button recipeAddButton;
-    TextView textView2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,6 @@ public class RecipeAddActivity extends AppCompatActivity {
         recipeName = (EditText) findViewById(R.id.recipe_add_name_text);
 
         recipeDescription = (EditText) findViewById(R.id.recipe_add_description_text);
-
         Button ingredientAddButton = (Button) findViewById(R.id.recipe_add_ingredient_button);
         ingredientAddButton.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
@@ -67,8 +66,8 @@ public class RecipeAddActivity extends AppCompatActivity {
             }
         });
 
-        Button semanticTtagAddButton =(Button) findViewById(R.id.semantic_tag_add_button);
-        semanticTtagAddButton.setOnClickListener(new OnClickListener() {
+        Button semanticTagAddButton =(Button) findViewById(R.id.semantic_tag_add_button);
+        semanticTagAddButton.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), SemanticTagActivity.class));
             }
@@ -76,17 +75,11 @@ public class RecipeAddActivity extends AppCompatActivity {
 
         recipeAddButton = (Button) findViewById(R.id.recipe_add_button);
 
-
-        final  TextView tv = (TextView) findViewById(R.id.textView2);
-
-        String editText=getIntent().getStringExtra("NAME");
-        String editText2=getIntent().getStringExtra("CLASSS");
+       // my code start here
 
 
 
-        String str="NAME : "+editText+"\nCLASSS : "+editText2;
-        tv.setText(str);
-        setContentView(tv);
+
 
 
     }

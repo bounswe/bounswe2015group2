@@ -67,13 +67,10 @@
                 android:id="@+id/semantic_tag_add_button"
                 android:layout_gravity="center_horizontal" />
 
-            <TextView
-                android:layout_width="400dp"
-                android:layout_height="200dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/textView2"
-                android:layout_gravity="center_horizontal" />
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView" />
 
         </LinearLayout>
     </ScrollView>
