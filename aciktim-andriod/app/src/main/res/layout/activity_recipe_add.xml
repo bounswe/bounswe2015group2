@@ -66,11 +66,14 @@
                 android:text="Add Semantic Tag"
                 android:id="@+id/semantic_tag_add_button"
                 android:layout_gravity="center_horizontal" />
-            <ListView
-                android:layout_width="300dp"
+
+            <TextView
+                android:layout_width="400dp"
                 android:layout_height="200dp"
-                android:id="@+id/listView2"
-                android:layout_gravity="center_horizontal|top" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/textView2"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
     </ScrollView>

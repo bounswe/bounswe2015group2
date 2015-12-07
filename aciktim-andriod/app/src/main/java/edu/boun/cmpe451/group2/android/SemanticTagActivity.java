@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.android;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +10,8 @@ import android.widget.EditText;
 
 import edu.boun.cmpe451.group2.android.recipe.RecipeAddActivity;
 
-public class SemanticTagActivity extends AppCompatActivity implements View.OnClickListener {
+public class SemanticTagActivity extends Activity{
 
-    EditText editText;
-    EditText editText2;
-
-    Button button2;
 
 
 
@@ -23,20 +20,27 @@ public class SemanticTagActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.semantic_tag);
 
+        Button button=(Button)findViewById(R.id.button);
 
-        editText = (EditText) findViewById(R.id.editText);
-        editText2= (EditText) findViewById(R.id.editText2);
+        final  EditText editTextName = (EditText) findViewById(R.id.editText);
+        final  EditText editTextClass = (EditText) findViewById(R.id.editText2);
+        button.setOnClickListener(new View.OnClickListener() {
 
-        button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(this);
 
-    }
+            public void onClick(View v) {
+                String editText = editTextName.getText().toString();
+                String editText2 = editTextClass.getText().toString();
 
-    public void onClick(View v) {
-        Intent intent = new Intent(this, RecipeAddActivity.class);
-        intent.putExtra("Name", editText.getText().toString());
-        intent.putExtra("Class", editText2.getText().toString());
-        startActivity(intent);
-    }
 
-}
+                // create a new intent
+                Intent intent = new Intent(getApplicationContext(), RecipeAddActivity.class);
+                // put the name and phone(to be sent to other activity) in intent
+                intent.putExtra("NAME", editText);
+                intent.putExtra("CLASS", editText2);
+
+                // start the second activity
+                startActivity(intent);
+            }
+        });
+        }
+        }

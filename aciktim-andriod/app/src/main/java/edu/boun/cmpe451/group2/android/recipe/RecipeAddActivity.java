@@ -48,7 +48,7 @@ public class RecipeAddActivity extends AppCompatActivity {
     private EditText recipeName;
     private EditText recipeDescription;
     private Button recipeAddButton;
-    ListView listView2;
+    TextView textView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,25 +77,17 @@ public class RecipeAddActivity extends AppCompatActivity {
         recipeAddButton = (Button) findViewById(R.id.recipe_add_button);
 
 
+        final  TextView tv = (TextView) findViewById(R.id.textView2);
 
-        listView2 = (ListView) findViewById(R.id.listView2);
-        Intent intent = getIntent();
-
-        String Name = intent.getStringExtra("Name");
-        String Class = intent.getStringExtra("Class");
-
-        ArrayList<String> arrayList = new ArrayList<String>();
-        //arrayList = new ArrayList();
-
-        arrayList.add(Name);
-        arrayList.add(Class);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayList);
-        //adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
-
-        listView2.setAdapter(adapter);
+        String editText=getIntent().getStringExtra("NAME");
+        String editText2=getIntent().getStringExtra("CLASSS");
 
 
-       adapter.notifyDataSetChanged();
+
+        String str="NAME : "+editText+"\nCLASSS : "+editText2;
+        tv.setText(str);
+        setContentView(tv);
+
 
     }
 }

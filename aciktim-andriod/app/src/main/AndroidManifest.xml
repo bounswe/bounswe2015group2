@@ -121,6 +121,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.boun.cmpe451.group2.android.recipe.RecipeAddActivity" />
         </activity>
+        <activity android:name=".AdapterActivity" >
+        </activity>
     </application>
 
 </manifest>
