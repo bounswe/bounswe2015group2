@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.android.recipe;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +64,12 @@ public class RecipeAddActivity extends AppCompatActivity {
         });
 
         recipeAddButton = (Button) findViewById(R.id.recipe_add_button);
+
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_CANCELED, returnIntent);
+        finish();
+
+
 
     }
 }
