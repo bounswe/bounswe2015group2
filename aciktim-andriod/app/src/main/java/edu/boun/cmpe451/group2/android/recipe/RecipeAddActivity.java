@@ -23,6 +23,8 @@ import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.SemanticTagActivity;
 import edu.boun.cmpe451.group2.android.ingredient.IngredientAddActivity;
 
+import static android.R.id.text1;
+
 /**
  * A recipe-add screen
  */
@@ -47,8 +49,6 @@ public class RecipeAddActivity extends AppCompatActivity {
     private EditText recipeDescription;
     private Button recipeAddButton;
     ListView listView2;
-    ArrayList arrayList;
-    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,14 +84,18 @@ public class RecipeAddActivity extends AppCompatActivity {
         String Name = intent.getStringExtra("Name");
         String Class = intent.getStringExtra("Class");
 
-        arrayList = new ArrayList();
-        ListView listView = (ListView) findViewById(R.id.listView2);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
-        listView.setAdapter((ListAdapter) adapter);
+        ArrayList<String> arrayList = new ArrayList<String>();
+        //arrayList = new ArrayList();
 
         arrayList.add(Name);
         arrayList.add(Class);
-        adapter.notifyDataSetChanged();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayList);
+        //adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
+
+        listView2.setAdapter(adapter);
+
+
+       adapter.notifyDataSetChanged();
 
     }
 }
