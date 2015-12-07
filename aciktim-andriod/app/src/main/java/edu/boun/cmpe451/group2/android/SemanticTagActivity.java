@@ -35,7 +35,7 @@ public class SemanticTagActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         Intent intent = new Intent(this, RecipeAddActivity.class);
         intent.putExtra("Name", editText.getText().toString());
-        intent.putExtra("class", editText2.getText().toString());
+        intent.putExtra("Class", editText2.getText().toString());
         startActivity(intent);
     }
 

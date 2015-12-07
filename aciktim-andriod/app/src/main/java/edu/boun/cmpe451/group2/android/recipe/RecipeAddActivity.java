@@ -7,12 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import edu.boun.cmpe451.group2.android.R;
@@ -43,6 +47,8 @@ public class RecipeAddActivity extends AppCompatActivity {
     private EditText recipeDescription;
     private Button recipeAddButton;
     ListView listView2;
+    ArrayList arrayList;
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +76,22 @@ public class RecipeAddActivity extends AppCompatActivity {
 
         recipeAddButton = (Button) findViewById(R.id.recipe_add_button);
 
+
+
         listView2 = (ListView) findViewById(R.id.listView2);
         Intent intent = getIntent();
 
-        String Name = intent.getStringExtra("name");
+        String Name = intent.getStringExtra("Name");
+        String Class = intent.getStringExtra("Class");
 
-       listView2.
+        arrayList = new ArrayList();
+        ListView listView = (ListView) findViewById(R.id.listView2);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, arrayList);
+        listView.setAdapter((ListAdapter) adapter);
+
+        arrayList.add(Name);
+        arrayList.add(Class);
+        adapter.notifyDataSetChanged();
 
     }
 }
