@@ -10,6 +10,10 @@ import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.LinkedHashMap;
 
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.SemanticTagActivity;
@@ -38,6 +42,7 @@ public class RecipeAddActivity extends AppCompatActivity {
     private EditText recipeName;
     private EditText recipeDescription;
     private Button recipeAddButton;
+    ListView listView2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +70,12 @@ public class RecipeAddActivity extends AppCompatActivity {
 
         recipeAddButton = (Button) findViewById(R.id.recipe_add_button);
 
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_CANCELED, returnIntent);
-        finish();
+        listView2 = (ListView) findViewById(R.id.listView2);
+        Intent intent = getIntent();
 
+        String Name = intent.getStringExtra("name");
 
+       listView2.
 
     }
 }
