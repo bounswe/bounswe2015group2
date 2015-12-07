@@ -1,9 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import edu.boun.cmpe451.group2.client.*;
 import edu.boun.cmpe451.group2.model.*;
@@ -257,6 +254,22 @@ public class APIController implements ControllerInterface {
         return result;
     }
 
+    /**
+     * This method returns the daily consumption of a user given that day
+     * if there is an exception it returns an empty list
+     * @param userID id of the user
+     * @param calendar calendar that contains the day
+     * @return returns arraylist of recipes
+     */
+    @RequestMapping(USER_SVC_PATH+"/getDailyConsumption")
+    public @ResponseBody ArrayList<Recipe> getDailyConsumption(Long userID,Calendar calendar){
+        try{
+            return userModel.getDailyConsumption(userID,calendar);
+        } catch (ExException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
     /**
      * adds a menu
      * @param menu menu to be added
