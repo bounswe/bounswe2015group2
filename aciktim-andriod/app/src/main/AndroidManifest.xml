@@ -127,6 +127,7 @@
             android:name=".recipe.SearchActivity"
             android:label="@string/title_activity_search"
             android:parentActivityName=".home.MainActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

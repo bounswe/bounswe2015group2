@@ -140,12 +140,19 @@ public class MainActivity extends AppCompatActivity
 
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
 
-        return true;
+        MenuItem searchItem = menu.findItem(R.id.search);
+
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView =  (SearchView) menu.findItem(R.id.search).getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(
+                    searchManager.getSearchableInfo(getComponentName()));
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -156,7 +163,6 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.search:
-                onSearchRequested();
                 return true;
             case R.id.action_settings:
                 return true;
