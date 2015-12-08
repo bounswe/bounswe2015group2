@@ -1,16 +1,29 @@
 package edu.boun.cmpe451.group2.android.recipe;
 
+import android.app.Activity;
 import android.content.Intent;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.SemanticTagActivity;
+import edu.boun.cmpe451.group2.android.ingredient.IngredientAddActivity;
+
+import static android.R.id.text1;
 
 /**
  * A recipe-add screen
@@ -34,10 +47,8 @@ public class RecipeAddActivity extends AppCompatActivity {
     // UI references.
     private EditText recipeName;
     private EditText recipeDescription;
-    private EditText ingredientName;
-    private EditText ingredientQuantity;
     private Button recipeAddButton;
-    private Button ingredientAddButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +59,28 @@ public class RecipeAddActivity extends AppCompatActivity {
         recipeName = (EditText) findViewById(R.id.recipe_add_name_text);
 
         recipeDescription = (EditText) findViewById(R.id.recipe_add_description_text);
+        Button ingredientAddButton = (Button) findViewById(R.id.recipe_add_ingredient_button);
+        ingredientAddButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), IngredientAddActivity.class));
+            }
+        });
 
-        ingredientName = (EditText) findViewById(R.id.recipe_add_ingredient_text);
-        ingredientQuantity  = (EditText) findViewById(R.id.recipe_add_ingredient_quantity);
-        ingredientAddButton = (Button) findViewById(R.id.recipe_add_ingredient_button);
-
-        Button semanticTtagAddButton =(Button) findViewById(R.id.semantic_tag_add_button);
-        semanticTtagAddButton.setOnClickListener(new OnClickListener() {
+        Button semanticTagAddButton =(Button) findViewById(R.id.semantic_tag_add_button);
+        semanticTagAddButton.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(), SemanticTagActivity.class));
             }
         });
 
         recipeAddButton = (Button) findViewById(R.id.recipe_add_button);
+
+       // my code start here
+
+
+
+
+
 
     }
 }

@@ -5,18 +5,15 @@ import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
-
 /**
  * Created by Mustafa Taha on 1.12.2015.
  */
-public class ApiProxy {
+
+public class ApiProxy  {
 
     public ControllerInterface getApi() {
-        return api;
-    }
-
+        return api; }
     private ControllerInterface api;
-
     public ApiProxy() {
         OkHttpClient client = new OkHttpClient();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

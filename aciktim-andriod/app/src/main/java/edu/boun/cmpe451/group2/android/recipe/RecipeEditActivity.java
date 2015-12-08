@@ -37,7 +37,7 @@ public class RecipeEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_recipe_edit);
 
         recipeName = (EditText) findViewById(R.id.recipe_edit_name_text);
 

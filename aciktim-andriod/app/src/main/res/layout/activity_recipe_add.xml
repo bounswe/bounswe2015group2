@@ -12,8 +12,10 @@
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
-    <ScrollView android:id="@+id/recipe_add_form1" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView android:id="@+id/recipe_add_form1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout android:id="@+id/recipe_add_form2" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical"
@@ -38,42 +40,19 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ScrollView android:id="@+id/ingredient_add_form1" android:layout_width="fill_parent"
-                android:layout_height="match_parent">
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADD INGREDIENT"
+                    android:id="@+id/recipe_add_ingredient_button" />
 
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/recipe_add_ingredient_text"
-                        android:hint="Ingredient Name"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:layout_weight="1" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/recipe_add_ingredient_quantity"
-                        android:hint="Quantity"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:layout_weight="1" />
-
-                    <Button
-                        style="?android:attr/buttonStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ADD INGREDIENT"
-                        android:id="@+id/recipe_add_ingredient_button" />
-
-                </LinearLayout>
-            </ScrollView>
+            </LinearLayout>
 
             <Button android:id="@+id/recipe_add_button" style="?android:textAppearanceSmall"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -88,7 +67,14 @@
                 android:id="@+id/semantic_tag_add_button"
                 android:layout_gravity="center_horizontal" />
 
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView" />
+
         </LinearLayout>
     </ScrollView>
+
+
 
 </LinearLayout>
