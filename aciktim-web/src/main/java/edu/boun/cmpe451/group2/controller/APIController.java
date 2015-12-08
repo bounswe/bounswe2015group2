@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.google.gson.Gson;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
 
@@ -44,30 +45,29 @@ public class APIController implements ControllerInterface {
      * @return
      */
     @RequestMapping(LOGIN_PATH)
-    public @ResponseBody
-    ApiResponse login(
+    public @ResponseBody Response login(
             @RequestParam String email,
             @RequestParam String password) {
 
-        ApiResponse apiResponse = new ApiResponse();
+        Response response = new Response();
         try {
             String api_key = userModel.login(email, password);
-            apiResponse.status = ApiResponse.STATUS.OK;
-            apiResponse.message = ExError.S_OK;
-            apiResponse.api_key = api_key;
+            response.status = Response.STATUS.OK;
+            response.message = ExError.S_OK;
+            response.api_key = api_key;
 
-            return apiResponse;
+            return response;
 
         } catch (Exception e) {
             e.printStackTrace();
-            apiResponse.status= ApiResponse.STATUS.ERROR;
+            response.status= Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                apiResponse.message =  ((ExException) e).getErrCode();
+                response.message =  ((ExException) e).getErrCode();
             else
-                apiResponse.message =  ExError.E_UNKNOWN;
+                response.message =  ExError.E_UNKNOWN;
 
-            return apiResponse;
+            return response;
         }
     }
 
@@ -85,25 +85,35 @@ public class APIController implements ControllerInterface {
      */
     @RequestMapping("/signup")
     @ResponseBody
-    public ApiResponse signup(@RequestBody User user) {
-        ApiResponse apiResponse = new ApiResponse();
+    public Response signup(@RequestBody User user) {
+
+        String email = user.email;
+        String password = user.passwd;
+        String full_name = "";
+        if(user.full_name != null)
+            full_name=user.full_name;
+        String username = "";
+        if(user.username != null)
+            username=user.username;
+        boolean isInst = user.isInst;
+        Response response = new Response();
         try {
             String api_key = userModel.signup(user);
-            apiResponse.status = ApiResponse.STATUS.OK;
-            apiResponse.api_key = api_key;
+            response.status = Response.STATUS.OK;
+            response.api_key = api_key;
 
-            return apiResponse;
+            return response;
 
         } catch (Exception e) {
             e.printStackTrace();
-            apiResponse.status= ApiResponse.STATUS.ERROR;
+            response.status=Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                apiResponse.message =  ((ExException) e).getErrCode();
+                response.message =  ((ExException) e).getErrCode();
             else
-                apiResponse.message =   ExError.E_UNKNOWN;
+                response.message =   ExError.E_UNKNOWN;
 
-            return apiResponse;
+            return response;
         }
     }
 
@@ -113,26 +123,25 @@ public class APIController implements ControllerInterface {
      * @return returns json string
      */
     @RequestMapping("/addrecipe")
-    public @ResponseBody
-    ApiResponse addrecipe(@RequestBody Recipe recipe) {
-        ApiResponse apiResponse = new ApiResponse();
+    public @ResponseBody Response addrecipe(@RequestBody Recipe recipe) {
+        Response response = new Response();
         try {
             recipeModel.addRecipe(recipe);
-            apiResponse.status = ApiResponse.STATUS.OK;
-            apiResponse.message ="Recipe Added";
-            return apiResponse;
+            response.status = Response.STATUS.OK;
+            response.message ="Recipe Added";
+            return response;
         }
         catch (Exception e){
             e.printStackTrace();
 
-            apiResponse.status = ApiResponse.STATUS.ERROR;
+            response.status = Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                apiResponse.message = ((ExException) e).getErrCode();
+                response.message = ((ExException) e).getErrCode();
             else
-                apiResponse.message= ExError.E_UNKNOWN;
+                response.message= ExError.E_UNKNOWN;
 
-            return apiResponse;
+            return response;
         }
 
     }
@@ -142,27 +151,26 @@ public class APIController implements ControllerInterface {
      * @param recipeID id of the recipe to be deleted
      * @return
      */
-    public @ResponseBody
-    ApiResponse deleteRecipe(
+    public @ResponseBody Response deleteRecipe(
             @RequestParam Long recipeID
     ) {
-        ApiResponse apiResponse = new ApiResponse();
+        Response response = new Response();
         try {
             recipeModel.deleteRecipe(recipeID);
-            apiResponse.status = ApiResponse.STATUS.OK;
-            apiResponse.message ="Recipe Deleted";
-            return apiResponse;
+            response.status = Response.STATUS.OK;
+            response.message ="Recipe Deleted";
+            return response;
         }catch (Exception e){
             e.printStackTrace();
 
-            apiResponse.status = ApiResponse.STATUS.ERROR;
+            response.status = Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                apiResponse.message = ((ExException) e).getErrCode();
+                response.message = ((ExException) e).getErrCode();
             else
-                apiResponse.message= ExError.E_UNKNOWN;
+                response.message= ExError.E_UNKNOWN;
 
-            return apiResponse;
+            return response;
         }
     }
 
@@ -177,31 +185,31 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping(RECIPE_SVC_PATH + "/update")
-    public @ResponseBody
-    ApiResponse updateRecipe(@RequestBody Recipe recipe) {
-        ApiResponse apiResponse = new ApiResponse();
+    public @ResponseBody Response updateRecipe(@RequestBody Recipe recipe) {
+        Response response = new Response();
         try {
             recipeModel.updateRecipe(recipe);
-            apiResponse.status = ApiResponse.STATUS.OK;
-            apiResponse.message = "Recipe Added";
-            return apiResponse;
+            response.status = Response.STATUS.OK;
+            response.message = "Recipe Added";
+            return response;
         }
         catch (Exception e){
             e.printStackTrace();
 
-            apiResponse.status = ApiResponse.STATUS.ERROR;
+            response.status = Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                apiResponse.message = ((ExException) e).getErrCode();
+                response.message = ((ExException) e).getErrCode();
             else
-                apiResponse.message= ExError.E_UNKNOWN;
+                response.message= ExError.E_UNKNOWN;
 
-            return apiResponse;
+            return response;
         }
     }
 
     @RequestMapping(USER_SVC_PATH + "/recommendations")
-    public @ResponseBody List<Recipe> getRecommendations(@RequestBody User user){
+    public @ResponseBody ArrayList<Recipe> getRecommendations(@RequestBody User user){
+
         try {
             return recipeModel.getRecommendations(user);
         }
@@ -280,26 +288,25 @@ public class APIController implements ControllerInterface {
      * @return type and content of the result in a hashmap
      */
     @RequestMapping(USER_SVC_PATH+"/addMenu")
-    public @ResponseBody
-    ApiResponse addMenu(@RequestParam Menu menu){
-        ApiResponse apiResponse = new ApiResponse();
+    public @ResponseBody Response addMenu(@RequestParam Menu menu){
+        Response response = new Response();
         try {
             menuModel.AddMenu(menu);
-            apiResponse.status = ApiResponse.STATUS.OK;
-            apiResponse.message = "Menu Added!";
-            return apiResponse;
+            response.status = Response.STATUS.OK;
+            response.message = "Menu Added!";
+            return response;
         }
         catch (Exception e){
             e.printStackTrace();
 
-            apiResponse.status = ApiResponse.STATUS.ERROR;
+            response.status = Response.STATUS.ERROR;
 
             if (e instanceof ExException)
-                apiResponse.message = ((ExException) e).getErrCode();
+                response.message = ((ExException) e).getErrCode();
             else
-                apiResponse.message= ExError.E_UNKNOWN;
+                response.message= ExError.E_UNKNOWN;
 
-            return apiResponse;
+            return response;
         }
     }
 
