@@ -1,9 +1,6 @@
 package edu.boun.cmpe451.group2.android.home;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,22 +22,17 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.IOException;
-
+import edu.boun.cmpe451.group2.android.DailyConsumptionFragment;
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
-import edu.boun.cmpe451.group2.android.api.User;
 import edu.boun.cmpe451.group2.android.friend.FriendListActivity;
 import edu.boun.cmpe451.group2.android.profile.ProfileViewActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListFragment;
 
-import retrofit.Call;
-import retrofit.Response;
-
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,RecipeListFragment.Callbacks{
+        implements NavigationView.OnNavigationItemSelectedListener, RecipeListFragment.Callbacks {
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -51,40 +42,27 @@ public class MainActivity extends AppCompatActivity
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private String api_key;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-
-    private ControllerInterface api;
-    private String api_key;
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
-
-        //TODO integrate api key search to activity lifecycle
         try {
-            Intent intent =  getIntent();
+            Intent intent = getIntent();
             api_key = intent.getStringExtra("api_key");
         } catch (Exception e) {
-            try{
-                api_key = savedInstanceState.getString("api_key");
-            }catch (Exception e1){
-                e.printStackTrace();
-            }
-
+            e.printStackTrace();
         }
-
-        ApiProxy apiProxy = new ApiProxy();
-        api = apiProxy.getApi();
-
-        GetUserTask getUserTask = new GetUserTask();
-        getUserTask.execute();
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -92,11 +70,6 @@ public class MainActivity extends AppCompatActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        assert getSupportActionBar() != null;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -110,6 +83,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        ApiProxy apiProxy = new ApiProxy();
+        ControllerInterface api = apiProxy.getApi();
+        //api.getUser()
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -121,6 +97,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    public String getApiKey() {
+        return api_key;
+    }
 
     @Override
     public void onBackPressed() {
@@ -136,15 +115,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_drawer, menu);
-        getMenuInflater().inflate(R.menu.menu_tab, menu);
-
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
         return true;
     }
 
@@ -153,16 +123,14 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-        switch (item.getItemId()) {
-            case R.id.search:
-                onSearchRequested();
-                return true;
-            case R.id.action_settings:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -172,16 +140,16 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_favorites) {
-            Intent intent = new Intent(this,RecipeListActivity.class);
+            Intent intent = new Intent(this, RecipeListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_recipes) {
-            Intent intent = new Intent(this,RecipeListActivity.class);
+            Intent intent = new Intent(this, RecipeListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_friends) {
-            Intent intent = new Intent(this,FriendListActivity.class);
+            Intent intent = new Intent(this, FriendListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            Intent intent = new Intent(this,ProfileViewActivity.class);
+            Intent intent = new Intent(this, ProfileViewActivity.class);
             intent.putExtra("api_key", api_key);
             startActivity(intent);
         } else if (id == R.id.nav_sign_out) {
@@ -195,7 +163,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(String id) {
-
     }
 
     /**
@@ -212,15 +179,11 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-             switch (position){
+            switch (position) {
                 case 0:
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("fragment_list_type",0);
-                    bundle.putString("api_key",api_key);
-                    //bundle.putParcelable("user",user);
-                    Fragment fragment = new RecipeListFragment();
-                    fragment.setArguments(bundle);
-                    return fragment;
+                    return new RecipeListFragment();
+                case 1:
+                    return new DailyConsumptionFragment();
                 default:
                     return PlaceholderFragment.newInstance(position + 1);
             }
@@ -278,34 +241,6 @@ public class MainActivity extends AppCompatActivity
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
-        }
-    }
-
-    public class GetUserTask extends AsyncTask<Void, Void, Response<User>> {
-        @Override
-        protected Response<User> doInBackground(Void... params) {
-            Call<User> call = api.getUser(api_key);
-            try {
-                return call.execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-
-            }
-        }
-
-        @Override
-        protected void onPostExecute(final Response<User> response) {
-            user = response.body();
-            TextView nav_userNameView = (TextView) findViewById(R.id.nav_view_userName);
-            TextView nav_userEmailView = (TextView) findViewById(R.id.nav_view_emailName);
-
-            nav_userNameView.setText(user.full_name);
-            nav_userEmailView.setText(user.getEmail());
-        }
-
-        @Override
-        protected void onCancelled() {
         }
     }
 }
