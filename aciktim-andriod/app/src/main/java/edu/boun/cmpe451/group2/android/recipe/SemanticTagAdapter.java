@@ -12,9 +12,7 @@ import java.util.List;
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.SemanticTag;
 
-/**
- * Created by AhmtBrK on 07/12/15.
- */
+
 public class SemanticTagAdapter extends BaseAdapter {
 
     Context mContext;

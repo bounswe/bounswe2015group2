@@ -1,8 +1,6 @@
 package edu.boun.cmpe451.group2.android.api;
 
-/**
- * Created by AhmtBrK on 07/12/15.
- */
+
 public class SemanticTag {
 
     private String tagName;

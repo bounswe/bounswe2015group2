@@ -15,9 +15,7 @@ import java.util.List;
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.Recipe;
 
-/**
- * Created by AhmtBrK on 08/12/15.
- */
+
 public class RecipeListAdapter extends BaseAdapter {
 
     Context mContext;

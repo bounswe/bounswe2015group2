@@ -26,9 +26,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-/**
- * Created by AhmtBrK on 07/12/15.
- */
+
 public class DailyConsumptionFragment extends Fragment {
 
     ListView recipeLV;
