@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import edu.boun.cmpe451.group2.client.*;
@@ -207,16 +208,16 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping(USER_SVC_PATH + "/recommendations")
-    public @ResponseBody List<Map<String, Object>> getRecommendations(@RequestBody User user){
+    public @ResponseBody ArrayList<Recipe> getRecommendations(@RequestBody User user){
 
         try {
-            recipeModel.getRecommendations(user);
+            return recipeModel.getRecommendations(user);
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        return null;
+        return new ArrayList<Recipe>();
     }
 
     /**
@@ -258,13 +259,24 @@ public class APIController implements ControllerInterface {
      * This method returns the daily consumption of a user given that day
      * if there is an exception it returns an empty list
      * @param userID id of the user
-     * @param calendar calendar that contains the day
+     * @param date date of the day in the format of yyyy/MM/dd
      * @return returns arraylist of recipes
      */
     @RequestMapping(USER_SVC_PATH+"/getDailyConsumption")
-    public @ResponseBody ArrayList<Recipe> getDailyConsumption(Long userID,Calendar calendar){
+    public @ResponseBody ArrayList<Recipe> getDailyConsumption(Long userID,String date){
         try{
-            return userModel.getDailyConsumption(userID,calendar);
+            Calendar queriedCal = null;
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            try
+            {
+                Date queried_date = formatter.parse(date);
+                queriedCal = Calendar.getInstance();
+                queriedCal.setTime(queried_date);
+            }catch (Exception e){
+                    e.printStackTrace();
+            }
+
+            return userModel.getDailyConsumption(userID,queriedCal);
         } catch (ExException e) {
             e.printStackTrace();
             return new ArrayList<>();

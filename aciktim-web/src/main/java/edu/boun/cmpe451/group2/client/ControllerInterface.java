@@ -64,7 +64,7 @@ public interface ControllerInterface {
     Response updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    List<Map<String, Object>> getRecommendations(@Body User user);
+    ArrayList<Recipe> getRecommendations(@Body User user);
 
     @GET("/search")
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
