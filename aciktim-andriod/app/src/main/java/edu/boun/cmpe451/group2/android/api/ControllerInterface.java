@@ -31,6 +31,8 @@ public interface ControllerInterface {
 
     public static final String LOGIN_PATH = "login";
 
+    public static final String SIGN_UP_PATH = "signup";
+
     public static final String USER_SVC_PATH = "getuser";
 
     public static final String RECIPE_SVC_PATH = "recipe";
@@ -44,7 +46,7 @@ public interface ControllerInterface {
     @GET(USER_SVC_PATH)
     Call<User> getUser(@Query(API_KEY_PARAMETER) String api_key);
 
-    @POST(USER_SVC_PATH)
+    @POST(SIGN_UP_PATH)
     Call<ApiResponse> signup(@Body User user);
 
     @POST(RECIPE_SVC_PATH)

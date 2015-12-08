@@ -42,7 +42,7 @@ public class RecipeListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_app_bar);
-
+        final int user_id = getIntent().getIntExtra("user_id",59);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
@@ -57,9 +57,6 @@ public class RecipeListActivity extends AppCompatActivity
         });
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ApiProxy apiProxy =new ApiProxy();
-        ControllerInterface api =apiProxy.getApi();
 
 
         if (findViewById(R.id.recipe_detail_container) != null) {

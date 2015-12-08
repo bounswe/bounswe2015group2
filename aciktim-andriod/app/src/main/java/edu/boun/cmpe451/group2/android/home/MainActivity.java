@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
-
         //TODO integrate api key search to activity lifecycle
         try {
             Intent intent =  getIntent();
@@ -182,6 +181,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_recipes) {
             Intent intent = new Intent(this,RecipeListActivity.class);
+            intent.putExtra("user_id",user.getId());
             startActivity(intent);
         } else if (id == R.id.nav_friends) {
             Intent intent = new Intent(this,FriendListActivity.class);
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("api_key", api_key);
             startActivity(intent);
         } else if (id == R.id.nav_sign_out) {
-
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -202,6 +202,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(String id) {
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("api_key",api_key);
+        super.onSaveInstanceState(outState);
     }
 
     /**
