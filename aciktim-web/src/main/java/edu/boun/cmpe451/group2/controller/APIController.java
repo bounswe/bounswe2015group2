@@ -1,9 +1,7 @@
 package edu.boun.cmpe451.group2.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import edu.boun.cmpe451.group2.client.*;
 import edu.boun.cmpe451.group2.model.*;
@@ -204,14 +202,14 @@ public class APIController implements ControllerInterface {
 
     @RequestMapping(USER_SVC_PATH + "/recommendations")
     public @ResponseBody List<Recipe> getRecommendations(@RequestBody User user){
-
         try {
             return recipeModel.getRecommendations(user);
         }
         catch (Exception e){
             e.printStackTrace();
-            return null;
         }
+
+        return new ArrayList<Recipe>();
     }
 
     /**
@@ -249,6 +247,33 @@ public class APIController implements ControllerInterface {
         return result;
     }
 
+    /**
+     * This method returns the daily consumption of a user given that day
+     * if there is an exception it returns an empty list
+     * @param userID id of the user
+     * @param date date of the day in the format of yyyy/MM/dd
+     * @return returns arraylist of recipes
+     */
+    @RequestMapping(USER_SVC_PATH+"/getDailyConsumption")
+    public @ResponseBody ArrayList<Recipe> getDailyConsumption(Long userID,String date){
+        try{
+            Calendar queriedCal = null;
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            try
+            {
+                Date queried_date = formatter.parse(date);
+                queriedCal = Calendar.getInstance();
+                queriedCal.setTime(queried_date);
+            }catch (Exception e){
+                    e.printStackTrace();
+            }
+
+            return userModel.getDailyConsumption(userID,queriedCal);
+        } catch (ExException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
     /**
      * adds a menu
      * @param menu menu to be added

@@ -20,6 +20,8 @@ public interface ControllerInterface {
 
     public static final String RECIPE_ID_PARAMETER = "recipeID";
 
+    public static final String DATE_PARAMETER = "date";
+
     public static final String USER_ID_PARAMETER = "users_id";
 
     public static final String PASSWORD_PARAMETER = "password";
@@ -73,5 +75,8 @@ public interface ControllerInterface {
 
     @GET(USER_SVC_PATH+"/getMenus")
     HashMap<Long,Menu> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
+
+    @GET(USER_SVC_PATH+"/getDailyConsumption")
+    ArrayList<Recipe> getDailyConsumption( @Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER)String date);
 
 }
