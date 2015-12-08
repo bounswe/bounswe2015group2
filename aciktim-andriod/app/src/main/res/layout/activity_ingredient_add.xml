@@ -9,6 +9,7 @@
 
     <LinearLayout
         android:layout_alignParentBottom="true"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,7 +22,15 @@
             android:singleLine="true"
             android:layout_weight="1" />
 
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ingredient_add_list"
+            android:text="Ingredient list will be seen here."
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -31,7 +40,8 @@
         android:id="@+id/ingredient_add_search_button" />
 
     <ListView
-        android:id="@+id/recipe_add_ingredient_listView"
+        android:id="@+id/ingredient_add_listView"
+        android:background="#000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
