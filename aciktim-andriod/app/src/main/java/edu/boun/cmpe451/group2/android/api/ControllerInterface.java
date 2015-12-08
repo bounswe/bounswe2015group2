@@ -19,7 +19,7 @@ public interface ControllerInterface {
 
     public static final String API_KEY_PARAMETER = "api_key";
 
-    public static final String RECIPE_ID_PARAMETER = "recipeID";
+    public static final String RECIPE_ID_PARAMETER = "name";
 
     public static final String USER_ID_PARAMETER = "users_id";
 
@@ -33,7 +33,7 @@ public interface ControllerInterface {
 
     public static final String RECIPE_SVC_PATH = "recipe";
 
-    public static final String RECIPE_TITLE_SEARCH_PATH = RECIPE_SVC_PATH + "search";
+    public static final String RECIPE_TITLE_SEARCH_PATH = "search";
 
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
     @POST(LOGIN_PATH)
@@ -60,10 +60,10 @@ public interface ControllerInterface {
     Call<ApiResponse> updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    Call<List<Map<String, Object>>> getRecommendations(@Body User user);
+    Call<List<Recipe>> getRecommendations(@Body User user);
 
     @GET(RECIPE_TITLE_SEARCH_PATH)
-    Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name);
+    Call<List<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name);
 
     @GET("advancedSearch")
     Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);

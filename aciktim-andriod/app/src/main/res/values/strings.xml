@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Aciktim Android</string>
-    
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_full_name">Full Name</string>
@@ -22,7 +22,7 @@
     <string name="title_activity_tab">TabActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_main_drawer">MainDrawer</string>
+    <string name="title_activity_main_drawer">Acıktım</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -134,4 +134,7 @@
     <string name="title_recipe_detail">Recipe Detail</string>
     <string name="title_friend_list">Friends</string>
     <string name="title_friend_detail">Friend Detail</string>
+    <string name="search_title">Search Recipe</string>
+    <string name="search_hint">Search in recipes</string>
+    <string name="title_activity_search">Search Reuslts</string>
 </resources>

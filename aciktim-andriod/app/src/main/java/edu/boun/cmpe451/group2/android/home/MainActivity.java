@@ -1,6 +1,9 @@
 package edu.boun.cmpe451.group2.android.home;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,13 +26,19 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
+import edu.boun.cmpe451.group2.android.api.User;
 import edu.boun.cmpe451.group2.android.friend.FriendListActivity;
 import edu.boun.cmpe451.group2.android.profile.ProfileViewActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListFragment;
+
+import retrofit.Call;
+import retrofit.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,RecipeListFragment.Callbacks{
@@ -41,27 +51,40 @@ public class MainActivity extends AppCompatActivity
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private String api_key;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    private ControllerInterface api;
+    private String api_key;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
+
+        //TODO integrate api key search to activity lifecycle
         try {
             Intent intent =  getIntent();
             api_key = intent.getStringExtra("api_key");
         } catch (Exception e) {
-            e.printStackTrace();
+            try{
+                api_key = savedInstanceState.getString("api_key");
+            }catch (Exception e1){
+                e.printStackTrace();
+            }
+
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        assert getSupportActionBar() != null;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ApiProxy apiProxy = new ApiProxy();
+        api = apiProxy.getApi();
+
+        GetUserTask getUserTask = new GetUserTask();
+        getUserTask.execute();
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -70,6 +93,11 @@ public class MainActivity extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -77,14 +105,11 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view,api_key, Snackbar.LENGTH_LONG)
+                Snackbar.make(view, api_key, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
-        ApiProxy apiProxy = new ApiProxy();
-        ControllerInterface api = apiProxy.getApi();
-        //api.getUser()
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,6 +120,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -110,6 +136,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_drawer, menu);
+        getMenuInflater().inflate(R.menu.menu_tab, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
         return true;
     }
 
@@ -118,14 +153,16 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.search:
+                onSearchRequested();
+                return true;
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -158,6 +195,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(String id) {
+
     }
 
     /**
@@ -176,7 +214,13 @@ public class MainActivity extends AppCompatActivity
             // Return a PlaceholderFragment (defined as a static inner class below).
              switch (position){
                 case 0:
-                    return new RecipeListFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("fragment_list_type",0);
+                    bundle.putString("api_key",api_key);
+                    //bundle.putParcelable("user",user);
+                    Fragment fragment = new RecipeListFragment();
+                    fragment.setArguments(bundle);
+                    return fragment;
                 default:
                     return PlaceholderFragment.newInstance(position + 1);
             }
@@ -234,6 +278,34 @@ public class MainActivity extends AppCompatActivity
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
+        }
+    }
+
+    public class GetUserTask extends AsyncTask<Void, Void, Response<User>> {
+        @Override
+        protected Response<User> doInBackground(Void... params) {
+            Call<User> call = api.getUser(api_key);
+            try {
+                return call.execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Response<User> response) {
+            user = response.body();
+            TextView nav_userNameView = (TextView) findViewById(R.id.nav_view_userName);
+            TextView nav_userEmailView = (TextView) findViewById(R.id.nav_view_emailName);
+
+            nav_userNameView.setText(user.full_name);
+            nav_userEmailView.setText(user.getEmail());
+        }
+
+        @Override
+        protected void onCancelled() {
         }
     }
 }

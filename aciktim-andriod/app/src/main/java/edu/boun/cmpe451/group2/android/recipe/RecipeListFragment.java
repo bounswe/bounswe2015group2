@@ -15,6 +15,7 @@ import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 import edu.boun.cmpe451.group2.android.api.Recipe;
+import edu.boun.cmpe451.group2.android.api.User;
 import edu.boun.cmpe451.group2.android.dummy.DummyContent;
 import retrofit.Call;
 import retrofit.Response;
@@ -83,18 +84,29 @@ public class RecipeListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //int listType = savedInstanceState.getInt("List Type");
+        int listType= 0;
+        try {
+            listType = savedInstanceState.getInt("fragment_list_type");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ApiProxy apiProxy = new ApiProxy();
         api = apiProxy.getApi();
         Long userID = Long.valueOf(59);
-        /*switch (listType){
+        switch (listType){
             case 0:
                 GetRecipeListTask recipeListTask = new GetRecipeListTask(userID);
                 recipeListTask.execute();
                 break;
             case 1:
+                //GetRecommendationTask recommendationTask = new GetRecommendationTask(user);
+                //recommendationTask.execute();
+                //break;
+            default:
+                GetRecipeListTask listTask = new GetRecipeListTask(userID);
+                listTask.execute();
 
-        }*/
+        }
         GetRecipeListTask recipeListTask = new GetRecipeListTask(userID);
         recipeListTask.execute();
 
@@ -190,21 +202,18 @@ public class RecipeListFragment extends ListFragment {
         @Override
         protected Response<List<Recipe>> doInBackground(Void... params) {
             Call<List<Recipe>> call = api.getRecipes(userId);
-            Response<List<Recipe>> recipeListResponce = null;
             try {
-                recipeListResponce = call.execute();
+                return call.execute();
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
-
-
-            return recipeListResponce;
         }
 
         @Override
         protected void onPostExecute(final Response<List<Recipe>> response) {
             List<Recipe> recipeList = response.body();
-            ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), R.id.textView,recipeList);
+            ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), 0,recipeList);
             setListAdapter(recipeAdapter);
         }
 
@@ -215,30 +224,27 @@ public class RecipeListFragment extends ListFragment {
 
     public class GetRecommendationTask extends AsyncTask<Void, Void, Response<List<Recipe>>> {
 
-        private final Long userId;
+        private final User user;
 
-        GetRecommendationTask(Long userId) {
-            this.userId = userId;
+        GetRecommendationTask(User user) {
+            this.user = user;
         }
 
         @Override
         protected Response<List<Recipe>> doInBackground(Void... params) {
-            Call<List<Recipe>> call = api.getRecipes(userId);
-            Response<List<Recipe>> recipeListResponce = null;
+            Call<List<Recipe>> call = api.getRecommendations(user);
             try {
-                recipeListResponce = call.execute();
+                return call.execute();
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
-
-
-            return recipeListResponce;
         }
 
         @Override
         protected void onPostExecute(final Response<List<Recipe>> response) {
             List<Recipe> recipeList = response.body();
-            ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), R.id.textView,recipeList);
+            ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), 0,recipeList);
             setListAdapter(recipeAdapter);
         }
 
