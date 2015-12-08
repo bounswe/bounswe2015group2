@@ -53,7 +53,7 @@ public class DailyConsumptionFragment extends Fragment {
 
 
 
-        String apiKey = ((MainActivity) getActivity()).getApiKey();
+        String apiKey = getArguments().getString("api_key");
         Call<User> userRequest = api.getUser(apiKey);
         userRequest.enqueue(new Callback<User>() {
             @Override
@@ -63,23 +63,24 @@ public class DailyConsumptionFragment extends Fragment {
 
                 Date currentDate = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+                if(user!=null){
+                    Call<List<Recipe>> dailyConsumptionRequest = api.getDailyConsumption(Long.valueOf(user.getId()), formatter.format(currentDate));
+                    dailyConsumptionRequest.enqueue(new Callback<List<Recipe>>() {
+                        @Override
+                        public void onResponse(Response<List<Recipe>> response, Retrofit retrofit) {
+                            List<Recipe> recipes = response.body();
+                            RecipeListAdapter recipeListAdapter = new RecipeListAdapter(getActivity(), recipes);
+                            recipeLV.setAdapter(recipeListAdapter);
+                            loadingBar.setVisibility(View.GONE);
+                            recipeLV.setVisibility(View.VISIBLE);
+                        }
 
-                Call<List<Recipe>> dailyConsumptionRequest = api.getDailyConsumption(Long.valueOf(user.getId()), formatter.format(currentDate));
-                dailyConsumptionRequest.enqueue(new Callback<List<Recipe>>() {
-                    @Override
-                    public void onResponse(Response<List<Recipe>> response, Retrofit retrofit) {
-                        List<Recipe> recipes = response.body();
-                        RecipeListAdapter recipeListAdapter = new RecipeListAdapter(getActivity(), recipes);
-                        recipeLV.setAdapter(recipeListAdapter);
-                        loadingBar.setVisibility(View.GONE);
-                        recipeLV.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        loadingBar.setVisibility(View.GONE);
-                    }
-                });
+                        @Override
+                        public void onFailure(Throwable t) {
+                            loadingBar.setVisibility(View.GONE);
+                        }
+                    });
+                }
             }
 
             @Override

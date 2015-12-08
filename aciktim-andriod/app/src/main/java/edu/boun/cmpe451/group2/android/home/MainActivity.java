@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import java.io.IOException;
 
+import edu.boun.cmpe451.group2.android.DailyConsumptionFragment;
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
@@ -233,6 +234,12 @@ public class MainActivity extends AppCompatActivity
                     Fragment fragment = new RecipeListFragment();
                     fragment.setArguments(bundle);
                     return fragment;
+                case 1:
+                    Bundle bundle_2 = new Bundle();
+                    bundle_2.putString("api_key",api_key);
+                    Fragment daily_fragment = new DailyConsumptionFragment();
+                    daily_fragment.setArguments(bundle_2);
+                    return daily_fragment;
                 default:
                     return PlaceholderFragment.newInstance(position + 1);
             }
@@ -311,9 +318,10 @@ public class MainActivity extends AppCompatActivity
             user = response.body();
             TextView nav_userNameView = (TextView) findViewById(R.id.nav_view_userName);
             TextView nav_userEmailView = (TextView) findViewById(R.id.nav_view_emailName);
-
-            nav_userNameView.setText(user.full_name);
-            nav_userEmailView.setText(user.getEmail());
+            if(user != null) {
+                nav_userNameView.setText(user.full_name);
+                nav_userEmailView.setText(user.getEmail());
+            }
         }
 
         @Override
