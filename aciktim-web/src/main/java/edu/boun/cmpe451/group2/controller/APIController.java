@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
+import retrofit.http.Query;
 
 /**
  * API Controller Class
@@ -79,6 +80,21 @@ public class APIController implements ControllerInterface {
     }
 
     /**
+     * this method returns a user object by userID
+     * @param userID id of the user
+     * @return a user object or if it gets an exception it returns an empty user
+     */
+    @RequestMapping("/user")
+    public User getUser(@Query(API_KEY_PARAMETER) Long userID) {
+        try{
+            return userModel.getUserByID(userID);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new User();
+        }
+    }
+
+    /**
      * Register user to database
      * @param user     User object whose email and password fields must be initialized
      * @return
@@ -115,6 +131,27 @@ public class APIController implements ControllerInterface {
 
             return response;
         }
+    }
+
+    /**
+     * this method gives a recommendation based on daily consumption
+     * if there is an exception it returns an empty list of recipes
+     * @param users_id id of the user
+     * @return list of recipes that contains recommended recipes
+     */
+    @RequestMapping(USER_SVC_PATH + "/recommendations")
+    public List<Recipe> getRecommendations(@RequestParam Long users_id) {
+
+        try {
+            User user = new User();
+            user.id = users_id.toString();
+            return recipeModel.getRecommendations(user);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return new ArrayList<Recipe>();
     }
 
     /**
@@ -206,20 +243,6 @@ public class APIController implements ControllerInterface {
             return response;
         }
     }
-
-    @RequestMapping(USER_SVC_PATH + "/recommendations")
-    public @ResponseBody ArrayList<Recipe> getRecommendations(@RequestBody User user){
-
-        try {
-            return recipeModel.getRecommendations(user);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return new ArrayList<Recipe>();
-    }
-
     /**
      * default search function
      * @param name name of the recipe

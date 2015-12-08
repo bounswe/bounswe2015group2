@@ -48,6 +48,8 @@ public interface ControllerInterface {
     @GET(USER_SVC_PATH)
     User getUser(@Query(API_KEY_PARAMETER) String api_key);
 
+    User getUser(@Query(API_KEY_PARAMETER) Long userID);
+
     @POST(USER_SVC_PATH)
     Response signup(@Body User user);
 
@@ -66,7 +68,7 @@ public interface ControllerInterface {
     Response updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    ArrayList<Recipe> getRecommendations(@Body User user);
+    List<Recipe> getRecommendations(@Query(USER_ID_PARAMETER) Long users_id);
 
     @GET("/search")
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
