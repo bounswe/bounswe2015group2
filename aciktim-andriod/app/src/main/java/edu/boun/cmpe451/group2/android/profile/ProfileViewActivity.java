@@ -32,7 +32,7 @@ public class ProfileViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
-        Intent intent =getIntent();
+        Intent intent = getIntent();
 
         api_key = intent.getStringExtra("api_key");
 
@@ -66,7 +66,7 @@ public class ProfileViewActivity extends AppCompatActivity {
         protected Response<User> doInBackground(Void... params) {
             Call<User> call = api.getUser(api_key);
             try {
-                return  call.execute();
+                return call.execute();
             } catch (IOException e) {
                 return null;
             }
@@ -79,9 +79,9 @@ public class ProfileViewActivity extends AppCompatActivity {
             TextView profileUserNameTextView = (TextView) findViewById(R.id.profile_user_name);
             TextView profileEMailTextView = (TextView) findViewById(R.id.profile_email);
 
-            profileUserNameTextView.setText(user.username);
-            profileNameTextView.setText(user.full_name);
-            profileEMailTextView.setText(user.email);
+            profileUserNameTextView.setText("Username : " + user.username);
+            profileNameTextView.setText("Profilename : " + user.full_name);
+            profileEMailTextView.setText("Email : " + user.email);
         }
 
         @Override

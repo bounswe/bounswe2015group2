@@ -86,6 +86,16 @@ public class APIController implements ControllerInterface {
     @RequestMapping("/signup")
     @ResponseBody
     public ApiResponse signup(@RequestBody User user) {
+
+        String email = user.email;
+        String password = user.passwd;
+        String full_name = "";
+        if(user.full_name != null)
+            full_name=user.full_name;
+        String username = "";
+        if(user.username != null)
+            username=user.username;
+        boolean isInst = user.isInst;
         ApiResponse apiResponse = new ApiResponse();
         try {
             String api_key = userModel.signup(user);
@@ -201,7 +211,8 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping(USER_SVC_PATH + "/recommendations")
-    public @ResponseBody List<Recipe> getRecommendations(@RequestBody User user){
+    public @ResponseBody ArrayList<Recipe> getRecommendations(@RequestBody User user){
+
         try {
             return recipeModel.getRecommendations(user);
         }

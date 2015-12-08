@@ -20,6 +20,11 @@ public class IngredientItem {
     @Expose
     private String ndbno;
 
+    public IngredientItem( String IngredientName, String IngredientNDBNO ){
+        setName( IngredientName );
+        setNdbno( IngredientNDBNO );
+    }
+
     /**
      *
      * @return

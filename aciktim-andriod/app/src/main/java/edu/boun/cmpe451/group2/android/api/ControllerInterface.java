@@ -2,6 +2,7 @@ package edu.boun.cmpe451.group2.android.api;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,11 +36,14 @@ public interface ControllerInterface {
 
     public static final String USER_SVC_PATH = "getuser";
 
+    public static final String USER_PATH = "user";
+
     public static final String RECIPE_SVC_PATH = "recipe";
 
     public static final String RECIPE_TITLE_SEARCH_PATH = "search";
 
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
+
     @POST(LOGIN_PATH)
     Call<ApiResponse> login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
 
@@ -70,15 +74,14 @@ public interface ControllerInterface {
     Call<List<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name);
 
     @GET("advancedSearch")
-    Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
+    Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name, @Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
 
-    @POST(USER_SVC_PATH+"/addMenu")
+    @POST(USER_SVC_PATH + "/addMenu")
     Call<ApiResponse> addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
-    @GET(USER_SVC_PATH+"/getMenus")
-    Call<HashMap<Long,Menu>> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
+    @GET(USER_SVC_PATH + "/getMenus")
+    Call<HashMap<Long, Menu>> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
 
-    @GET(USER_SVC_PATH+"/getDailyConsumption")
-    Call<ArrayList<Recipe>> getDailyConsumption( @Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER)String date);
-
+    @GET(USER_PATH + "/getDailyConsumption")
+    Call<List<Recipe>> getDailyConsumption(@Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER) String date);
 }

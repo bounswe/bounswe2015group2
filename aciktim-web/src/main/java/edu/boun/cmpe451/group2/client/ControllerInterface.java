@@ -4,7 +4,6 @@ package edu.boun.cmpe451.group2.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit.http.*;
 
@@ -62,7 +61,7 @@ public interface ControllerInterface {
     ApiResponse updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    List<Recipe> getRecommendations(@Body User user);
+    ArrayList<Recipe> getRecommendations(@Body User user);
 
     @GET("/search")
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
