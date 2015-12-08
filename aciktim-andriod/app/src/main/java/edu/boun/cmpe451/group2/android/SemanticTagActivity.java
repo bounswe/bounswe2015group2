@@ -10,9 +10,10 @@ import android.widget.EditText;
 
 import edu.boun.cmpe451.group2.android.recipe.RecipeAddActivity;
 
-public class SemanticTagActivity extends Activity{
+public class SemanticTagActivity extends Activity {
 
-
+    public static final String EXTRA_TAG_NAME = "tag.name";
+    public static final String EXTRA_TAG_CLASS = "tag.class";
 
 
     @Override
@@ -20,10 +21,10 @@ public class SemanticTagActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.semantic_tag);
 
-        Button button=(Button)findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.button);
 
-        final  EditText editTextName = (EditText) findViewById(R.id.editText);
-        final  EditText editTextClass = (EditText) findViewById(R.id.editText2);
+        final EditText editTextName = (EditText) findViewById(R.id.editText);
+        final EditText editTextClass = (EditText) findViewById(R.id.editText2);
         button.setOnClickListener(new View.OnClickListener() {
 
 
@@ -31,16 +32,12 @@ public class SemanticTagActivity extends Activity{
                 String editText = editTextName.getText().toString();
                 String editText2 = editTextClass.getText().toString();
 
-
-                // create a new intent
-                Intent intent = new Intent(getApplicationContext(), RecipeAddActivity.class);
-                // put the name and phone(to be sent to other activity) in intent
-                intent.putExtra("NAME", editText);
-                intent.putExtra("CLASS", editText2);
-
-                // start the second activity
-                startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra(EXTRA_TAG_NAME, editText);
+                intent.putExtra(EXTRA_TAG_CLASS, editText2);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
-        }
-        }
+    }
+}
