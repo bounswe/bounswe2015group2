@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 import edu.boun.cmpe451.group2.android.api.Recipe;
 import edu.boun.cmpe451.group2.android.api.User;
-import edu.boun.cmpe451.group2.android.home.MainActivity;
+
 import edu.boun.cmpe451.group2.android.recipe.RecipeListAdapter;
 import retrofit.Call;
 import retrofit.Callback;
