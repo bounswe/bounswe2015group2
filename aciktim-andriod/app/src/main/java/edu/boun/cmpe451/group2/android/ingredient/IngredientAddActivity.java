@@ -33,6 +33,8 @@ import edu.boun.cmpe451.group2.android.R;
 
 /**
  * Created by Cafer Tayyar YORUK on 06.12.2015.
+ * It gets ingredient, which is searched by the user, from http://api.nal.usda.gov/ndb database.
+ * Then data associated with the ingredient searched are listed on the screen.
  */
 public class IngredientAddActivity extends AppCompatActivity {
 
@@ -84,6 +86,10 @@ public class IngredientAddActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * Data will be gotten from http://api.nal.usda.gov/ndb via that site's api.
+     *
+     */
     public class JSONtask extends AsyncTask<String, String, IngredientList> {
 
         @Override
@@ -121,9 +127,9 @@ public class IngredientAddActivity extends AppCompatActivity {
                 String ndbno = "";
                 for(int i=0; i < jsonArrayItem.length(); i++) {
                     jsonObject = jsonArrayItem.getJSONObject( i );
-                    name = jsonObject.getString("name");
-                    ndbno = jsonObject.getString("ndbno");
-
+                    name = jsonObject.getString("name");    // Name of the ingredient
+                    ndbno = jsonObject.getString("ndbno");  // Ndbno is such an identification number of the ingredient.
+                                                            // Every ingredient has its unique ndbno.
                     ingredientItem.add( new IngredientItem( name, ndbno ) );
                 }
 
