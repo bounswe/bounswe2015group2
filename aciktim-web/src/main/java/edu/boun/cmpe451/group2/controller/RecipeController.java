@@ -30,16 +30,26 @@ public class RecipeController {
     @Autowired
     private RecipeModel recipeModel = null;
 
-
-    //################################################
-    //####### RECIPES SEARCH AND LIST DISPLAY
-    //################################################
+    /**
+    * @param  model the model that will be sent
+     *@param bad_a string used as a boolean to check bad attempt
+     *@param ownerID the ID of the recipe owner
+     *@param search_keyword the keyword enterd in the search bar
+     *@param ingredients_string string used as list of ingredients to be searched
+     *@param t string used as list of tags to be searched
+     *@param madeAt string indicating the place that recipe was made (i.e. home or restaurant)
+     *@param carbo string used as a double for carbohydrate value
+     *@param fat string used as a double for fat value
+     *@param protein string used as a double for protein value
+     *@param calories string used as a double for calories value
+     *@param session_id string used as the session id of a user
+     *@return recipes page
+     *@throws ExException any possible exception (most probably null pointer exception)
+     */
     @RequestMapping(value = {"/recipes"})
     public String viewrecipes(
             ModelMap model,
-
             @RequestParam(required = false, defaultValue = "false") String bad_a,
-
             @RequestParam(required = false, defaultValue = "-1") String ownerID,
             @RequestParam(required = false, defaultValue = "-1") String search_keyword,
             @RequestParam(required = false, defaultValue = "-1") String ingredients_string,
@@ -82,7 +92,7 @@ public class RecipeController {
                         List<String> ingredientList = Arrays.asList(ingredients_string.split("\\s*,\\s*"));
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword, ingredientList);
 
-                        // yemekler içinde arancak taglerin listi
+                        // the tags that will be searched in recipes
                         if(!t.equals("-1")) {
                             List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
                             ArrayList<Tag> tagList = new ArrayList<Tag>();
@@ -93,7 +103,7 @@ public class RecipeController {
                             }
 
 
-                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            // filter out the recipe results which do not include any of the tags
                             for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
                                 Recipe current = iterator.next();
                                 ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
@@ -126,7 +136,7 @@ public class RecipeController {
                     } else { // bring keyword
                         List<Recipe> recipeResults = recipeModel.searchRecipes(search_keyword);
 
-                        // yemekler içinde arancak taglerin listi
+                        // list of tags that will be searched in recipes
                         if(!t.equals("-1")) {
                             List<String> tagNameList = Arrays.asList(t.split("\\s*,\\s*"));
                             ArrayList<Tag> tagList = new ArrayList<Tag>();
@@ -137,7 +147,7 @@ public class RecipeController {
                             }
 
 
-                            // sonuç olan yemeklerden taglerden hiçbirini içermeyenleri ele
+                            // filter out the recipe results which do not include any of the tags
                             for(Iterator<Recipe> iterator = recipeResults.iterator(); iterator.hasNext();) {
                                 Recipe current = iterator.next();
                                 ArrayList<Tag> recipeTagList = new ArrayList(recipeModel.getRecipeDao().getTags(current.getId()));
