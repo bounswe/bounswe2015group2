@@ -58,6 +58,8 @@ public class IngredientAddActivity extends AppCompatActivity {
 
         ingredientSearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                ingredientItem.clear();
+                ingredientListView.setAdapter(null);
                 new JSONtask().execute("http://api.nal.usda.gov/ndb/search/?format=json&q="+ingredientName.getText().toString()+"&sort=r&max=10&offset=0&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX");
             }
         });
@@ -125,6 +127,7 @@ public class IngredientAddActivity extends AppCompatActivity {
 
                 String name = "";
                 String ndbno = "";
+
                 for(int i=0; i < jsonArrayItem.length(); i++) {
                     jsonObject = jsonArrayItem.getJSONObject( i );
                     name = jsonObject.getString("name");    // Name of the ingredient
@@ -163,8 +166,26 @@ public class IngredientAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(IngredientList result) {
             super.onPostExecute(result);
-            IngredientAdapter adapter = new IngredientAdapter( getApplicationContext(), R.id.ingredient_add_list, result.getItem() );
-            ingredientListView.setAdapter( adapter );
+            if( result != null ) {
+                IngredientAdapter adapter = new IngredientAdapter(getApplicationContext(), R.id.ingredient_add_list, result.getItem());
+                ingredientListView.setAdapter(adapter);
+            }
+
+            // if ingredient searched is not in the ingredient list of http://api.nal.usda.gov/ndb
+            else {
+                AlertDialog.Builder diyalog =
+                        new AlertDialog.Builder(IngredientAddActivity.this);
+
+                diyalog.setMessage( "There is no such an ingredient!" )
+                        .setCancelable(false)
+                        .setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                diyalog.create().show();
+            }
         }
     }
 }
