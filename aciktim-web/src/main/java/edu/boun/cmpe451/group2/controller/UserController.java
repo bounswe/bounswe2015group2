@@ -156,6 +156,8 @@ public class UserController {
             model.put("email", user.email);
         }
 
+        model.put("restaurants", userModel.getRestaurants());
+
         model.put("content_bar_selection" , "restaurants");
         return "user-views/restaurants";
     }

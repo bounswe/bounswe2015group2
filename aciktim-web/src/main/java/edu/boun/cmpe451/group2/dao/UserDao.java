@@ -1,5 +1,6 @@
 package edu.boun.cmpe451.group2.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,15 @@ public class UserDao extends BaseDao {
      */
     public List<Map<String, Object>> getUsers() {
         String sql = "SELECT * FROM users";
+
+        return this.jdbcTemplate.queryForList(sql);
+    }
+
+    /**
+     * Returns all institutional users (i.e. restaurants).
+     */
+    public List<Map<String, Object>> getRestaurantsAll() {
+        String sql = "SELECT * FROM users WHERE isInst = (1)";
 
         return this.jdbcTemplate.queryForList(sql);
     }

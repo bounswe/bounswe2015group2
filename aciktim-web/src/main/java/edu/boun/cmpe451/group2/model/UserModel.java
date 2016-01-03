@@ -156,6 +156,23 @@ public class UserModel {
         return user;
     }
 
+    public ArrayList<User> getRestaurants() {
+
+        ArrayList<User> restaurantList = new ArrayList<User>();
+        List<Map<String, Object>> resultList = userDao.getRestaurantsAll();
+
+        for (Map<String, Object> resultMap : resultList) {
+
+            User user = new User();
+            user.id = resultMap.get("id").toString();
+            user.full_name = resultMap.get("full_name").toString();
+
+            restaurantList.add(user);
+        }
+
+        return restaurantList;
+    }
+
     /**
      * this method adds the consume info of the user
      * @param userID id of the user who consumes

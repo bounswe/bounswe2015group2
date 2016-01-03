@@ -24,21 +24,7 @@
   </c:if>
 
 
-
-
-
-    <div class="container text-center">
-      <div class="row">
-        <div class="col-sm-12">
-          <h4>Hello there will be restaurants here</h4>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
+  <%@include  file="../user-views/restaurant_grid.jsp" %>
 
   <%@include  file="../sub-element/footer.jsp" %>
 
