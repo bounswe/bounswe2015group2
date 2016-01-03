@@ -477,9 +477,6 @@ public class RecipeController {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
 
-
-            // something like
-            //userModel.getDailyComsumptionList(Long.parseLong(user.id))
             List<Menu> list = new ArrayList<Menu>();
             model.put("recommendations", list);
 
@@ -492,6 +489,22 @@ public class RecipeController {
         }
 
     }
+
+    /**
+     *  This controller function is triggered when "user/dailyconsumption"
+     *  is accessed with a GET or POST method.
+     *  A logged in user must exist when the URL is accessed. When not
+     *  logged in, there is no anchor leading to this URL.
+     *
+     *  A date is given as parameter. The default is current date. The
+     *  controller retrieves consumed recipes of logged in user at given date
+     *  by querying "dailyConsumption" table in the database.
+     *
+     *  @author Mustafa Onur Eken, i.e. oeken
+     *  @version 1.0
+     *  @param date Must be in the form of "yyyy/mm/dd", default is current date
+     * */
+
     @RequestMapping(value = {"user/dailyconsumption"})
     public String userdailyconsumption(
             ModelMap model,

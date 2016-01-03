@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import retrofit.http.POST;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,20 +161,39 @@ public class UserController {
     }
 
 
+    /**
+     * Views users profile
+     * @param model
+     * @param session_id
+     * @return
+     */
     @RequestMapping(value = {"user/view"})
     public String userview(
             ModelMap model,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
-        if (session_id.equals("")) {
+        if (session_id.equals("")) { // not logged is is NOT OK
             model.put("full_name", "");
-        }
-        else {
+            return "redirect:/index";
+        }else { // Now we're talking
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("user_id" , user.id);
             try {
                 model.put("recommendations", recipeModel.getRecommendations(user));
+                // TODO uncomment the following 3 commands when back-end methods are ready
+                //model.put("likes" , userModel.getLikes(user));
+                //model.put("likes" , userModel.getDislikes(user));
+                //model.put("likes" , userModel.getAllergies(user));
+
+                String[] likes = {"dessert" , "tomato", "gluten-free"};
+                String[] dislikes = {"broccoli" , "cabbage"};
+                String[] allergies = {"gluten" , "tomato"};
+
+                model.put("likes" , tagify(likes));
+                model.put("dislikes" , tagify(dislikes));
+                model.put("allergies" , tagify(allergies));
+
             } catch (Exception e) {
                 e.printStackTrace();
                 return "redirect:/index";
@@ -180,6 +202,42 @@ public class UserController {
 
         model.put("content_bar_selection" , "profile");
         return "user-views/profile";
+    }
+
+    /**
+     * Saves (i.e. updates) the preference of the user
+     * @param likes Liked tags as String[]
+     * @param dislikes Disliked tags as String[]
+     * @param allergies Allergy tags as String[]
+     * @param session_id Session from cookies
+     * @return Redirection to profile page
+     */
+    @RequestMapping(value = {"user/preferences/save"}, method = RequestMethod.POST)
+    public String userpreferencessave(
+            @RequestParam(required = true) String[] likes,
+            @RequestParam(required = true) String[] dislikes,
+            @RequestParam(required = true) String[] allergies,
+            @CookieValue(value="session_id", defaultValue = "") String session_id) {
+
+        if (session_id.equals("")) {
+            return "redirect:/index";
+        }else{
+            User user = userModel.getUser(session_id);
+            // TODO here do somthing like following when back-end implements the method
+            //model.updatePreferences(user.id, likes , dislikes, allergies);
+            return "redirect:/user/view";
+        }
+    }
+
+    private String tagify(String[] tags){
+        String rv="";
+        int count = 0;
+        for(String tag : tags){
+            if (count == 0 ) rv = tag;
+            else rv += ","+tag;
+            count++;
+        }
+        return rv;
     }
 
 }

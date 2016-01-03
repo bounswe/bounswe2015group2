@@ -97,105 +97,72 @@
                     <h3>Preferences</h3>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <form role="form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Enter a preference">
+                    <%--<ul class="nav nav-tabs">--%>
+                    <%--<li role="presentation" class="active"><a href="#">Likes</a></li>--%>
+                    <%--<li role="presentation"><span>Dislikes</span></li>--%>
+                    <%--<li role="presentation"><a href="#">Allergies</a></li>--%>
+                    <%--</ul>--%>
+                    <form action="${contextPath}/user/preferences/save">
+                        <ul class="nav nav-tabs">
+                            <li class="nav active"><a href="#like" data-toggle="tab">Likes</a></li>
+                            <li class="nav"><a href="#dislike" data-toggle="tab">Dislikes</a></li>
+                            <li class="nav"><a href="#allergy" data-toggle="tab">Allergies</a></li>
+                            <button type="submit" class="btn btn-default">Save Preferences!</button>
+
+                            <%--<a class="btn btn-success" href="${contextPath}/recipes?ownerID=${user_id}">Save Preferences!</a>--%>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade in active" id="like">
+                                <div class="form-group">
+                                    <input type="text" value="${likes}" data-role="tagsinput"/>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-warning btn-block">Add</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-warning btn-block">See Daily Consumed List</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <form role="form">
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3" placeholder="Some tags"></textarea>
+                            <div class="tab-pane fade" id="dislike">
+                                <div class="form-group">
+                                    <input type="text" value="${dislikes}" data-role="tagsinput"/>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="allergy">
+                                <div class="form-group">
+                                    <input type="text" value="${allergies}" data-role="tagsinput"/>
+                                </div>
+                            </div>
                         </div>
                     </form>
+
+
+
+
+
+
+
+
+                    <%--<div class="col-md-6">--%>
+                    <%--<form role="form">--%>
+                    <%--<div class="form-group">--%>
+                    <%--<input type="text" class="form-control" placeholder="Enter a preference">--%>
+                    <%--</div>--%>
+                    <%--</form>--%>
+                    <%--</div>--%>
+                    <%--<div class="col-md-3">--%>
+                    <%--<button type="button" class="btn btn-warning btn-block">Add</button>--%>
+                    <%--</div>--%>
+                    <%--<div class="col-md-3">--%>
+                    <%--<button type="button" class="btn btn-warning btn-block">See Daily Consumed List</button>--%>
+                    <%--</div>--%>
                 </div>
+                <%--<div class="row">--%>
+                <%--<form role="form">--%>
+                <%--<div class="form-group">--%>
+                <%--<textarea class="form-control" rows="3" placeholder="Some tags"></textarea>--%>
+                <%--</div>--%>
+                <%--</form>--%>
+                <%--</div>--%>
 
             </div>
-
-
-            <%--<div class="row">--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>Recommended:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>My Recipes:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>Preferred Food:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>Favorite Recipes:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--</div>--%>
         </div>
 
 
@@ -212,7 +179,6 @@
 
 <script>
     $(document).ready(function () {
-
 
     });
 
