@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import edu.boun.cmpe451.group2.client.Tag;
 import edu.boun.cmpe451.group2.client.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -155,5 +156,52 @@ public class UserDao extends BaseDao {
         day += calendar.get(Calendar.DAY_OF_MONTH);
         day += " 00:00:00";
         return this.jdbcTemplate.queryForList(sql,userID,day);
+    }
+
+    /**
+     * this method brings the likes of a user from the db
+     * @param userID id of the user whom likes to be brought
+     * @return returns arraylist of tags
+     */
+    public ArrayList<Tag> getLikes(String userID) {
+        String sql = "SELECT * FROM userLikes WHERE userID = ?";
+        List<Map<String,Object>> likes = this.jdbcTemplate.queryForList(sql,userID);
+        ArrayList<Tag> result = new ArrayList<Tag>();
+        //changing the return type into required type
+        for(Map<String,Object> rows : likes){
+            Tag t = new Tag();
+            t.name = rows.get("name").toString();
+            t.parentTag = rows.get("parentTag").toString();
+            result.add(t);
+        }
+        return result;
+    }
+
+    public ArrayList<Tag> getDislikes(String userID) {
+        String sql = "SELECT * FROM userDislikes WHERE userID = ?";
+        List<Map<String,Object>> dislikes = this.jdbcTemplate.queryForList(sql,userID);
+        ArrayList<Tag> result = new ArrayList<Tag>();
+        //changing the return type into required type
+        for(Map<String,Object> rows : dislikes){
+            Tag t = new Tag();
+            t.name = rows.get("name").toString();
+            t.parentTag = rows.get("parentTag").toString();
+            result.add(t);
+        }
+        return result;
+    }
+
+    public ArrayList<Tag> getAllergies(String userID) {
+        String sql = "SELECT * FROM userAllergies WHERE userID = ?";
+        List<Map<String,Object>> allergies = this.jdbcTemplate.queryForList(sql,userID);
+        ArrayList<Tag> result = new ArrayList<Tag>();
+        //changing the return type into required type
+        for(Map<String,Object> rows : allergies){
+            Tag t = new Tag();
+            t.name = rows.get("name").toString();
+            t.parentTag = rows.get("parentTag").toString();
+            result.add(t);
+        }
+        return result;
     }
 }

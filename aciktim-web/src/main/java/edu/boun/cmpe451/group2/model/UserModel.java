@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.Tag;
 import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.dao.RecipeDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,5 +224,47 @@ public class UserModel {
     }
     public UserDao getUserDao() {
         return userDao;
+    }
+
+    /**
+     * this method returns the likes of a user as an arraylist of tags
+     * be careful that id field of the user MUST be nonempty
+     * @param user user whom likes to be found
+     * @return returns arraylist of tags
+     * @throws ExException when the id of the user object is empty or null
+     */
+    public ArrayList<Tag> getLikes(User user) throws ExException {
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.getLikes(user.id);
+    }
+
+    /**
+     * this method returns the dislikes of a user as an arraylist of tags
+     * be careful that id field of the user MUST be nonempty
+     * @param user user whom dislikes to be found
+     * @return returns arraylist of tags
+     * @throws ExException when the id of the user object is empty or null
+     */
+    public ArrayList<Tag> getDislikes(User user) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.getDislikes(user.id);
+    }
+
+    /**
+     * this method returns the allergies of a user as an arraylist of tags
+     * be careful that id field of the user MUST be nonempty
+     * @param user user whom allergies to be found
+     * @return returns arraylist of tags
+     * @throws ExException when the id of the user object is empty or null
+     */
+    public ArrayList<Tag> getAllergies(User user) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.getAllergies(user.id);
     }
 }
