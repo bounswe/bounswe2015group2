@@ -16,16 +16,24 @@
                 <thead>
                 <th>Picture</th>
                 <th>Name</th>
+                <th>View</th>
                 </thead>
                 <tbody>
 
                     <%--all restaurants by default--%>
                     <c:forEach var="restaurant" items="${restaurantResults}" varStatus="roop">
                         <tr>
-                            <td>
+                            <td width="20%">
                                 <img src="http://vignette3.wikia.nocookie.net/starwars/images/c/c1/Luke_on_Endor.jpg" class="img-rounded center-block" width="240">
                             </td>
-                            <td width="80%">${restaurant.full_name}</td>
+                            <td>${restaurant.full_name}</td>
+                            <td>
+                                <form class="form-horizontal row-border" action="${contextPath}/restaurant/single">
+                                    <input type="hidden" name="restaurant_id" value="${restaurant.id}"/>
+                                    <button type="submit" class="btn btn-default"
+                                            style="text-transform: capitalize">View</button>
+                                </form>
+                            </td>
                         </tr>
                     </c:forEach>
 

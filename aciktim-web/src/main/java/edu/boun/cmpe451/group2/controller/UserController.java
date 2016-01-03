@@ -1,7 +1,10 @@
 package edu.boun.cmpe451.group2.controller;
 
 import edu.boun.cmpe451.group2.client.Menu;
+import edu.boun.cmpe451.group2.client.Recipe;
 import edu.boun.cmpe451.group2.client.User;
+import edu.boun.cmpe451.group2.exception.ExException;
+import edu.boun.cmpe451.group2.model.MenuModel;
 import edu.boun.cmpe451.group2.model.RecipeModel;
 import edu.boun.cmpe451.group2.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import retrofit.http.POST;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -32,6 +36,9 @@ public class UserController {
     @Qualifier("recipeModel")
     @Autowired
     private RecipeModel recipeModel = null;
+    @Qualifier("menuModel")
+    @Autowired
+    private MenuModel menuModel = null;
 
 
 
@@ -167,6 +174,45 @@ public class UserController {
         model.put("content_bar_selection" , "restaurants");
         return "user-views/restaurants";
     }
+
+
+    @RequestMapping(value = {"/restaurant/single"})
+    public String singleRestaurant(
+            ModelMap model,
+            @RequestParam(required = false, defaultValue = "-1") String restaurant_id,
+            @CookieValue(value = "session_id", defaultValue = "") String session_id) {
+
+        if (session_id.equals("")) {
+            model.put("full_name", "");
+        }
+        else {
+            User user = userModel.getUser(session_id);
+            model.put("full_name", user.full_name);
+            model.put("email", user.email);
+        }
+
+
+
+        if(!restaurant_id.equals("-1")){
+            User restaurant = userModel.getUserByID(Long.parseLong(restaurant_id));
+
+            List<Recipe> restaurantRecipes = recipeModel.getRecipes(Long.parseLong(restaurant_id));
+            model.put("restaurantRecipes", restaurantRecipes);
+            try {
+
+                List<Menu> restaurantMenus = new ArrayList<Menu>(menuModel.GetMenusByID(Long.parseLong(restaurant_id)).values());
+                model.put("restaurantMenus", restaurantMenus);
+                model.put("restaurant_name", restaurant.full_name);
+
+            } catch (ExException e) {
+                e.printStackTrace();
+            }
+        }
+
+        model.put("content_bar_selection" , "restaurants");
+        return "user-views/single_restaurant";
+    }
+
 
 
     /**
