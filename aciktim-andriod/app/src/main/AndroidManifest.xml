@@ -47,14 +47,6 @@
                 android:value=".recipe.RecipeListActivity" />
         </activity>
         <activity
-            android:name=".ingredient.IngredientAddActivity"
-            android:label="@string/title_activity_ingredient_add"
-            android:parentActivityName=".recipe.RecipeAddActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".recipe.RecipeListActivity" />
-        </activity>
-        <activity
             android:name=".profile.ProfileViewActivity"
             android:label="@string/title_activity_profile_view"
             android:parentActivityName=".home.MainActivity"
