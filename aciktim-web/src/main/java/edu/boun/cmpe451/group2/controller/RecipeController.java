@@ -415,6 +415,7 @@ public class RecipeController {
                     formAmountMap(ingredient_no, ingredient_name, ingredient_amount, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
                     formTagList(tag_name, tag_class));
 
+
             recipeModel.addRecipe(r);
             model.put("type", "SUCCESS");
         } catch (ExException e) {

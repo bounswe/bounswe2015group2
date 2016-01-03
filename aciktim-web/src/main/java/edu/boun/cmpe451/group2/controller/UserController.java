@@ -231,7 +231,7 @@ public class UserController {
             return "redirect:/index";
         }else{
             User user = userModel.getUser(session_id);
-            // TODO here do somthing like following when back-end implements the method
+            // TODO here do something like following when back-end implements the method
             //model.updatePreferences(user.id, likes , dislikes, allergies);
             return "redirect:/user/view";
         }

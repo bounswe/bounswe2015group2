@@ -148,7 +148,9 @@
         </div>
     </div>
     <div class="col-sm-3">
-        <input type="text" class="form-control" id="unit" name="ingredient_unit" readonly>
+        <select class="form-control" id="unit" name="ingredient_unit"></select>
+
+        <%--<input type="text" class="form-control" id="unit" name="ingredient_unit" readonly>--%>
     </div>
 
 

@@ -65,36 +65,69 @@
 
             <div class="col-md-9">
                 <div class="row">
-                    <h3>Recommendations</h3>
+                    <h4>Recommendations</h4>
                 </div>
                 <div class="row">
-                    <!-- change the dummy list items, this can be scrollable -->
+                    <ul class="nav nav-tabs">
+                        <li class="nav active"><a href="#basedPref" data-toggle="tab">Based on Preferences</a></li>
+                        <li class="nav"><a href="#basedDaily" data-toggle="tab">Based on Daily Nutrition</a></li>
+                    </ul>
+                    <div class="tab-content">
 
-                    <table class="table table-striped" style="margin-top:10px;">
-                        <thead>
-                        <th>Name</th>
-                        <th>View</th>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="recipe" items="${recommendations}" varStatus="roop">
-                            <tr>
-                                <td width="20%">${recipe.name}</td>
-                                <td>
-                                    <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
-                                          method="post">
-                                        <input type="hidden" name="recipe_id" value="${recipe.id}"/>
-                                        <button type="submit" class="btn btn-default"
-                                                style="text-transform: capitalize">View
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                        <div class="tab-pane fade in active" id="basedPref">
+                            <table class="table table-striped" style="margin-top:10px;">
+                                <thead>
+                                <th>Name</th>
+                                <th>View</th>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="recipe" items="${recommendations}" varStatus="roop">
+                                    <tr>
+                                        <td width="20%">${recipe.name}</td>
+                                        <td>
+                                            <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
+                                                  method="post">
+                                                <input type="hidden" name="recipe_id" value="${recipe.id}"/>
+                                                <button type="submit" class="btn btn-default"
+                                                        style="text-transform: capitalize">View
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="basedDaily">
+                            <table class="table table-striped" style="margin-top:10px;">
+                                <thead>
+                                <th>Isim</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td width="20%">"Pardon"</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%">"Excuse"</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%">"Me"</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%">"Fags"</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%">"Everywhere"</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
-                    <h3>Preferences</h3>
+                    <h4>Preferences</h4>
                 </div>
                 <div class="row">
                     <%--<ul class="nav nav-tabs">--%>
@@ -102,14 +135,12 @@
                     <%--<li role="presentation"><span>Dislikes</span></li>--%>
                     <%--<li role="presentation"><a href="#">Allergies</a></li>--%>
                     <%--</ul>--%>
-                    <form action="${contextPath}/user/preferences/save">
+                    <form action="${contextPath}/user/preferences/save" method="post">
                         <ul class="nav nav-tabs">
                             <li class="nav active"><a href="#like" data-toggle="tab">Likes</a></li>
                             <li class="nav"><a href="#dislike" data-toggle="tab">Dislikes</a></li>
                             <li class="nav"><a href="#allergy" data-toggle="tab">Allergies</a></li>
                             <button type="submit" class="btn btn-default">Save Preferences!</button>
-
-                            <%--<a class="btn btn-success" href="${contextPath}/recipes?ownerID=${user_id}">Save Preferences!</a>--%>
                         </ul>
 
                         <!-- Tab panes -->
@@ -117,17 +148,17 @@
 
                             <div class="tab-pane fade in active" id="like">
                                 <div class="form-group">
-                                    <input type="text" value="${likes}" data-role="tagsinput"/>
+                                    <input type="text" name="likes" value="${likes}" data-role="tagsinput"/>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="dislike">
                                 <div class="form-group">
-                                    <input type="text" value="${dislikes}" data-role="tagsinput"/>
+                                    <input type="text" name="dislikes" value="${dislikes}" data-role="tagsinput"/>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="allergy">
                                 <div class="form-group">
-                                    <input type="text" value="${allergies}" data-role="tagsinput"/>
+                                    <input type="text" name="allergies" value="${allergies}" data-role="tagsinput"/>
                                 </div>
                             </div>
                         </div>
