@@ -145,6 +145,7 @@ public class UserController {
     @RequestMapping(value = {"/restaurants"})
     public String restaurants(
             ModelMap model,
+            @RequestParam(required = false, defaultValue = "-1") String search_keyword,
             @CookieValue(value="session_id", defaultValue = "") String session_id) {
 
         if (session_id.equals("")) {
@@ -156,7 +157,12 @@ public class UserController {
             model.put("email", user.email);
         }
 
-        model.put("restaurants", userModel.getRestaurants());
+        if(search_keyword.equals("-1")) {
+            model.put("restaurantResults", userModel.getRestaurants());
+        } else {
+            model.put("restaurantResults", userModel.searchRestaurants(search_keyword));
+        }
+
 
         model.put("content_bar_selection" , "restaurants");
         return "user-views/restaurants";

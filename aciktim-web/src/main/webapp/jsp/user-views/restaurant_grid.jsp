@@ -20,7 +20,7 @@
                 <tbody>
 
                     <%--all restaurants by default--%>
-                    <c:forEach var="restaurant" items="${restaurants}" varStatus="roop">
+                    <c:forEach var="restaurant" items="${restaurantResults}" varStatus="roop">
                         <tr>
                             <td>
                                 <img src="http://vignette3.wikia.nocookie.net/starwars/images/c/c1/Luke_on_Endor.jpg" class="img-rounded center-block" width="240">

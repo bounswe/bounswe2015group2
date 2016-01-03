@@ -37,6 +37,15 @@ public class UserDao extends BaseDao {
     }
 
     /**
+     * Returns all restaurants with the given name input.
+     */
+    public List<Map<String, Object>> searchRestaurants(String name) {
+        String sql = "SELECT * FROM users WHERE isInst = (1) AND full_name LIKE ?";
+
+        return this.jdbcTemplate.queryForList(sql, "%" + name + "%");
+    }
+
+    /**
      * Selects one user from database.
      *
      * @param id - user's id

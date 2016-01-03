@@ -25,24 +25,24 @@
                     <tbody>
 
                     <%--my recipes by default--%>
-                    <c:forEach var="recipe" items="${recipes}" varStatus="roop">
-                        <tr>
-                            <td>
-                                <img src="${recipe.pictureAddress}" class="img-rounded center-block" width="240">
-                            </td>
-                            <td width="20%">${recipe.name}</td>
-                            <td width="60%">${recipe.description}</td>
-                            <td>
-                                <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
-                                      method="post">
-                                    <input type="hidden" name="recipe_id" value="${recipe.id}"/>
-                                    <button type="submit" class="btn btn-default"
-                                            style="text-transform: capitalize">View</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                        <%--search result recipes--%>
+                    <%--<c:forEach var="recipe" items="${recipes}" varStatus="roop">--%>
+                        <%--<tr>--%>
+                            <%--<td>--%>
+                                <%--<img src="${recipe.pictureAddress}" class="img-rounded center-block" width="240">--%>
+                            <%--</td>--%>
+                            <%--<td width="20%">${recipe.name}</td>--%>
+                            <%--<td width="60%">${recipe.description}</td>--%>
+                            <%--<td>--%>
+                                <%--<form class="form-horizontal row-border" action="${contextPath}/recipe/single"--%>
+                                      <%--method="post">--%>
+                                    <%--<input type="hidden" name="recipe_id" value="${recipe.id}"/>--%>
+                                    <%--<button type="submit" class="btn btn-default"--%>
+                                            <%--style="text-transform: capitalize">View</button>--%>
+                                <%--</form>--%>
+                            <%--</td>--%>
+                        <%--</tr>--%>
+                    <%--</c:forEach>--%>
+                    <%--search result recipes--%>
                     <c:forEach var="recipe" items="${recipeResults}" varStatus="roop">
                         <tr>
                             <td>
