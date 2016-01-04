@@ -177,6 +177,30 @@ public class UserDao extends BaseDao {
         return result;
     }
 
+    public boolean setLikes(String userID,ArrayList<Tag> likes){
+        String sql = "INSERT INTO userLikes(userID,name,parentTag) VALUES(?,?,?)";
+        for(Tag t : likes){
+            this.jdbcTemplate.update(sql,t.id,t.name,t.parentTag);
+        }
+        return true;
+    }
+
+    public boolean setDislikes(String userID,ArrayList<Tag> dislikes){
+        String sql = "INSERT INTO userDislikes(userID,name,parentTag) VALUES(?,?,?)";
+        for(Tag t : dislikes){
+            this.jdbcTemplate.update(sql,t.id,t.name,t.parentTag);
+        }
+        return true;
+    }
+
+    public boolean setAllergies(String userID,ArrayList<Tag> allergies){
+        String sql = "INSERT INTO userAllergies(userID,name,parentTag) VALUES(?,?,?)";
+        for(Tag t : allergies){
+            this.jdbcTemplate.update(sql,t.id,t.name,t.parentTag);
+        }
+        return true;
+    }
+
     public ArrayList<Tag> getDislikes(String userID) {
         String sql = "SELECT * FROM userDislikes WHERE userID = ?";
         List<Map<String,Object>> dislikes = this.jdbcTemplate.queryForList(sql,userID);

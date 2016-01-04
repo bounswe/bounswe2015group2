@@ -241,6 +241,47 @@ public class UserModel {
     }
 
     /**
+     * this method sets the like preferences of a user
+     * @param user user whom likes to be set
+     * @param likes arraylist that holds the likes, parentTag CAN be empty
+     * @return true if the operation is successful
+     * @throws ExException when the id of the user is empty
+     */
+    public boolean setLikes(User user, ArrayList<Tag> likes) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.setLikes(user.id,likes);
+    }
+
+    /**
+     * this method sets the dislike preferences of a user
+     * @param user user whom dislikes to be set
+     * @param dislikes arraylist that holds the dislikes, parentTag CAN be empty
+     * @return true if the operation is successful
+     * @throws ExException when the id of the user is empty
+     */
+    public boolean setDislikes(User user, ArrayList<Tag> dislikes) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.setDislikes(user.id, dislikes);
+    }
+
+    /**
+     * this method sets the allergies of a user
+     * @param user user whom allergies to be set
+     * @param allergies arraylist that holds the allergies, parentTag CAN be empty
+     * @return true if the operation is successful
+     * @throws ExException when the id of the user is empty
+     */
+    public boolean setAllergies(User user, ArrayList<Tag> allergies) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.setAllergies(user.id,allergies);
+    }
+    /**
      * this method returns the dislikes of a user as an arraylist of tags
      * be careful that id field of the user MUST be nonempty
      * @param user user whom dislikes to be found
