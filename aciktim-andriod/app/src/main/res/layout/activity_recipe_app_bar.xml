@@ -24,7 +24,7 @@
 
     <android.support.design.widget.FloatingActionButton android:id="@+id/recipe_add_button"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin" android:src="@android:drawable/ic_dialog_email"
+        android:layout_margin="@dimen/fab_margin" android:src="@android:drawable/ic_input_add"
         android:layout_gravity="bottom|end" />
 
 

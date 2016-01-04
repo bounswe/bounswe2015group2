@@ -2,6 +2,7 @@ package edu.boun.cmpe451.group2.android.recipe;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +66,7 @@ public class RecipeAddActivity extends AppCompatActivity {
     // UI references.
     private EditText recipeName;
     private EditText recipeDescription;
+    private EditText recipeImageUrl;
     private Button recipeAddButton;
     private ListView listView;
 
@@ -76,17 +79,20 @@ public class RecipeAddActivity extends AppCompatActivity {
     Button ingredient_add_button;
     Button cancel_button;
     Spinner ingredient_add_spinner;
+    EditText ingredientQuantity;
 
     private List<IngredientItem> ingredientItem = new ArrayList<IngredientItem>();
     private List<IngredientNutrition> ingredientNutrition = new ArrayList<IngredientNutrition>();
     String ingName = "";
     String ingNDBNO = "";
+    int quantity = 100;
 
     String deneme = "";
     // Ingredients
 
     List<SemanticTag> semanticTags = new ArrayList<>();
 
+    ProgressDialog progressDialogForSearchIngredient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,20 +109,26 @@ public class RecipeAddActivity extends AppCompatActivity {
 
         specs = th.newTabSpec("tag 2");
         specs.setContent(R.id.tab2);
-        specs.setIndicator("ADD INGREDIENTS");
+        specs.setIndicator("RECIPE DESCRIPTION");
         th.addTab(specs);
 
         specs = th.newTabSpec("tag 3");
         specs.setContent(R.id.tab3);
+        specs.setIndicator("ADD INGREDIENTS");
+        th.addTab(specs);
+
+        specs = th.newTabSpec("tag 4");
+        specs.setContent(R.id.tab4);
         specs.setIndicator("INGREDIENTS DETAIL");
         th.addTab(specs);
 
         recipeName = (EditText) findViewById(R.id.recipe_add_name_text);
+        recipeImageUrl = (EditText) findViewById(R.id.recipe_add_image_url_);
+        recipeDescription = (EditText) findViewById(R.id.recipe_add_description_text);
+
         listView = (ListView) findViewById(R.id.listView);
         SemanticTagAdapter semanticTagAdapter = new SemanticTagAdapter(this, semanticTags);
         listView.setAdapter(semanticTagAdapter);
-
-        recipeDescription = (EditText) findViewById(R.id.recipe_add_description_text);
 
         Button semanticTagAddButton = (Button) findViewById(R.id.semantic_tag_add_button);
         semanticTagAddButton.setOnClickListener(new OnClickListener() {
@@ -138,7 +150,17 @@ public class RecipeAddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ingredientItem.clear();
                 ingredientListView.setAdapter(null);
-                new JSONtask().execute("http://api.nal.usda.gov/ndb/search/?format=json&q="+ingredientName.getText().toString()+"&sort=r&max=10&offset=0&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX");
+
+                progressDialogForSearchIngredient = new ProgressDialog(view.getContext());
+                progressDialogForSearchIngredient.setCancelable(true);
+                progressDialogForSearchIngredient.setMessage("Ingredients are being searched ...");
+                progressDialogForSearchIngredient.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialogForSearchIngredient.setProgress(0);
+                progressDialogForSearchIngredient.setMax(100);
+                progressDialogForSearchIngredient.show();
+
+                new JSONtask().execute("http://api.nal.usda.gov/ndb/search/?format=json&q=" + ingredientName.getText().toString() + "&sort=r&max=10&offset=0&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX");
+
             }
         });
 
@@ -171,8 +193,10 @@ public class RecipeAddActivity extends AppCompatActivity {
                 ingredientAddDialog.setContentView(R.layout.add_ingredient_custom_dialog);
                 ingredient_add_button = (Button) ingredientAddDialog.findViewById(R.id.ingredient_add_buttonAdd);
                 cancel_button = (Button) ingredientAddDialog.findViewById(R.id.ingredient_add_buttonCancel);
+                ingredientQuantity = (EditText) ingredientAddDialog.findViewById(R.id.ingredient_add_quantity);
+
                 ingredient_add_spinner = (Spinner) ingredientAddDialog.findViewById(R.id.ingredient_add_spinner);
-                String[] quantityTypes = {"gram", "spoon", "oz", "liter"};
+                String[] quantityTypes = {"gram"};
                 ArrayAdapter<String> adapterQuantity = new ArrayAdapter<String>(RecipeAddActivity.this, android.R.layout.simple_spinner_dropdown_item, quantityTypes);
                 ingredient_add_spinner.setAdapter(adapterQuantity);
 
@@ -187,6 +211,18 @@ public class RecipeAddActivity extends AppCompatActivity {
                         ingNDBNO = ingredientItem.get(position).getNdbno();
 
                         deneme += "\n" + ingName + " -> ";
+
+                        if (!ingredientQuantity.getText().toString().isEmpty()) {
+                            quantity = Integer.parseInt(ingredientQuantity.getText().toString());
+                        }
+
+                        progressDialogForSearchIngredient = new ProgressDialog(view.getContext());
+                        progressDialogForSearchIngredient.setCancelable(true);
+                        progressDialogForSearchIngredient.setMessage("Your ingredient is being added ...");
+                        progressDialogForSearchIngredient.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        progressDialogForSearchIngredient.setProgress(0);
+                        progressDialogForSearchIngredient.setMax(100);
+                        progressDialogForSearchIngredient.show();
 
                         new JSONtaskWithNDBNO().execute("http://api.nal.usda.gov/ndb/reports/?ndbno=" + ingredientItem.get(position).getNdbno() + "&type=b&format=json&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX");
 
@@ -300,6 +336,9 @@ public class RecipeAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<IngredientItem> result) {
             super.onPostExecute(result);
+
+            progressDialogForSearchIngredient.dismiss();
+
             if( result != null ) {
                 IngredientAdapter adapter = new IngredientAdapter(getApplicationContext(), R.id.ingredient_add_list, result);
                 ingredientListView.setAdapter(adapter);
@@ -382,8 +421,8 @@ public class RecipeAddActivity extends AppCompatActivity {
                         deneme += ", fat:" + fat;
                     }
                 }
-
-                ingredientNutrition.add( new IngredientNutrition( ingName, ingNDBNO, energy, carb, prot, fat ) );
+                deneme += ", quantity:" + quantity;
+                ingredientNutrition.add( new IngredientNutrition( ingName, ingNDBNO, quantity, energy, carb, prot, fat ) );
 
                 return ingredientNutrition;
 
@@ -413,7 +452,12 @@ public class RecipeAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<IngredientNutrition> result) {
             super.onPostExecute(result);
+
+            progressDialogForSearchIngredient.dismiss();
+
             ingredientListText.setText(deneme);
+
+            Toast.makeText(getApplicationContext(), "Ingredient was added", Toast.LENGTH_SHORT).show();
 
             //String son = "";
             //for( int i = 0; i < result.size(); i++ ) {

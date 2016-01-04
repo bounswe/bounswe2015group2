@@ -50,8 +50,8 @@
                         <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <EditText android:id="@+id/recipe_add_description_text" android:layout_width="match_parent"
-                                android:layout_height="wrap_content" android:hint="Recipe Description"
+                            <EditText android:id="@+id/recipe_add_image_url_" android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:hint="Recipe Image URL"
                                 android:inputType="textMultiLine" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -79,6 +79,23 @@
 
                 <LinearLayout
                     android:id="@+id/tab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText android:id="@+id/recipe_add_description_text" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:hint="Recipe Description"
+                            android:inputType="textMultiLine" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -117,7 +134,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tab3"
+                    android:id="@+id/tab4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -133,6 +150,7 @@
 
                     </ScrollView>
                 </LinearLayout>
+
             </FrameLayout>
         </LinearLayout>
     </TabHost>

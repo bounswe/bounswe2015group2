@@ -7,7 +7,7 @@
     android:orientation="vertical" >
 
     <EditText
-        android:id="@+id/fname"
+        android:id="@+id/ingredient_add_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -21,7 +21,7 @@
         android:id="@+id/ingredient_add_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fname" />
+        android:layout_toRightOf="@+id/ingredient_add_quantity" />
 
     <Button
         android:id="@+id/ingredient_add_buttonAdd"
@@ -36,8 +36,8 @@
         android:id="@+id/ingredient_add_buttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/fname"
-        android:layout_below="@+id/fname"
+        android:layout_alignLeft="@+id/ingredient_add_quantity"
+        android:layout_below="@+id/ingredient_add_quantity"
         android:text="Cancel" />
 
 </RelativeLayout>
