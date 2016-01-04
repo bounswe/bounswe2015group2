@@ -151,6 +151,17 @@ public class RecipeModel {
         return recipes;
     }
 
+    /**
+     * this method returns maximum 5 random recipes that this user likes, doesn't dislike,
+     * and don't have allergies to
+     * @param user user to be recommended
+     * @return arraylist of maximum 5 random recipes
+     * @throws Exception when an integer cannot be converted to long
+     */
+    public ArrayList<Recipe> getRecommendationsPreferences(User user) throws ExException {
+        return recipeDao.getRecommendationsPreferences(user.id);
+    }
+
     public RecipeDao getRecipeDao() {
         return recipeDao;
     }

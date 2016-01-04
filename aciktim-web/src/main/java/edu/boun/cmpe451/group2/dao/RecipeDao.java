@@ -6,6 +6,8 @@ import edu.boun.cmpe451.group2.client.Ingredient;
 import edu.boun.cmpe451.group2.client.Recipe;
 import edu.boun.cmpe451.group2.client.Tag;
 import edu.boun.cmpe451.group2.client.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,11 @@ import java.util.*;
 @Repository
 @Scope("request")
 public class RecipeDao extends BaseDao {
+
+    @Qualifier("userDao")
+    @Autowired
+    private UserDao userDao = null;
+
     /**
      * gets recipe ids and recipe names of a user
      *
@@ -544,5 +551,83 @@ public class RecipeDao extends BaseDao {
         else {min = "totalProtein";}
         sql = "SELECT id FROM recipes order by "+min+"/(totalFat+totalCarb+totalProtein) DESC LIMIT 5";
         return this.jdbcTemplate.queryForList(sql);
+    }
+
+    /**
+     * this method first finds the liked tags of a user, and extracts disliked tags and allergies tags
+     * than brings the recipes of refined tags
+     * than selects maximum 5 of them and returns them as recommended
+     * @param userID id of the user
+     * @return arrayList of recipes at maximum 5
+     * @throws ExException when an integer cannot be converted to long
+     */
+    public ArrayList<Recipe> getRecommendationsPreferences(String userID) throws ExException {
+        String sqlLiked = "SELECT A.*, recipeTag.recipeID FROM (SELECT name,parentTag FROM userLikes WHERE userID=?) as A LEFT JOIN recipeTag ON A.name = recipeTag.tag";
+        ArrayList<Tag> tagsLiked = userDao.getLikes(userID);
+        ArrayList<Tag> tagsDisliked = userDao.getDislikes(userID);
+        ArrayList<Tag> allergies = userDao.getAllergies(userID);
+        ArrayList<Tag> refined = new ArrayList<Tag>();
+        ArrayList<Recipe> recommendations = new ArrayList<Recipe>();
+        for(Tag t: tagsLiked){
+            boolean contains = false;
+            for(Tag t2:tagsDisliked){
+                if(t2.name.equals(t.name)){
+                    if(t.parentTag.equals("") || t2.parentTag.equals("") || t.parentTag.equals(t2.parentTag))
+                    {
+                        contains = true;
+                        break;
+                    }
+                }
+            }
+            if(!contains){
+                for(Tag t2:allergies){
+                    if(t2.name.equals(t.name)){
+                        if(t.parentTag.equals("") || t2.parentTag.equals("") || t.parentTag.equals(t2.parentTag))
+                        {
+                            contains = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if(!contains) refined.add(t);
+        }
+        //refined tags are calculated
+        //find recipes here
+        ArrayList<Integer> recipeIDs = new ArrayList<Integer>();
+        for(Tag t:refined) {
+            mergeRecipeIDs(recipeIDs, getRecipeIDsByTag(t));
+        }
+        for(Integer i: recipeIDs){
+            recommendations.add(getRecipe(i.longValue()));
+        }
+        // TODO add semantically related recommendations if size is less than 5
+        int size = recommendations.size();
+        ArrayList<Recipe> refinedRecommendations = new ArrayList<Recipe>();
+        if(size > 5){
+            for(int i=0;i<5;i++){
+                Random random = new Random();
+                refinedRecommendations.add(recommendations.get(random.nextInt(size)-1));
+                size--;
+            }
+        }
+        return refinedRecommendations;
+    }
+
+    public void mergeRecipeIDs(ArrayList<Integer> list1,ArrayList<Integer> list2){
+        for(int i : list2){
+            if(!list1.contains(i)){
+                list1.add(i);
+            }
+        }
+    }
+    public ArrayList<Integer> getRecipeIDsByTag(Tag t){
+        String sql = "SELECT recipeID FROM recipeTag WHERE tag=?";
+        List<Map<String,Object>> dbResult = this.jdbcTemplate.queryForList(sql,t.name);
+        ArrayList<Integer> recipeIDs = new ArrayList<Integer>();
+        for(Map<String,Object> row: dbResult){
+            recipeIDs.add(Integer.parseInt(row.get("recipeID").toString()));
+        }
+        return recipeIDs;
     }
 }
