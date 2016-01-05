@@ -591,12 +591,21 @@ public class RecipeDao extends BaseDao {
             }
             if(!contains) refined.add(t);
         }
+        //upper part was unneccessary :(
         //refined tags are calculated
         //find recipes here
         ArrayList<Integer> recipeIDs = new ArrayList<Integer>();
         for(Tag t:refined) {
             mergeRecipeIDs(recipeIDs, getRecipeIDsByTag(t));
         }
+        ArrayList<Integer> dislikedRecipeIDs= new ArrayList<>();
+        for(Tag t:tagsDisliked){
+            mergeRecipeIDs(dislikedRecipeIDs,getRecipeIDsByTag(t));
+        }
+        for(Tag t:allergies){
+            mergeRecipeIDs(dislikedRecipeIDs,getRecipeIDsByTag(t));
+        }
+        recipeIDs = distractRecipes(recipeIDs,dislikedRecipeIDs);
         for(Integer i: recipeIDs){
             recommendations.add(getRecipe(i.longValue()));
         }
@@ -616,6 +625,14 @@ public class RecipeDao extends BaseDao {
         }
 
         return refinedRecommendations;
+    }
+
+    private ArrayList<Integer> distractRecipes(ArrayList<Integer> recipeIDs, ArrayList<Integer> dislikedRecipeIDs) {
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+        for(int i: recipeIDs){
+            if(!dislikedRecipeIDs.contains(i)) temp.add(i);
+        }
+        return temp;
     }
 
     public void mergeRecipeIDs(ArrayList<Integer> list1,ArrayList<Integer> list2){
