@@ -651,4 +651,130 @@ public class RecipeDao extends BaseDao {
         }
         return recipeIDs;
     }
+
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, Double totalFat, Double totalCarb, Double totalProtein, Double totalCal) {
+
+        ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
+        for (String ingredientName : ingredients) {
+            String sqlSearchIngr = "SELECT * FROM Ingredients WHERE name LIKE ? ";
+            List<Map<String,Object>> matchedIngredients = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
+            for(Map<String,Object> resultMap : matchedIngredients){
+                matchedIngredientIDs.add(Integer.parseInt(resultMap.get("id").toString()));
+            }
+        }
+
+
+        String sql = "SELECT * FROM recipes WHERE name LIKE ? AND totalFat <= ? AND totalCarb <= ? AND totalProtein <= ? AND totalCal <= ?";
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+        List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%", totalFat, totalCarb, totalProtein, totalCal);
+
+
+        for (Map<String, Object> resultMap : resultList) {
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+
+            Object pictureAddress = resultMap.get("pictureAddress");
+            if(pictureAddress != null)
+                recipe.pictureAddress = pictureAddress.toString();
+            Object description = resultMap.get("description");
+            if(description != null)
+                recipe.description = description.toString();
+            Object totalFat2 = resultMap.get("totalFat");
+            if(totalFat2 != null)
+                recipe.totalFat = Double.parseDouble(totalFat2.toString());
+            Object totalCarb2 = resultMap.get("totalCarb");
+            if(totalCarb2 != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb2.toString());
+            Object totalProtein2 = resultMap.get("totalProtein");
+            if(totalProtein2 != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein2.toString());
+            Object totalCal2 = resultMap.get("totalCal");
+            if(totalCal2 != null)
+                recipe.totalCal = Double.parseDouble(totalCal2.toString());
+
+            String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
+            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql2, recipe.id);
+            ArrayList<Integer> recipesIngredientIDs = new ArrayList<Integer>();
+            for(Map<String, Object> rows : resultList2) {
+                recipesIngredientIDs.add(Integer.parseInt(rows.get("ingredientID").toString()));
+            }
+
+//          eger aranan ingredientlarin tamami bu yemeginkilerde varsa bu yemegi ekle
+
+            boolean has_all = true;
+            for(int matchedID : matchedIngredientIDs) {
+                if(!recipesIngredientIDs.contains(matchedID))
+                    has_all = false;
+            }
+            if(has_all)
+                recipeList.add(recipe);
+
+        }
+
+        return recipeList;
+    }
+
+    public ArrayList<Recipe> searchRecipes(List<String> ingredients, Double totalFat, Double totalCarb, Double totalProtein, Double totalCal) {
+
+        ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
+        for (String ingredientName : ingredients) {
+            String sqlSearchIngr = "SELECT * FROM Ingredients WHERE name LIKE ? ";
+            List<Map<String,Object>> matchedIngredients = this.jdbcTemplate.queryForList(sqlSearchIngr,"%"+ingredientName+"%");
+            for(Map<String,Object> resultMap : matchedIngredients){
+                matchedIngredientIDs.add(Integer.parseInt(resultMap.get("id").toString()));
+            }
+        }
+
+
+        String sql = "SELECT * FROM recipes WHERE totalFat <= ? AND totalCarb <= ? AND totalProtein <= ? AND totalCal <= ?";
+        ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
+        List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, totalFat, totalCarb, totalProtein, totalCal);
+
+
+        for (Map<String, Object> resultMap : resultList) {
+            Recipe recipe = new Recipe();
+            recipe.id = Long.parseLong(resultMap.get("id").toString());
+            recipe.name = resultMap.get("name").toString();
+
+            Object pictureAddress = resultMap.get("pictureAddress");
+            if(pictureAddress != null)
+                recipe.pictureAddress = pictureAddress.toString();
+            Object description = resultMap.get("description");
+            if(description != null)
+                recipe.description = description.toString();
+            Object totalFat2 = resultMap.get("totalFat");
+            if(totalFat2 != null)
+                recipe.totalFat = Double.parseDouble(totalFat2.toString());
+            Object totalCarb2 = resultMap.get("totalCarb");
+            if(totalCarb2 != null)
+                recipe.totalCarb = Double.parseDouble(totalCarb2.toString());
+            Object totalProtein2 = resultMap.get("totalProtein");
+            if(totalProtein2 != null)
+                recipe.totalProtein = Double.parseDouble(totalProtein2.toString());
+            Object totalCal2 = resultMap.get("totalCal");
+            if(totalCal2 != null)
+                recipe.totalCal = Double.parseDouble(totalCal2.toString());
+
+            String sql2 = "SELECT * FROM recipeIngredient WHERE recipeID = ?";
+            List<Map<String, Object>> resultList2 = this.jdbcTemplate.queryForList(sql2, recipe.id);
+            ArrayList<Integer> recipesIngredientIDs = new ArrayList<Integer>();
+            for(Map<String, Object> rows : resultList2) {
+                recipesIngredientIDs.add(Integer.parseInt(rows.get("ingredientID").toString()));
+            }
+
+//          eger aranan ingredientlarin tamami bu yemeginkilerde varsa bu yemegi ekle
+
+            boolean has_all = true;
+            for(int matchedID : matchedIngredientIDs) {
+                if(!recipesIngredientIDs.contains(matchedID))
+                    has_all = false;
+            }
+            if(has_all)
+                recipeList.add(recipe);
+
+        }
+
+        return recipeList;
+    }
 }

@@ -31,71 +31,93 @@ public class RecipeModel {
 
     /**
      * default search function
+     *
      * @param name name of the recipe
      * @return returns a list of recipes
      * @throws ExException when the name is empty or null
      */
-    public ArrayList<Recipe> searchRecipes(String name) throws ExException{
-        if(name==null || StringUtil.isEmpty(name)){
+    public ArrayList<Recipe> searchRecipes(String name) throws ExException {
+        if (name == null || StringUtil.isEmpty(name)) {
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
         }
         return recipeDao.searchRecipes(name);
     }
 
-    public List<Recipe> searchRecipesRandom(int amount) throws ExException{
+    public List<Recipe> searchRecipesRandom(int amount) throws ExException {
         return recipeDao.searchRecipesRandom(amount);
     }
 
     /**
      * advanced search function by ingredient list filter
-     * @param name name of the recipe
+     *
+     * @param name        name of the recipe
      * @param ingredients names of the ingredients
      * @return a list of recipes that contains all the ingredients
      * @throws ExException when the list is null or empty
      */
-    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients) throws ExException{
-        if(ingredients==null || ingredients.size() == 0){
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients) throws ExException {
+        if (ingredients == null || ingredients.size() == 0) {
             throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
         }
 
-        return recipeDao.searchRecipes(name, ingredients,null);
+        return recipeDao.searchRecipes(name, ingredients, null);
     }
 
-    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients,List<String> tags) throws ExException{
-        return recipeDao.searchRecipes(name,ingredients,tags);
+
+    /**
+     * advanced search function by ingredient list filter
+     *
+     * @param name        name of the recipe
+     * @param ingredients names of the ingredients
+     * @return a list of recipes that contains all the ingredients
+     * @throws ExException when the list is null or empty
+     */
+    public ArrayList<Recipe> advanceSearchRecipes(String name, List<String> ingredients, Double totalFat, Double totalCarb, Double totalProtein, Double totalCal) throws ExException {
+        if(name == null) {
+            return recipeDao.searchRecipes(ingredients, totalFat, totalCarb, totalProtein, totalCal);
+        } else {
+            return recipeDao.searchRecipes(name, ingredients, totalFat, totalCarb, totalProtein, totalCal);
+        }
     }
+
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, List<String> tags) throws ExException {
+        return recipeDao.searchRecipes(name, ingredients, tags);
+    }
+
     /**
      * controls the recipe and sends it to the dao to be added to the db
+     *
      * @param recipe recipe to be added
      * @throws Exception when name is empty, ownerid is null,ingredient map is empty
      */
-    public void addRecipe(Recipe recipe)throws Exception{
-        if(StringUtil.isEmpty(recipe.getName()))
+    public void addRecipe(Recipe recipe) throws Exception {
+        if (StringUtil.isEmpty(recipe.getName()))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
-        if(recipe.getOwnerID() == null)
+        if (recipe.getOwnerID() == null)
             throw new ExException(ExError.E_NULL_OWNERID);
-        if(StringUtil.isEmpty(recipe.getPictureAddress()))
-            recipe.pictureAddress="";
-        if(recipe.getIngredientAmountMap().size() == 0)
+        if (StringUtil.isEmpty(recipe.getPictureAddress()))
+            recipe.pictureAddress = "";
+        if (recipe.getIngredientAmountMap().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
-        int counter=0;
-        for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
-            if(((Ingredient)entry.getKey()).id == null){
+        int counter = 0;
+        for (Map.Entry<Ingredient, Long> entry : recipe.getIngredientAmountMap().entrySet()) {
+            if (((Ingredient) entry.getKey()).id == null) {
                 throw new ExException(ExError.E_INGREDIENT_ID_NULL);
             }
-            recipe.totalCal += entry.getKey().calories*entry.getValue();
-            recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
-            recipe.totalFat += entry.getKey().fat*entry.getValue();
-            recipe.totalProtein += entry.getKey().protein*entry.getValue();
+            recipe.totalCal += entry.getKey().calories * entry.getValue();
+            recipe.totalCarb += entry.getKey().carbohydrate * entry.getValue();
+            recipe.totalFat += entry.getKey().fat * entry.getValue();
+            recipe.totalProtein += entry.getKey().protein * entry.getValue();
             counter++;
         }
         recipeDao.addRecipe(recipe);
     }
 
-    
+
     /**
      * returns a list of recipes belong to a user
+     *
      * @param users_id
      * @return arraylist of recipemodels
      */
@@ -117,19 +139,19 @@ public class RecipeModel {
             throw new ExException(ExError.E_NULL_OWNERID);
         if (StringUtil.isEmpty(recipe.pictureAddress))
             recipe.pictureAddress = "";
-        if(recipe.getIngredientAmountMap().size() == 0)
+        if (recipe.getIngredientAmountMap().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
         recipe.totalProtein = 0;
-        recipe.totalFat=0;
-        recipe.totalCarb=0;
-        recipe.totalCal=0;
+        recipe.totalFat = 0;
+        recipe.totalCarb = 0;
+        recipe.totalCal = 0;
 
-        for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
-            recipe.totalCal += entry.getKey().calories*entry.getValue();
-            recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
-            recipe.totalFat += entry.getKey().fat*entry.getValue();
-            recipe.totalProtein += entry.getKey().protein*entry.getValue();
+        for (Map.Entry<Ingredient, Long> entry : recipe.getIngredientAmountMap().entrySet()) {
+            recipe.totalCal += entry.getKey().calories * entry.getValue();
+            recipe.totalCarb += entry.getKey().carbohydrate * entry.getValue();
+            recipe.totalFat += entry.getKey().fat * entry.getValue();
+            recipe.totalProtein += entry.getKey().protein * entry.getValue();
         }
 
         recipeDao.updateRecipe(recipe);
@@ -137,14 +159,15 @@ public class RecipeModel {
 
     /**
      * returns 5 recipes according to daily consumption of the user
+     *
      * @param user user to be recommended
      * @return arraylist of recipes that contains maximum 5 recipes
      * @throws Exception
      */
-    public ArrayList<Recipe> getRecommendations(User user) throws Exception{
+    public ArrayList<Recipe> getRecommendations(User user) throws Exception {
         List<Map<String, Object>> list = recipeDao.getRecommendations(user);
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-        for(Map<String,Object> row : list){
+        for (Map<String, Object> row : list) {
             Recipe r = getRecipe(Long.parseLong(row.get("id").toString()));
             recipes.add(r);
         }
@@ -154,6 +177,7 @@ public class RecipeModel {
     /**
      * this method returns maximum 5 random recipes that this user likes, doesn't dislike,
      * and don't have allergies to
+     *
      * @param user user to be recommended
      * @return arraylist of maximum 5 random recipes
      * @throws Exception when an integer cannot be converted to long
@@ -167,16 +191,17 @@ public class RecipeModel {
     }
 
     /**
-     *  use this method when you want to view a recipe
+     * use this method when you want to view a recipe
+     *
      * @param recipe_id
      * @return recipe object that has the id
      * @throws Exception when there is no recipe of that id
      */
-    public Recipe getRecipe(Long recipe_id) throws Exception{
+    public Recipe getRecipe(Long recipe_id) throws Exception {
         return recipeDao.getRecipe(recipe_id);
     }
 
-    public List<Recipe> getRecipesAll() throws Exception{
+    public List<Recipe> getRecipesAll() throws Exception {
         return recipeDao.getRecipesAll();
     }
 
