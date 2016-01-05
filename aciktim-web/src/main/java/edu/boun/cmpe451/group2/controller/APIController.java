@@ -348,4 +348,23 @@ public class APIController implements ControllerInterface {
         }
         return menus;
     }
+
+    @RequestMapping(USER_SVC_PATH +"/editProfile")
+    public @ResponseBody Response editProfile(@RequestParam String apikey,@RequestParam String username,@RequestParam String email,@RequestParam ArrayList<Tag> likes, @RequestParam ArrayList<Tag> dislikes, @RequestParam ArrayList<Tag> allergies ){
+        Response response = new Response();
+        try{
+            User user = userModel.getUser(apikey);
+            userModel.editProfile(Long.parseLong(user.id),username,email,likes,dislikes,allergies);
+        }catch(Exception e){
+            e.printStackTrace();
+            response.status = Response.STATUS.ERROR;
+            if (e instanceof ExException)
+                response.message = ((ExException) e).getErrCode();
+            else
+                response.message= ExError.E_UNKNOWN;
+
+            return response;
+        }
+        return response;
+    }
 }

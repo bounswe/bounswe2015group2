@@ -251,7 +251,7 @@ public class UserModel {
         if(user.id == null || user.id.equals("")){
             throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
         }
-        return userDao.setLikes(user.id,likes);
+        return userDao.setLikes(Long.parseLong(user.id),likes);
     }
 
     /**
@@ -265,7 +265,7 @@ public class UserModel {
         if(user.id == null || user.id.equals("")){
             throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
         }
-        return userDao.setDislikes(user.id, dislikes);
+        return userDao.setDislikes(Long.parseLong(user.id), dislikes);
     }
 
     /**
@@ -279,7 +279,7 @@ public class UserModel {
         if(user.id == null || user.id.equals("")){
             throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
         }
-        return userDao.setAllergies(user.id,allergies);
+        return userDao.setAllergies(Long.parseLong(user.id),allergies);
     }
     /**
      * this method returns the dislikes of a user as an arraylist of tags
@@ -307,5 +307,12 @@ public class UserModel {
             throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
         }
         return userDao.getAllergies(user.id);
+    }
+
+    public void editProfile(Long userID, String username, String email, ArrayList<Tag> likes, ArrayList<Tag> dislikes, ArrayList<Tag> allergies) {
+        userDao.setLikes(userID,likes);
+        userDao.setDislikes(userID,dislikes);
+        userDao.setAllergies(userID,allergies);
+        userDao.updateUser(userID,username,email);
     }
 }

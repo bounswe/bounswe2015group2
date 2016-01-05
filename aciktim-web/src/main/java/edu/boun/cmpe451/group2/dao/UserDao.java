@@ -82,6 +82,11 @@ public class UserDao extends BaseDao {
         this.jdbcTemplate.update(sql, email, Security.md5(passwd), full_name, username, id);
     }
 
+    public void updateUser(Long id, String username,String email){
+        String sql = "UPDATE users SET email=?,username=? WHERE id=?";
+
+        this.jdbcTemplate.update(sql,email,username,id);
+    }
     /**
      * Deletes a user from database
      *
@@ -177,7 +182,7 @@ public class UserDao extends BaseDao {
         return result;
     }
 
-    public boolean setLikes(String userID,ArrayList<Tag> likes){
+    public boolean setLikes(Long userID,ArrayList<Tag> likes){
         String sql = "INSERT INTO userLikes(userID,name,parentTag) VALUES(?,?,?)";
         for(Tag t : likes){
             this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
@@ -185,7 +190,7 @@ public class UserDao extends BaseDao {
         return true;
     }
 
-    public boolean setDislikes(String userID,ArrayList<Tag> dislikes){
+    public boolean setDislikes(Long userID,ArrayList<Tag> dislikes){
         String sql = "INSERT INTO userDislikes(userID,name,parentTag) VALUES(?,?,?)";
         for(Tag t : dislikes){
             this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
@@ -193,7 +198,7 @@ public class UserDao extends BaseDao {
         return true;
     }
 
-    public boolean setAllergies(String userID,ArrayList<Tag> allergies){
+    public boolean setAllergies(Long userID,ArrayList<Tag> allergies){
         String sql = "INSERT INTO userAllergies(userID,name,parentTag) VALUES(?,?,?)";
         for(Tag t : allergies){
             this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
