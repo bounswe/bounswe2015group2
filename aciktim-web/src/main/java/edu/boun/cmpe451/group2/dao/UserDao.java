@@ -183,6 +183,8 @@ public class UserDao extends BaseDao {
     }
 
     public boolean setLikes(Long userID,ArrayList<Tag> likes){
+        String sqlRemove = "DELETE FROM userLikes WHERE userID = ?";
+        this.jdbcTemplate.update(sqlRemove,userID);
         String sql = "INSERT INTO userLikes(userID,name,parentTag) VALUES(?,?,?)";
         for(Tag t : likes){
             this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
@@ -191,6 +193,8 @@ public class UserDao extends BaseDao {
     }
 
     public boolean setDislikes(Long userID,ArrayList<Tag> dislikes){
+        String sqlRemove = "DELETE FROM userDislikes WHERE userID = ?";
+        this.jdbcTemplate.update(sqlRemove,userID);
         String sql = "INSERT INTO userDislikes(userID,name,parentTag) VALUES(?,?,?)";
         for(Tag t : dislikes){
             this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
@@ -199,6 +203,8 @@ public class UserDao extends BaseDao {
     }
 
     public boolean setAllergies(Long userID,ArrayList<Tag> allergies){
+        String sqlRemove = "DELETE FROM userAllergies WHERE userID = ?";
+        this.jdbcTemplate.update(sqlRemove,userID);
         String sql = "INSERT INTO userAllergies(userID,name,parentTag) VALUES(?,?,?)";
         for(Tag t : allergies){
             this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);

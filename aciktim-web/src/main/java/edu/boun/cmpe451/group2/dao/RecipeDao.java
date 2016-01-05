@@ -604,9 +604,11 @@ public class RecipeDao extends BaseDao {
         int size = recommendations.size();
         ArrayList<Recipe> refinedRecommendations = new ArrayList<Recipe>();
         if(size > 5){
+            Random random = new Random();
             for(int i=0;i<5;i++){
-                Random random = new Random();
-                refinedRecommendations.add(recommendations.get(random.nextInt(size)-1));
+                int r = random.nextInt(size);
+                refinedRecommendations.add(recommendations.get(r));
+                recommendations.remove(r);
                 size--;
             }
         }else{
