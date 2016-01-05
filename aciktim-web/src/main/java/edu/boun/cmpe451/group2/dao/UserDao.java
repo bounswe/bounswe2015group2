@@ -62,9 +62,9 @@ public class UserDao extends BaseDao {
      * @param user user to be added
      */
     public void addUser(User user) {
-        String sql = "INSERT INTO users(email, passwd,full_name,username,isInst,api_key) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO users(email, passwd,full_name,username,isInst,api_key,pictureAddress) VALUES(?,?,?,?,?,?,?)";
 
-        this.jdbcTemplate.update(sql, user.email, Security.md5(user.passwd),user.full_name,user.username,user.isInst, Security.randomKey());
+        this.jdbcTemplate.update(sql, user.email, Security.md5(user.passwd),user.full_name,user.username,user.isInst, Security.randomKey(),user.pictureAddress);
 
     }
 

@@ -19,6 +19,16 @@ public class User {
     public ArrayList<Tag> dislikes;
     public ArrayList<Tag> allergies;
 
+    public String getPictureAddress() {
+        return pictureAddress;
+    }
+
+    public void setPictureAddress(String pictureAddress) {
+        this.pictureAddress = pictureAddress;
+    }
+
+    public String pictureAddress="";
+
     public String getId() {
         return id;
     }
