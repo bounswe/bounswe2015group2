@@ -170,7 +170,7 @@ public class UserDao extends BaseDao {
      */
     public ArrayList<Tag> getLikes(String userID) {
         String sql = "SELECT * FROM userLikes WHERE userID = ?";
-        List<Map<String,Object>> likes = this.jdbcTemplate.queryForList(sql,userID);
+        List<Map<String,Object>> likes = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
         ArrayList<Tag> result = new ArrayList<Tag>();
         //changing the return type into required type
         for(Map<String,Object> rows : likes){
@@ -208,7 +208,7 @@ public class UserDao extends BaseDao {
 
     public ArrayList<Tag> getDislikes(String userID) {
         String sql = "SELECT * FROM userDislikes WHERE userID = ?";
-        List<Map<String,Object>> dislikes = this.jdbcTemplate.queryForList(sql,userID);
+        List<Map<String,Object>> dislikes = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
         ArrayList<Tag> result = new ArrayList<Tag>();
         //changing the return type into required type
         for(Map<String,Object> rows : dislikes){
@@ -222,7 +222,7 @@ public class UserDao extends BaseDao {
 
     public ArrayList<Tag> getAllergies(String userID) {
         String sql = "SELECT * FROM userAllergies WHERE userID = ?";
-        List<Map<String,Object>> allergies = this.jdbcTemplate.queryForList(sql,userID);
+        List<Map<String,Object>> allergies = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
         ArrayList<Tag> result = new ArrayList<Tag>();
         //changing the return type into required type
         for(Map<String,Object> rows : allergies){

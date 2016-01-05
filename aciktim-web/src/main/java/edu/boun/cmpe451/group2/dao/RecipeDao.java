@@ -562,7 +562,6 @@ public class RecipeDao extends BaseDao {
      * @throws ExException when an integer cannot be converted to long
      */
     public ArrayList<Recipe> getRecommendationsPreferences(String userID) throws ExException {
-        String sqlLiked = "SELECT A.*, recipeTag.recipeID FROM (SELECT name,parentTag FROM userLikes WHERE userID=?) as A LEFT JOIN recipeTag ON A.name = recipeTag.tag";
         ArrayList<Tag> tagsLiked = userDao.getLikes(userID);
         ArrayList<Tag> tagsDisliked = userDao.getDislikes(userID);
         ArrayList<Tag> allergies = userDao.getAllergies(userID);
@@ -610,7 +609,10 @@ public class RecipeDao extends BaseDao {
                 refinedRecommendations.add(recommendations.get(random.nextInt(size)-1));
                 size--;
             }
+        }else{
+            return recommendations;
         }
+
         return refinedRecommendations;
     }
 
