@@ -2,6 +2,7 @@ package edu.boun.cmpe451.group2.controller;
 
 import edu.boun.cmpe451.group2.client.Menu;
 import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.Tag;
 import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.MenuModel;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import retrofit.http.POST;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -235,14 +237,22 @@ public class UserController {
             model.put("user_id" , user.id);
             try {
                 model.put("recommendations", recipeModel.getRecommendations(user));
+                model.put("recommendations_preferences", recipeModel.getRecommendationsPreferences(user));
                 // TODO uncomment the following 3 commands when back-end methods are ready
-                //model.put("likes" , userModel.getLikes(user));
-                //model.put("likes" , userModel.getDislikes(user));
-                //model.put("likes" , userModel.getAllergies(user));
+                ArrayList<String> likes = new ArrayList<String>();
+                ArrayList<String> dislikes = new ArrayList<String>();
+                ArrayList<String> allergies= new ArrayList<String>();
 
-                String[] likes = {"dessert" , "tomato", "gluten-free"};
-                String[] dislikes = {"broccoli" , "cabbage"};
-                String[] allergies = {"gluten" , "tomato"};
+
+                for (Tag t : userModel.getLikes(user)) {
+                    likes.add(t.getName());
+                }
+                for (Tag t : userModel.getDislikes(user)) {
+                    dislikes.add(t.getName());
+                }
+                for (Tag t : userModel.getAllergies(user)) {
+                    allergies.add(t.getName());
+                }
 
                 model.put("likes" , tagify(likes));
                 model.put("dislikes" , tagify(dislikes));
@@ -277,13 +287,37 @@ public class UserController {
             return "redirect:/index";
         }else{
             User user = userModel.getUser(session_id);
-            // TODO here do something like following when back-end implements the method
-            //model.updatePreferences(user.id, likes , dislikes, allergies);
+            ArrayList<Tag> likeTags = new ArrayList<Tag>();
+            ArrayList<Tag> dislikeTags = new ArrayList<Tag>();
+            ArrayList<Tag> allergyTags = new ArrayList<Tag>();
+            for (String s : likes) {
+                Tag t = new Tag();
+                t.setName(s);
+                likeTags.add(t);
+                System.out.println(s);
+            }
+            for (String s : dislikes) {
+                Tag t = new Tag();
+                t.setName(s);
+                dislikeTags.add(t);
+            }
+            for (String s : allergies) {
+                Tag t = new Tag();
+                t.setName(s);
+                allergyTags.add(t);
+            }
+            try {
+                userModel.setLikes(user, likeTags);
+                userModel.setLikes(user, dislikeTags);
+                userModel.setLikes(user, allergyTags);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return "redirect:/user/view";
         }
     }
 
-    private String tagify(String[] tags){
+    private String tagify(ArrayList<String> tags){
         String rv="";
         int count = 0;
         for(String tag : tags){

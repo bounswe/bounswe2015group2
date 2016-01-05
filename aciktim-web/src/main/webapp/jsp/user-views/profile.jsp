@@ -101,25 +101,24 @@
                         <div class="tab-pane fade" id="basedDaily">
                             <table class="table table-striped" style="margin-top:10px;">
                                 <thead>
-                                <th>Isim</th>
+                                <th>Name</th>
+                                <th>View</th>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td width="20%">"Pardon"</td>
-                                </tr>
-                                <tr>
-                                    <td width="20%">"Excuse"</td>
-                                </tr>
-                                <tr>
-                                    <td width="20%">"Me"</td>
-                                </tr>
-                                <tr>
-                                    <td width="20%">"Fags"</td>
-                                </tr>
-                                <tr>
-                                    <td width="20%">"Everywhere"</td>
-                                </tr>
-
+                                <c:forEach var="recipe" items="${recommendations_preferences}" varStatus="roop">
+                                    <tr>
+                                        <td width="20%">${recipe.name}</td>
+                                        <td>
+                                            <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
+                                                  method="post">
+                                                <input type="hidden" name="recipe_id" value="${recipe.id}"/>
+                                                <button type="submit" class="btn btn-default"
+                                                        style="text-transform: capitalize">View
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
