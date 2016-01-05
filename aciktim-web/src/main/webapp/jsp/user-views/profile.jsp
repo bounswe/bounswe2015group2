@@ -36,7 +36,7 @@
 
                 <div class="row">
                     <!-- change the dummy link -->
-                    <img src="http://placehold.it/240x320" class="img-rounded center-block" width="240" height="320">
+                    <img src=${picture_url} class="img-rounded center-block" width="240" height="320">
                 </div>
                 <div class="row">
                     <!-- change the dummy name and surname -->

@@ -113,6 +113,7 @@ public class UserController {
             @RequestParam String confirm_password,
             @RequestParam String first_name,
             @RequestParam String last_name,
+            @RequestParam String url,
             @RequestParam (required = false, defaultValue = "false") Boolean is_institution,
 
             ModelMap model) {
@@ -125,19 +126,17 @@ public class UserController {
             model.put("type", "ERROR");
         }
 
-        System.out.println("oops!");
-
         try {
             User user = new User();
             user.setFull_name(first_name.concat(" ").concat(last_name));
             user.setEmail(email);
             user.setPasswd(password);
             user.setIsInst(is_institution);
+            user.setPictureAddress(url);
             userModel.signup(user);
 
             model.put("type", "SUCCESS");
         } catch (Exception e) {
-            System.out.println("wut?");
             e.printStackTrace();
             model.put("type", "ERROR");
         }
@@ -235,6 +234,7 @@ public class UserController {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
             model.put("user_id" , user.id);
+            model.put("picture_url", user.pictureAddress);
             try {
                 model.put("recommendations", recipeModel.getRecommendations(user));
                 model.put("recommendations_preferences", recipeModel.getRecommendationsPreferences(user));
