@@ -81,7 +81,7 @@
                                 <th>View</th>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="recipe" items="${recommendations}" varStatus="roop">
+                                <c:forEach var="recipe" items="${recommendations_preferences}" varStatus="roop">
                                     <tr>
                                         <td width="20%">${recipe.name}</td>
                                         <td>
@@ -105,7 +105,7 @@
                                 <th>View</th>
                                 </thead>
                                 <tbody>
-                                <c:forEach var="recipe" items="${recommendations_preferences}" varStatus="roop">
+                                <c:forEach var="recipe" items="${recommendations}" varStatus="roop">
                                     <tr>
                                         <td width="20%">${recipe.name}</td>
                                         <td>

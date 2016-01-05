@@ -294,7 +294,6 @@ public class UserController {
                 Tag t = new Tag();
                 t.setName(s);
                 likeTags.add(t);
-                System.out.println(s);
             }
             for (String s : dislikes) {
                 Tag t = new Tag();
@@ -308,8 +307,8 @@ public class UserController {
             }
             try {
                 userModel.setLikes(user, likeTags);
-                userModel.setLikes(user, dislikeTags);
-                userModel.setLikes(user, allergyTags);
+                userModel.setDislikes(user, dislikeTags);
+                userModel.setAllergies(user, allergyTags);
             } catch (Exception e) {
                 e.printStackTrace();
             }
