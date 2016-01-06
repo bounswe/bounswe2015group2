@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.boun.cmpe451.group2.android" >
+    package="edu.boun.cmpe451.group2.android">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -13,16 +13,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" >
-
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main_drawer"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,9 +24,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".home.MainActivity"
+            android:label="@string/title_activity_main_drawer"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".recipe.SearchActivity" />
+        </activity>
+        <activity
             android:name=".recipe.RecipeAddActivity"
             android:label="@string/title_activity_recipe_add"
-            android:parentActivityName=".recipe.RecipeListActivity" >
+            android:parentActivityName=".recipe.RecipeListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".recipe.RecipeListActivity" />
@@ -40,7 +41,7 @@
         <activity
             android:name=".recipe.RecipeEditActivity"
             android:label="@string/title_activity_recipe_edit"
-            android:parentActivityName=".recipe.RecipeListActivity" >
+            android:parentActivityName=".recipe.RecipeListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".recipe.RecipeListActivity" />
@@ -48,16 +49,16 @@
         <activity
             android:name=".profile.ProfileViewActivity"
             android:label="@string/title_activity_profile_view"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".home.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".home.MainActivity" />
         </activity>
         <activity
             android:name=".profile.ProfileEditActivity"
             android:label="@string/title_activity_profile_edit"
-            android:parentActivityName=".profile.ProfileViewActivity" >
+            android:parentActivityName=".profile.ProfileViewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".profile.ProfileViewActivity" />
@@ -65,47 +66,69 @@
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.boun.cmpe451.group2.android.LoginActivity" />
         </activity>
-
         <activity
             android:name=".recipe.RecipeListActivity"
             android:label="@string/title_recipe_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:parentActivityName=".home.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MainActivity" />
+                android:value=".home.MainActivity" />
         </activity>
         <activity
             android:name=".recipe.RecipeViewActivity"
             android:label="@string/title_recipe_detail"
             android:parentActivityName=".recipe.RecipeListActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".recipe.RecipeListActivity" />
         </activity>
         <activity
-            android:name=".friend.FriendListActivity"
-            android:label="@string/title_friend_list"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:name=".restaurant.RestaurantListActivity"
+            android:label="@string/title_restaurant_list"
+            android:parentActivityName=".home.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.boun.cmpe451.group2.android.MainActivity" />
+                android:value=".home.MainActivity" />
         </activity>
         <activity
-            android:name=".friend.FriendDetailActivity"
-            android:label="@string/title_friend_detail"
-            android:parentActivityName=".friend.FriendListActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:name=".restaurant.RestaurantDetailActivity"
+            android:label="@string/title_restaurant_detail"
+            android:parentActivityName=".restaurant.RestaurantListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".friend.FriendListActivity" />
+                android:value=".restaurant.RestaurantListActivity" />
+        </activity>
+        <activity
+            android:name=".SemanticTagActivity"
+            android:label="@string/title_activity_semantic_tag"
+            android:parentActivityName=".recipe.RecipeAddActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.recipe.RecipeAddActivity" />
+        </activity>
+        <activity
+            android:name=".recipe.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".home.MainActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.home.MainActivity" />
         </activity>
     </application>
 

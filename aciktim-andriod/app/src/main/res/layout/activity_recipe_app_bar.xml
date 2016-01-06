@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".home.MainActivity">
 
     <android.support.design.widget.AppBarLayout android:id="@+id/app_bar"
         android:layout_height="wrap_content" android:layout_width="match_parent"
@@ -22,9 +22,9 @@
         <include layout="@layout/activity_recipe_list" />
     </FrameLayout>
 
-    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
+    <android.support.design.widget.FloatingActionButton android:id="@+id/recipe_add_button"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin" android:src="@android:drawable/ic_dialog_email"
+        android:layout_margin="@dimen/fab_margin" android:src="@android:drawable/ic_input_add"
         android:layout_gravity="bottom|end" />
 
 

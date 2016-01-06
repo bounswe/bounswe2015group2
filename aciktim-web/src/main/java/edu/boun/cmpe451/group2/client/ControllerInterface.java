@@ -1,14 +1,9 @@
 package edu.boun.cmpe451.group2.client;
 
 
-import edu.boun.cmpe451.group2.client.Menu;
-import edu.boun.cmpe451.group2.client.Recipe;
-import edu.boun.cmpe451.group2.client.User;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit.http.*;
 
@@ -43,20 +38,18 @@ public interface ControllerInterface {
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
     @FormUrlEncoded
     @POST(LOGIN_PATH)
-    Response login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
+    ApiResponse login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
 
     @GET(USER_SVC_PATH)
     User getUser(@Query(API_KEY_PARAMETER) String api_key);
 
-    User getUser(@Query(API_KEY_PARAMETER) Long userID);
-
     @POST(USER_SVC_PATH)
-    Response signup(@Body User user);
+    ApiResponse signup(@Body User user);
 
     @POST(RECIPE_SVC_PATH)
-    Response addrecipe(@Body Recipe recipe);
+    ApiResponse addrecipe(@Body Recipe recipe);
 
-    Response deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
+    ApiResponse deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
     List<Recipe> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
@@ -65,10 +58,10 @@ public interface ControllerInterface {
     Recipe getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
     @PUT(RECIPE_SVC_PATH + "/update")
-    Response updateRecipe(@Body Recipe recipe);
+    ApiResponse updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    List<Recipe> getRecommendations(@Query(USER_ID_PARAMETER) Long users_id);
+    ArrayList<Recipe> getRecommendations(@Body User user);
 
     @GET("/search")
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
@@ -77,7 +70,7 @@ public interface ControllerInterface {
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
 
     @POST(USER_SVC_PATH+"/addMenu")
-    Response addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
+    ApiResponse addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")
     ArrayList<Menu> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
