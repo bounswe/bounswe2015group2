@@ -451,7 +451,9 @@ public class RecipeDao extends BaseDao {
             Object totalCal = resultMap.get("totalCal");
             if (totalCal != null)
                 recipe.totalCal = Double.parseDouble(totalCal.toString());
-
+            //bringing tags of the recipe
+            ArrayList<Tag> tags = getTags(recipe.id);
+            recipe.tagList = tags;
             recipeList.add(recipe);
         }
         return recipeList;

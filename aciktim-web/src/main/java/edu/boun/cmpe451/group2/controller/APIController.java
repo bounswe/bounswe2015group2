@@ -259,7 +259,7 @@ public class APIController implements ControllerInterface {
         return recipes;
     }
 
-    @RequestMapping("/searchRestaurants")
+    @RequestMapping("/searchRestaurant")
     public @ResponseBody ArrayList<User> searchRestaurants(@RequestParam String name){
         ArrayList<User> restaurants = new ArrayList<User>();
         try {
