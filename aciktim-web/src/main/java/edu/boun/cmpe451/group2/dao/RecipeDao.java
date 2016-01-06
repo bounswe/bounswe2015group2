@@ -141,7 +141,7 @@ public class RecipeDao extends BaseDao {
                 recipeList.add(recipe);
 
         }
-        if (tags != null) {
+        if (tags != null && tags.size() > 0) {
             recipeList = filterListByTags(recipeList, tags);
         }
         return recipeList;
