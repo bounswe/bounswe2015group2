@@ -238,7 +238,7 @@ public class UserController {
             try {
                 model.put("recommendations", recipeModel.getRecommendations(user));
                 model.put("recommendations_preferences", recipeModel.getRecommendationsPreferences(user));
-                // TODO uncomment the following 3 commands when back-end methods are ready
+
                 ArrayList<String> likes = new ArrayList<String>();
                 ArrayList<String> dislikes = new ArrayList<String>();
                 ArrayList<String> allergies= new ArrayList<String>();

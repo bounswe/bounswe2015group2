@@ -72,12 +72,8 @@ public class RecipeModel {
      * @return a list of recipes that contains all the ingredients
      * @throws ExException when the list is null or empty
      */
-    public ArrayList<Recipe> advanceSearchRecipes(String name, List<String> ingredients, Double totalFat, Double totalCarb, Double totalProtein, Double totalCal) throws ExException {
-        if(name == null) {
-            return recipeDao.searchRecipes(ingredients, totalFat, totalCarb, totalProtein, totalCal);
-        } else {
-            return recipeDao.searchRecipes(name, ingredients, totalFat, totalCarb, totalProtein, totalCal);
-        }
+    public ArrayList<Recipe> advancedSearchRecipes(String name, List<String> ingredients, Boolean isInst, Double totalFatUpper, Double totalCarbUpper, Double totalProteinUpper, Double totalCalUpper, Double totalFatLower, Double totalCarbLower, Double totalProteinLower, Double totalCalLower, List<String> tags) throws ExException {
+        return recipeDao.advancedSearch(name, ingredients, isInst, totalFatUpper, totalCarbUpper, totalProteinUpper, totalCalUpper, totalFatLower, totalCarbLower, totalProteinLower, totalCalLower, tags);
     }
 
     public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, List<String> tags) throws ExException {

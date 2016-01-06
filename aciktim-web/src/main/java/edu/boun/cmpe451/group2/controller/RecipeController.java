@@ -396,6 +396,7 @@ public class RecipeController {
         String[] ingredient_prot = request.getParameterValues("ingredient_prot");
         String[] ingredient_fat = request.getParameterValues("ingredient_fat");
         String[] ingredient_unit = request.getParameterValues("ingredient_unit");
+        String[] ingredient_group = request.getParameterValues("ingredient_group");
         // TAG DATA
         String[] tag_name = request.getParameterValues("tag_name");
         String[] tag_class = request.getParameterValues("tag_class");
@@ -413,7 +414,7 @@ public class RecipeController {
                     image_url,
                     description,
                     formAmountMap(ingredient_no, ingredient_name, ingredient_amount, ingredient_en, ingredient_carb, ingredient_prot, ingredient_fat, ingredient_unit),
-                    formTagList(tag_name, tag_class));
+                    formTagList(tag_name, tag_class, ingredient_group, ingredient_name));
 
 
             recipeModel.addRecipe(r);
@@ -603,7 +604,7 @@ public class RecipeController {
         return m;
     }
 
-    public List<Tag> formTagList(String[] tag_name, String[] parent_tag) {
+    public List<Tag> formTagList(String[] tag_name, String[] parent_tag, String[] ingredient_groups, String[] ingredient_names) {
         List<Tag> tl = new ArrayList<>();
         int counter = 0;
         if (tag_name == null) return tl;
@@ -614,6 +615,33 @@ public class RecipeController {
             tl.add(t);
             counter++;
         }
+
+        boolean lactose = false;
+        boolean gluten = false;
+
+        for(int i = 0 ; i < ingredient_groups.length ; i++){
+            System.out.println("TARRAK DETECTED!!!!");
+            String group = ingredient_groups[i];
+            String name = ingredient_names[i];
+            if (!(name.toLowerCase().contains("gluten-free") || name.toLowerCase().contains("gluten free")) && group.equals("Baked Products")) gluten = true;
+            if (!(name.toLowerCase().contains("lactose free")) && group.equals("Dairy and Egg Products")) lactose = true;
+        }
+
+        if (lactose){
+            System.out.println("LACTOSE DETECTED!!!!");
+            Tag t = new Tag();
+            t.name = "lactose";
+            t.parentTag = "dairy";
+            tl.add(t);
+        }
+        if (gluten){
+            System.out.println("GLUTEN DETECTED!!!!");
+            Tag t = new Tag();
+            t.name = "gluten";
+            t.parentTag = "baked";
+            tl.add(t);
+        }
+
         return tl;
     }
 
