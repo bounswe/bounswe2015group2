@@ -35,6 +35,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import edu.boun.cmpe451.group2.android.R;
@@ -494,7 +495,7 @@ public class RecipeAddActivity extends AppCompatActivity {
             double ingRate;
             Recipe myRecipe = new Recipe();
             Ingredient myIngredient;
-            HashMap<Ingredient, Long> ingredientAmountMap = new HashMap<Ingredient, Long>();
+            List<Ingredient> ingredientList = new LinkedList<>();
             List<Tag> myTagList = new ArrayList<Tag>();
 
             for( int i = 0; i < ingredientNutrition.size(); i++){
@@ -503,18 +504,18 @@ public class RecipeAddActivity extends AppCompatActivity {
 
                 myIngredient = new Ingredient();
                 myIngredient.setName( ingredientNutrition.get( i ).getName() );
-                myIngredient.setUnitName( "gram" );
+                myIngredient.setUnitName("gram");
                 myIngredient.setCalories(Double.parseDouble(ingredientNutrition.get(i).getEnergy()) * ingRate);
                 myIngredient.setCarbohydrate(Double.parseDouble(ingredientNutrition.get(i).getCarbohydrate()) * ingRate);
                 myIngredient.setProtein(Double.parseDouble(ingredientNutrition.get(i).getProtein()) * ingRate);
-                myIngredient.setFat(Double.parseDouble( ingredientNutrition.get( i ).getFat() ) * ingRate);
-
+                myIngredient.setFat(Double.parseDouble(ingredientNutrition.get(i).getFat()) * ingRate);
+                myIngredient.amount = Long.parseLong(ingredientNutrition.get(i).getQuantity());
                 totalCal += Double.parseDouble( ingredientNutrition.get( i ).getEnergy() ) * ingRate;
                 totalCarb += Double.parseDouble( ingredientNutrition.get( i ).getCarbohydrate() ) * ingRate;
                 totalProtein += Double.parseDouble( ingredientNutrition.get( i ).getProtein() ) * ingRate;
                 totalFat += Double.parseDouble( ingredientNutrition.get( i ).getFat() ) * ingRate;
 
-                ingredientAmountMap.put(myIngredient, Long.parseLong(ingredientNutrition.get(i).getQuantity()));
+                ingredientList.add(myIngredient);
 
             }
 
@@ -533,7 +534,7 @@ public class RecipeAddActivity extends AppCompatActivity {
             myRecipe.setTotalCarb(totalCarb);
             myRecipe.setTotalProtein(totalProtein);
             myRecipe.setTotalFat( totalFat );
-            myRecipe.setIngredientAmountMap( ingredientAmountMap );
+            myRecipe.setIngredientList( ingredientList );
             myRecipe.setTagList(myTagList);
 
             Call<ApiResponse> myResponse = api.addrecipe( myRecipe );
