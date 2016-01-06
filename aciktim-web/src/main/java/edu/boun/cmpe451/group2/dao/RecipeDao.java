@@ -142,12 +142,12 @@ public class RecipeDao extends BaseDao {
 
         }
         if (tags != null) {
-            filterListByTags(recipeList, tags);
+            recipeList = filterListByTags(recipeList, tags);
         }
         return recipeList;
     }
 
-    public void filterListByTags(ArrayList<Recipe> recipeList, List<String> tags) {
+    public ArrayList<Recipe> filterListByTags(ArrayList<Recipe> recipeList, List<String> tags) {
         ArrayList<Recipe> temp = new ArrayList<Recipe>();
         String sql = "SELECT * FROM recipeTag WHERE recipeID=?";
         for (Recipe r : recipeList) {
@@ -158,7 +158,7 @@ public class RecipeDao extends BaseDao {
             }
             if (includes) temp.add(r);
         }
-        recipeList = temp;
+        return temp;
     }
 
     public List<Recipe> searchRecipesRandom(int amount) {
