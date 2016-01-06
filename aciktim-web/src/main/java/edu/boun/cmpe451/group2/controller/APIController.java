@@ -304,6 +304,9 @@ public class APIController implements ControllerInterface {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
             try
             {
+                String[] arr = date.split("/");
+                arr[1] = Integer.toString(Integer.parseInt(arr[1])+1);
+                date = arr[0]+"/"+arr[1]+"/"+arr[2];
                 Date queried_date = formatter.parse(date);
                 queriedCal = Calendar.getInstance();
                 queriedCal.setTime(queried_date);
