@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.ApiProxy;
@@ -42,16 +43,17 @@ public class RecipeListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_app_bar);
-        final int user_id = getIntent().getIntExtra("user_id",59);
+        final String user_id = getIntent().getStringExtra("user_id");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
+        Toast.makeText(getApplicationContext(), user_id + "", Toast.LENGTH_SHORT).show();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.recipe_add_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),RecipeAddActivity.class);
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });

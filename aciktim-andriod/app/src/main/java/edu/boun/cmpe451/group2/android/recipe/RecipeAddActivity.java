@@ -100,6 +100,10 @@ public class RecipeAddActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_recipe_add);
 
+        final String user_id = getIntent().getStringExtra("user_id");
+
+        Toast.makeText(getApplicationContext(),user_id+"",Toast.LENGTH_SHORT).show();
+
         TabHost th = (TabHost) findViewById(R.id.tabHost);
         th.setup();
         TabHost.TabSpec specs = th.newTabSpec("tag 1");
