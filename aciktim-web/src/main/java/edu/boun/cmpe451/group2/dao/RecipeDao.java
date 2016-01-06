@@ -255,7 +255,6 @@ public class RecipeDao extends BaseDao {
         }
     }
 
-<<<<<<< HEAD
     public ArrayList<Recipe> mergeRecipes(ArrayList<Recipe> list1, ArrayList<Recipe> list2){
         Iterator<Recipe> recipeIterator = list2.iterator();
         while(recipeIterator.hasNext()){
