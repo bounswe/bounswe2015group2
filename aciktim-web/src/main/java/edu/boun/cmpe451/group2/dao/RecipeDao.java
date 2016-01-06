@@ -704,19 +704,25 @@ public class RecipeDao extends BaseDao {
         for (int i = 0; i < recipes.size(); i++) {
             Recipe recipe = recipes.get(i);
 
+            boolean willAdd = false;
+
             if (recipe.totalFat <= totalFatUpper || recipe.totalFat >= totalFatLower) {
-                temp.add(recipe);
+                willAdd = true;
             }
 
             if (recipe.totalCal <= totalCalUpper || recipe.totalCal >= totalCalLower) {
-                temp.add(recipe);
+                willAdd = true;
             }
 
             if (recipe.totalProtein <= totalProteinUpper || recipe.totalProtein >= totalProteinLower) {
-                temp.add(recipe);
+                willAdd = true;
             }
 
             if (recipe.totalCarb <= totalCarbUpper || recipe.totalCarb >= totalCarbLower) {
+                willAdd = true;
+            }
+
+            if(willAdd) {
                 temp.add(recipe);
             }
 
