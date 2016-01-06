@@ -10,19 +10,53 @@ import java.util.List;
  * @author Mustafa Taha Kocyigit
  */
 public class Recipe {
-    public Long id ;
-    public String name ;
-    public String pictureAddress;
-    public Long ownerID ;
-    public Long likes ;
-    public List<Comment> commentList ;
-    public HashMap<Ingredient, Long> IngredientAmountMap ;
-    public List<Tag> tagList ;
-    public String description ;
-    public double totalProtein;
-    public double totalFat;
-    public double totalCarb;
-    public double totalCal;
+    public Long id = null;
+    public String name = "";
+    public String pictureAddress = "";
+    public Long ownerID = null;
+    public Long likes = 0L;
+    public List<Comment> commentList = new ArrayList<Comment>();
+    public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
+    public List<Tag> tagList = new ArrayList<Tag>();
+    public String description = "";
+    public double totalProtein=0;
+
+    public double getTotalProtein() {
+        return totalProtein;
+    }
+
+    public void setTotalProtein(double totalProtein) {
+        this.totalProtein = totalProtein;
+    }
+
+    public double getTotalFat() {
+        return totalFat;
+    }
+
+    public void setTotalFat(double totalFat) {
+        this.totalFat = totalFat;
+    }
+
+    public double getTotalCarb() {
+        return totalCarb;
+    }
+
+    public void setTotalCarb(double totalCarb) {
+        this.totalCarb = totalCarb;
+    }
+
+    public double getTotalCal() {
+        return totalCal;
+    }
+
+    public void setTotalCal(double totalCal) {
+        this.totalCal = totalCal;
+    }
+
+    public double totalFat=0;
+    public double totalCarb=0;
+    public double totalCal=0;
+
 
     public Long getId() {
         return id;
@@ -31,7 +65,7 @@ public class Recipe {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
@@ -96,35 +130,9 @@ public class Recipe {
         this.description = description;
     }
 
-    public double getTotalProtein() {
-        return totalProtein;
+    public String toString() {
+        return name + " " + id;
     }
 
-    public void setTotalProtein(double totalProtein) {
-        this.totalProtein = totalProtein;
-    }
 
-    public double getTotalFat() {
-        return totalFat;
-    }
-
-    public void setTotalFat(double totalFat) {
-        this.totalFat = totalFat;
-    }
-
-    public double getTotalCarb() {
-        return totalCarb;
-    }
-
-    public void setTotalCarb(double totalCarb) {
-        this.totalCarb = totalCarb;
-    }
-
-    public double getTotalCal() {
-        return totalCal;
-    }
-
-    public void setTotalCal(double totalCal) {
-        this.totalCal = totalCal;
-    }
 }

@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -64,6 +66,7 @@ public class ProfileEditActivity extends AppCompatActivity implements LoaderCall
     private View mProgressView;
     private View mLoginFormView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +96,12 @@ public class ProfileEditActivity extends AppCompatActivity implements LoaderCall
         });
 
 
+
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
     }
 
     private void populateAutoComplete() {

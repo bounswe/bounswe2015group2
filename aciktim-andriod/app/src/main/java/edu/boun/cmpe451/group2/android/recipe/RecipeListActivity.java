@@ -8,8 +8,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import edu.boun.cmpe451.group2.android.R;
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 
 /**
  * An activity representing a list of Recipes. This activity
@@ -40,21 +43,23 @@ public class RecipeListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_app_bar);
-
+        final String user_id = getIntent().getStringExtra("user_id");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        Toast.makeText(getApplicationContext(), user_id + "", Toast.LENGTH_SHORT).show();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.recipe_add_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),RecipeAddActivity.class);
+                intent.putExtra("user_id",user_id);
                 startActivity(intent);
             }
         });
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         if (findViewById(R.id.recipe_detail_container) != null) {
             // The detail container view will be present only in the

@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.android;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -29,12 +30,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
+import edu.boun.cmpe451.group2.android.api.ApiResponse;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 import edu.boun.cmpe451.group2.android.api.User;
-import retrofit.Retrofit;
+import edu.boun.cmpe451.group2.android.home.MainActivity;
+import retrofit.Call;
+import retrofit.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -104,10 +110,8 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             }
         });
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-52-28-126-194.eu-central-1.compute.amazonaws.com:8080/aciktim/api")
-                .build();
-        api = retrofit.create(ControllerInterface.class);
+        ApiProxy apiProxy = new ApiProxy();
+        api = apiProxy.getApi();
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -325,7 +329,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class SignUpTask extends AsyncTask<Void, Void, Boolean> {
+    public class SignUpTask extends AsyncTask<Void, Void,  Response<ApiResponse>> {
 
         private final String mEmail;
         private final String mPassword;
@@ -340,25 +344,52 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Response<ApiResponse> doInBackground(Void... params) {
             User user = new User();
             user.setEmail(mEmail);
             user.setFull_name(mFullName);
             user.setPasswd(mPassword);
             user.setUsername(mUserName);
-            String api_key = api.signup(user);
-            return true;
+            Call<ApiResponse> apiResponseCall = api.signup(user);
+            try {
+                return apiResponseCall.execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(final Response<ApiResponse> response) {
             mAuthTask = null;
             showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+            if (response != null){
+                ApiResponse apiResponse = response.body();
+                if(apiResponse != null){
+                    if (apiResponse.status == ApiResponse.STATUS.OK) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("api_key",apiResponse.api_key);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }else if(apiResponse.api_key != null){
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("api_key",apiResponse.api_key);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    } else{
+                        mPasswordView.setError(getString(R.string.error_incorrect_password));
+                        mPasswordView.requestFocus();
+                    }
+                }
+                else {
+                    mPasswordView.setError("apiResponse null");
+                    mPasswordView.requestFocus();
+                }
+            }
+            else {
+                mPasswordView.setError("response null");
                 mPasswordView.requestFocus();
             }
         }
