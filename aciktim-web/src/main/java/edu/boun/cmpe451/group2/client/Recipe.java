@@ -23,6 +23,10 @@ public class Recipe {
     public String description = "";
     public double totalProtein=0;
 
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
     public double getTotalProtein() {
         return totalProtein;
     }
@@ -127,9 +131,7 @@ public class Recipe {
         }
     }
 
-    public List<Tag> getTagList() {
-        return tagList;
-    }
+
 
     public void setTagList(List<Tag> tagList) {
         this.tagList = tagList;

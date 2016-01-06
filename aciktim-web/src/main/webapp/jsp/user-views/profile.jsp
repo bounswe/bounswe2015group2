@@ -69,12 +69,12 @@
                 </div>
                 <div class="row">
                     <ul class="nav nav-tabs">
-                        <li class="nav active"><a href="#basedPref" data-toggle="tab">Based on Preferences</a></li>
-                        <li class="nav"><a href="#basedDaily" data-toggle="tab">Based on Daily Nutrition</a></li>
+                        <li class="nav "><a href="#basedPref" data-toggle="tab">Based on Preferences</a></li>
+                        <li class="nav active"><a href="#basedDaily" data-toggle="tab">Based on Daily Nutrition</a></li>
                     </ul>
                     <div class="tab-content">
 
-                        <div class="tab-pane fade in active" id="basedPref">
+                        <div class="tab-pane fade" id="basedPref">
                             <table class="table table-striped" style="margin-top:10px;">
                                 <thead>
                                 <th>Name</th>
@@ -98,7 +98,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane fade" id="basedDaily">
+                        <div class="tab-pane fade in active" id="basedDaily">
                             <table class="table table-striped" style="margin-top:10px;">
                                 <thead>
                                 <th>Name</th>

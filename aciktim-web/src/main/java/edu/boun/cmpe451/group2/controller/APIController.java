@@ -282,7 +282,8 @@ public class APIController implements ControllerInterface {
     public @ResponseBody ArrayList<Recipe> search(@RequestParam String name,@RequestParam ArrayList<String> ingrNames){
         ArrayList<Recipe> result = new ArrayList<Recipe>();
         try {
-            result = recipeModel.searchRecipes(name,ingrNames);
+            // TODO : Uncomment the following line and fix the incompaitble type issue on ingrNames
+            //result = recipeModel.searchRecipes(name,ingrNames);
         }catch(Exception e){
             e.printStackTrace();
         }

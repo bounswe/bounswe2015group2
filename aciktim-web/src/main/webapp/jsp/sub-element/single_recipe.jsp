@@ -105,11 +105,13 @@
                     </td>
                     <td>
                         <table class="table table-striped">
+                            <tr>
+                                <td>
                             <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
-                                <tr>
-                                    <td>${tag.name}</td>
-                                </tr>
+                                    <code>${tag.name}</code>
                             </c:forEach>
+                                </td>
+                            </tr>
                         </table>
                     </td>
                 </tr>

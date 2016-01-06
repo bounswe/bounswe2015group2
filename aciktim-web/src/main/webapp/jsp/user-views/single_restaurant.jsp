@@ -92,13 +92,12 @@
                                 <td>
                                     <img src="${recipe.pictureAddress}" class="img-rounded center-block" width="240">
                                 </td>
-                                <td width="20%">${recipe.name}</td>
+                                <td width="20%"><a href="${contextPath}/recipe/single?recipe_id=${recipe.id}">${recipe.name}</a></td>
                                 <td width="60%">${recipe.description}</td>
                                 <td>
-                                    <form class="form-horizontal row-border" action="${contextPath}/recipe/single">
-                                        <input type="hidden" name="recipe_id" value="${recipe.id}"/>
-                                        <button type="submit" class="btn btn-default" style="text-transform: capitalize">View</button>
-                                    </form>
+                                    <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
+                                        <code>${tag.name}</code>
+                                    </c:forEach>
                                 </td>
                             </tr>
                         </c:forEach>
