@@ -55,63 +55,7 @@
                             <%--<%! int aggregate_prot = 0; %>--%>
                             <%--<%! int aggregate_fat = 0; %>--%>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <table class="table table-bordered" style="margin-top:10px;">
-                                        <thead>
-                                        <th>Name</th>
-                                        <th>Picture</th>
-                                        <th>Ingredients</th>
-                                        <th>Nutritional Values</th>
-                                        </thead>
-                                        <tbody>
 
-
-                                        <c:forEach var="recipe" items="${consumed_recipes}" varStatus="roop">
-                                            <tr>
-                                                <td width="20%">${recipe.name}</td>
-                                                <td>
-                                                    <img src="${recipe.pictureAddress}" class="img-rounded center-block" width="240">
-                                                </td>
-                                                <td width="60%">
-                                                    <table class="table table-striped">
-                                                        <c:forEach var="ingredient" items="${recipe.ingredientAmountMap}" varStatus="roop">
-                                                            <tr>
-                                                                <td>${ingredient.key.name}</td>
-                                                                <td>${ingredient.value}</td>
-                                                                <td>${ingredient.key.unitName}</td>
-                                                            </tr>
-                                                        </c:forEach>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <table class="table table-striped">
-                                                        <tr>
-                                                            <td>Energy (kcal)</td>
-                                                            <td>${recipe.totalCal}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Carbohydrate (grams)</td>
-                                                            <td>${recipe.totalCarb}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Protein (grams)</td>
-                                                            <td>${recipe.totalProtein}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Fat (grams)</td>
-                                                            <td>${recipe.totalFat}</td>
-                                                        </tr>
-                                                    </table>
-                                            </tr>
-                                            </td>
-                                            </tr>
-
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <%
@@ -127,6 +71,19 @@
                                             totalProt += r.totalProtein;
                                             totalFat += r.totalFat;
                                         }
+                                        String divClass;
+                                        int toDaily= (int) ( totalCal/20.78);
+                                        String toWarn="";
+                                        String toShowDaily= String.valueOf(toDaily);
+                                        if(toDaily>100){
+                                            toWarn="You exceeded the daily calories limit";
+                                            toShowDaily="";
+                                        }
+                                        if(totalCal<1800){
+                                            divClass="progress-bar";
+                                        }else{
+                                            divClass="progress-bar progress-bar-danger";
+                                        }
                                     %>
                                     <table class="table table-striped">
                                         <tr>
@@ -134,6 +91,12 @@
                                             <td><%=totalCal%> kcal</td>
                                             <td>Daily Needed Calories</td>
                                             <td>2078 kcal</td>
+                                            <div class="progress">
+                                                <div class="<%=divClass%>" role="progressbar" aria-valuenow="<%=toDaily%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=toDaily%>%;">
+                                                    <%=toWarn%>
+                                                    <%=toShowDaily%>
+                                                </div>
+                                            </div>
                                         </tr>
                                         <tr>
                                             <td>Total Carbohydrate Taken</td>
@@ -158,6 +121,64 @@
 
                             </div>
                         </c:if>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered" style="margin-top:10px;">
+                                <thead>
+                                <th>Name</th>
+                                <th>Picture</th>
+                                <th>Ingredients</th>
+                                <th>Nutritional Values</th>
+                                </thead>
+                                <tbody>
+
+
+                                <c:forEach var="recipe" items="${consumed_recipes}" varStatus="roop">
+                                    <tr>
+                                        <td width="20%">${recipe.name}</td>
+                                        <td>
+                                            <img src="${recipe.pictureAddress}" class="img-rounded center-block" width="240">
+                                        </td>
+                                        <td width="60%">
+                                            <table class="table table-striped">
+                                                <c:forEach var="ingredient" items="${recipe.ingredientAmountMap}" varStatus="roop">
+                                                    <tr>
+                                                        <td>${ingredient.key.name}</td>
+                                                        <td>${ingredient.value}</td>
+                                                        <td>${ingredient.key.unitName}</td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="table table-striped">
+                                                <tr>
+                                                    <td>Energy (kcal)</td>
+                                                    <td>${recipe.totalCal}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Carbohydrate (grams)</td>
+                                                    <td>${recipe.totalCarb}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Protein (grams)</td>
+                                                    <td>${recipe.totalProtein}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fat (grams)</td>
+                                                    <td>${recipe.totalFat}</td>
+                                                </tr>
+                                            </table>
+                                    </tr>
+                                    </td>
+                                    </tr>
+
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
