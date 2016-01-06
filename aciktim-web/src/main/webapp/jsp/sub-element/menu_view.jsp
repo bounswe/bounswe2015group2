@@ -32,15 +32,16 @@
                                 <table class="table" style="margin-top:10px;">
                                     <c:forEach var="recipe" items="${menu.recipes}" varStatus="roop">
                                         <tr>
-                                            <td>${recipe.name}</td>
-                                            <td>
-                                                <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
-                                                      method="post">
-                                                    <input type="hidden" name="recipe_id" value="${recipe.id}"/>
-                                                    <button type="submit" class="btn btn-default pull-right"
-                                                            style="text-transform: capitalize">View</button>
-                                                </form>
-                                            </td>
+                                            <td><a href="${contextPath}/recipe/single?recipe_id=${recipe.id}">${recipe.name}</a></td>
+                                            <%--<td>${recipe.name}</td>--%>
+                                            <%--<td>--%>
+                                                <%--<form class="form-horizontal row-border" action="${contextPath}/recipe/single"--%>
+                                                      <%--method="post">--%>
+                                                    <%--<input type="hidden" name="recipe_id" value="${recipe.id}"/>--%>
+                                                    <%--<button type="submit" class="btn btn-default pull-right"--%>
+                                                            <%--style="text-transform: capitalize">View</button>--%>
+                                                <%--</form>--%>
+                                            <%--</td>--%>
                                         </tr>
                                     </c:forEach>
                                 </table>
