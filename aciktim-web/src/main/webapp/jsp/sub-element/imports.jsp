@@ -11,4 +11,14 @@
 <link rel="stylesheet" type="text/css" href="${contextPath}/assets/bootstrap-tagsinput.css"/>
 <script type="text/javascript" src="${contextPath}/assets/bootstrap-tagsinput.js"></script>
 
+<link rel="stylesheet" type="text/css" href="${contextPath}/assets/jquery-ui.min.css"/>
+<link rel="stylesheet" type="text/css" href="${contextPath}/assets/jquery-ui.structure.min.css"/>
+<link rel="stylesheet" type="text/css" href="${contextPath}/assets/jquery-ui.theme.min.css"/>
+<script type="text/javascript" src="${contextPath}/assets/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="${contextPath}/assets/bootstrap-tokenfield.min.css"/>
+<script type="text/javascript" src="${contextPath}/assets/bootstrap-tokenfield.min.js"></script>
+
+
+
 

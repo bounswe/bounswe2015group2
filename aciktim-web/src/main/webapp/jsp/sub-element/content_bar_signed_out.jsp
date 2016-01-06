@@ -13,7 +13,7 @@
     <div class="col-md-4 text-right">
       <form action="${contextPath}/recipes" method="post" class="navbar-form">
         <div class="form-group">
-          <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">
+          <input type="text" name="keyword" class="form-control search_group" id="search-field" placeholder="Search">
           <button type="submit" class="btn btn-warning search_group" id="content_bar_search">Search</button>
         </div>
       </form>

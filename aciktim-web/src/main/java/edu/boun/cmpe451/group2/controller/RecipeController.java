@@ -54,7 +54,7 @@ public class RecipeController {
             @RequestParam(required = false, defaultValue = "") String keyword,
             @RequestParam(required = false, defaultValue = "") String[] ingredients,
             @RequestParam(required = false, defaultValue = "") String[] tags,
-            @RequestParam(required = false, defaultValue = "false") String isInst,
+            @RequestParam(required = false, defaultValue = "home") String madeAt,
 
             @RequestParam(required = false, defaultValue = "99999") String carbUpper,
             @RequestParam(required = false, defaultValue = "0") String carbLower,
@@ -89,7 +89,7 @@ public class RecipeController {
                 ArrayList<String> tag_list = listify(tags);
 //                List<String> ingredient_list = listify(ingredients);
 //                List<String> tag_list = listify(tags);
-                boolean inst = Boolean.parseBoolean(isInst);
+                boolean inst = madeAt.equals("restaurant");
 
                 double calU = Double.parseDouble(calUpper);
                 double calL = Double.parseDouble(calLower);
@@ -117,7 +117,9 @@ public class RecipeController {
             }
         }else{ // LOGGED OUT NOW
             try {
+
                 recipeResults = recipeModel.searchRecipes(keyword);
+                System.out.println("Normal sörç " + recipeResults.size());
             }catch (ExException e){
                 e.printStackTrace();
                 System.out.println("Bro :( ");
@@ -535,7 +537,7 @@ public class RecipeController {
             i.fat = Double.parseDouble(fats[counter]);
             i.unitName = units[counter];
             i.amount=(Long.parseLong(amounts[counter]));
-            m.add(i );
+            m.add(i);
             counter++;
         }
         return m;
