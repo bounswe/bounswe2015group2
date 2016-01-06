@@ -408,9 +408,9 @@ public class RecipeDao extends BaseDao {
             ingredient.calories = Double.parseDouble(ingredientEntry.get("cal").toString());
             ingredient.unitName = ingredientEntry.get("unitName").toString();
             ingredient.amount = Long.parseLong(ingredientEntry.get("amount").toString());
-            ingredientList.add(ingredient);
+            recipe.IngredientList.add(ingredient);
         }
-        recipe.IngredientList = ingredientList;
+        //recipe.IngredientList = ingredientList;
 
         String sql3 = "SELECT * FROM recipeTag  WHERE recipeID = ?";
 
