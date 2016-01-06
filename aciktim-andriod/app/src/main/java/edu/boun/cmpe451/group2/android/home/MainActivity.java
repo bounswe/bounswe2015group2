@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.android.home;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -60,24 +61,28 @@ public class MainActivity extends AppCompatActivity
     private ControllerInterface api;
     private String api_key;
     private User user;
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
 
-        //TODO integrate api key search to activity lifecycle
-        try {
-            Intent intent =  getIntent();
+        Context context = getApplication();
+        sharedPref = context.getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        Intent intent =  getIntent();
+        if(intent.hasExtra("api_key")){
             api_key = intent.getStringExtra("api_key");
-        } catch (Exception e) {
-            try{
-                api_key = savedInstanceState.getString("api_key");
-            }catch (Exception e1){
-                e.printStackTrace();
-            }
-
+            editor = sharedPref.edit();
+            editor.putString(getString(R.string.api_key), api_key);
+            editor.commit();
+        } else {
+            api_key = sharedPref.getString(getString(R.string.api_key), "");
         }
+
+
 
         ApiProxy apiProxy = new ApiProxy();
         api = apiProxy.getApi();
@@ -205,12 +210,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(String id) {
 
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString("api_key",api_key);
-        super.onSaveInstanceState(outState);
     }
 
     /**
