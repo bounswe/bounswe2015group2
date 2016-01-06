@@ -592,8 +592,9 @@ public class RecipeDao extends BaseDao {
         } else {
             min = "totalProtein";
         }
-        sql = "SELECT id FROM recipes INNER JOIN dailyConsumption on id=recipeID where day = '2016-01-06 00:00:00' order by " + min + "/(totalFat+totalCarb+totalProtein) DESC LIMIT 5";
-        return this.jdbcTemplate.queryForList(sql);
+        sql = "SELECT id FROM recipes  where id not in(SELECT distinct id FROM recipes INNER JOIN dailyConsumption on id=recipeID where day = ? and userId = ?) order by " +min+ "/(totalFat+totalCarb+totalProtein) DESC LIMIT 5";
+        String day = "2016-01-07 00:00:00";
+        return this.jdbcTemplate.queryForList(sql,day,user.id);
     }
 
     /**
