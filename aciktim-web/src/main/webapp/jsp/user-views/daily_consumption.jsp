@@ -80,7 +80,7 @@
                                             toWarn="You exceeded the daily calories limit";
                                             toShowDaily="";
                                         }
-                                        if(totalCal<2078){
+                                        if(totalCal<2078 ){
                                             divClass="progress-bar";
                                         }else{
                                             divClass="progress-bar progress-bar-danger";
