@@ -3,6 +3,7 @@ package edu.boun.cmpe451.group2.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class includes all attributes of a Recipe
@@ -17,6 +18,7 @@ public class Recipe {
     public Long likes = 0L;
     public List<Comment> commentList = new ArrayList<Comment>();
     public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
+    public ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
     public List<Tag> tagList = new ArrayList<Tag>();
     public String description = "";
     public double totalProtein=0;
@@ -112,6 +114,17 @@ public class Recipe {
 
     public void setIngredientAmountMap(HashMap<Ingredient, Long> ingredientAmountMap) {
         IngredientAmountMap = ingredientAmountMap;
+
+        for(Map.Entry<Ingredient, Long> entry : IngredientAmountMap.entrySet()) {
+            Ingredient key = entry.getKey();
+            Long value = entry.getValue();
+
+            key.amount = value;
+            this.ingredients.add(key);
+
+            // do what you have to do here
+            // In your case, an other loop.
+        }
     }
 
     public List<Tag> getTagList() {

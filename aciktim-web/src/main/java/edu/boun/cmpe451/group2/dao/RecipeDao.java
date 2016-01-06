@@ -227,6 +227,25 @@ public class RecipeDao extends BaseDao {
             if (totalCal != null)
                 recipe.totalCal = Double.parseDouble(totalCal.toString());
 
+
+            HashMap<Ingredient, Long> ingredientAmountMap = new HashMap<Ingredient, Long>();
+            String sql2 = "SELECT i.id as id, i.name as name, ri.amount as amount FROM recipeIngredient ri JOIN Ingredients i ON i.id = ri.ingredientID WHERE recipeID = ?";
+            List<Map<String, Object>> ingredientList = this.jdbcTemplate.queryForList(sql2, recipe.getId());
+
+            for(Map<String, Object> oneIngredient : ingredientList) {
+                Ingredient ingredient = new Ingredient();
+                ingredient.id = Long.parseLong(oneIngredient.get("id").toString());
+                ingredient.name = (String)oneIngredient.get("name").toString();
+
+                Object amount = oneIngredient.get("amount");
+                if (amount != null)
+                    ingredient.amount = Long.parseLong(amount.toString());
+
+                ingredientAmountMap.put(ingredient, ingredient.amount);
+            }
+
+            recipe.setIngredientAmountMap(ingredientAmountMap);
+
             recipeList.add(recipe);
         }
 
