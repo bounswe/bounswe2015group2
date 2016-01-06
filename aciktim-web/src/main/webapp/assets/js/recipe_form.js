@@ -14,7 +14,7 @@ $(document).ready(function() {
     var search_call_p2  = "&sort=r&max=10&offset=0&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX";
 
     var find_call_p1    = "http://api.nal.usda.gov/ndb/reports/?ndbno=";
-    var find_call_p2    = "&type=b&format=json&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX";
+    var find_call_p2    = "&type=f&format=json&api_key=AwzIs7zMikmJmys8pXirum9MUm4SKv3pf384o8tX";
 
     var added_ingredient_values=[];
 
@@ -54,7 +54,7 @@ $(document).ready(function() {
             $.getJSON(find_ingredient_call,function(data){
                 var nutrients = data["report"]['food'];
                 added_ingredient_values.push(nutrients);
-                var ingredient_to_be_added = generateAddedIngredientHTML(ndbno,name);
+                var ingredient_to_be_added = generateAddedIngredientHTML(ndbno,name,nutrients.fg);
                 wrapper_added_ingredients.append(ingredient_to_be_added);
                 setValues(ndbno,0);
             });
@@ -114,7 +114,7 @@ $(document).ready(function() {
 
         return searched_ingrendient;
     }
-    function generateAddedIngredientHTML(ndbno,name) {
+    function generateAddedIngredientHTML(ndbno,name,group) {
 
         var template = template_added_ingredient.clone();
 
@@ -123,6 +123,8 @@ $(document).ready(function() {
         template.find("#ndbno").attr("value" , ndbno);
         template.find("#unit").attr("data-ndb" , ndbno); // ?
         template.find("#name").attr("value" , name);
+        template.find("#group").attr("value" , group);
+
         var units = fetchValues(ndbno);
         $.each(units, function(key, value) {
             template.find('#unit')
