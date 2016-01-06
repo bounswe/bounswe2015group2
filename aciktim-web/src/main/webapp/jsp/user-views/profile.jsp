@@ -36,7 +36,7 @@
 
                 <div class="row">
                     <!-- change the dummy link -->
-                    <img src="http://placehold.it/240x320" class="img-rounded center-block" width="240" height="320">
+                    <img src=${picture_url} class="img-rounded center-block" width="240" height="320">
                 </div>
                 <div class="row">
                     <!-- change the dummy name and surname -->
@@ -65,137 +65,134 @@
 
             <div class="col-md-9">
                 <div class="row">
-                    <h3>Recommendations</h3>
+                    <h4>Recommendations</h4>
                 </div>
                 <div class="row">
-                    <!-- change the dummy list items, this can be scrollable -->
+                    <ul class="nav nav-tabs">
+                        <li class="nav "><a href="#basedPref" data-toggle="tab">Based on Preferences</a></li>
+                        <li class="nav active"><a href="#basedDaily" data-toggle="tab">Based on Daily Nutrition</a></li>
+                    </ul>
+                    <div class="tab-content">
 
-                    <table class="table table-striped" style="margin-top:10px;">
-                        <thead>
-                        <th>Name</th>
-                        <th>View</th>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="recipe" items="${recommendations}" varStatus="roop">
-                            <tr>
-                                <td width="20%">${recipe.name}</td>
-                                <td>
-                                    <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
-                                          method="post">
-                                        <input type="hidden" name="recipe_id" value="${recipe.id}"/>
-                                        <button type="submit" class="btn btn-default"
-                                                style="text-transform: capitalize">View
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                        <div class="tab-pane fade" id="basedPref">
+                            <table class="table table-striped" style="margin-top:10px;">
+                                <thead>
+                                <th>Name</th>
+                                <th>View</th>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="recipe" items="${recommendations_preferences}" varStatus="roop">
+                                    <tr>
+                                        <td width="20%">${recipe.name}</td>
+                                        <td>
+                                            <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
+                                                  method="post">
+                                                <input type="hidden" name="recipe_id" value="${recipe.id}"/>
+                                                <button type="submit" class="btn btn-default"
+                                                        style="text-transform: capitalize">View
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade in active" id="basedDaily">
+                            <table class="table table-striped" style="margin-top:10px;">
+                                <thead>
+                                <th>Name</th>
+                                <th>View</th>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="recipe" items="${recommendations}" varStatus="roop">
+                                    <tr>
+                                        <td width="20%">${recipe.name}</td>
+                                        <td>
+                                            <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
+                                                  method="post">
+                                                <input type="hidden" name="recipe_id" value="${recipe.id}"/>
+                                                <button type="submit" class="btn btn-default"
+                                                        style="text-transform: capitalize">View
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="row">
-                    <h3>Preferences</h3>
+                    <h4>Preferences</h4>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <form role="form">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Enter a preference">
+                    <%--<ul class="nav nav-tabs">--%>
+                    <%--<li role="presentation" class="active"><a href="#">Likes</a></li>--%>
+                    <%--<li role="presentation"><span>Dislikes</span></li>--%>
+                    <%--<li role="presentation"><a href="#">Allergies</a></li>--%>
+                    <%--</ul>--%>
+                    <form action="${contextPath}/user/preferences/save" method="post">
+                        <ul class="nav nav-tabs">
+                            <li class="nav active"><a href="#like" data-toggle="tab">Likes</a></li>
+                            <li class="nav"><a href="#dislike" data-toggle="tab">Dislikes</a></li>
+                            <li class="nav"><a href="#allergy" data-toggle="tab">Allergies</a></li>
+                            <button type="submit" class="btn btn-default">Save Preferences!</button>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+
+                            <div class="tab-pane fade in active" id="like">
+                                <div class="form-group">
+                                    <input type="text" name="likes" value="${likes}" data-role="tagsinput"/>
+                                </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-warning btn-block">Add</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-warning btn-block">See Daily Consumed List</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <form role="form">
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3" placeholder="Some tags"></textarea>
+                            <div class="tab-pane fade" id="dislike">
+                                <div class="form-group">
+                                    <input type="text" name="dislikes" value="${dislikes}" data-role="tagsinput"/>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="allergy">
+                                <div class="form-group">
+                                    <input type="text" name="allergies" value="${allergies}" data-role="tagsinput"/>
+                                </div>
+                            </div>
                         </div>
                     </form>
+
+
+
+
+
+
+
+
+                    <%--<div class="col-md-6">--%>
+                    <%--<form role="form">--%>
+                    <%--<div class="form-group">--%>
+                    <%--<input type="text" class="form-control" placeholder="Enter a preference">--%>
+                    <%--</div>--%>
+                    <%--</form>--%>
+                    <%--</div>--%>
+                    <%--<div class="col-md-3">--%>
+                    <%--<button type="button" class="btn btn-warning btn-block">Add</button>--%>
+                    <%--</div>--%>
+                    <%--<div class="col-md-3">--%>
+                    <%--<button type="button" class="btn btn-warning btn-block">See Daily Consumed List</button>--%>
+                    <%--</div>--%>
                 </div>
+                <%--<div class="row">--%>
+                <%--<form role="form">--%>
+                <%--<div class="form-group">--%>
+                <%--<textarea class="form-control" rows="3" placeholder="Some tags"></textarea>--%>
+                <%--</div>--%>
+                <%--</form>--%>
+                <%--</div>--%>
 
             </div>
-
-
-            <%--<div class="row">--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>Recommended:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>My Recipes:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>Preferred Food:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="col-md-3">--%>
-            <%--<div class = "row">--%>
-            <%--<h4>Favorite Recipes:</h4>--%>
-            <%--</div>--%>
-            <%--<div class = "row">--%>
-            <%--<!-- change the dummy numbers -->--%>
-            <%--<table class = "table">--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>O La La Beatrice</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-            <%--<th>Image Here</th>--%>
-            <%--<td>Tagliatelle Pollo</td>--%>
-            <%--</tr>--%>
-            <%--</table>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <%--</div>--%>
         </div>
 
 
@@ -212,7 +209,6 @@
 
 <script>
     $(document).ready(function () {
-
 
     });
 

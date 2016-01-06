@@ -239,6 +239,17 @@ public class APIController implements ControllerInterface {
         return recipes;
     }
 
+    @RequestMapping("/searchRestaurant")
+    public @ResponseBody ArrayList<User> searchRestaurants(@RequestParam String name){
+        ArrayList<User> restaurants = new ArrayList<User>();
+        try {
+            restaurants = userModel.searchRestaurants(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restaurants;
+    }
+
     /**
      * advanced search
      * filters the results by the given ingredient names
@@ -251,7 +262,8 @@ public class APIController implements ControllerInterface {
     public @ResponseBody ArrayList<Recipe> search(@RequestParam String name,@RequestParam ArrayList<String> ingrNames){
         ArrayList<Recipe> result = new ArrayList<Recipe>();
         try {
-            result = recipeModel.searchRecipes(name,ingrNames);
+            // TODO : Uncomment the following line and fix the incompaitble type issue on ingrNames
+            //result = recipeModel.searchRecipes(name,ingrNames);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -272,6 +284,9 @@ public class APIController implements ControllerInterface {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
             try
             {
+                String[] arr = date.split("/");
+                arr[1] = Integer.toString(Integer.parseInt(arr[1])+1);
+                date = arr[0]+"/"+arr[1]+"/"+arr[2];
                 Date queried_date = formatter.parse(date);
                 queriedCal = Calendar.getInstance();
                 queriedCal.setTime(queried_date);
@@ -320,8 +335,8 @@ public class APIController implements ControllerInterface {
      * @return a hashmap of long and menu (keys are ids, values are menues)
      */
     @RequestMapping(USER_SVC_PATH + "/getMenus")
-    public @ResponseBody HashMap<Long,Menu> getMenusByApiKey(@RequestParam String api_key){
-        HashMap<Long,Menu> menus = new HashMap<Long,Menu>();
+    public @ResponseBody ArrayList<Menu> getMenusByApiKey(@RequestParam String api_key){
+        ArrayList<Menu> menus = new ArrayList<Menu>();
         try{
             menus = menuModel.GetMenusByApiKey(api_key);
         }catch(Exception e){
@@ -329,4 +344,24 @@ public class APIController implements ControllerInterface {
         }
         return menus;
     }
+
+    @RequestMapping(USER_SVC_PATH +"/editProfile")
+    public @ResponseBody ApiResponse editProfile(@RequestParam String apikey,@RequestParam String username,@RequestParam String email,@RequestParam ArrayList<Tag> likes, @RequestParam ArrayList<Tag> dislikes, @RequestParam ArrayList<Tag> allergies ){
+        ApiResponse response = new ApiResponse();
+        try{
+            User user = userModel.getUser(apikey);
+            userModel.editProfile(Long.parseLong(user.id),username,email,likes,dislikes,allergies);
+        }catch(Exception e){
+            e.printStackTrace();
+            response.status = ApiResponse.STATUS.ERROR;
+            if (e instanceof ExException)
+                response.message = ((ExException) e).getErrCode();
+            else
+                response.message= ExError.E_UNKNOWN;
+
+            return response;
+        }
+        return response;
+    }
+
 }

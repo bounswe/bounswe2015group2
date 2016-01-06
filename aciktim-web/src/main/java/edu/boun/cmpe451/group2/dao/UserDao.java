@@ -1,9 +1,11 @@
 package edu.boun.cmpe451.group2.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import edu.boun.cmpe451.group2.client.Tag;
 import edu.boun.cmpe451.group2.client.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -27,6 +29,24 @@ public class UserDao extends BaseDao {
     }
 
     /**
+     * Returns all institutional users (i.e. restaurants).
+     */
+    public List<Map<String, Object>> getRestaurantsAll() {
+        String sql = "SELECT * FROM users WHERE isInst = (1)";
+
+        return this.jdbcTemplate.queryForList(sql);
+    }
+
+    /**
+     * Returns all restaurants with the given name parameter.
+     */
+    public List<Map<String, Object>> searchRestaurants(String name) {
+        String sql = "SELECT * FROM users WHERE isInst = (1) AND full_name LIKE ?";
+
+        return this.jdbcTemplate.queryForList(sql, "%" + name + "%");
+    }
+
+    /**
      * Selects one user from database.
      *
      * @param id - user's id
@@ -42,9 +62,9 @@ public class UserDao extends BaseDao {
      * @param user user to be added
      */
     public void addUser(User user) {
-        String sql = "INSERT INTO users(email, passwd,full_name,username,isInst,api_key) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO users(email, passwd,full_name,username,isInst,api_key,pictureAddress) VALUES(?,?,?,?,?,?,?)";
 
-        this.jdbcTemplate.update(sql, user.email, Security.md5(user.passwd),user.full_name,user.username,user.isInst, Security.randomKey());
+        this.jdbcTemplate.update(sql, user.email, Security.md5(user.passwd),user.full_name,user.username,user.isInst, Security.randomKey(),user.pictureAddress);
 
     }
 
@@ -62,6 +82,11 @@ public class UserDao extends BaseDao {
         this.jdbcTemplate.update(sql, email, Security.md5(passwd), full_name, username, id);
     }
 
+    public void updateUser(Long id, String username,String email){
+        String sql = "UPDATE users SET email=?,username=? WHERE id=?";
+
+        this.jdbcTemplate.update(sql,email,username,id);
+    }
     /**
      * Deletes a user from database
      *
@@ -136,5 +161,82 @@ public class UserDao extends BaseDao {
         day += calendar.get(Calendar.DAY_OF_MONTH);
         day += " 00:00:00";
         return this.jdbcTemplate.queryForList(sql,userID,day);
+    }
+
+    /**
+     * this method brings the likes of a user from the db
+     * @param userID id of the user whom likes to be brought
+     * @return returns arraylist of tags
+     */
+    public ArrayList<Tag> getLikes(String userID) {
+        String sql = "SELECT * FROM userLikes WHERE userID = ?";
+        List<Map<String,Object>> likes = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
+        ArrayList<Tag> result = new ArrayList<Tag>();
+        //changing the return type into required type
+        for(Map<String,Object> rows : likes){
+            Tag t = new Tag();
+            t.name = rows.get("name").toString();
+            t.parentTag = rows.get("parentTag").toString();
+            result.add(t);
+        }
+        return result;
+    }
+
+    public boolean setLikes(Long userID,ArrayList<Tag> likes){
+        String sqlRemove = "DELETE FROM userLikes WHERE userID = ?";
+        this.jdbcTemplate.update(sqlRemove,userID);
+        String sql = "INSERT INTO userLikes(userID,name,parentTag) VALUES(?,?,?)";
+        for(Tag t : likes){
+            this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
+        }
+        return true;
+    }
+
+    public boolean setDislikes(Long userID,ArrayList<Tag> dislikes){
+        String sqlRemove = "DELETE FROM userDislikes WHERE userID = ?";
+        this.jdbcTemplate.update(sqlRemove,userID);
+        String sql = "INSERT INTO userDislikes(userID,name,parentTag) VALUES(?,?,?)";
+        for(Tag t : dislikes){
+            this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
+        }
+        return true;
+    }
+
+    public boolean setAllergies(Long userID,ArrayList<Tag> allergies){
+        String sqlRemove = "DELETE FROM userAllergies WHERE userID = ?";
+        this.jdbcTemplate.update(sqlRemove,userID);
+        String sql = "INSERT INTO userAllergies(userID,name,parentTag) VALUES(?,?,?)";
+        for(Tag t : allergies){
+            this.jdbcTemplate.update(sql,userID,t.name,t.parentTag);
+        }
+        return true;
+    }
+
+    public ArrayList<Tag> getDislikes(String userID) {
+        String sql = "SELECT * FROM userDislikes WHERE userID = ?";
+        List<Map<String,Object>> dislikes = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
+        ArrayList<Tag> result = new ArrayList<Tag>();
+        //changing the return type into required type
+        for(Map<String,Object> rows : dislikes){
+            Tag t = new Tag();
+            t.name = rows.get("name").toString();
+            t.parentTag = rows.get("parentTag").toString();
+            result.add(t);
+        }
+        return result;
+    }
+
+    public ArrayList<Tag> getAllergies(String userID) {
+        String sql = "SELECT * FROM userAllergies WHERE userID = ?";
+        List<Map<String,Object>> allergies = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
+        ArrayList<Tag> result = new ArrayList<Tag>();
+        //changing the return type into required type
+        for(Map<String,Object> rows : allergies){
+            Tag t = new Tag();
+            t.name = rows.get("name").toString();
+            t.parentTag = rows.get("parentTag").toString();
+            result.add(t);
+        }
+        return result;
     }
 }

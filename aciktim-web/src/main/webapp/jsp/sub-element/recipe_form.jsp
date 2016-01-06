@@ -143,12 +143,15 @@
             <input type="hidden" id="carb" name="ingredient_carb">
             <input type="hidden" id="prot" name="ingredient_prot">
             <input type="hidden" id="fat" name="ingredient_fat">
+            <input type="hidden" id="group" name="ingredient_group">
 
             <input type="number" class="form-control" id="amount" name="ingredient_amount" placeholder="Quantity" required>
         </div>
     </div>
     <div class="col-sm-3">
-        <input type="text" class="form-control" id="unit" name="ingredient_unit" readonly>
+        <select class="form-control" id="unit" name="ingredient_unit"></select>
+
+        <%--<input type="text" class="form-control" id="unit" name="ingredient_unit" readonly>--%>
     </div>
 
 

@@ -9,6 +9,7 @@ public class Ingredient {
 
     public Long id = null;
     public String name = "";
+    public Long amount = Long.valueOf(0);
     public double protein = 0;
     public double fat = 0;
     public double carbohydrate = 0;

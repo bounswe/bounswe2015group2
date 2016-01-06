@@ -38,6 +38,11 @@
                 </div>
 
                 <div class="input-group">
+                    <span class="input-group-addon">Picture URL: </span>
+                    <input type="text" name="url" class="form-control" placeholder="Picture URL" aria-describedby="basic-addon1">
+                </div>
+
+                <div class="input-group">
                     <span class="input-group-addon">E-mail : </span>
                     <input type="email" name="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1">
                 </div>

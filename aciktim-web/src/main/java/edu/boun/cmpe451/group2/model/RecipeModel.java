@@ -2,8 +2,10 @@ package edu.boun.cmpe451.group2.model;
 
 import edu.boun.cmpe451.group2.client.Ingredient;
 import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.Tag;
 import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.dao.RecipeDao;
+import edu.boun.cmpe451.group2.dao.UserDao;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.utils.StringUtil;
@@ -29,73 +31,192 @@ public class RecipeModel {
     @Autowired
     private RecipeDao recipeDao = null;
 
+    @Qualifier("userDao")
+    @Autowired
+    private UserDao userDao = null;
     /**
      * default search function
+     *
      * @param name name of the recipe
      * @return returns a list of recipes
-     * @throws ExException when the name is empty or null
+     * @throws ExException when the name is null(can be empty)
      */
-    public ArrayList<Recipe> searchRecipes(String name) throws ExException{
-        if(name==null || StringUtil.isEmpty(name)){
+    public ArrayList<Recipe> searchRecipes(String name) throws ExException {
+        if (name == null ) {
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
         }
         return recipeDao.searchRecipes(name);
     }
 
-    public List<Recipe> searchRecipesRandom(int amount) throws ExException{
+    /**
+     * this method uses default search function with the preference filter of the given user
+     * @param name name of the recipe
+     * @param userID id of the user that preferences will be taken of
+     * @return a list of recipes that matches the name after reordering preferences
+     * @throws ExException when the name is null (can be empty)
+     */
+    public ArrayList<Recipe> searchRecipes(String name,long userID) throws ExException{
+        ArrayList<Recipe> list = searchRecipes(name);
+        return reOrderByPreferences(list, userID);
+    }
+
+    /**
+     * reorders the given recipes by distracting allergens
+     * putting liked list to the top
+     * putting disliked list to the bottom
+     * @param list list to be reordered
+     * @param userID id of the user that the preferences will come from
+     * @return reordered list of recipes
+     */
+    private ArrayList<Recipe> reOrderByPreferences(ArrayList<Recipe> list,long userID){
+        ArrayList<Tag> likes = userDao.getLikes(Long.toString(userID));
+        ArrayList<Tag> dislikes = userDao.getDislikes(Long.toString(userID));
+        ArrayList<Tag> allergies = userDao.getAllergies(Long.toString(userID));
+        ArrayList<Recipe> reOrdered = new ArrayList<Recipe>();
+        //removing allergies
+        for(Recipe r : list){
+            boolean contains = false;
+            for(Tag t: r.tagList){
+                for(Tag t2:allergies){
+                    if(t.name.equals(t2.name)){
+                        contains = true;
+                        break;
+                    }
+                }
+                if(contains) break;
+            }
+            if(!contains){
+                reOrdered.add(r);
+            }
+        }
+        //ordering results
+        ArrayList<Recipe> likedRecipes = new ArrayList<Recipe>();
+        ArrayList<Recipe> dislikedRecipes = new ArrayList<Recipe>();
+        ArrayList<Recipe> notrRecipes = new ArrayList<Recipe>();
+        for(Recipe r : reOrdered){
+            // check disliked
+            boolean isDisliked= false;
+            for(Tag t: r.tagList){
+                for(Tag t2:dislikes){
+                    if(t.name.equals(t2.name)){
+                        isDisliked = true;
+                        break;
+                    }
+                }
+                if(isDisliked) break;
+            }
+            if(isDisliked) //no need for further check
+            {
+                dislikedRecipes.add(r);
+                continue;
+            }
+            //check liked
+            boolean isLiked = false;
+            for(Tag t: r.tagList){
+                for(Tag t2:likes){
+                    if(t.name.equals(t2.name)){
+                        isLiked = true;
+                        break;
+                    }
+                }
+                if(isLiked) break;
+            }
+            if(isLiked) //no need for further check
+            {
+                likedRecipes.add(r);
+                continue;
+            }
+            //else it goes to notr list
+            notrRecipes.add(r);
+        }
+        //write back to reOrdered list
+        reOrdered.clear();
+        for(Recipe r: likedRecipes){
+            reOrdered.add(r);
+        }
+        for(Recipe r:notrRecipes){
+            reOrdered.add(r);
+        }
+        for(Recipe r:dislikedRecipes){
+            reOrdered.add(r);
+        }
+        return reOrdered;
+    }
+
+    public List<Recipe> searchRecipesRandom(int amount) throws ExException {
         return recipeDao.searchRecipesRandom(amount);
     }
 
     /**
      * advanced search function by ingredient list filter
-     * @param name name of the recipe
+     *
+     * @param name        name of the recipe
      * @param ingredients names of the ingredients
      * @return a list of recipes that contains all the ingredients
      * @throws ExException when the list is null or empty
      */
-    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients) throws ExException{
-        if(ingredients==null || ingredients.size() == 0){
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients,Long userID) throws ExException {
+        if (ingredients == null || ingredients.size() == 0) {
             throw new ExException(ExError.E_INGREDIENT_LIST_EMPTY_OR_NULL);
         }
 
-        return recipeDao.searchRecipes(name, ingredients,null);
+        ArrayList<Recipe> list = recipeDao.searchRecipes(name, ingredients, null);
+        return reOrderByPreferences(list,userID);
     }
 
-    public ArrayList<Recipe> searchRecipes(String name,List<String> ingredients,List<String> tags) throws ExException{
-        return recipeDao.searchRecipes(name,ingredients,tags);
+
+    /**
+     * advanced search function by ingredient list filter
+     *
+     * @param name        name of the recipe
+     * @param ingredients names of the ingredients
+     * @return a list of recipes that contains all the ingredients
+     * @throws ExException when the list is null or empty
+     */
+    public ArrayList<Recipe> advancedSearchRecipes(String name, List<String> ingredients, Boolean isInst, Double totalFatUpper, Double totalCarbUpper, Double totalProteinUpper, Double totalCalUpper, Double totalFatLower, Double totalCarbLower, Double totalProteinLower, Double totalCalLower, List<String> tags,Long userID) throws ExException {
+        ArrayList<Recipe> list = recipeDao.advancedSearch(name, ingredients, isInst, totalFatUpper, totalCarbUpper, totalProteinUpper, totalCalUpper, totalFatLower, totalCarbLower, totalProteinLower, totalCalLower, tags);
+        return reOrderByPreferences(list,userID);
     }
+
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, List<String> tags,Long userID) throws ExException {
+        ArrayList<Recipe> list =  recipeDao.searchRecipes(name, ingredients, tags);
+        return reOrderByPreferences(list,userID);
+    }
+
     /**
      * controls the recipe and sends it to the dao to be added to the db
+     *
      * @param recipe recipe to be added
      * @throws Exception when name is empty, ownerid is null,ingredient map is empty
      */
-    public void addRecipe(Recipe recipe)throws Exception{
-        if(StringUtil.isEmpty(recipe.getName()))
+    public void addRecipe(Recipe recipe) throws Exception {
+        if (StringUtil.isEmpty(recipe.getName()))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
-        if(recipe.getOwnerID() == null)
+        if (recipe.getOwnerID() == null)
             throw new ExException(ExError.E_NULL_OWNERID);
-        if(StringUtil.isEmpty(recipe.getPictureAddress()))
-            recipe.pictureAddress="";
-        if(recipe.getIngredientAmountMap().size() == 0)
+        if (StringUtil.isEmpty(recipe.getPictureAddress()))
+            recipe.pictureAddress = "";
+        if (recipe.getIngredientAmountMap().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
-        int counter=0;
-        for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
-            if(((Ingredient)entry.getKey()).id == null){
+        int counter = 0;
+        for (Map.Entry<Ingredient, Long> entry : recipe.getIngredientAmountMap().entrySet()) {
+            if (((Ingredient) entry.getKey()).id == null) {
                 throw new ExException(ExError.E_INGREDIENT_ID_NULL);
             }
-            recipe.totalCal += entry.getKey().calories*entry.getValue();
-            recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
-            recipe.totalFat += entry.getKey().fat*entry.getValue();
-            recipe.totalProtein += entry.getKey().protein*entry.getValue();
+            recipe.totalCal += entry.getKey().calories * entry.getValue();
+            recipe.totalCarb += entry.getKey().carbohydrate * entry.getValue();
+            recipe.totalFat += entry.getKey().fat * entry.getValue();
+            recipe.totalProtein += entry.getKey().protein * entry.getValue();
             counter++;
         }
         recipeDao.addRecipe(recipe);
     }
 
-    
+
     /**
      * returns a list of recipes belong to a user
+     *
      * @param users_id
      * @return arraylist of recipemodels
      */
@@ -117,19 +238,19 @@ public class RecipeModel {
             throw new ExException(ExError.E_NULL_OWNERID);
         if (StringUtil.isEmpty(recipe.pictureAddress))
             recipe.pictureAddress = "";
-        if(recipe.getIngredientAmountMap().size() == 0)
+        if (recipe.getIngredientAmountMap().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
         recipe.totalProtein = 0;
-        recipe.totalFat=0;
-        recipe.totalCarb=0;
-        recipe.totalCal=0;
+        recipe.totalFat = 0;
+        recipe.totalCarb = 0;
+        recipe.totalCal = 0;
 
-        for(Map.Entry<Ingredient,Long> entry: recipe.getIngredientAmountMap().entrySet()){
-            recipe.totalCal += entry.getKey().calories*entry.getValue();
-            recipe.totalCarb += entry.getKey().carbohydrate*entry.getValue();
-            recipe.totalFat += entry.getKey().fat*entry.getValue();
-            recipe.totalProtein += entry.getKey().protein*entry.getValue();
+        for (Map.Entry<Ingredient, Long> entry : recipe.getIngredientAmountMap().entrySet()) {
+            recipe.totalCal += entry.getKey().calories * entry.getValue();
+            recipe.totalCarb += entry.getKey().carbohydrate * entry.getValue();
+            recipe.totalFat += entry.getKey().fat * entry.getValue();
+            recipe.totalProtein += entry.getKey().protein * entry.getValue();
         }
 
         recipeDao.updateRecipe(recipe);
@@ -137,18 +258,31 @@ public class RecipeModel {
 
     /**
      * returns 5 recipes according to daily consumption of the user
+     *
      * @param user user to be recommended
      * @return arraylist of recipes that contains maximum 5 recipes
      * @throws Exception
      */
-    public ArrayList<Recipe> getRecommendations(User user) throws Exception{
+    public ArrayList<Recipe> getRecommendations(User user) throws Exception {
         List<Map<String, Object>> list = recipeDao.getRecommendations(user);
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-        for(Map<String,Object> row : list){
+        for (Map<String, Object> row : list) {
             Recipe r = getRecipe(Long.parseLong(row.get("id").toString()));
             recipes.add(r);
         }
-        return recipes;
+        return reOrderByPreferences(recipes,Long.parseLong(user.id));
+    }
+
+    /**
+     * this method returns maximum 5 random recipes that this user likes, doesn't dislike,
+     * and don't have allergies to
+     *
+     * @param user user to be recommended
+     * @return arraylist of maximum 5 random recipes
+     * @throws Exception when an integer cannot be converted to long
+     */
+    public ArrayList<Recipe> getRecommendationsPreferences(User user) throws ExException {
+        return recipeDao.getRecommendationsPreferences(user.id);
     }
 
     public RecipeDao getRecipeDao() {
@@ -156,16 +290,17 @@ public class RecipeModel {
     }
 
     /**
-     *  use this method when you want to view a recipe
+     * use this method when you want to view a recipe
+     *
      * @param recipe_id
      * @return recipe object that has the id
      * @throws Exception when there is no recipe of that id
      */
-    public Recipe getRecipe(Long recipe_id) throws Exception{
+    public Recipe getRecipe(Long recipe_id) throws Exception {
         return recipeDao.getRecipe(recipe_id);
     }
 
-    public List<Recipe> getRecipesAll() throws Exception{
+    public List<Recipe> getRecipesAll() throws Exception {
         return recipeDao.getRecipesAll();
     }
 

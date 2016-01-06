@@ -16,29 +16,10 @@
     <%@include  file="../sub-element/header_signed_in.jsp" %>
   </c:if>
 
-  <c:if test="${full_name == ''}">
-    <%@include file="../sub-element/content_bar_signed_out.jsp"%>
-  </c:if>
-  <c:if test="${full_name != ''}">
-    <%@include file="../sub-element/content_bar_signed_in.jsp"%>
-  </c:if>
+    <%@include file="../sub-element/content_bar_restaurant.jsp"%>
 
 
-
-
-
-    <div class="container text-center">
-      <div class="row">
-        <div class="col-sm-12">
-          <h4>Hello there will be restaurants here</h4>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
+  <%@include  file="../user-views/restaurant_grid.jsp" %>
 
   <%@include  file="../sub-element/footer.jsp" %>
 

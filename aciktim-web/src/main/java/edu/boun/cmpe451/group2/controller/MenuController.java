@@ -119,11 +119,6 @@ public class MenuController {
             ModelMap model,
             @CookieValue(value="session_id", defaultValue = "") String session_id){
 
-
-
-
-
-
         User user = null;
         if (!session_id.equals("")){
             user = userModel.getUser(session_id);

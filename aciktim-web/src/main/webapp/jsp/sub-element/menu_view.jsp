@@ -17,39 +17,36 @@
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-bordered" style="margin-top:10px;">
+
                 <thead>
-                <th>Name</th>
-                <th>Recipes</th>
+                    <th>Name</th>
+                    <th>Recipes</th>
                 </thead>
                 <tbody>
-
-                <%--my recipes by default--%>
-                <c:forEach var="menu" items="${menus}" varStatus="roop">
-                    <tr>
-                        <td>
+                    <c:forEach var="menu" items="${menus}" varStatus="roop">
+                        <tr>
+                            <td>
                                 ${menu.name}
-                        </td>
-                        <td>
-
-                            <table class="table" style="margin-top:10px;">
-                                <c:forEach var="recipe" items="${menu.recipes}" varStatus="roop">
-
-                                    <tr>
-                                        <td>${recipe.name}</td>
-                                        <td>
-                                            <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
-                                                  method="post">
-                                                <input type="hidden" name="recipe_id" value="${recipe.id}"/>
-                                                <button type="submit" class="btn btn-default pull-right"
-                                                        style="text-transform: capitalize">View</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </td>
-                    </tr>
-                </c:forEach>
+                            </td>
+                            <td>
+                                <table class="table" style="margin-top:10px;">
+                                    <c:forEach var="recipe" items="${menu.recipes}" varStatus="roop">
+                                        <tr>
+                                            <td>${recipe.name}</td>
+                                            <td>
+                                                <form class="form-horizontal row-border" action="${contextPath}/recipe/single"
+                                                      method="post">
+                                                    <input type="hidden" name="recipe_id" value="${recipe.id}"/>
+                                                    <button type="submit" class="btn btn-default pull-right"
+                                                            style="text-transform: capitalize">View</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>

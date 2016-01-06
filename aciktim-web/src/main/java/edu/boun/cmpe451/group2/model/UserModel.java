@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.boun.cmpe451.group2.client.Recipe;
+import edu.boun.cmpe451.group2.client.Tag;
 import edu.boun.cmpe451.group2.client.User;
 import edu.boun.cmpe451.group2.dao.RecipeDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,31 +72,24 @@ public class UserModel {
      */
     public String signup (User user) throws Exception {
         user.username = user.email;
-        System.out.println(user.username);
         if (StringUtil.isEmpty(user.email))
             throw new ExException(ExError.E_EMAIL_EMPTY);
-        System.out.println(user.username);
 
         if (StringUtil.isEmpty(user.passwd))
             throw new ExException(ExError.E_PWD_EMPTY);
-        System.out.println(user.username);
 
         if (StringUtil.isEmpty(user.full_name))
             user.full_name = "";
 
-        System.out.println(user.username);
-
         // checks if email is already registered
         Map<String, Object> userM = userDao.getUserByEmail(user.email);
 
-        System.out.println(user.username);
         if (userM != null)
             throw new ExException(ExError.E_ALREADY_REGISTERED);
 
-        System.out.println(user.username);
+
         userDao.addUser(user);
 
-        System.out.println(user.username);
         return (String) userDao.getUserByEmail(user.email).get("api_key");
     }
 
@@ -139,6 +133,7 @@ public class UserModel {
         user.full_name = userMap.get("full_name").toString();
         user.username = userMap.get("username").toString();
         user.api_key = userMap.get("api_key").toString();
+        user.pictureAddress = userMap.get("pictureAddress").toString();
         user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
         return user;
     }
@@ -152,9 +147,45 @@ public class UserModel {
         user.full_name = userMap.get("full_name").toString();
         user.username = userMap.get("username").toString();
         user.api_key = userMap.get("api_key").toString();
+        user.pictureAddress = userMap.get("pictureAddress").toString();
         user.isInst = Boolean.parseBoolean(userMap.get("isInst").toString());
         return user;
     }
+
+    public ArrayList<User> getRestaurants() {
+
+        ArrayList<User> restaurantList = new ArrayList<User>();
+        List<Map<String, Object>> resultList = userDao.getRestaurantsAll();
+
+        for (Map<String, Object> resultMap : resultList) {
+
+            User user = new User();
+            user.id = resultMap.get("id").toString();
+            user.full_name = resultMap.get("full_name").toString();
+
+            restaurantList.add(user);
+        }
+
+        return restaurantList;
+    }
+
+    public ArrayList<User> searchRestaurants(String name) {
+
+        ArrayList<User> restaurantList = new ArrayList<User>();
+        List<Map<String, Object>> resultList = userDao.searchRestaurants(name);
+
+        for (Map<String, Object> resultMap : resultList) {
+
+            User user = new User();
+            user.id = resultMap.get("id").toString();
+            user.full_name = resultMap.get("full_name").toString();
+
+            restaurantList.add(user);
+        }
+
+        return restaurantList;
+    }
+
 
     /**
      * this method adds the consume info of the user
@@ -188,5 +219,95 @@ public class UserModel {
     }
     public UserDao getUserDao() {
         return userDao;
+    }
+
+    /**
+     * this method returns the likes of a user as an arraylist of tags
+     * be careful that id field of the user MUST be nonempty
+     * @param user user whom likes to be found
+     * @return returns arraylist of tags
+     * @throws ExException when the id of the user object is empty or null
+     */
+    public ArrayList<Tag> getLikes(User user) throws ExException {
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.getLikes(user.id);
+    }
+
+    /**
+     * this method sets the like preferences of a user
+     * @param user user whom likes to be set
+     * @param likes arraylist that holds the likes, parentTag CAN be empty
+     * @return true if the operation is successful
+     * @throws ExException when the id of the user is empty
+     */
+    public boolean setLikes(User user, ArrayList<Tag> likes) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.setLikes(Long.parseLong(user.id),likes);
+    }
+
+    /**
+     * this method sets the dislike preferences of a user
+     * @param user user whom dislikes to be set
+     * @param dislikes arraylist that holds the dislikes, parentTag CAN be empty
+     * @return true if the operation is successful
+     * @throws ExException when the id of the user is empty
+     */
+    public boolean setDislikes(User user, ArrayList<Tag> dislikes) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.setDislikes(Long.parseLong(user.id), dislikes);
+    }
+
+    /**
+     * this method sets the allergies of a user
+     * @param user user whom allergies to be set
+     * @param allergies arraylist that holds the allergies, parentTag CAN be empty
+     * @return true if the operation is successful
+     * @throws ExException when the id of the user is empty
+     */
+    public boolean setAllergies(User user, ArrayList<Tag> allergies) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.setAllergies(Long.parseLong(user.id),allergies);
+    }
+    /**
+     * this method returns the dislikes of a user as an arraylist of tags
+     * be careful that id field of the user MUST be nonempty
+     * @param user user whom dislikes to be found
+     * @return returns arraylist of tags
+     * @throws ExException when the id of the user object is empty or null
+     */
+    public ArrayList<Tag> getDislikes(User user) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.getDislikes(user.id);
+    }
+
+    /**
+     * this method returns the allergies of a user as an arraylist of tags
+     * be careful that id field of the user MUST be nonempty
+     * @param user user whom allergies to be found
+     * @return returns arraylist of tags
+     * @throws ExException when the id of the user object is empty or null
+     */
+    public ArrayList<Tag> getAllergies(User user) throws ExException{
+        if(user.id == null || user.id.equals("")){
+            throw new ExException(ExError.E_USER_ID_EMPTY_OR_NULL);
+        }
+        return userDao.getAllergies(user.id);
+    }
+
+    public void editProfile(Long userID, String username, String email, ArrayList<Tag> likes, ArrayList<Tag> dislikes, ArrayList<Tag> allergies) {
+        userDao.setLikes(userID,likes);
+        userDao.setDislikes(userID,dislikes);
+        userDao.setAllergies(userID,allergies);
+        userDao.updateUser(userID,username,email);
     }
 }
