@@ -1,5 +1,7 @@
 package edu.boun.cmpe451.group2.android.api;
 
+import java.util.ArrayList;
+
 /**
  * This class includes all attributes of a User
  *
@@ -13,6 +15,19 @@ public class User {
     public String username;
     public String api_key;
     public boolean isInst = false;
+    public ArrayList<Tag> likes;
+    public ArrayList<Tag> dislikes;
+    public ArrayList<Tag> allergies;
+
+    public String getPictureAddress() {
+        return pictureAddress;
+    }
+
+    public void setPictureAddress(String pictureAddress) {
+        this.pictureAddress = pictureAddress;
+    }
+
+    public String pictureAddress="";
 
     public String getId() {
         return id;

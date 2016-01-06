@@ -1,8 +1,6 @@
 package edu.boun.cmpe451.group2.android.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class includes all attributes of a Recipe
@@ -16,10 +14,14 @@ public class Recipe {
     public Long ownerID = null;
     public Long likes = 0L;
     public List<Comment> commentList = new ArrayList<Comment>();
-    public HashMap<Ingredient, Long> IngredientAmountMap = new HashMap<Ingredient,Long>();
+    public List<Ingredient> IngredientList = new LinkedList<>();
     public List<Tag> tagList = new ArrayList<Tag>();
     public String description = "";
     public double totalProtein=0;
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
 
     public double getTotalProtein() {
         return totalProtein;
@@ -65,7 +67,7 @@ public class Recipe {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -106,17 +108,15 @@ public class Recipe {
         this.commentList = commentList;
     }
 
-    public HashMap<Ingredient, Long> getIngredientAmountMap() {
-        return IngredientAmountMap;
+    public List<Ingredient> getIngredientList() {
+        return IngredientList;
     }
 
-    public void setIngredientAmountMap(HashMap<Ingredient, Long> ingredientAmountMap) {
-        IngredientAmountMap = ingredientAmountMap;
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        IngredientList = ingredientList;
     }
 
-    public List<Tag> getTagList() {
-        return tagList;
-    }
+
 
     public void setTagList(List<Tag> tagList) {
         this.tagList = tagList;
