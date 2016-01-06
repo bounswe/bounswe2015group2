@@ -80,7 +80,7 @@
                                             toWarn="You exceeded the daily calories limit";
                                             toShowDaily="";
                                         }
-                                        if(totalCal<1800){
+                                        if(totalCal<2078){
                                             divClass="progress-bar";
                                         }else{
                                             divClass="progress-bar progress-bar-danger";
@@ -95,7 +95,7 @@
                                             toWarnCarb="You take too much carbonhydrate";
                                             toShowDailyCarb="";
                                         }
-                                        if(totalCarb<240){
+                                        if(totalCarb<310){
                                             divClassCar="progress-bar";
                                         }else{
                                             divClassCar="progress-bar progress-bar-danger";
@@ -103,14 +103,14 @@
 
                                         //to Protein
                                         String divClassProt;
-                                        int toDailyProt=(int)(totalProt/3.1);
+                                        int toDailyProt=(int)(totalProt/0.5);
                                         String toWarnProt="";
                                         String toShowDailyProt=String.valueOf(toDailyProt);
                                         if(toDailyProt>100){
-                                            toWarnProt="You take too much carbonhydrate";
+                                            toWarnProt="You take too much Protein";
                                             toShowDailyProt="";
                                         }
-                                        if(totalProt<240){
+                                        if(totalProt<50){
                                             divClassProt="progress-bar";
                                         }else{
                                             divClassProt="progress-bar progress-bar-danger";
@@ -118,14 +118,14 @@
 
                                         //to Fat
                                         String divClassFat;
-                                        int toDailyFat=(int)(totalFat/3.1);
+                                        int toDailyFat=(int)(totalFat/0.7);
                                         String toWarnFat="";
                                         String toShowDailyFat=String.valueOf(toDailyFat);
                                         if(toDailyFat>100){
-                                            toWarnFat="You take too much carbonhydrate";
+                                            toWarnFat="You take too much fat";
                                             toShowDailyFat="";
                                         }
-                                        if(totalFat<240){
+                                        if(totalFat<70){
                                             divClassFat="progress-bar";
                                         }else{
                                             divClassFat="progress-bar progress-bar-danger";
@@ -162,7 +162,7 @@
                                         </tr>
                                         <tr>
                                             <td>Total Protein Taken
-                                                <div class="progress">
+                                                <div class="progress" >
                                                     <div class="<%=divClassProt%>" role="progressbar" aria-valuenow="<%=toDailyProt%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=toDailyProt%>%;">
                                                         <%=toWarnProt%>
                                                         <%=toShowDailyProt%>
