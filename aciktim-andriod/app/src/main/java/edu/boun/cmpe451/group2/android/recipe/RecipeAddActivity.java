@@ -147,7 +147,7 @@ public class RecipeAddActivity extends AppCompatActivity {
         ingredientName = (EditText) findViewById(R.id.ingredient_add_name);
         ingredientListText = (TextView) findViewById(R.id.ingredient_add_list);
         ingredientListView = (ListView) findViewById(R.id.ingredient_add_listView);
-        ingredientSearch = (Button) findViewById(R.id.ingredient_add_search_button); 
+        ingredientSearch = (Button) findViewById(R.id.ingredient_add_search_button);
 
 
         ingredientSearch.setOnClickListener(new View.OnClickListener() {

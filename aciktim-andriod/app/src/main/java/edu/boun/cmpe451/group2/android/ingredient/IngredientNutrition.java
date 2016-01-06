@@ -14,7 +14,7 @@ public class IngredientNutrition {
     String fat = "";
 
     public IngredientNutrition( String name, String ndbno, int quantity, String energy, String carb, String prot, String fat){
-        this.name = name;
+        this.name = name; 
         this.ndbno = ndbno;
         this.quantity = quantity;
         this.energy = energy;
