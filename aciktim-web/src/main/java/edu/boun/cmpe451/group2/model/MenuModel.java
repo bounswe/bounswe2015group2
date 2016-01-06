@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -42,7 +43,7 @@ public class MenuModel {
      * @return HashMap of menus (keys are menuIDs values are menus)
      * @throws ExException
      */
-    public HashMap<Long,Menu> GetMenusByApiKey(String api_key) throws ExException {
+    public ArrayList<Menu> GetMenusByApiKey(String api_key) throws ExException {
         UserDao userDao = null;
         Map<String, Object> user = userDao.getUserByApiKey(api_key);
         if(user == null){
@@ -51,7 +52,6 @@ public class MenuModel {
         List<Map<String,Object>> menusDB = menuDao.getMenus(Long.parseLong(user.get("id").toString()));
         HashMap<Long,Menu> menus = new HashMap();
         Long menuID;
-        Long ownerID = Long.parseLong(user.get("id").toString());
         for (Map<String,Object> menuRecipe : menusDB){
             menuID = Long.parseLong(menuRecipe.get("id").toString());
             Recipe recipe = new Recipe();
@@ -66,7 +66,11 @@ public class MenuModel {
                 menus.put(menuID,menu);
             }
         }
-        return menus;
+        ArrayList<Menu> menusRet = new ArrayList<>();
+        for(Map.Entry<Long, Menu> entry: menus.entrySet()) {
+            menusRet.add(entry.getValue());
+        }
+        return menusRet;
     }
     /**
      * Gets the menus of a user (which are not soft deleted)

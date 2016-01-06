@@ -350,8 +350,8 @@ public class APIController implements ControllerInterface {
      * @return a hashmap of long and menu (keys are ids, values are menues)
      */
     @RequestMapping(USER_SVC_PATH + "/getMenus")
-    public @ResponseBody HashMap<Long,Menu> getMenusByApiKey(@RequestParam String api_key){
-        HashMap<Long,Menu> menus = new HashMap<Long,Menu>();
+    public @ResponseBody ArrayList<Menu> getMenusByApiKey(@RequestParam String api_key){
+        ArrayList<Menu> menus = new ArrayList<Menu>();
         try{
             menus = menuModel.GetMenusByApiKey(api_key);
         }catch(Exception e){
@@ -378,4 +378,5 @@ public class APIController implements ControllerInterface {
         }
         return response;
     }
+
 }
