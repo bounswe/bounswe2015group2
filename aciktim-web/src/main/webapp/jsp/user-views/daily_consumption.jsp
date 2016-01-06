@@ -71,6 +71,7 @@
                                             totalProt += r.totalProtein;
                                             totalFat += r.totalFat;
                                         }
+                                        // to Calories
                                         String divClass;
                                         int toDaily= (int) ( totalCal/20.78);
                                         String toWarn="";
@@ -84,34 +85,103 @@
                                         }else{
                                             divClass="progress-bar progress-bar-danger";
                                         }
+
+                                        //to Carbonhydrate
+                                        String divClassCar;
+                                        int toDailyCar=(int)(totalCarb/3.1);
+                                        String toWarnCarb="";
+                                        String toShowDailyCarb=String.valueOf(toDailyCar);
+                                        if(toDailyCar>100){
+                                            toWarnCarb="You take too much carbonhydrate";
+                                            toShowDailyCarb="";
+                                        }
+                                        if(totalCarb<240){
+                                            divClassCar="progress-bar";
+                                        }else{
+                                            divClassCar="progress-bar progress-bar-danger";
+                                        }
+
+                                        //to Protein
+                                        String divClassProt;
+                                        int toDailyProt=(int)(totalProt/3.1);
+                                        String toWarnProt="";
+                                        String toShowDailyProt=String.valueOf(toDailyProt);
+                                        if(toDailyProt>100){
+                                            toWarnProt="You take too much carbonhydrate";
+                                            toShowDailyProt="";
+                                        }
+                                        if(totalProt<240){
+                                            divClassProt="progress-bar";
+                                        }else{
+                                            divClassProt="progress-bar progress-bar-danger";
+                                        }
+
+                                        //to Fat
+                                        String divClassFat;
+                                        int toDailyFat=(int)(totalFat/3.1);
+                                        String toWarnFat="";
+                                        String toShowDailyFat=String.valueOf(toDailyFat);
+                                        if(toDailyFat>100){
+                                            toWarnFat="You take too much carbonhydrate";
+                                            toShowDailyFat="";
+                                        }
+                                        if(totalFat<240){
+                                            divClassFat="progress-bar";
+                                        }else{
+                                            divClassFat="progress-bar progress-bar-danger";
+                                        }
+
                                     %>
                                     <table class="table table-striped">
                                         <tr>
-                                            <td>Total Calories Taken</td>
+                                            <td>Total Calories Taken
+                                                <div class="progress">
+                                                    <div class="<%=divClass%>" role="progressbar" aria-valuenow="<%=toDaily%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=toDaily%>%;">
+                                                        <%=toWarn%>
+                                                        <%=toShowDaily%>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td><%=totalCal%> kcal</td>
                                             <td>Daily Needed Calories</td>
                                             <td>2078 kcal</td>
-                                            <div class="progress">
-                                                <div class="<%=divClass%>" role="progressbar" aria-valuenow="<%=toDaily%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=toDaily%>%;">
-                                                    <%=toWarn%>
-                                                    <%=toShowDaily%>
-                                                </div>
-                                            </div>
                                         </tr>
                                         <tr>
-                                            <td>Total Carbohydrate Taken</td>
+
+                                            <td>Total Carbohydrate Taken
+                                                <div class="progress">
+                                                    <div class="<%=divClassCar%>" role="progressbar" aria-valuenow="<%=toDailyCar%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=toDailyCar%>%;">
+                                                        <%=toWarnCarb%>
+                                                        <%=toShowDailyCarb%>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td><%=totalCarb%> grams</td>
                                             <td>Daily Needed Carbohydrate</td>
                                             <td>310 grams</td>
                                         </tr>
                                         <tr>
-                                            <td>Total Protein Taken</td>
+                                            <td>Total Protein Taken
+                                                <div class="progress">
+                                                    <div class="<%=divClassProt%>" role="progressbar" aria-valuenow="<%=toDailyProt%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=toDailyProt%>%;">
+                                                        <%=toWarnProt%>
+                                                        <%=toShowDailyProt%>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td><%=totalProt%> grams</td>
                                             <td>Daily Needed Protein</td>
                                             <td>50 grams</td>
                                         </tr>
                                         <tr>
-                                            <td>Total Fat Taken</td>
+                                            <td>Total Fat Taken
+                                                <div class="progress">
+                                                    <div class="<%=divClassFat%>" role="progressbar" aria-valuenow="<%=toDailyFat%>" aria-valuemin="0" aria-valuemax="100" style="width: <%=toDailyFat%>%;">
+                                                        <%=toWarnFat%>
+                                                        <%=toShowDailyFat%>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td><%=totalFat%> grams</td>
                                             <td>Daily Needed Fat</td>
                                             <td>70 grams</td>
