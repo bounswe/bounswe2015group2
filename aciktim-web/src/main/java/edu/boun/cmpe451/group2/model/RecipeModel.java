@@ -161,7 +161,7 @@ public class RecipeModel {
         }
 
         ArrayList<Recipe> list = recipeDao.searchRecipes(name, ingredients, null);
-        return reOrderByPreferences(list,userID);
+        return reOrderByPreferences(list, userID);
     }
 
 
@@ -175,12 +175,12 @@ public class RecipeModel {
      */
     public ArrayList<Recipe> advancedSearchRecipes(String name, List<String> ingredients, Boolean isInst, Double totalFatUpper, Double totalCarbUpper, Double totalProteinUpper, Double totalCalUpper, Double totalFatLower, Double totalCarbLower, Double totalProteinLower, Double totalCalLower, List<String> tags,Long userID) throws ExException {
         ArrayList<Recipe> list = recipeDao.advancedSearch(name, ingredients, isInst, totalFatUpper, totalCarbUpper, totalProteinUpper, totalCalUpper, totalFatLower, totalCarbLower, totalProteinLower, totalCalLower, tags);
-        return reOrderByPreferences(list,userID);
+        return reOrderByPreferences(list, userID);
     }
 
     public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, List<String> tags,Long userID) throws ExException {
         ArrayList<Recipe> list =  recipeDao.searchRecipes(name, ingredients, tags);
-        return reOrderByPreferences(list,userID);
+        return reOrderByPreferences(list, userID);
     }
 
     /**
@@ -196,18 +196,18 @@ public class RecipeModel {
             throw new ExException(ExError.E_NULL_OWNERID);
         if (StringUtil.isEmpty(recipe.getPictureAddress()))
             recipe.pictureAddress = "";
-        if (recipe.getIngredientAmountMap().size() == 0)
+        if (recipe.getIngredientList().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
         int counter = 0;
-        for (Map.Entry<Ingredient, Long> entry : recipe.getIngredientAmountMap().entrySet()) {
-            if (((Ingredient) entry.getKey()).id == null) {
+        for (Ingredient ingredient : recipe.getIngredientList()) {
+            if (ingredient.id == null) {
                 throw new ExException(ExError.E_INGREDIENT_ID_NULL);
             }
-            recipe.totalCal += entry.getKey().calories * entry.getValue();
-            recipe.totalCarb += entry.getKey().carbohydrate * entry.getValue();
-            recipe.totalFat += entry.getKey().fat * entry.getValue();
-            recipe.totalProtein += entry.getKey().protein * entry.getValue();
+            recipe.totalCal += ingredient.calories * ingredient.amount;
+            recipe.totalCarb +=ingredient.carbohydrate * ingredient.amount;
+            recipe.totalFat += ingredient.fat * ingredient.amount;
+            recipe.totalProtein += ingredient.protein * ingredient.amount;
             counter++;
         }
         recipeDao.addRecipe(recipe);
@@ -238,7 +238,7 @@ public class RecipeModel {
             throw new ExException(ExError.E_NULL_OWNERID);
         if (StringUtil.isEmpty(recipe.pictureAddress))
             recipe.pictureAddress = "";
-        if (recipe.getIngredientAmountMap().size() == 0)
+        if (recipe.getIngredientList().size() == 0)
             throw new ExException(ExError.E_RECIPELIST_EMPTY_OR_NULL);
 
         recipe.totalProtein = 0;
@@ -246,11 +246,11 @@ public class RecipeModel {
         recipe.totalCarb = 0;
         recipe.totalCal = 0;
 
-        for (Map.Entry<Ingredient, Long> entry : recipe.getIngredientAmountMap().entrySet()) {
-            recipe.totalCal += entry.getKey().calories * entry.getValue();
-            recipe.totalCarb += entry.getKey().carbohydrate * entry.getValue();
-            recipe.totalFat += entry.getKey().fat * entry.getValue();
-            recipe.totalProtein += entry.getKey().protein * entry.getValue();
+        for (Ingredient ingredient : recipe.getIngredientList()) {
+            recipe.totalCal += ingredient.calories * ingredient.amount;
+            recipe.totalCarb += ingredient.carbohydrate * ingredient.amount;
+            recipe.totalFat += ingredient.fat * ingredient.amount;
+            recipe.totalProtein += ingredient.protein * ingredient.amount;
         }
 
         recipeDao.updateRecipe(recipe);

@@ -39,16 +39,9 @@ public interface ControllerInterface {
 
     public static final String RECIPE_SVC_PATH = "recipe";
 
-<<<<<<< HEAD
     public static final String RECIPE_TITLE_SEARCH_PATH = "search";
 
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
-
-    @POST(LOGIN_PATH)
-    Call<ApiResponse> login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
-=======
-    public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
->>>>>>> f7d53bf3f746b50fda1af33faf9ab52df0539ea4
 
     /**
      * Sends a post request and expexts a response from the backend in the form of String
@@ -58,7 +51,7 @@ public interface ControllerInterface {
      * @return acknowledgement or error from the backend
      */
     @POST(LOGIN_PATH)
-    String login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
+    Call<ApiResponse> login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
 
     /**
      * Sends a get request in order to get information about the user using the api key of the user.
@@ -69,18 +62,13 @@ public interface ControllerInterface {
     @GET(USER_SVC_PATH)
     Call<User> getUser(@Query(API_KEY_PARAMETER) String api_key);
 
-<<<<<<< HEAD
-    @POST(SIGN_UP_PATH)
-    Call<ApiResponse> signup(@Body User user);
-=======
     /**
      * Sends a post request to the backend and registers the user
      * @param user User object whose username and password fields need to be initialized
      * @return The response should conain the api key if the operation is successful
      */
     @POST(USER_SVC_PATH)
-    String signup(@Body User user);
->>>>>>> f7d53bf3f746b50fda1af33faf9ab52df0539ea4
+    Call<ApiResponse> signup(@Body User user);
 
     /**
      * Adds a recipe to the db
@@ -90,16 +78,12 @@ public interface ControllerInterface {
     @POST(RECIPE_SVC_PATH)
     Call<ApiResponse> addrecipe(@Body Recipe recipe);
 
-<<<<<<< HEAD
-    Call<ApiResponse> deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
-=======
     /**
      * deletes a recipe
      * @param recipeID id of the recipe to be deleted
      * @return
      */
     String deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
->>>>>>> f7d53bf3f746b50fda1af33faf9ab52df0539ea4
 
     /**
      * Sends a get request to get all recipes that a user has created
@@ -132,30 +116,16 @@ public interface ControllerInterface {
      * @return List of recipes that are recommended
      */
     @GET(USER_SVC_PATH + "/recommendations")
-<<<<<<< HEAD
+
     Call<List<Recipe>> getRecommendations(@Body User user);
-
-    @GET(RECIPE_TITLE_SEARCH_PATH)
-    Call<List<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name);
-
-    @GET("advancedSearch")
-    Call<ArrayList<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name, @Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
-
-    @POST(USER_SVC_PATH + "/addMenu")
-    Call<ApiResponse> addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
-
-    @GET(USER_SVC_PATH + "/getMenus")
-    Call<HashMap<Long, Menu>> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
-=======
-    List<Map<String, Object>> getRecommendations(@Body User user);
 
     /**
      * default search function
      * @param name name of the recipe
      * @return an arraylist of recipe object
      */
-    @GET("/search")
-    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
+    @GET(RECIPE_TITLE_SEARCH_PATH)
+    Call<List<Recipe>> search(@Query(RECIPE_ID_PARAMETER) String name);
 
     /**
      * advanced search
@@ -191,10 +161,6 @@ public interface ControllerInterface {
      * @param date date of the day in the format of yyyy/MM/dd
      * @return returns arraylist of recipes
      */
-    @GET(USER_SVC_PATH+"/getDailyConsumption")
-    Call<ArrayList<Recipe>> getDailyConsumption( @Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER)String date);
->>>>>>> f7d53bf3f746b50fda1af33faf9ab52df0539ea4
-
     @GET(USER_PATH + "/getDailyConsumption")
     Call<List<Recipe>> getDailyConsumption(@Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER) String date);
 }

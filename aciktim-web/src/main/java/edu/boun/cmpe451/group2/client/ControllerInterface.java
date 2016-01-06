@@ -36,9 +36,8 @@ public interface ControllerInterface {
     public static final String RECIPE_TITLE_SEARCH_PATH = RECIPE_SVC_PATH + "/search/findByName";
 
     public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
-    @FormUrlEncoded
     @POST(LOGIN_PATH)
-    ApiResponse login(@Field(EMAIL_PARAMETER) String email, @Field(PASSWORD_PARAMETER) String password);
+    ApiResponse login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
 
     @GET(USER_SVC_PATH)
     User getUser(@Query(API_KEY_PARAMETER) String api_key);
@@ -69,7 +68,7 @@ public interface ControllerInterface {
     @GET("/advancedSearch")
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
 
-    @POST(USER_SVC_PATH+"/addMenu")
+    @POST(USER_SVC_PATH + "/addMenu")
     ApiResponse addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")

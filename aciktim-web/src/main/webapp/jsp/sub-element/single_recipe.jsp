@@ -88,7 +88,7 @@
                     </td>
                     <td>
                         <table class="table table-striped">
-                            <c:forEach var="ingredient" items="${recipe.ingredientAmountMap}" varStatus="roop">
+                            <c:forEach var="ingredient" items="${recipe.ingredientList}" varStatus="roop">
                                 <tr>
                                     <td>${ingredient.key.name}</td>
                                     <td>${ingredient.value}</td>

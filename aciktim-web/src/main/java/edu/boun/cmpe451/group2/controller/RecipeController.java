@@ -1,6 +1,5 @@
 package edu.boun.cmpe451.group2.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import edu.boun.cmpe451.group2.client.*;
 import edu.boun.cmpe451.group2.exception.ExException;
 import edu.boun.cmpe451.group2.model.*;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.text.SimpleDateFormat;
-import java.util.*;
 
 @Controller
 @Scope("request")
@@ -389,7 +387,7 @@ public class RecipeController {
             Recipe r = new Recipe();
             r.name = recipe_name;
             r.id = recipe_id;
-            r.IngredientAmountMap = null;
+            r.IngredientList = null;
             r.pictureAddress = image_url;
             r.description = description;
             recipeModel.updateRecipe(r);
@@ -504,18 +502,18 @@ public class RecipeController {
                            Long id,
                            String image_url,
                            String description,
-                           HashMap<Ingredient, Long> ingredient_map,
+                           List<Ingredient> ingredient_map,
                            List<Tag> taglist) {
         r.name = recipe_name;
         r.id = id;
         r.pictureAddress = image_url;
         r.description = description;
-        r.setIngredientAmountMap(ingredient_map);
+        r.setIngredientList(ingredient_map);
         r.tagList = taglist;
 
     }
 
-    public HashMap<Ingredient, Long> formAmountMap(String[] nos,
+    public List<Ingredient> formAmountMap(String[] nos,
                                                    String[] names,
                                                    String[] amounts,
                                                    String[] ens,
@@ -524,7 +522,7 @@ public class RecipeController {
                                                    String[] fats,
                                                    String[] units) {
 
-        HashMap<Ingredient, Long> m = new HashMap<>();
+        List<Ingredient> m = new LinkedList<>();
         int counter = 0;
         if (names == null) return m;
         for (String no : nos) {
@@ -536,7 +534,8 @@ public class RecipeController {
             i.protein = Double.parseDouble(prots[counter]);
             i.fat = Double.parseDouble(fats[counter]);
             i.unitName = units[counter];
-            m.put(i, Long.parseLong(amounts[counter]));
+            i.amount=(Long.parseLong(amounts[counter]));
+            m.add(i );
             counter++;
         }
         return m;
