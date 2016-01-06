@@ -259,6 +259,17 @@ public class APIController implements ControllerInterface {
         return recipes;
     }
 
+    @RequestMapping("/search")
+    public @ResponseBody ArrayList<User> searchRestaurants(@RequestParam String name){
+        ArrayList<User> restaurants = new ArrayList<User>();
+        try {
+            restaurants = userModel.searchRestaurants(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return restaurants;
+    }
+
     /**
      * advanced search
      * filters the results by the given ingredient names
