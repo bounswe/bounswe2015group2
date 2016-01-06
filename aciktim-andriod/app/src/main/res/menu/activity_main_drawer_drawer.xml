@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_favorites" android:icon="@android:drawable/ic_menu_camera"
+        <item android:id="@+id/nav_favorites" android:icon="@drawable/favorites"
             android:title="Favorites" />
-        <item android:id="@+id/nav_recipes" android:icon="@android:drawable/ic_menu_gallery"
+        <item android:id="@+id/nav_recipes" android:icon="@drawable/my_recipes"
             android:title="My Recipes" />
-        <item android:id="@+id/nav_friends" android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="My Friends" />
+        <item android:id="@+id/nav_restaurants" android:icon="@drawable/restaurant"
+            android:title="Restaurants" />
     </group>
 
     <item android:title="Profile">
         <menu>
-            <item android:id="@+id/nav_profile" android:icon="@android:drawable/ic_menu_manage"
+            <item android:id="@+id/nav_profile" android:icon="@drawable/my_profile"
                 android:title="My Profile" />
-            <item android:id="@+id/nav_sign_out" android:icon="@android:drawable/ic_menu_share"
+            <item android:id="@+id/nav_sign_out" android:icon="@drawable/log_out"
                 android:title="Sign Out" />
         </menu>
     </item>

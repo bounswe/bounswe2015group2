@@ -129,15 +129,15 @@
 
     <string name="title_activity_favorites">My Favorites</string>
     <string name="title_activity_semantic_tag">Semantic Tag</string>
-    <string name="title_activity_todays_consumptions">Todays Consumption</string>
-    <string name="title_activity_friends">FriendsActivity</string>
+    <string name="title_activity_todays_consumptions">Today\'s Consumption</string>
+    <string name="title_activity_restaurants">Restaurants</string>
     <string name="title_recipe_list">Recipes</string>
     <string name="title_recipe_detail">Recipe Detail</string>
-    <string name="title_friend_list">Friends</string>
-    <string name="title_friend_detail">Friend Detail</string>
+    <string name="title_restaurant_list">Restaurants</string>
+    <string name="title_restaurant_detail">Restaurant Detail</string>
     <string name="search_title">Search Recipe</string>
     <string name="search_hint">Search in recipes</string>
-    <string name="title_activity_search">Search Reuslts</string>
+    <string name="title_activity_search">Search Results</string>
     <string name="tag_name">Tag Name : %s</string>
     <string name="tag_class">Tag Class : %s</string>
 

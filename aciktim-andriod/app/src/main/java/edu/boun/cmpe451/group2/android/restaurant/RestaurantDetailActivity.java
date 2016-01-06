@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android.friend;
+package edu.boun.cmpe451.group2.android.restaurant;
 
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
@@ -16,17 +16,17 @@ import edu.boun.cmpe451.group2.android.R;
  * An activity representing a single Friend detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link FriendListActivity}.
+ * in a {@link RestaurantListActivity}.
  * <p/>
  * This activity is mostly just a 'shell' activity containing nothing
- * more than a {@link FriendDetailFragment}.
+ * more than a {@link RestaurantDetailFragment}.
  */
-public class FriendDetailActivity extends AppCompatActivity {
+public class RestaurantDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_detail);
+        setContentView(R.layout.activity_restaurant_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -55,12 +55,12 @@ public class FriendDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(FriendDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(FriendDetailFragment.ARG_ITEM_ID));
-            FriendDetailFragment fragment = new FriendDetailFragment();
+            arguments.putString(RestaurantDetailFragment.ARG_ITEM_ID,
+                    getIntent().getStringExtra(RestaurantDetailFragment.ARG_ITEM_ID));
+            RestaurantDetailFragment fragment = new RestaurantDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.friend_detail_container, fragment)
+                    .add(R.id.restaurant_detail_container, fragment)
                     .commit();
         }
     }
@@ -76,7 +76,7 @@ public class FriendDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, FriendListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, RestaurantListActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

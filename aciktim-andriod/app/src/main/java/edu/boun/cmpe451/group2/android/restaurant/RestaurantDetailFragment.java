@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android.friend;
+package edu.boun.cmpe451.group2.android.restaurant;
 
 import android.app.Activity;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -14,11 +14,11 @@ import edu.boun.cmpe451.group2.android.dummy.DummyContent;
 
 /**
  * A fragment representing a single Friend detail screen.
- * This fragment is either contained in a {@link FriendListActivity}
- * in two-pane mode (on tablets) or a {@link FriendDetailActivity}
+ * This fragment is either contained in a {@link RestaurantListActivity}
+ * in two-pane mode (on tablets) or a {@link RestaurantDetailActivity}
  * on handsets.
  */
-public class FriendDetailFragment extends Fragment {
+public class RestaurantDetailFragment extends Fragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -34,7 +34,7 @@ public class FriendDetailFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public FriendDetailFragment() {
+    public RestaurantDetailFragment() {
     }
 
     @Override
@@ -58,7 +58,7 @@ public class FriendDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_friend_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_restaurant_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {

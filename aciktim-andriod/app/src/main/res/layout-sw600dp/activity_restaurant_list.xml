@@ -4,7 +4,7 @@
     android:layout_marginRight="16dp" android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".friend.FriendListActivity">
+    tools:context=".restaurant.RestaurantListActivity">
 
     <!--
     This layout is a two-pane layout for the Friends
@@ -12,12 +12,12 @@
     
     -->
 
-    <fragment android:id="@+id/friend_list"
-        android:name="edu.boun.cmpe451.group2.android.friend.FriendListFragment" android:layout_width="0dp"
+    <fragment android:id="@+id/restaurant_list"
+        android:name="edu.boun.cmpe451.group2.android.restaurant.RestaurantListFragment" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="1"
         tools:layout="@android:layout/list_content" />
 
-    <FrameLayout android:id="@+id/friend_detail_container" android:layout_width="0dp"
+    <FrameLayout android:id="@+id/restaurant_detail_container" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="3" />
 
 </LinearLayout>

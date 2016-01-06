@@ -90,8 +90,8 @@
                 android:value=".recipe.RecipeListActivity" />
         </activity>
         <activity
-            android:name=".friend.FriendListActivity"
-            android:label="@string/title_friend_list"
+            android:name=".restaurant.RestaurantListActivity"
+            android:label="@string/title_restaurant_list"
             android:parentActivityName=".home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -99,13 +99,13 @@
                 android:value=".home.MainActivity" />
         </activity>
         <activity
-            android:name=".friend.FriendDetailActivity"
-            android:label="@string/title_friend_detail"
-            android:parentActivityName=".friend.FriendListActivity"
+            android:name=".restaurant.RestaurantDetailActivity"
+            android:label="@string/title_restaurant_detail"
+            android:parentActivityName=".restaurant.RestaurantListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".friend.FriendListActivity" />
+                android:value=".restaurant.RestaurantListActivity" />
         </activity>
         <activity
             android:name=".SemanticTagActivity"

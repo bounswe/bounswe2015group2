@@ -1,4 +1,4 @@
-package edu.boun.cmpe451.group2.android.friend;
+package edu.boun.cmpe451.group2.android.restaurant;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,23 +13,23 @@ import android.view.MenuItem;
 import edu.boun.cmpe451.group2.android.R;
 
 /**
- * An activity representing a list of Friends. This activity
+ * An activity representing a list of Restaurants. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link FriendDetailActivity} representing
+ * lead to a {@link RestaurantDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * <p/>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link FriendListFragment} and the item details
- * (if present) is a {@link FriendDetailFragment}.
+ * {@link RestaurantListFragment} and the item details
+ * (if present) is a {@link RestaurantDetailFragment}.
  * <p/>
  * This activity also implements the required
- * {@link FriendListFragment.Callbacks} interface
+ * {@link RestaurantListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class FriendListActivity extends AppCompatActivity
-        implements FriendListFragment.Callbacks {
+public class RestaurantListActivity extends AppCompatActivity
+        implements RestaurantListFragment.Callbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -40,7 +40,7 @@ public class FriendListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_app_bar);
+        setContentView(R.layout.activity_restaurant_app_bar);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,7 +57,7 @@ public class FriendListActivity extends AppCompatActivity
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (findViewById(R.id.friend_detail_container) != null) {
+        if (findViewById(R.id.restaurant_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
             // res/values-sw600dp). If this view is present, then the
@@ -66,8 +66,8 @@ public class FriendListActivity extends AppCompatActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((FriendListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.friend_list))
+            ((RestaurantListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.restaurant_list))
                     .setActivateOnItemClick(true);
         }
 
@@ -92,7 +92,7 @@ public class FriendListActivity extends AppCompatActivity
     }
 
     /**
-     * Callback method from {@link FriendListFragment.Callbacks}
+     * Callback method from {@link RestaurantListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
      */
     @Override
@@ -102,18 +102,18 @@ public class FriendListActivity extends AppCompatActivity
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(FriendDetailFragment.ARG_ITEM_ID, id);
-            FriendDetailFragment fragment = new FriendDetailFragment();
+            arguments.putString(RestaurantDetailFragment.ARG_ITEM_ID, id);
+            RestaurantDetailFragment fragment = new RestaurantDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.friend_detail_container, fragment)
+                    .replace(R.id.restaurant_detail_container, fragment)
                     .commit();
 
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
-            Intent detailIntent = new Intent(this, FriendDetailActivity.class);
-            detailIntent.putExtra(FriendDetailFragment.ARG_ITEM_ID, id);
+            Intent detailIntent = new Intent(this, RestaurantDetailActivity.class);
+            detailIntent.putExtra(RestaurantDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
     }

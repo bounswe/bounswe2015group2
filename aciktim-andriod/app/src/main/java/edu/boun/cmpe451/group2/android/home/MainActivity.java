@@ -33,11 +33,11 @@ import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
 import edu.boun.cmpe451.group2.android.api.User;
-import edu.boun.cmpe451.group2.android.friend.FriendListActivity;
 import edu.boun.cmpe451.group2.android.profile.ProfileViewActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListFragment;
 
+import edu.boun.cmpe451.group2.android.restaurant.RestaurantListActivity;
 import retrofit.Call;
 import retrofit.Response;
 
@@ -179,15 +179,17 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_favorites) {
             Intent intent = new Intent(this,RecipeListActivity.class);
+            intent.putExtra("user_id",user.getId());
             startActivity(intent);
         } else if (id == R.id.nav_recipes) {
             Intent intent = new Intent(this,RecipeListActivity.class);
             intent.putExtra("user_id",user.getId());
             startActivity(intent);
-        } else if (id == R.id.nav_friends) {
-            Intent intent = new Intent(this,FriendListActivity.class);
+        }  else if (id == R.id.nav_restaurants) {
+            Intent intent = new Intent(this,RestaurantListActivity.class);
+            intent.putExtra("user_id",user.getId());
             startActivity(intent);
-        } else if (id == R.id.nav_profile) {
+        }else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this,ProfileViewActivity.class);
             intent.putExtra("api_key", api_key);
             startActivity(intent);
@@ -248,7 +250,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -258,8 +260,6 @@ public class MainActivity extends AppCompatActivity
                     return "HOME";
                 case 1:
                     return "DAILY CONSUMPTION";
-                case 2:
-                    return "FEED";
             }
             return null;
         }
