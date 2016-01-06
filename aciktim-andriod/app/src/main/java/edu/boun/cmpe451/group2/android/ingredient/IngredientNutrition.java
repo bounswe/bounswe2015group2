@@ -7,13 +7,13 @@ public class IngredientNutrition {
 
     String name;
     String ndbno;
-    int quantity = 100;
+    String quantity = "100";
     String energy = "";
     String carb = "";
     String prot = "";
     String fat = "";
 
-    public IngredientNutrition( String name, String ndbno, int quantity, String energy, String carb, String prot, String fat){
+    public IngredientNutrition( String name, String ndbno, String quantity, String energy, String carb, String prot, String fat){
         this.name = name;
         this.ndbno = ndbno;
         this.quantity = quantity;
@@ -31,7 +31,7 @@ public class IngredientNutrition {
         return ndbno;
     }
 
-    public int getQuantity(){
+    public String getQuantity(){
         return quantity;
     }
 

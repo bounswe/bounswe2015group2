@@ -34,14 +34,24 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.SemanticTagActivity;
+import edu.boun.cmpe451.group2.android.api.ApiProxy;
+import edu.boun.cmpe451.group2.android.api.ApiResponse;
+import edu.boun.cmpe451.group2.android.api.ControllerInterface;
+import edu.boun.cmpe451.group2.android.api.Ingredient;
+import edu.boun.cmpe451.group2.android.api.Recipe;
 import edu.boun.cmpe451.group2.android.api.SemanticTag;
+import edu.boun.cmpe451.group2.android.api.Tag;
+import edu.boun.cmpe451.group2.android.api.User;
 import edu.boun.cmpe451.group2.android.ingredient.IngredientAdapter;
 import edu.boun.cmpe451.group2.android.ingredient.IngredientItem;
 import edu.boun.cmpe451.group2.android.ingredient.IngredientNutrition;
+import retrofit.Call;
+import retrofit.Response;
 
 /**
  * A recipe-add screen
@@ -64,35 +74,46 @@ public class RecipeAddActivity extends AppCompatActivity {
      */
 
     // UI references.
-    private EditText recipeName;
-    private EditText recipeDescription;
-    private EditText recipeImageUrl;
-    private Button recipeAddButton;
-    private ListView listView;
+    EditText recipeName;
+    EditText recipeDescription;
+    EditText recipeImageUrl;
+    Button recipeAddButton;
+    ListView listView;
 
     // Ingredients
     Dialog ingredientAddDialog;
-    private EditText ingredientName;
+    EditText ingredientName;
     TextView ingredientListText;
-    private ListView ingredientListView;
-    private Button ingredientSearch;
+    ListView ingredientListView;
+    Button ingredientSearch;
     Button ingredient_add_button;
     Button cancel_button;
     Spinner ingredient_add_spinner;
     EditText ingredientQuantity;
 
-    private List<IngredientItem> ingredientItem = new ArrayList<IngredientItem>();
-    private List<IngredientNutrition> ingredientNutrition = new ArrayList<IngredientNutrition>();
+    List<IngredientItem> ingredientItem = new ArrayList<IngredientItem>();
+    List<IngredientNutrition> ingredientNutrition = new ArrayList<IngredientNutrition>();
     String ingName = "";
     String ingNDBNO = "";
-    int quantity = 100;
+    String quantity = "100";
 
     String deneme = "";
     // Ingredients
 
+    String myRecipeName = "";
+    String myRecipeDescription = "";
+    String myRecipeImageURL = "";
+
     List<SemanticTag> semanticTags = new ArrayList<>();
 
     ProgressDialog progressDialogForSearchIngredient;
+
+    // API
+    ApiProxy apiProxy = new ApiProxy();
+    ControllerInterface api = apiProxy.getApi();
+    String api_key;
+    String user_id;
+    // API
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +121,7 @@ public class RecipeAddActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_recipe_add);
 
-        final String user_id = getIntent().getStringExtra("user_id");
+        /*final String */user_id = getIntent().getStringExtra("user_id");
 
         Toast.makeText(getApplicationContext(),user_id+"",Toast.LENGTH_SHORT).show();
 
@@ -143,12 +164,28 @@ public class RecipeAddActivity extends AppCompatActivity {
 
         recipeAddButton = (Button) findViewById(R.id.recipe_add_button);
 
+        recipeAddButton .setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                myRecipeName = recipeName.getText().toString();
+                myRecipeDescription = recipeDescription.getText().toString();
+                myRecipeImageURL =  recipeImageUrl.getText().toString();
+
+                // API
+                Intent intent = getIntent();
+                api_key = intent.getStringExtra("api_key");
+                DenemeTask profileTask = new DenemeTask();
+                profileTask.execute();
+                // API
+
+            }
+        });
+
         // my code start here
         ingredientName = (EditText) findViewById(R.id.ingredient_add_name);
         ingredientListText = (TextView) findViewById(R.id.ingredient_add_list);
         ingredientListView = (ListView) findViewById(R.id.ingredient_add_listView);
         ingredientSearch = (Button) findViewById(R.id.ingredient_add_search_button);
-
 
         ingredientSearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -174,23 +211,6 @@ public class RecipeAddActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, final int position,
                                     long id) {
 
-               /* AlertDialog.Builder diyalogOlusturucu =
-                        new AlertDialog.Builder(IngredientAddActivity.this);
-
-                final String ing = ingredientList.getItem().get(position).getName();
-                diyalogOlusturucu.setMessage( "NDBNO: " + ingredientList.getItem().get( position ).getNdbno() )
-                        .setNegativeButton("Cancel", null)
-                        .setPositiveButton("ADD", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(), "Ingredient was added", Toast.LENGTH_SHORT).show();
-                                ingredients += ing + "\n";
-                                ingredientListText.setText( ingredients );
-                            }
-                        });
-
-                diyalogOlusturucu.create().show();
-                */
                 String ing = ingredientItem.get(position).getName();
 
                 ingredientAddDialog = new Dialog(RecipeAddActivity.this);
@@ -217,7 +237,7 @@ public class RecipeAddActivity extends AppCompatActivity {
                         deneme += "\n" + ingName + " -> ";
 
                         if (!ingredientQuantity.getText().toString().isEmpty()) {
-                            quantity = Integer.parseInt(ingredientQuantity.getText().toString());
+                            quantity = ingredientQuantity.getText().toString();
                         }
 
                         progressDialogForSearchIngredient = new ProgressDialog(view.getContext());
@@ -462,15 +482,76 @@ public class RecipeAddActivity extends AppCompatActivity {
             ingredientListText.setText(deneme);
 
             Toast.makeText(getApplicationContext(), "Ingredient was added", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-            //String son = "";
-            //for( int i = 0; i < result.size(); i++ ) {
-            //    son += " " + result.get(i).getName();
-            //}
-            //ingredientListText.setText(deneme + "---" + son);
+    public class DenemeTask extends AsyncTask<Void, Void, Response<ApiResponse> > {
 
-            //IngredientAdapter adapter = new IngredientAdapter(getApplicationContext(), R.id.ingredient_add_list, result.getItem());
-            //ingredientListView.setAdapter(adapter);
+        @Override
+        protected Response<ApiResponse> doInBackground(Void... params) {
+
+            double totalCal = 0, totalCarb = 0, totalProtein = 0, totalFat = 0;
+            double ingRate;
+            Recipe myRecipe = new Recipe();
+            Ingredient myIngredient;
+            HashMap<Ingredient, Long> ingredientAmountMap = new HashMap<Ingredient, Long>();
+            List<Tag> myTagList = new ArrayList<Tag>();
+
+            for( int i = 0; i < ingredientNutrition.size(); i++){
+
+                ingRate = Long.parseLong(ingredientNutrition.get(i).getQuantity()) / 100.0;
+
+                myIngredient = new Ingredient();
+                myIngredient.setName( ingredientNutrition.get( i ).getName() );
+                myIngredient.setUnitName( "gram" );
+                myIngredient.setCalories(Double.parseDouble(ingredientNutrition.get(i).getEnergy()) * ingRate);
+                myIngredient.setCarbohydrate(Double.parseDouble(ingredientNutrition.get(i).getCarbohydrate()) * ingRate);
+                myIngredient.setProtein(Double.parseDouble(ingredientNutrition.get(i).getProtein()) * ingRate);
+                myIngredient.setFat(Double.parseDouble( ingredientNutrition.get( i ).getFat() ) * ingRate);
+
+                totalCal += Double.parseDouble( ingredientNutrition.get( i ).getEnergy() ) * ingRate;
+                totalCarb += Double.parseDouble( ingredientNutrition.get( i ).getCarbohydrate() ) * ingRate;
+                totalProtein += Double.parseDouble( ingredientNutrition.get( i ).getProtein() ) * ingRate;
+                totalFat += Double.parseDouble( ingredientNutrition.get( i ).getFat() ) * ingRate;
+
+                ingredientAmountMap.put(myIngredient, Long.parseLong(ingredientNutrition.get(i).getQuantity()));
+
+            }
+
+            Tag myTag = new Tag();
+            for( int a = 0; a < semanticTags.size(); a++){
+                myTag.setName( semanticTags.get( a ).getTagName() );
+                myTag.setParentTag(semanticTags.get(a).getTagClass());
+                myTagList.add( myTag );
+            }
+
+            myRecipe.setName( myRecipeName );
+            myRecipe.setDescription( myRecipeDescription );
+            myRecipe.setPictureAddress( myRecipeImageURL );
+            myRecipe.setOwnerID(Long.parseLong(user_id));
+            myRecipe.setTotalCal(totalCal);
+            myRecipe.setTotalCarb(totalCarb);
+            myRecipe.setTotalProtein(totalProtein);
+            myRecipe.setTotalFat( totalFat );
+            myRecipe.setIngredientAmountMap( ingredientAmountMap );
+            myRecipe.setTagList(myTagList);
+
+            Call<ApiResponse> myResponse = api.addrecipe( myRecipe );
+            try {
+                return myResponse.execute();
+            } catch (IOException e) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Response<ApiResponse> response) {
+
+            Toast.makeText(getApplicationContext(), "Recipe was added successfully.", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected void onCancelled() {
 
         }
     }
