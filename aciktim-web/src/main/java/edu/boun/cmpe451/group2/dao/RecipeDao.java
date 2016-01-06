@@ -238,30 +238,40 @@ public class RecipeDao extends BaseDao {
     }
 
     public void AddSemanticallyRelatedRecipesClass(ArrayList<Recipe> recipeList) throws ExException {
-        HashMap<Long,Recipe> temp = new HashMap<Long,Recipe>();
-        for(Recipe r:recipeList){
-            temp.put(r.id,r);
-        }
-
-        for(Recipe r : recipeList){
+        Iterator<Recipe> recipeIterator = recipeList.iterator();
+        while(recipeIterator.hasNext()){
+            Recipe r = recipeIterator.next();
             ArrayList<Tag> tags = getTags(r.id);
-            for(Tag t : tags){
-                ArrayList<Recipe> tempList = searchByTagClass(t);
-                for(Recipe r2:tempList){
-                    temp.put(r2.id,r2);
-                    if(temp.size()>=50) break;
-                }
-                if(temp.size()>=50) break;
+            Iterator<Tag> tagIterator = tags.iterator();
+            while(tagIterator.hasNext()){
+                Tag t = tagIterator.next();
+                ArrayList<Recipe> temp = searchByTagClass(t);
+                recipeList=mergeRecipes(recipeList,temp);
+                if(recipeList.size()>=50) break;
             }
-            if(temp.size()>=50) break;
-        }
-
-        recipeList.clear();
-        for(Recipe r : temp.values()){
-            recipeList.add(r);
+            if(recipeList.size()>=50) break;
         }
     }
 
+    public ArrayList<Recipe> mergeRecipes(ArrayList<Recipe> list1, ArrayList<Recipe> list2){
+        Iterator<Recipe> recipeIterator = list2.iterator();
+        while(recipeIterator.hasNext()){
+            Recipe r2 = recipeIterator.next();
+            boolean contains = false;
+            Iterator<Recipe> recipeIterator1 = list1.iterator();
+            while(recipeIterator1.hasNext()){
+                Recipe r1 = recipeIterator1.next();
+                if(r1.id == r2.id){
+                    contains = true;
+                    break;
+                }
+            }
+            if(!contains){
+                list1.add(r2);
+            }
+        }
+        return list1;
+    }
     public ArrayList<Recipe> searchByTagClass(Tag t) throws ExException{
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
         String sql = "SELECT recipeID FROM recipeTag WHERE parentTag=? ";
@@ -304,26 +314,22 @@ public class RecipeDao extends BaseDao {
     }
 
     public void AddSemanticallyRelatedRecipes(ArrayList<Recipe> recipeList) throws ExException{
-        HashMap<Long,Recipe> temp = new HashMap<Long,Recipe>();
-        for(Recipe r:recipeList){
-            temp.put(r.id,r);
-        }
-        for(Recipe r : recipeList){
+        ArrayList<Recipe> result = new ArrayList<Recipe>();
+        result = mergeRecipes(result,recipeList);
+        Iterator<Recipe> recipeIterator = recipeList.iterator();
+        while(recipeIterator.hasNext()){
+            Recipe r = recipeIterator.next();
             ArrayList<Tag> tags = getTags(r.id);
-            for(Tag t : tags){
-                ArrayList<Recipe> tempList = searchByTag(t);
-                for(Recipe r2:tempList){
-                    temp.put(r2.id,r2);
-                    if(temp.size()>=50) break;
-                }
-                if(temp.size()>=50) break;
+            Iterator<Tag> tagIterator = tags.iterator();
+            while(tagIterator.hasNext()){
+                Tag t = tagIterator.next();
+                ArrayList<Recipe> temp = searchByTagClass(t);
+                result=mergeRecipes(result,temp);
+                if(recipeList.size()>=50) break;
             }
-            if(temp.size()>=50) break;
+            if(recipeList.size()>=50) break;
         }
-        recipeList.clear();
-        for(Recipe r : temp.values()){
-            recipeList.add(r);
-        }
+        recipeList = mergeRecipes(recipeList,result);
     }
 
     public ArrayList<Recipe> searchByTag(Tag t) throws ExException {
@@ -518,12 +524,17 @@ public class RecipeDao extends BaseDao {
         }
     }
     public List<Map<String, Object>> getRecommendations(User user) {
+        Calendar calendar = Calendar.getInstance();
+        String time=""+calendar.get(Calendar.YEAR)+"-";
+        time = time + (calendar.get(Calendar.MONTH)+1)+"-";
+        time = time + calendar.get(Calendar.DAY_OF_MONTH);
+        time += " 00:00:00";
         Double fat = 0d;
         Double carb = 0d;
         Double protein=0d;
         ArrayList<Long> recipe = new ArrayList<Long>();
-        String sql = "SELECT recipeID from dailyConsumption where userID = ?";
-        List<Map<String, Object>> recipes = this.jdbcTemplate.queryForList(sql, user.id);
+        String sql = "SELECT recipeID from dailyConsumption where userID = ? AND day=?";
+        List<Map<String, Object>> recipes = this.jdbcTemplate.queryForList(sql, user.id,time);
         for(Map<String,Object> map: recipes) {
             recipe.add(Long.parseLong(map.get("recipeID").toString()));
         }

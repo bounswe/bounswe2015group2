@@ -37,7 +37,7 @@ public class RecipeModel {
      * @throws ExException when the name is empty or null
      */
     public ArrayList<Recipe> searchRecipes(String name) throws ExException {
-        if (name == null || StringUtil.isEmpty(name)) {
+        if (name == null ) {
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
         }
         return recipeDao.searchRecipes(name);
