@@ -13,6 +13,7 @@ android {
     }
     lintOptions {
         disable 'InvalidPackage'
+        abortOnError false
     }
     buildTypes {
         release {
@@ -37,6 +38,7 @@ dependencies {
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
 
 

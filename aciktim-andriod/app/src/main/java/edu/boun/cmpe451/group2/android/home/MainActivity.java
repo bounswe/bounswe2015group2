@@ -27,6 +27,9 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.io.IOException;
 
 import edu.boun.cmpe451.group2.android.DailyConsumptionFragment;
@@ -93,6 +96,8 @@ public class MainActivity extends AppCompatActivity
         GetUserTask getUserTask = new GetUserTask();
         getUserTask.execute();
 
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
