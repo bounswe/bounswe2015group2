@@ -117,7 +117,8 @@ public class RecipeController {
             model.put("full_name", "");
             try {
                 if(keyword.equals("")){
-                    recipeResults = recipeModel.searchRecipes(keyword);
+//                    recipeResults = recipeModel.searchRecipes(keyword);
+                    recipeResults = recipeModel.searchRecipesRandom(10);
                     Collections.shuffle(recipeResults);
                 }else{
                     recipeResults = recipeModel.searchRecipes(keyword);

@@ -84,7 +84,7 @@
                                 <td width="60%">${recipe.description}</td>
                                 <td>
                                     <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
-                                        <code>${tag.name}</code>
+                                        <code><a class="nostyle" href="${contextPath}/recipes?tags=${tag.name}">${tag.name}</a></code>
                                     </c:forEach>
                                 </td>
                             </tr>
@@ -93,6 +93,10 @@
                     </table>
                 </div>
             </div>
+
+
+
+
 
         </div>
 
@@ -105,11 +109,27 @@
 </body>
 
 <script>
-    $(document).ready(function () {
-
-    });
+    var full_name = "${full_name}";
+    if(full_name == ""){
+        $("a.nostyle").addClass("disableClick");
+    }
 
 
 </script>
+<style>
+    a.nostyle:link {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
 
+    a.nostyle:visited {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+    .disableClick{
+        pointer-events: none;
+    }
+</style>
 </html>
