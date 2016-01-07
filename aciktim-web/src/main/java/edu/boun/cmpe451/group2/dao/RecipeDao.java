@@ -76,7 +76,7 @@ public class RecipeDao extends BaseDao {
      * @param ingredients names of ingredients
      * @return
      */
-    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, List<String> tags) {
+    public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, List<String> tags) throws ExException {
 
 //      aradigimiz ingredientlardan sistemde bulunanlarin id'leri
         ArrayList<Integer> matchedIngredientIDs = new ArrayList<Integer>();
@@ -144,6 +144,15 @@ public class RecipeDao extends BaseDao {
         if (tags != null && tags.size() > 0) {
             recipeList = filterListByTags(recipeList, tags);
         }
+
+
+        if (recipeList.size() < 50) {
+            AddSemanticallyRelatedRecipes(recipeList);
+        }
+        if (recipeList.size() < 50) {
+            AddSemanticallyRelatedRecipesClass(recipeList);
+        }
+
         return recipeList;
     }
 
@@ -695,7 +704,7 @@ public class RecipeDao extends BaseDao {
         return recipeIDs;
     }
 
-    public ArrayList<Recipe> advancedSearch(String name, List<String> ingredients, Boolean isInst, Double totalFatUpper, Double totalCarbUpper, Double totalProteinUpper, Double totalCalUpper, Double totalFatLower, Double totalCarbLower, Double totalProteinLower, Double totalCalLower, List<String> tags) {
+    public ArrayList<Recipe> advancedSearch(String name, List<String> ingredients, Boolean isInst, Double totalFatUpper, Double totalCarbUpper, Double totalProteinUpper, Double totalCalUpper, Double totalFatLower, Double totalCarbLower, Double totalProteinLower, Double totalCalLower, List<String> tags) throws ExException {
 
         ArrayList<Recipe> temp = new ArrayList<Recipe>();
 
