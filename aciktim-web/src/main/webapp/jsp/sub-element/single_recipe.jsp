@@ -108,7 +108,7 @@
                             <tr>
                                 <td>
                             <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
-                                    <code>${tag.name}:${tag.parentTag}</code>
+                                    <code><a class="nostyle" href="${contextPath}/recipes?tags=${tag.name}">${tag.name}</a></code>
                             </c:forEach>
                                 </td>
                             </tr>
@@ -162,3 +162,18 @@
 
 
 </script>
+
+
+<style>
+    a.nostyle:link {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+
+    a.nostyle:visited {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+</style>

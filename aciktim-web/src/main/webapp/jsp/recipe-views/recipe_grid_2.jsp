@@ -34,7 +34,7 @@
                             <td width="40%">${recipe.description}</td>
                             <td>
                                 <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
-                                    <code>${tag.name}:${tag.parentTag}</code>
+                                    <code><a class="nostyle" href="recipes?tags=${tag.name}">${tag.name}</a></code>
                                 </c:forEach>
                             </td>
                         </tr>
@@ -56,7 +56,19 @@
 
 </body>
 </html>
+<style>
+    a.nostyle:link {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
 
+    a.nostyle:visited {
+        text-decoration: inherit;
+        color: inherit;
+        cursor: auto;
+    }
+</style>
 
 <%--<form class="form-horizontal row-border" action="${contextPath}/recipe/single">--%>
 <%--<input type="hidden" name="recipe_id" value="${recipe.id}"/>--%>
