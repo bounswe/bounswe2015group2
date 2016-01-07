@@ -93,6 +93,13 @@ public class RecipeDao extends BaseDao {
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
 
+        if (recipeList.size() < 50) {
+            AddSemanticallyRelatedRecipes(recipeList);
+        }
+        if (recipeList.size() < 50) {
+            AddSemanticallyRelatedRecipesClass(recipeList);
+        }
+
 //      bu yemek
 
         for (Map<String, Object> resultMap : resultList) {
@@ -141,17 +148,14 @@ public class RecipeDao extends BaseDao {
                 recipeList.add(recipe);
 
         }
+
+
         if (tags != null && tags.size() > 0) {
             recipeList = filterListByTags(recipeList, tags);
         }
 
 
-        if (recipeList.size() < 50) {
-            AddSemanticallyRelatedRecipes(recipeList);
-        }
-        if (recipeList.size() < 50) {
-            AddSemanticallyRelatedRecipesClass(recipeList);
-        }
+
 
         return recipeList;
     }
