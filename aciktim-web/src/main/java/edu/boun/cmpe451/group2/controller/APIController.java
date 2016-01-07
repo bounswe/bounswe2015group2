@@ -331,14 +331,14 @@ public class APIController implements ControllerInterface {
 
     /**
      * gets menus of the user
-     * @param api_key api_key of the user
+     * @param ownerId ownerId of the user
      * @return a hashmap of long and menu (keys are ids, values are menues)
      */
     @RequestMapping(USER_SVC_PATH + "/getMenus")
-    public @ResponseBody ArrayList<Menu> getMenusByApiKey(@RequestParam String api_key){
+    public @ResponseBody ArrayList<Menu> getMenus(@RequestParam Long ownerId){
         ArrayList<Menu> menus = new ArrayList<Menu>();
         try{
-            menus = menuModel.GetMenusByApiKey(api_key);
+            menus = menuModel.GetMenus(ownerId);
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -39,13 +39,13 @@ public class MenuModel {
 
     /**
      * Gets the menus of a user (which are not soft deleted)
-     * @param api_key api_key of the user
+     * @param ownerId ownerId of the user
      * @return HashMap of menus (keys are menuIDs values are menus)
      * @throws ExException
      */
-    public ArrayList<Menu> GetMenusByApiKey(String api_key) throws ExException {
+    public ArrayList<Menu> GetMenus(Long ownerId) throws ExException {
         UserDao userDao = null;
-        Map<String, Object> user = userDao.getUserByApiKey(api_key);
+        Map<String, Object> user = userDao.getUser(ownerId);
         if(user == null){
             throw new ExException(ExError.E_USER_NOT_FOUND);
         }
@@ -62,7 +62,7 @@ public class MenuModel {
                 ArrayList<Recipe> recipes = new ArrayList<Recipe>();
                 recipes.add(recipe);
                 String name = menuRecipe.get("menu_name").toString();
-                Menu menu= new Menu(recipes,api_key,name);
+                Menu menu= new Menu(recipes,ownerId,name);
                 menus.put(menuID,menu);
             }
         }
