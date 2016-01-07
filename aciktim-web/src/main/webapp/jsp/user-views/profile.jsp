@@ -36,7 +36,7 @@
 
                 <div class="row text-center">
                     <!-- change the dummy link -->
-                    <img src=${picture_url} class="img-rounded center-block" width="240" height="320">
+                    <img src="${picture_url}" class="img-rounded center-block" width="240" height="320"/>
                 </div>
                 <div class="row text-center">
                     <!-- change the dummy name and surname -->
