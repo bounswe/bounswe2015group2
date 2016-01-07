@@ -34,7 +34,7 @@
                             <td width="40%">${recipe.description}</td>
                             <td>
                                 <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
-                                        <code>${tag.name}</code>
+                                    <code>${tag.name}:${tag.parentTag}</code>
                                 </c:forEach>
                             </td>
                         </tr>
