@@ -41,7 +41,7 @@ public class RecipeAdapter  extends ArrayAdapter<Recipe> {
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
-                .displayer(new RoundedVignetteBitmapDisplayer(2,5))
+                .displayer(new RoundedVignetteBitmapDisplayer(4,5))
                 .build();
     }
 

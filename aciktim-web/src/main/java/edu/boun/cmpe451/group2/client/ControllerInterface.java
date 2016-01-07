@@ -44,7 +44,7 @@ public interface ControllerInterface {
     @POST(USER_SVC_PATH)
     ApiResponse signup(@Body User user);
 
-    @POST(RECIPE_SVC_PATH)
+    @POST("/addrecipe")
     ApiResponse addrecipe(@Body Recipe recipe);
 
     @DELETE(RECIPE_SVC_PATH)
