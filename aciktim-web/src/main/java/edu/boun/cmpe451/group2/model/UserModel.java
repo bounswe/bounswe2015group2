@@ -94,12 +94,13 @@ public class UserModel {
     }
 
     /**
-     *
-     * @param id
-     * @param email
-     * @param pwd
-     * @param full_name
-     * @param username
+     *  this method edits a user
+     *  but it is never called in the project yet
+     * @param id id of the user
+     * @param email email of the user
+     * @param pwd password of the user
+     * @param full_name fullname of the user
+     * @param username username of the user
      * @throws Exception
      */
     public void editProfile(Long id, String email, String pwd, String full_name, String username) throws Exception {
@@ -124,6 +125,11 @@ public class UserModel {
         userDao.updateUser(id, email, pwd, full_name, username);
     }
 
+    /**
+     * this method brings a user by apikey which is used for android
+     * @param api_key apikey of the user
+     * @return a user object that has the given apikey
+     */
     public User getUser(String api_key) {
         User user = new User();
         Map<String, Object> userMap = userDao.getUserByApiKey(api_key);
@@ -138,6 +144,11 @@ public class UserModel {
         return user;
     }
 
+    /**
+     * this method brings a user by userid
+     * @param user_id id of the user
+     * @return a user object that has the given userid
+     */
     public User getUserByID(Long user_id) {
         User user = new User();
         Map<String, Object> userMap = userDao.getUser(user_id);
@@ -152,6 +163,10 @@ public class UserModel {
         return user;
     }
 
+    /**
+     * this method brings all restaurants
+     * @return all restaurants
+     */
     public ArrayList<User> getRestaurants() {
 
         ArrayList<User> restaurantList = new ArrayList<User>();
@@ -170,6 +185,11 @@ public class UserModel {
         return restaurantList;
     }
 
+    /**
+     * this method search restaurants and brings results that matches the given keyword
+     * @param name keyword for the restaurant name
+     * @return restaurants that matches the given query
+     */
     public ArrayList<User> searchRestaurants(String name) {
 
         ArrayList<User> restaurantList = new ArrayList<User>();
@@ -306,6 +326,16 @@ public class UserModel {
         return userDao.getAllergies(user.id);
     }
 
+    /**
+     * this method helps a user to edit profile by setting preferences  and updating username and email
+     * BE CAREFUL that this method deletes previous preferences so when you want to add a new preference, add the existing preferences also
+     * @param userID id of the user to be updated
+     * @param username new username
+     * @param email new email
+     * @param likes new likes preferences
+     * @param dislikes new dislikes preferences
+     * @param allergies new allergies
+     */
     public void editProfile(Long userID, String username, String email, ArrayList<Tag> likes, ArrayList<Tag> dislikes, ArrayList<Tag> allergies) {
         userDao.setLikes(userID,likes);
         userDao.setDislikes(userID,dislikes);

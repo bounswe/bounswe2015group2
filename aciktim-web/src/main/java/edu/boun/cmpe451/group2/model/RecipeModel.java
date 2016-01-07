@@ -143,6 +143,12 @@ public class RecipeModel {
         return reOrdered;
     }
 
+    /**
+     * this method randomly brings recipes for the main page
+     * @param amount amount of the random recipes
+     * @return random recipes
+     * @throws ExException
+     */
     public List<Recipe> searchRecipesRandom(int amount) throws ExException {
         return recipeDao.searchRecipesRandom(amount);
     }
@@ -178,6 +184,15 @@ public class RecipeModel {
         return reOrderByPreferences(list, userID);
     }
 
+    /**
+     *this method is used for advanced search by filtering results by including ingredients and tags in OR manner
+     * @param name keyword to be searched (CAN BE EMPTY)
+     * @param ingredients list of keywords of ingredients that the result list will contain in OR manner
+     * @param tags list of keywords of tags that the result will contain in OR manner
+     * @param userID id of the user that does the search (this is required for reordering)
+     * @return advanced search result after reordering
+     * @throws ExException
+     */
     public ArrayList<Recipe> searchRecipes(String name, List<String> ingredients, List<String> tags,Long userID) throws ExException {
         ArrayList<Recipe> list =  recipeDao.searchRecipes(name, ingredients, tags);
         return reOrderByPreferences(list, userID);
@@ -231,6 +246,11 @@ public class RecipeModel {
         recipeDao.deleteRecipe(recipeID);
     }
 
+    /**
+     * this method updates a recipe
+     * @param recipe recipe object that has the correct values for update
+     * @throws Exception
+     */
     public void updateRecipe(Recipe recipe) throws Exception {
         if (StringUtil.isEmpty(recipe.getName()))
             throw new ExException(ExError.E_RECIPE_NAME_EMPTY);
@@ -300,6 +320,11 @@ public class RecipeModel {
         return recipeDao.getRecipe(recipe_id);
     }
 
+    /**
+     * this method bring all recipes
+     * @return all recipes in a list
+     * @throws Exception
+     */
     public List<Recipe> getRecipesAll() throws Exception {
         return recipeDao.getRecipesAll();
     }
