@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -23,6 +25,7 @@ public class SearchActivity extends AppCompatActivity {
 
     ControllerInterface api;
     private ListView searchList;
+    List<Recipe> recipeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,16 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         searchList = (ListView) findViewById(R.id.search_list);
+
+        searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Recipe recipe = recipeList.get(position);
+                Intent detailIntent = new Intent(getApplicationContext(), RecipeViewActivity.class);
+                detailIntent.putExtra(RecipeViewActivity.ARG_ITEM_ID, recipe.getId().toString());
+                startActivity(detailIntent);
+            }
+        });
     }
     @Override
     protected void onNewIntent(Intent intent) {
@@ -76,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Response<List<Recipe>> response) {
-            List<Recipe> recipeList = response.body();
+            recipeList  = response.body();
             ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getApplicationContext(), 0,recipeList);
             searchList.setAdapter(recipeAdapter);
         }

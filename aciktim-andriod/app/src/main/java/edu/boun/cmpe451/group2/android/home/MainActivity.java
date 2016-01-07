@@ -189,11 +189,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,RecipeListActivity.class);
             intent.putExtra("user_id",user.getId());
             startActivity(intent);
-        }  else if (id == R.id.nav_restaurants) {
-            Intent intent = new Intent(this,RestaurantListActivity.class);
-            intent.putExtra("user_id",user.getId());
-            startActivity(intent);
-        }else if (id == R.id.nav_profile) {
+        }  else if (id == R.id.nav_profile) {
             Intent intent = new Intent(this,ProfileViewActivity.class);
             intent.putExtra("api_key", api_key);
             startActivity(intent);

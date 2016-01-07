@@ -1,6 +1,7 @@
 package edu.boun.cmpe451.group2.android.recipe;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -53,7 +54,7 @@ public class RecipeListFragment extends Fragment {
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
 
-    private int list_type;
+    List<Recipe> recipeList;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -77,6 +78,7 @@ public class RecipeListFragment extends Fragment {
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
         public void onItemSelected(String id) {
+
         }
     };
 
@@ -126,7 +128,10 @@ public class RecipeListFragment extends Fragment {
         recipeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+                Recipe recipe = recipeList.get(position);
+                Intent detailIntent = new Intent(getContext(), RecipeViewActivity.class);
+                detailIntent.putExtra(RecipeViewActivity.ARG_ITEM_ID, recipe.getId().toString());
+                startActivity(detailIntent);
             }
         });
         return view;
@@ -190,7 +195,7 @@ public class RecipeListFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final Response<List<Recipe>> response) {
-            List<Recipe> recipeList = response.body();
+            recipeList = response.body();
             ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), 0,recipeList);
             if(recipeList!=null) {
                 recipeListView.setAdapter(recipeAdapter);
