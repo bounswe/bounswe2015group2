@@ -128,12 +128,12 @@
                     </div>
                     <div class="col-sm-3">
                         <label>Enter Ingredients</label><br>
-                        <input type="text" class="form-control" id="ingredients" value="onions,garlic,bread" name="ingredients"/>
+                        <input type="text" class="form-control" id="ingredients_search" value="onions,garlic,bread" name="ingredients"/>
 
                     </div>
                     <div class="col-sm-3">
                         <label>Enter Tags <span class="glyphicon glyphicon-tags"></span></label><br>
-                        <input type="text" class="form-control" id="tags" value="pasta,fast" name="tags"/>
+                        <input type="text" class="form-control" id="tags_search" value="pasta,fast" name="tags"/>
 
                     </div>
                 </div>
@@ -184,8 +184,8 @@
             $("#searchForm").toggle("fast",null);
         });
 
-        $('#tags').tokenfield();
-        $('#ingredients').tokenfield();
+        $('#tags_search').tokenfield();
+        $('#ingredients_search').tokenfield();
 
         $('#search').on('submit', function(){
             if($('#keyword').val().length == 0) $('#keyword').disable();

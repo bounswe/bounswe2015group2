@@ -35,9 +35,6 @@ $(document).ready(function() {
                 var ingredient_to_be_added = generateSearchedIngredientHTML(ingredient.ndbno,ingredient.name);
                 wrapper_searched_ingredients.append(ingredient_to_be_added);
             });
-
-
-
         });
     });
 
