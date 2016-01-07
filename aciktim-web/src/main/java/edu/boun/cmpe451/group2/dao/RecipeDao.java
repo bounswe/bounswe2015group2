@@ -93,12 +93,7 @@ public class RecipeDao extends BaseDao {
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql, "%" + name + "%");
 
-        if (recipeList.size() < 50) {
-            AddSemanticallyRelatedRecipes(recipeList);
-        }
-        if (recipeList.size() < 50) {
-            AddSemanticallyRelatedRecipesClass(recipeList);
-        }
+
 
 //      bu yemek
 
@@ -149,6 +144,28 @@ public class RecipeDao extends BaseDao {
 
         }
 
+        if (recipeList.size() < 50) {
+            AddSemanticallyRelatedRecipes(recipeList);
+        }
+        if (recipeList.size() < 50) {
+            AddSemanticallyRelatedRecipesClass(recipeList);
+        }
+        ArrayList<Recipe> temp = new ArrayList<Recipe>();
+        Iterator<Recipe> recipeIterator = recipeList.iterator();
+        while(recipeIterator.hasNext()){
+            boolean has_all = true;
+            Recipe r = recipeIterator.next();
+            List<Ingredient> inList = r.getIngredientList();
+            for (int matchedID : matchedIngredientIDs) {
+                if (!inList.contains(matchedID))
+                    has_all = false;
+            }
+            if(has_all){
+                temp.add(r);
+            }
+        }
+        recipeList.clear();
+        recipeList = temp;
 
         if (tags != null && tags.size() > 0) {
             recipeList = filterListByTags(recipeList, tags);
@@ -275,6 +292,8 @@ public class RecipeDao extends BaseDao {
     }
 
     public void AddSemanticallyRelatedRecipesClass(ArrayList<Recipe> recipeList) throws ExException {
+        ArrayList<Recipe> result = new ArrayList<Recipe>();
+        result = mergeRecipes(result,recipeList);
         Iterator<Recipe> recipeIterator = recipeList.iterator();
         while(recipeIterator.hasNext()){
             Recipe r = recipeIterator.next();
@@ -283,11 +302,12 @@ public class RecipeDao extends BaseDao {
             while(tagIterator.hasNext()){
                 Tag t = tagIterator.next();
                 ArrayList<Recipe> temp = searchByTagClass(t);
-                recipeList=mergeRecipes(recipeList,temp);
+                result=mergeRecipes(result,temp);
                 if(recipeList.size()>=50) break;
             }
             if(recipeList.size()>=50) break;
         }
+        recipeList = mergeRecipes(recipeList,result);
     }
 
     public ArrayList<Recipe> mergeRecipes(ArrayList<Recipe> list1, ArrayList<Recipe> list2){
@@ -360,7 +380,7 @@ public class RecipeDao extends BaseDao {
             Iterator<Tag> tagIterator = tags.iterator();
             while(tagIterator.hasNext()){
                 Tag t = tagIterator.next();
-                ArrayList<Recipe> temp = searchByTagClass(t);
+                ArrayList<Recipe> temp = searchByTag(t);
                 result=mergeRecipes(result,temp);
                 if(recipeList.size()>=50) break;
             }
