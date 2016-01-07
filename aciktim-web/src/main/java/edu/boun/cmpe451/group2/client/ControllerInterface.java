@@ -72,7 +72,7 @@ public interface ControllerInterface {
     ApiResponse addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")
-    ArrayList<Menu> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
+    ArrayList<Menu> getMenus(@Query(RECIPE_ID_PARAMETER) Long ownerId);
 
     @GET(USER_SVC_PATH+"/getDailyConsumption")
     ArrayList<Recipe> getDailyConsumption( @Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER)String date);
