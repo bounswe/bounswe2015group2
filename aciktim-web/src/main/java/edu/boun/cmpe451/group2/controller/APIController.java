@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
-import retrofit.client.Response;
 
 /**
  * API Controller Class
@@ -278,6 +277,7 @@ public class APIController implements ControllerInterface {
      * @param date date of the consumption
      * @return an ApiResponse containing the status and the message
      */
+    @RequestMapping("/consume")
     public @ResponseBody ApiResponse consume(@RequestParam Long userID,@RequestParam Long recipeID,@RequestParam String date){
         ApiResponse response = new ApiResponse();
         try{
@@ -381,10 +381,10 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping(USER_SVC_PATH +"/editProfile")
-    public @ResponseBody ApiResponse editProfile(@RequestParam String apikey,@RequestParam String username,@RequestParam String email,@RequestParam ArrayList<Tag> likes, @RequestParam ArrayList<Tag> dislikes, @RequestParam ArrayList<Tag> allergies ){
+    public @ResponseBody ApiResponse editProfile(@RequestParam String api_key,@RequestParam String username,@RequestParam String email,@RequestParam ArrayList<Tag> likes, @RequestParam ArrayList<Tag> dislikes, @RequestParam ArrayList<Tag> allergies ){
         ApiResponse response = new ApiResponse();
         try{
-            User user = userModel.getUser(apikey);
+            User user = userModel.getUser(api_key);
             userModel.editProfile(Long.parseLong(user.id),username,email,likes,dislikes,allergies);
         }catch(Exception e){
             e.printStackTrace();

@@ -126,6 +126,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        editor.remove(getString(R.string.api_key));
+        editor.commit();
+        super.onDestroy();
+    }
 
     @Override
     public void onBackPressed() {
@@ -133,6 +139,8 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            editor.remove(getString(R.string.api_key));
+            editor.commit();
             super.onBackPressed();
         }
     }
@@ -199,6 +207,8 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra("api_key", api_key);
             startActivity(intent);
         } else if (id == R.id.nav_sign_out) {
+            editor.remove(getString(R.string.api_key));
+            editor.commit();
             finish();
         }
 

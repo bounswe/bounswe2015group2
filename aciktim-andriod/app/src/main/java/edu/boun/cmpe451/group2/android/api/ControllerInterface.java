@@ -53,6 +53,7 @@ public interface ControllerInterface {
     @POST(LOGIN_PATH)
     Call<ApiResponse> login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
 
+
     /**
      * Sends a get request in order to get information about the user using the api key of the user.
      *
@@ -83,6 +84,7 @@ public interface ControllerInterface {
      * @param recipeID id of the recipe to be deleted
      * @return
      */
+    @DELETE(RECIPE_SVC_PATH)
     String deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     /**
@@ -116,7 +118,6 @@ public interface ControllerInterface {
      * @return List of recipes that are recommended
      */
     @GET(USER_SVC_PATH + "/recommendations")
-
     Call<List<Recipe>> getRecommendations(@Body User user);
 
     /**
@@ -136,7 +137,7 @@ public interface ControllerInterface {
      * @return an array list of recipes that satisfies the criteria
      */
     @GET("/advancedSearch")
-    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
+    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) List<String> ingrNames);
 
     /**
      * adds a menu
@@ -144,15 +145,15 @@ public interface ControllerInterface {
      * @return type and content of the result in a hashmap
      */
     @POST(USER_SVC_PATH+"/addMenu")
-    String addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
+    ApiResponse addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     /**
      * gets menus of the user
      * @param api_key api_key of the user
      * @return a hashmap of long and menu (keys are ids, values are menues)
      */
-    @GET(USER_SVC_PATH+"/getMenus")
-    HashMap<Long,Menu> getMenusByApiKey(@Query(RECIPE_ID_PARAMETER) String api_key);
+     @GET(USER_SVC_PATH+"/getMenus")
+     List<Menu> getMenus(@Query(RECIPE_ID_PARAMETER) Long ownerId);
 
     /**
      * This method returns the daily consumption of a user given that day
@@ -163,4 +164,16 @@ public interface ControllerInterface {
      */
     @GET(USER_PATH + "/getDailyConsumption")
     Call<List<Recipe>> getDailyConsumption(@Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER) String date);
+    
+    @POST("/consume")
+    ApiResponse consume(@Query(USER_ID_PARAMETER) Long userID,@Query(RECIPE_ID_PARAMETER) Long recipeID,@Query(DATE_PARAMETER) String date);
+
+    @GET("/searchRestaurant")
+    List<User> searchRestaurants(@Query("name") String name);
+
+    @PUT(USER_SVC_PATH +"/editProfile")
+    ApiResponse editProfile(@Query(API_KEY_PARAMETER) String api_key,@Query("username") String username,
+                            @Query(EMAIL_PARAMETER) String email,@Query("likes") List<Tag> likes,
+                            @Query("dislikes") List<Tag> dislikes, @Query("allergies") List<Tag> allergies );
+
 }

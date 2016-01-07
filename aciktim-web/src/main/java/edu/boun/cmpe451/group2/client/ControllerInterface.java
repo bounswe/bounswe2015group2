@@ -15,27 +15,32 @@ import retrofit.http.*;
  */
 public interface ControllerInterface {
 
-    public static final String API_KEY_PARAMETER = "api_key";
+  public static final String API_KEY_PARAMETER = "api_key";
 
-    public static final String RECIPE_ID_PARAMETER = "recipeID";
+  public static final String RECIPE_ID_PARAMETER = "name";
 
-    public static final String DATE_PARAMETER = "date";
+  public static final String DATE_PARAMETER = "date";
 
-    public static final String USER_ID_PARAMETER = "users_id";
+  public static final String USER_ID_PARAMETER = "users_id";
 
-    public static final String PASSWORD_PARAMETER = "password";
+  public static final String PASSWORD_PARAMETER = "password";
 
-    public static final String EMAIL_PARAMETER = "email";
+  public static final String EMAIL_PARAMETER = "email";
 
-    public static final String LOGIN_PATH = "/login";
+  public static final String LOGIN_PATH = "login";
 
-    public static final String USER_SVC_PATH = "/user";
+  public static final String SIGN_UP_PATH = "signup";
 
-    public static final String RECIPE_SVC_PATH = "/recipe";
+  public static final String USER_SVC_PATH = "getuser";
 
-    public static final String RECIPE_TITLE_SEARCH_PATH = RECIPE_SVC_PATH + "/search/findByName";
+  public static final String USER_PATH = "user";
 
-    public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
+  public static final String RECIPE_SVC_PATH = "recipe";
+
+  public static final String RECIPE_TITLE_SEARCH_PATH = "search";
+
+  public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
+
     @POST(LOGIN_PATH)
     ApiResponse login(@Query(EMAIL_PARAMETER) String email, @Query(PASSWORD_PARAMETER) String password);
 
@@ -48,6 +53,7 @@ public interface ControllerInterface {
     @POST(RECIPE_SVC_PATH)
     ApiResponse addrecipe(@Body Recipe recipe);
 
+    @DELETE(RECIPE_SVC_PATH)
     ApiResponse deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
@@ -60,21 +66,32 @@ public interface ControllerInterface {
     ApiResponse updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    ArrayList<Recipe> getRecommendations(@Body User user);
+    List<Recipe> getRecommendations(@Body User user);
 
     @GET("/search")
     ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
 
     @GET("/advancedSearch")
-    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) ArrayList<String> ingrNames);
+    List<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) List<String> ingrNames);
 
     @POST(USER_SVC_PATH + "/addMenu")
     ApiResponse addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")
-    ArrayList<Menu> getMenus(@Query(RECIPE_ID_PARAMETER) Long ownerId);
+    List<Menu> getMenus(@Query(RECIPE_ID_PARAMETER) Long ownerId);
 
     @GET(USER_SVC_PATH+"/getDailyConsumption")
-    ArrayList<Recipe> getDailyConsumption( @Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER)String date);
+    List<Recipe> getDailyConsumption( @Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER)String date);
+
+    @POST("/consume")
+    ApiResponse consume(@Query(USER_ID_PARAMETER) Long userID,@Query(RECIPE_ID_PARAMETER) Long recipeID,@Query(DATE_PARAMETER) String date);
+
+    @GET("/searchRestaurant")
+    List<User> searchRestaurants(@Query("name") String name);
+
+    @PUT(USER_SVC_PATH +"/editProfile")
+    ApiResponse editProfile(@Query(API_KEY_PARAMETER) String api_key,@Query("username") String username,
+                            @Query(EMAIL_PARAMETER) String email,@Query("likes") List<Tag> likes,
+                            @Query("dislikes") List<Tag> dislikes, @Query("allergies") List<Tag> allergies );
 
 }
