@@ -1,6 +1,8 @@
 package edu.boun.cmpe451.group2.android.recipe;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +21,12 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedVignetteBitmapDisplayer;
 
+import java.util.List;
+
 import edu.boun.cmpe451.group2.android.R;
 import edu.boun.cmpe451.group2.android.api.ApiProxy;
 import edu.boun.cmpe451.group2.android.api.ControllerInterface;
+import edu.boun.cmpe451.group2.android.api.Ingredient;
 import edu.boun.cmpe451.group2.android.api.Recipe;
 import retrofit.Call;
 import retrofit.Response;
@@ -39,6 +45,10 @@ public class RecipeViewActivity extends AppCompatActivity {
     private Recipe recipe;
 
     private DisplayImageOptions options;
+
+    List<Ingredient> ingredientListView;
+    String ingredient_view = "";
+    String nutrition_view = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +124,70 @@ public class RecipeViewActivity extends AppCompatActivity {
             TextView title =(TextView) findViewById(R.id.article_title);
             TextView description =(TextView) findViewById(R.id.article_body);
 
+            Button view_ingredient_button = (Button) findViewById(R.id.recipe_view_ingredient_button);
+            Button view_nutrition_button = (Button) findViewById(R.id.recipe_view_nutrition_value_button);
+
             title.setText(recipe.getName());
             description.setText(recipe.getDescription());
-            ImageLoader.getInstance().displayImage(recipe.getPictureAddress(),imageView, options);
+            ImageLoader.getInstance().displayImage(recipe.getPictureAddress(), imageView, options);
 
+            view_ingredient_button .setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+
+                    ingredientListView = recipe.getIngredientList();
+                    ingredient_view = "";
+
+                    for( int j = 0; j < ingredientListView.size(); j++ ){
+                        ingredient_view += "" + (j + 1) + ") " + ingredientListView.get( j ).getName() + " -> ";
+                        ingredient_view += "Calorie: " + ingredientListView.get( j ).getCalories() + ", ";
+                        ingredient_view += "Carbohydrate: " + ingredientListView.get( j ).getCarbohydrate() + ", ";
+                        ingredient_view += "Protein: " + ingredientListView.get( j ).getProtein() + ", ";
+                        ingredient_view += "Fat: " + ingredientListView.get( j ).getFat() + ", ";
+                        ingredient_view += "Quantity: " + ingredientListView.get( j ).amount + " " + ingredientListView.get( j ).getUnitName();
+                        ingredient_view += "\n\n";
+                    }
+
+                    AlertDialog.Builder diyalog =
+                            new AlertDialog.Builder( RecipeViewActivity.this);
+
+                    diyalog.setMessage( ingredient_view )
+                            .setCancelable(false)
+                            .setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    diyalog.create().show();
+
+                }
+            });
+
+            view_nutrition_button .setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+
+                    nutrition_view = "";
+
+                    nutrition_view += "Calorie: " + recipe.getTotalCal() + "\n";
+                    nutrition_view += "Carbohydrate: " + recipe.getTotalCarb() + "\n";
+                    nutrition_view += "Protein: " + recipe.getTotalProtein() + "\n";
+                    nutrition_view += "Fat: " + recipe.getTotalProtein() + "\n";
+
+                    AlertDialog.Builder diyalog =
+                            new AlertDialog.Builder( RecipeViewActivity.this);
+
+                    diyalog.setMessage( nutrition_view )
+                            .setCancelable(false)
+                            .setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    diyalog.create().show();
+
+                }
+            });
 
         }
 

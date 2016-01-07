@@ -462,8 +462,10 @@ public class RecipeDao extends BaseDao {
      * @throws ExException when there is no recipe of that id
      */
     public Recipe getRecipe(Long id) throws ExException {
+        System.out.println("RECİPES ID : "+id);
         String sql = "SELECT * FROM recipes WHERE recipes.id = ? ";
         String sqlCount = "SELECT COUNT(*) FROM recipes WHERE recipes.id = ?";
+
         Map<String, Object> mapCount = this.jdbcTemplate.queryForMap(sqlCount, id);
         if (Integer.parseInt(mapCount.get("COUNT(*)").toString()) == 0) {
             throw new ExException(ExError.E_RECIPE_NOT_FOUND);

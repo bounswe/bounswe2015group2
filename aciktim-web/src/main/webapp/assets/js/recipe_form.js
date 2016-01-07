@@ -25,7 +25,7 @@ $(document).ready(function() {
     });
 
     //// SEARCH BUTTON LISTENER ON SEARCHED INGREDIENTS
-    $("#search").on("click",function(){
+    $("#searchIngredient").on("click",function(){
         var query = $("#query").val();
         var search_call = search_call_p1+ query + search_call_p2;
         $.getJSON(search_call,function(data){
@@ -35,9 +35,6 @@ $(document).ready(function() {
                 var ingredient_to_be_added = generateSearchedIngredientHTML(ingredient.ndbno,ingredient.name);
                 wrapper_searched_ingredients.append(ingredient_to_be_added);
             });
-
-
-
         });
     });
 
