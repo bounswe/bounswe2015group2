@@ -115,12 +115,14 @@ public class RecipeController {
             }
         }else{ // LOGGED OUT NOW
             try {
-
-                recipeResults = recipeModel.searchRecipes(keyword);
-                System.out.println("Normal sörç " + recipeResults.size());
+                if(keyword.equals("")){
+                    recipeResults = recipeModel.searchRecipes(keyword);
+//                    recipeResults = recipeModel.searchRecipesRandom(12);
+                }else{
+                    recipeResults = recipeModel.searchRecipes(keyword);
+                }
             }catch (ExException e){
                 e.printStackTrace();
-                System.out.println("Bro :( ");
             }
         }
         System.out.println("Resipe resült sayz : "+recipeResults.size());
