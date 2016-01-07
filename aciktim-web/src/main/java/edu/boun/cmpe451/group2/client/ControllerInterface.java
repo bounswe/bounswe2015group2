@@ -87,5 +87,12 @@ public interface ControllerInterface {
     ApiResponse editProfile(@Query(API_KEY_PARAMETER) String api_key,@Query("username") String username,
                             @Query(EMAIL_PARAMETER) String email,@Query("likes") ArrayList<Tag> likes,
                             @Query("dislikes") ArrayList<Tag> dislikes, @Query("allergies") ArrayList<Tag> allergies );
-
+  @GET("/advancedSearch")
+  ArrayList<Recipe> advancedSearch(@Query("keyword") String keyword,@Query("ingredients") List<String> ingredients,
+                                   @Query("isInst") Boolean isInst,@Query("totalFatUpper") Double totalFatUpper,
+                                   @Query("totalCarbUpper") Double totalCarbUpper, @Query("totalProteinUpper") Double totalProteinUpper,
+                                   @Query("totalCalUpper") Double totalCalUpper, @Query("totalFatLower") Double totalFatLower,
+                                   @Query("totalCarbLower") Double totalCarbLower, @Query("totalProteinLower") Double totalProteinLower,
+                                   @Query("totalCalLower") Double totalCalLower, @Query("tags") List<String> tags,
+                                   @Query("userID") Long userID );
 }

@@ -176,4 +176,13 @@ public interface ControllerInterface {
                             @Query(EMAIL_PARAMETER) String email,@Query("likes") List<Tag> likes,
                             @Query("dislikes") List<Tag> dislikes, @Query("allergies") List<Tag> allergies );
 
+    @GET("/advancedSearch")
+    ArrayList<Recipe> advancedSearch(@Query("keyword") String keyword,@Query("ingredients") List<String> ingredients,
+                                     @Query("isInst") Boolean isInst,@Query("totalFatUpper") Double totalFatUpper,
+                                     @Query("totalCarbUpper") Double totalCarbUpper, @Query("totalProteinUpper") Double totalProteinUpper,
+                                     @Query("totalCalUpper") Double totalCalUpper, @Query("totalFatLower") Double totalFatLower,
+                                     @Query("totalCarbLower") Double totalCarbLower, @Query("totalProteinLower") Double totalProteinLower,
+                                     @Query("totalCalLower") Double totalCalLower, @Query("tags") List<String> tags,
+                                     @Query("userID") Long userID );
+
 }
