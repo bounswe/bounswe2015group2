@@ -280,14 +280,14 @@ public class APIController implements ControllerInterface {
         return restaurants;
     }
 
-    /**
+    //this advanced search is old
+    /*
      * advanced search
      * filters the results by the given ingredient names
      * this filter has AND relationship between the ingredient names
      * @param name name of the recipe
      * @param ingrNames ingredient names to be included in the recipe
      * @return an array list of recipes that satisfies the criteria
-     */
     @RequestMapping("/advancedSearch")
     public @ResponseBody List<Recipe> search(@RequestParam String name,@RequestParam List<String> ingrNames){
         ArrayList<Recipe> result = new ArrayList<Recipe>();
@@ -299,6 +299,7 @@ public class APIController implements ControllerInterface {
         }
         return result;
     }
+     */
 
     /**
      * this method helps a user to consume a recipe
