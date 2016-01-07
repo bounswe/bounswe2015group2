@@ -239,7 +239,7 @@ public class UserController {
             model.put("user_id" , user.id);
             model.put("picture_url", user.pictureAddress);
             try {
-                model.put("recommendations", recipeModel.getRecommendations(user));
+                model.put("recommendations", recipeModel.getRecommendations(user.id));
                 model.put("recommendations_preferences", recipeModel.getRecommendationsPreferences(user));
 
                 ArrayList<String> likes = new ArrayList<String>();

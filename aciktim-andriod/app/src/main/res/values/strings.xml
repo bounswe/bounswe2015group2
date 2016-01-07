@@ -142,4 +142,8 @@
     <string name="tag_class">Tag Class : %s</string>preference_file_key
     <string name="preference_file_key">aciktim_preferences</string>
     <string name="api_key">api_key</string>
+    <string name="title_activity_advanced_search">Advanced Search</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

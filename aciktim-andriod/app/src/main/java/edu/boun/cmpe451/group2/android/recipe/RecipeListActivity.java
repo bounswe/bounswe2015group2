@@ -47,7 +47,9 @@ public class RecipeListActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
         Toast.makeText(getApplicationContext(), user_id + "", Toast.LENGTH_SHORT).show();
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.recipe_add_button);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +70,7 @@ public class RecipeListActivity extends AppCompatActivity
             // activity should be in two-pane mode.
             mTwoPane = true;
 
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            ((RecipeListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.recipe_list))
-                    .setActivateOnItemClick(true);
+
         }
 
         // TODO: If exposing deep links into your app, handle intents here.

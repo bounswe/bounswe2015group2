@@ -584,7 +584,7 @@ public class RecipeDao extends BaseDao {
         }
     }
 
-    public List<Map<String, Object>> getRecommendations(User user) {
+    public List<Map<String, Object>> getRecommendations(String userID) {
         Calendar calendar = Calendar.getInstance();
         String time=""+calendar.get(Calendar.YEAR)+"-";
         time = time + (calendar.get(Calendar.MONTH)+1)+"-";
@@ -595,7 +595,7 @@ public class RecipeDao extends BaseDao {
         Double protein = 0d;
         ArrayList<Long> recipe = new ArrayList<Long>();
         String sql = "SELECT recipeID from dailyConsumption where userID = ? AND day=?";
-        List<Map<String, Object>> recipes = this.jdbcTemplate.queryForList(sql, user.id,time);
+        List<Map<String, Object>> recipes = this.jdbcTemplate.queryForList(sql, userID,time);
         for(Map<String,Object> map: recipes) {
             recipe.add(Long.parseLong(map.get("recipeID").toString()));
         }
@@ -627,7 +627,7 @@ public class RecipeDao extends BaseDao {
         }
         sql = "SELECT id FROM recipes  where id not in(SELECT distinct id FROM recipes INNER JOIN dailyConsumption on id=recipeID where day = ? and userId = ?) order by " +min+ "/(totalFat+totalCarb+totalProtein) DESC LIMIT 5";
         //String day = "2016-01-07 00:00:00";
-        return this.jdbcTemplate.queryForList(sql,time,user.id);
+        return this.jdbcTemplate.queryForList(sql,time,userID);
     }
 
     /**

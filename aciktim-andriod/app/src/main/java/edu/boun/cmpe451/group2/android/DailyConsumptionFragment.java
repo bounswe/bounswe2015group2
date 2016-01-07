@@ -45,7 +45,7 @@ public class DailyConsumptionFragment extends Fragment {   // recipeleri ekranda
         recipeLV = (ListView) view.findViewById(R.id.recipeLV);
         loadingBar = (ProgressBar) view.findViewById(R.id.loadingBar);
         // sunucudan dailyConsumption datalarını çekmek için methodu call et
-        getDailyConsumptions();
+        //getDailyConsumptions();
 
         return view;
     }

@@ -263,14 +263,14 @@ public class RecipeModel {
      * @return arraylist of recipes that contains maximum 5 recipes
      * @throws Exception
      */
-    public ArrayList<Recipe> getRecommendations(User user) throws Exception {
-        List<Map<String, Object>> list = recipeDao.getRecommendations(user);
+    public ArrayList<Recipe> getRecommendations(String userID) throws Exception {
+        List<Map<String, Object>> list = recipeDao.getRecommendations(userID);
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
         for (Map<String, Object> row : list) {
             Recipe r = getRecipe(Long.parseLong(row.get("id").toString()));
             recipes.add(r);
         }
-        return reOrderByPreferences(recipes,Long.parseLong(user.id));
+        return reOrderByPreferences(recipes,Long.parseLong(userID));
     }
 
     /**

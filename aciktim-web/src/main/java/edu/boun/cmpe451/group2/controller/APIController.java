@@ -177,8 +177,8 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping("recipe/list")
-    public @ResponseBody List<Recipe> getRecipes(@RequestParam Long users_id) {
-        return recipeModel.getRecipes(users_id);
+    public @ResponseBody List<Recipe> getRecipes(@RequestParam Long user_id) {
+        return recipeModel.getRecipes(user_id);
     }
 
     @RequestMapping("recipe/get")
@@ -211,10 +211,10 @@ public class APIController implements ControllerInterface {
     }
 
     @RequestMapping(USER_SVC_PATH + "/recommendations")
-    public @ResponseBody ArrayList<Recipe> getRecommendations(@RequestBody User user){
+    public @ResponseBody ArrayList<Recipe> getRecommendations(@RequestParam Long user_id){
 
         try {
-            return recipeModel.getRecommendations(user);
+            return recipeModel.getRecommendations(user_id+"");
         }
         catch (Exception e){
             e.printStackTrace();

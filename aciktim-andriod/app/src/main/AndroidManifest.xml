@@ -27,7 +27,8 @@
             android:name=".home.MainActivity"
             android:label="@string/title_activity_main_drawer"
             android:theme="@style/AppTheme.NoActionBar">
-            <meta-data android:name="android.app.default_searchable"
+            <meta-data
+                android:name="android.app.default_searchable"
                 android:value=".recipe.SearchActivity" />
         </activity>
         <activity
@@ -110,7 +111,7 @@
         <activity
             android:name=".SemanticTagActivity"
             android:label="@string/title_activity_semantic_tag"
-            android:parentActivityName=".recipe.RecipeAddActivity" >
+            android:parentActivityName=".recipe.RecipeAddActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.boun.cmpe451.group2.android.recipe.RecipeAddActivity" />
@@ -118,14 +119,24 @@
         <activity
             android:name=".recipe.SearchActivity"
             android:label="@string/title_activity_search"
-            android:parentActivityName=".home.MainActivity"
             android:launchMode="singleTop"
+            android:parentActivityName=".home.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.boun.cmpe451.group2.android.home.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AdvancedSearchActivity"
+            android:label="@string/title_activity_advanced_search"
+            android:parentActivityName=".home.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.boun.cmpe451.group2.android.home.MainActivity" />

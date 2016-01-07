@@ -23,7 +23,7 @@ public interface ControllerInterface {
 
     public static final String DATE_PARAMETER = "date";
 
-    public static final String USER_ID_PARAMETER = "users_id";
+    public static final String USER_ID_PARAMETER = "user_id";
 
     public static final String PASSWORD_PARAMETER = "password";
 
@@ -114,11 +114,11 @@ public interface ControllerInterface {
 
     /**
      * Sends a post request in order to get recommendation for a user
-     * @param user User to get recommendations
+     * @param userId Id of the user to get recommendations
      * @return List of recipes that are recommended
      */
     @GET(USER_SVC_PATH + "/recommendations")
-    Call<List<Recipe>> getRecommendations(@Body User user);
+    Call<List<Recipe>> getRecommendations(@Query(USER_ID_PARAMETER) Long userId);
 
     /**
      * default search function

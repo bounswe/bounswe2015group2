@@ -38,6 +38,9 @@ import edu.boun.cmpe451.group2.android.profile.ProfileViewActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListFragment;
 
+import edu.boun.cmpe451.group2.android.recipe.RecipeViewActivity;
+import edu.boun.cmpe451.group2.android.recipe.RecipeViewFragment;
+import edu.boun.cmpe451.group2.android.recipe.RecommendationFragment;
 import edu.boun.cmpe451.group2.android.restaurant.RestaurantListActivity;
 import retrofit.Call;
 import retrofit.Response;
@@ -90,21 +93,11 @@ public class MainActivity extends AppCompatActivity
         GetUserTask getUserTask = new GetUserTask();
         getUserTask.execute();
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -188,11 +181,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_favorites) {
-            Intent intent = new Intent(this,RecipeListActivity.class);
-            intent.putExtra("user_id",user.getId());
-            startActivity(intent);
-        } else if (id == R.id.nav_recipes) {
+        if (id == R.id.nav_recipes) {
             Intent intent = new Intent(this,RecipeListActivity.class);
             intent.putExtra("user_id",user.getId());
             startActivity(intent);
@@ -217,6 +206,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemSelected(String id) {
+        Intent detailIntent = new Intent(this, RecipeViewActivity.class);
+        detailIntent.putExtra(RecipeViewFragment.ARG_ITEM_ID, id);
+        startActivity(detailIntent);
 
     }
 
@@ -237,10 +229,8 @@ public class MainActivity extends AppCompatActivity
             switch (position){
                 case 0:
                     Bundle bundle = new Bundle();
-                    bundle.putInt("fragment_list_type",0);
-                    bundle.putString("api_key",api_key);
-                    //bundle.putParcelable("user",user);
-                    Fragment fragment = new RecipeListFragment();
+                    bundle.putString("user_id", user.getId());
+                    Fragment fragment = new RecommendationFragment();
                     fragment.setArguments(bundle);
                     return fragment;
                 case 1:
@@ -329,6 +319,16 @@ public class MainActivity extends AppCompatActivity
                 nav_userNameView.setText(user.full_name);
                 nav_userEmailView.setText(user.getEmail());
             }
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPager);
         }
 
         @Override

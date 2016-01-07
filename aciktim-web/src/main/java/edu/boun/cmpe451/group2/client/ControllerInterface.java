@@ -21,23 +21,17 @@ public interface ControllerInterface {
 
   public static final String DATE_PARAMETER = "date";
 
-  public static final String USER_ID_PARAMETER = "users_id";
+  public static final String USER_ID_PARAMETER = "user_id";
 
   public static final String PASSWORD_PARAMETER = "password";
 
   public static final String EMAIL_PARAMETER = "email";
 
-  public static final String LOGIN_PATH = "login";
+  public static final String LOGIN_PATH = "/login";
 
-  public static final String SIGN_UP_PATH = "signup";
+  public static final String USER_SVC_PATH = "/getuser";
 
-  public static final String USER_SVC_PATH = "getuser";
-
-  public static final String USER_PATH = "user";
-
-  public static final String RECIPE_SVC_PATH = "recipe";
-
-  public static final String RECIPE_TITLE_SEARCH_PATH = "search";
+  public static final String RECIPE_SVC_PATH = "/recipe";
 
   public static final String RECIPE_LIST_BY_USER_PATH = RECIPE_SVC_PATH + "/list";
 
@@ -57,7 +51,7 @@ public interface ControllerInterface {
     ApiResponse deleteRecipe(@Query(RECIPE_ID_PARAMETER) Long recipeID);
 
     @GET(RECIPE_LIST_BY_USER_PATH)
-    List<Recipe> getRecipes(@Query(USER_ID_PARAMETER) Long users_id);
+    List<Recipe> getRecipes(@Query(USER_ID_PARAMETER) Long user_id);
 
     @GET(RECIPE_SVC_PATH)
     Recipe getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
@@ -66,7 +60,7 @@ public interface ControllerInterface {
     ApiResponse updateRecipe(@Body Recipe recipe);
 
     @GET(USER_SVC_PATH + "/recommendations")
-    List<Recipe> getRecommendations(@Body User user);
+    List<Recipe> getRecommendations(@Query(USER_ID_PARAMETER) Long userId);
 
     @GET("/search")
     List<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
@@ -78,7 +72,7 @@ public interface ControllerInterface {
     ApiResponse addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
 
     @GET(USER_SVC_PATH+"/getMenus")
-    List<Menu> getMenus(@Query(RECIPE_ID_PARAMETER) Long ownerId);
+    List<Menu> getMenus(@Query(USER_ID_PARAMETER) Long userId);
 
     @GET(USER_SVC_PATH+"/getDailyConsumption")
     List<Recipe> getDailyConsumption( @Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER)String date);

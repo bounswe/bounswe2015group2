@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.boun.cmpe451.group2.android.TodaysActivitiesFragment">
+    tools:context=".home.MainActivity">
 
-    <ListView android:id="@+id/recipe_list" android:layout_width="match_parent"
+    <ListView android:id="@+id/recommendation_list" android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <TextView android:id="@android:id/empty" android:layout_width="match_parent"
