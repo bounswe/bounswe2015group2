@@ -503,6 +503,7 @@ public class RecipeAddActivity extends AppCompatActivity {
                 ingRate = Long.parseLong(ingredientNutrition.get(i).getQuantity()) / 100.0;
 
                 myIngredient = new Ingredient();
+                myIngredient.id = Long.parseLong( ingredientNutrition.get( i ).getNDBNO() );
                 myIngredient.setName( ingredientNutrition.get( i ).getName() );
                 myIngredient.setUnitName("gram");
                 myIngredient.setCalories(Double.parseDouble(ingredientNutrition.get(i).getEnergy()) * ingRate);
