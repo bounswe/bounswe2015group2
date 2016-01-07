@@ -1,6 +1,5 @@
 package edu.boun.cmpe451.group2.android.recipe;
 
-import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,9 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.boun.cmpe451.group2.android.R;
@@ -20,15 +19,26 @@ import edu.boun.cmpe451.group2.android.api.Recipe;
 import retrofit.Call;
 import retrofit.Response;
 
-public class SearchActivity extends ListActivity {
+public class SearchActivity extends AppCompatActivity {
 
     ControllerInterface api;
+    private ListView searchList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_search_app_bar);
+
+        ApiProxy apiProxy = new ApiProxy();
+        api = apiProxy.getApi();
         handleIntent(getIntent());
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        searchList = (ListView) findViewById(R.id.search_list);
     }
     @Override
     protected void onNewIntent(Intent intent) {
@@ -39,10 +49,6 @@ public class SearchActivity extends ListActivity {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            //use the query to search your data somehow
-
-            ApiProxy apiProxy = new ApiProxy();
-            api = apiProxy.getApi();
 
             GetSearchResults getSearchResults = new GetSearchResults(query);
             getSearchResults.execute();
@@ -72,7 +78,7 @@ public class SearchActivity extends ListActivity {
         protected void onPostExecute(final Response<List<Recipe>> response) {
             List<Recipe> recipeList = response.body();
             ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getApplicationContext(), 0,recipeList);
-            setListAdapter(recipeAdapter);
+            searchList.setAdapter(recipeAdapter);
         }
 
         @Override

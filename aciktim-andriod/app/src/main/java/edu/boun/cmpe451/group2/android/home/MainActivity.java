@@ -128,8 +128,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        editor.remove(getString(R.string.api_key));
-        editor.commit();
         super.onDestroy();
     }
 

@@ -1,6 +1,8 @@
 package edu.boun.cmpe451.group2.android.recipe;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,7 @@ public class RecipeAdapter  extends ArrayAdapter<Recipe> {
         if (item!= null) {
             // My layout has only one TextView
             // do whatever you want with your string and long
+            viewHolder.itemView.setTextColor(Color.parseColor("#000000"));
             viewHolder.itemView.setText(String.format("%s %d", item.getName(), item.getId()));
         }
 

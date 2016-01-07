@@ -149,7 +149,7 @@ public interface ControllerInterface {
 
     /**
      * gets menus of the user
-     * @param api_key api_key of the user
+     * @param ownerId Id of the user
      * @return a hashmap of long and menu (keys are ids, values are menues)
      */
      @GET(USER_SVC_PATH+"/getMenus")
