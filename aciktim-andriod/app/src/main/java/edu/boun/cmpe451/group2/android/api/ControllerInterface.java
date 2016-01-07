@@ -21,6 +21,9 @@ public interface ControllerInterface {
 
     public static final String RECIPE_ID_PARAMETER = "name";
 
+    public static final String USER_ID_PARAMETER_2 = "userID";
+
+
     public static final String DATE_PARAMETER = "date";
 
     public static final String USER_ID_PARAMETER = "user_id";
@@ -163,7 +166,9 @@ public interface ControllerInterface {
      * @return returns arraylist of recipes
      */
     @GET(USER_PATH + "/getDailyConsumption")
-    Call<List<Recipe>> getDailyConsumption(@Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER) String date);
+    Call<List<Recipe>> getDailyConsumption(@Query(USER_ID_PARAMETER_2) Long userID, @Query(DATE_PARAMETER) String date);
+
+
 
     @POST("/consume")
     ApiResponse consume(@Query(USER_ID_PARAMETER) Long userID,@Query(RECIPE_ID_PARAMETER) Long recipeID,@Query(DATE_PARAMETER) String date);
