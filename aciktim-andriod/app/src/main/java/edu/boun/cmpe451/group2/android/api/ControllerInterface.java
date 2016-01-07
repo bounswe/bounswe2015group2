@@ -76,7 +76,7 @@ public interface ControllerInterface {
      * @param recipe recipe to be added
      * @return returns json string
      */
-    @POST("/addrecipe")
+    @POST("addrecipe")
     Call<ApiResponse> addrecipe(@Body Recipe recipe);
 
     /**

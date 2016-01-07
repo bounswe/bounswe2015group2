@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginRight="@dimen/detail_horiz_margin"
+    android:layout_marginTop="@dimen/list_item_vert_margin"
+    >
     <ImageView
+
         android:id="@+id/list_item_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="@dimen/thumbnail_width"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/list_item_vert_margin"
+        android:layout_marginLeft="@dimen/detail_horiz_margin"
+        android:scaleType="centerCrop"
         android:src="@drawable/favorites" />
     <TextView
+
         android:id="@+id/list_item_name"
-        android:layout_width="wrap_content"
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="#c000"
+        android:fontFamily="sans-serif-condensed"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:lineSpacingMultiplier="0.85"
+        android:paddingBottom="4dp"
         android:textSize="20sp"
         android:paddingTop="5dp"/>
 </LinearLayout>
