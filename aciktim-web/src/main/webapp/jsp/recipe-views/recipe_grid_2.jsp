@@ -27,11 +27,11 @@
                     <%--search result recipes--%>
                     <c:forEach var="recipe" items="${recipeResults}" varStatus="roop">
                         <tr>
-                            <td>
+                            <td width="20%">
                                 <img src="${recipe.pictureAddress}" class="img-rounded center-block" width="240">
                             </td>
                             <td width="20%"><a href="${contextPath}/recipe/single?recipe_id=${recipe.id}">${recipe.name}</a></td>
-                            <td width="60%">${recipe.description}</td>
+                            <td width="40%">${recipe.description}</td>
                             <td>
                                 <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
                                         <code>${tag.name}</code>
