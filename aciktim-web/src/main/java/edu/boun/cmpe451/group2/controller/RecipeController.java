@@ -87,8 +87,6 @@ public class RecipeController {
             }else{ // User searches recipes
                 ArrayList<String> ingredient_list = listify(ingredients);
                 ArrayList<String> tag_list = listify(tags);
-//                List<String> ingredient_list = listify(ingredients);
-//                List<String> tag_list = listify(tags);
                 boolean inst = madeAt.equals("restaurant");
 
                 double calU = Double.parseDouble(calUpper);
