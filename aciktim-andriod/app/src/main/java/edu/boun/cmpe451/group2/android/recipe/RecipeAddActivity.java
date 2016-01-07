@@ -48,6 +48,7 @@ import edu.boun.cmpe451.group2.android.api.Recipe;
 import edu.boun.cmpe451.group2.android.api.SemanticTag;
 import edu.boun.cmpe451.group2.android.api.Tag;
 import edu.boun.cmpe451.group2.android.api.User;
+import edu.boun.cmpe451.group2.android.home.MainActivity;
 import edu.boun.cmpe451.group2.android.ingredient.IngredientAdapter;
 import edu.boun.cmpe451.group2.android.ingredient.IngredientItem;
 import edu.boun.cmpe451.group2.android.ingredient.IngredientNutrition;
@@ -549,7 +550,29 @@ public class RecipeAddActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Response<ApiResponse> response) {
 
-            Toast.makeText(getApplicationContext(), "Recipe was added successfully.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Recipe was added successfully.", Toast.LENGTH_SHORT).show();
+
+            if (response != null) {
+                ApiResponse apiResponse = response.body();
+
+                if (apiResponse != null) {
+
+                    if (apiResponse.status == ApiResponse.STATUS.OK) {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+
+                        Toast.makeText(getApplicationContext(), "Recipe was added successfully.", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(apiResponse.api_key != null) {
+
+                        Toast.makeText(getApplicationContext(), "Recipe was added successfully.", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                }
+            }
+
         }
 
         @Override

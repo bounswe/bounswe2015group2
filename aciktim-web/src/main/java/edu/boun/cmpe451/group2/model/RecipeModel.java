@@ -259,7 +259,7 @@ public class RecipeModel {
     /**
      * returns 5 recipes according to daily consumption of the user
      *
-     * @param user user to be recommended
+     * @param userID userID of the user to be recommended
      * @return arraylist of recipes that contains maximum 5 recipes
      * @throws Exception
      */
