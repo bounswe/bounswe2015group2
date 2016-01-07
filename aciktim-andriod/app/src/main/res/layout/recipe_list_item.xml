@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:layout_marginRight="@dimen/detail_horiz_margin"
+android:orientation="horizontal"
+android:baselineAligned="false"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<!--suppress AndroidLintContentDescription -->
+<ImageView
+    android:id="@+id/list_item_image"
+    android:scaleType="centerCrop"
+    android:layout_width="@dimen/thumbnail_width"
+    android:layout_height="match_parent"/>
+
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
     android:layout_marginTop="@dimen/list_item_vert_margin"
-    >
-    <ImageView
+    android:layout_marginBottom="@dimen/list_item_vert_margin"
+    android:layout_marginRight="16dp">
 
-        android:id="@+id/list_item_image"
-        android:layout_width="@dimen/thumbnail_width"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/list_item_vert_margin"
-        android:layout_marginLeft="@dimen/detail_horiz_margin"
-        android:scaleType="centerCrop"
-        android:src="@drawable/favorites" />
     <TextView
-
         android:id="@+id/list_item_name"
         style="?android:textAppearanceMedium"
         android:layout_width="match_parent"
@@ -27,7 +33,17 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:lineSpacingMultiplier="0.85"
-        android:paddingBottom="4dp"
-        android:textSize="20sp"
-        android:paddingTop="5dp"/>
+        android:paddingBottom="4dp"/>
+
+    <TextView
+        android:id="@+id/article_subtitle"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#6000"
+        android:textAllCaps="true"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"/>
+</LinearLayout>
 </LinearLayout>

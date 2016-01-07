@@ -35,6 +35,7 @@ public class RecommendationFragment extends Fragment {
 
     private Long userId;
     ListView recommendationList;
+    List<Recipe> recipeList;
 
     public RecommendationFragment() {
     }
@@ -48,8 +49,9 @@ public class RecommendationFragment extends Fragment {
         recommendationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Recipe recipe = recipeList.get(position);
                 Intent detailIntent = new Intent(getContext(), RecipeViewActivity.class);
-                detailIntent.putExtra(RecipeViewFragment.ARG_ITEM_ID, id);
+                detailIntent.putExtra(RecipeViewFragment.ARG_ITEM_ID, recipe.getId().toString());
                 startActivity(detailIntent);
             }
         });
@@ -98,7 +100,7 @@ public class RecommendationFragment extends Fragment {
 
         @Override
         protected void onPostExecute(final Response<List<Recipe>> response) {
-            List<Recipe> recipeList = response.body();
+            recipeList=  response.body();
             ArrayAdapter<Recipe> recipeAdapter = new RecipeAdapter(getContext(), 0, recipeList);
             recommendationList.setAdapter(recipeAdapter);
         }

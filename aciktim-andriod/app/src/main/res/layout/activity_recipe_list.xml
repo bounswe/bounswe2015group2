@@ -2,6 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/activity_recipe_list"
     android:name="edu.boun.cmpe451.group2.android.recipe.RecipeListFragment"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
+    android:layout_marginLeft="@dimen/detail_horiz_margin" android:layout_marginRight="@dimen/detail_horiz_margin"
     tools:context=".recipe.RecipeListActivity"
     tools:layout="@android:layout/list_content" />
