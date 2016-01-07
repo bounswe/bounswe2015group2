@@ -574,7 +574,7 @@ public class RecipeController {
             System.out.println("TARRAK DETECTED!!!!");
             String group = ingredient_groups[i];
             String name = ingredient_names[i];
-            if (!(name.toLowerCase().contains("gluten-free") || name.toLowerCase().contains("gluten free")) && group.equals("Baked Products")) gluten = true;
+            if (!(name.toLowerCase().contains("gluten-free") || name.toLowerCase().contains("gluten free")) && (group.equals("Baked Products") || (group.equals("Cereal Grains and Pasta")))) gluten = true;
             if (!(name.toLowerCase().contains("lactose free")) && group.equals("Dairy and Egg Products")) lactose = true;
         }
 

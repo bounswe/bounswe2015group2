@@ -14,7 +14,6 @@
     </c:if>
 
 
-
     <%@include  file="../sub-element/footer.jsp" %>
 </div>
 </body>

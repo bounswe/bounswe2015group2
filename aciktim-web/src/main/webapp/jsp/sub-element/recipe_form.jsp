@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/recipe-form-style.css"/>
+<%--<link rel="stylesheet" type="text/css" href="${contextPath}/assets/custom_style/recipe-form-style.css"/>--%>
 <div class="container text-center">
 
     <div class="row">
@@ -47,7 +47,7 @@
                                         <input class="form-control" type="text" placeholder="Pear" id="query">
                                     </div>
                                     <div class="col-sm-2">
-                                        <span class="btn btn-primary" id="search">Search!</span>
+                                        <span class="btn btn-primary" id="searchIngredient">Search!</span>
                                     </div>
                                 </div>
 
