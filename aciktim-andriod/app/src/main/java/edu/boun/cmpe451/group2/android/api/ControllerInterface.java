@@ -165,7 +165,7 @@ public interface ControllerInterface {
      * @param date date of the day in the format of yyyy/MM/dd
      * @return returns arraylist of recipes
      */
-    @GET(USER_PATH + "/getDailyConsumption")
+    @GET(USER_SVC_PATH + "/getDailyConsumption")
     Call<List<Recipe>> getDailyConsumption(@Query(USER_ID_PARAMETER_2) Long userID, @Query(DATE_PARAMETER) String date);
 
 

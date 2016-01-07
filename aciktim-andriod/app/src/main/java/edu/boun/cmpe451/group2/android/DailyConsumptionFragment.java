@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -45,12 +46,13 @@ public class DailyConsumptionFragment extends Fragment {   // recipeleri ekranda
         recipeLV = (ListView) view.findViewById(R.id.recipeLV);
         loadingBar = (ProgressBar) view.findViewById(R.id.loadingBar);
         // sunucudan dailyConsumption datalarını çekmek için methodu call et
-        //getDailyConsumptions();
+        getDailyConsumptions();
 
         return view;
     }
     // dailyConsumtionu user bazlı çekiyoruz bu sebeple ilk önce user bilgilerini çekip ardına o bilgiler gelince daily datalarını istiyoruz.
     private void getDailyConsumptions() {
+        System.out.println("check");
         ApiProxy apiProxy = new ApiProxy();
         final ControllerInterface api = apiProxy.getApi();  // retrofit interfacesini kullanabilmek için api türetiyoruz.
 
@@ -63,15 +65,19 @@ public class DailyConsumptionFragment extends Fragment {   // recipeleri ekranda
             public void onResponse(Response<User> response, Retrofit retrofit) {  // user requesti başarılı olursa bu method çağırılır
 
                 User user = response.body();  // user bilgilerini bu şekilde responsenin içinden alıyoruz
-
-                Date currentDate = new Date();
+                Calendar cal = Calendar.getInstance();
+                //Date currentDate = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd"); // bu formatta bir tarih gönderip bugünün datasını istiyoruz
                 if(user!=null){
-                    Call<List<Recipe>> dailyConsumptionRequest = api.getDailyConsumption(Long.valueOf(user.getId()), formatter.format(currentDate)); // dailyConsumtion requestini bugünün datası ile oluşturuyoruz
+                    String strDate = cal.get(Calendar.YEAR)+"/"+(cal.get(Calendar.MONTH)+1)+"/"+cal.get(Calendar.DAY_OF_MONTH);
+                    System.out.println("date is: "+strDate);
+                    System.out.println(Long.valueOf(user.getId()));
+                    Call<List<Recipe>> dailyConsumptionRequest = api.getDailyConsumption(Long.valueOf(user.getId()), strDate); // dailyConsumtion requestini bugünün datası ile oluşturuyoruz
                     dailyConsumptionRequest.enqueue(new Callback<List<Recipe>>() {  // dailyConsumption için async request yolluyoruz
-                        @Override
+                    // @Override
                         public void onResponse(Response<List<Recipe>> response, Retrofit retrofit) {  // dailyConsumption başarılı olarak gelirse bu methoda geliyor.
                             List<Recipe> recipes = response.body();  // Recipe datalarını liste olarak responsenin içinden alıyoruz
+                            System.out.println(recipes);
                             RecipeListAdapter recipeListAdapter = new RecipeListAdapter(getActivity(), recipes); // Recipe datalarını listviewde göstermek için adaptere veriyoruz.
                             recipeLV.setAdapter(recipeListAdapter); // recipe adapterini listeye verip recipeleri gösteriyoruz.
                             loadingBar.setVisibility(View.GONE);   // işlem bittiği için progress’i gizliyoruz
