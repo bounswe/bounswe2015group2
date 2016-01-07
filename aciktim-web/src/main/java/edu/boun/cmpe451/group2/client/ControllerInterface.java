@@ -69,7 +69,7 @@ public interface ControllerInterface {
     List<Recipe> getRecommendations(@Body User user);
 
     @GET("/search")
-    ArrayList<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
+    List<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
 
     @GET("/advancedSearch")
     List<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) List<String> ingrNames);
@@ -91,7 +91,7 @@ public interface ControllerInterface {
 
     @PUT(USER_SVC_PATH +"/editProfile")
     ApiResponse editProfile(@Query(API_KEY_PARAMETER) String api_key,@Query("username") String username,
-                            @Query(EMAIL_PARAMETER) String email,@Query("likes") List<Tag> likes,
-                            @Query("dislikes") List<Tag> dislikes, @Query("allergies") List<Tag> allergies );
+                            @Query(EMAIL_PARAMETER) String email,@Query("likes") ArrayList<Tag> likes,
+                            @Query("dislikes") ArrayList<Tag> dislikes, @Query("allergies") ArrayList<Tag> allergies );
 
 }

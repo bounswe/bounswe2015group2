@@ -259,7 +259,7 @@ public class APIController implements ControllerInterface {
      * @return an array list of recipes that satisfies the criteria
      */
     @RequestMapping("/advancedSearch")
-    public @ResponseBody ArrayList<Recipe> search(@RequestParam String name,@RequestParam ArrayList<String> ingrNames){
+    public @ResponseBody List<Recipe> search(@RequestParam String name,@RequestParam List<String> ingrNames){
         ArrayList<Recipe> result = new ArrayList<Recipe>();
         try {
             // TODO : Uncomment the following line and fix the incompaitble type issue on ingrNames

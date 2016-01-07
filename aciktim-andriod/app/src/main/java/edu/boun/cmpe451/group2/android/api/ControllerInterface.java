@@ -164,7 +164,7 @@ public interface ControllerInterface {
      */
     @GET(USER_PATH + "/getDailyConsumption")
     Call<List<Recipe>> getDailyConsumption(@Query(USER_ID_PARAMETER) Long userID, @Query(DATE_PARAMETER) String date);
-    
+
     @POST("/consume")
     ApiResponse consume(@Query(USER_ID_PARAMETER) Long userID,@Query(RECIPE_ID_PARAMETER) Long recipeID,@Query(DATE_PARAMETER) String date);
 
