@@ -22,7 +22,7 @@
 
         <c:if test="${content_bar_selection == 'restaurants'}">
             <div class="col-md-4 text-right">
-                <form action="${contextPath}/restaurants" method="post" class="navbar-form">
+                <form action="${contextPath}/restaurants" method="get" class="navbar-form">
                     <div class="form-group">
                         <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">
                         <button type="submit" class="btn btn-warning search_group" id="content_bar_search">Search</button>

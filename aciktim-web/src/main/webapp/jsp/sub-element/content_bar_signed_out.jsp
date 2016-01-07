@@ -24,7 +24,7 @@
         </c:if>
         <c:if test="${content_bar_selection != 'restaurants'}">
             <div class="col-md-4 text-right">
-                <form action="${contextPath}/recipes" method="post" class="navbar-form">
+                <form action="${contextPath}/recipes" method="get" class="navbar-form">
                     <div class="form-group">
                         <input type="text" name="keyword" class="form-control search_group" id="search-field"
                                placeholder="Search">
