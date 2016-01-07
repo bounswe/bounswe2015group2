@@ -843,19 +843,19 @@ public class RecipeDao extends BaseDao {
             boolean willAddCal= false;
             boolean willAddProtein = false;
             boolean willAddCarb =false;
-            if (recipe.totalFat <= totalFatUpper || recipe.totalFat >= totalFatLower) {
+            if (recipe.totalFat <= totalFatUpper && recipe.totalFat >= totalFatLower) {
                 willAddFat = true;
             }
 
-            if (recipe.totalCal <= totalCalUpper || recipe.totalCal >= totalCalLower) {
+            if (recipe.totalCal <= totalCalUpper && recipe.totalCal >= totalCalLower) {
                 willAddCal = true;
             }
 
-            if (recipe.totalProtein <= totalProteinUpper || recipe.totalProtein >= totalProteinLower) {
+            if (recipe.totalProtein <= totalProteinUpper && recipe.totalProtein >= totalProteinLower) {
                 willAddProtein = true;
             }
 
-            if (recipe.totalCarb <= totalCarbUpper || recipe.totalCarb >= totalCarbLower) {
+            if (recipe.totalCarb <= totalCarbUpper && recipe.totalCarb >= totalCarbLower) {
                 willAddCarb = true;
             }
             //this should work in AND manner
