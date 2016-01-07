@@ -82,6 +82,12 @@ public class UserDao extends BaseDao {
         this.jdbcTemplate.update(sql, email, Security.md5(passwd), full_name, username, id);
     }
 
+    /**
+     * updates the given user with the username and email options
+     * @param id id of the user to be updated
+     * @param username new username
+     * @param email new email
+     */
     public void updateUser(Long id, String username,String email){
         String sql = "UPDATE users SET email=?,username=? WHERE id=?";
 
@@ -112,6 +118,11 @@ public class UserDao extends BaseDao {
         }
     }
 
+    /**
+     * this method brings user by apikey parameter which is used for android API
+     * @param api_key apikey of the user
+     * @return returns the user (db result)
+     */
     public Map<String, Object> getUserByApiKey(String api_key) {
         String sql = "SELECT * FROM users WHERE api_key = ?";
         try {
@@ -139,6 +150,13 @@ public class UserDao extends BaseDao {
             return true;
     }
 
+    /**
+     * this method helps a user to consume a recipe in given that day
+     * @param userID id of the user that consumes
+     * @param recipeID recipe id to be consumed
+     * @param calendar calendar that holds the consumption date
+     * @return true if successful
+     */
     public boolean consume(Long userID,Long recipeID, Calendar calendar){
         String sql = "INSERT INTO dailyConsumption(day,userID,recipeID) VALUES(?,?,?)";
         String time = "";
@@ -154,6 +172,12 @@ public class UserDao extends BaseDao {
         return true;
     }
 
+    /**
+     * this method brings the consumed recipes of a user given that day
+     * @param userID id of the user whose consumption info is requested
+     * @param calendar calendar that holds the date
+     * @return list of recipes
+     */
     public List<Map<String,Object>> getDailyConsumption(Long userID,Calendar calendar){
         String sql = "SELECT * FROM dailyConsumption WHERE userID=? AND day=?";
         String day = ""+calendar.get(Calendar.YEAR)+"-";
@@ -166,7 +190,7 @@ public class UserDao extends BaseDao {
     /**
      * this method brings the likes of a user from the db
      * @param userID id of the user whom likes to be brought
-     * @return returns arraylist of tags
+     * @return returns arraylist of tags that user likes
      */
     public ArrayList<Tag> getLikes(String userID) {
         String sql = "SELECT * FROM userLikes WHERE userID = ?";
@@ -182,6 +206,12 @@ public class UserDao extends BaseDao {
         return result;
     }
 
+    /**
+     * this method sets the like preferences of a user
+     * @param userID id of the user
+     * @param likes list of tags to be set
+     * @return true if successful
+     */
     public boolean setLikes(Long userID,ArrayList<Tag> likes){
         String sqlRemove = "DELETE FROM userLikes WHERE userID = ?";
         this.jdbcTemplate.update(sqlRemove,userID);
@@ -192,6 +222,12 @@ public class UserDao extends BaseDao {
         return true;
     }
 
+    /**
+     * this method sets the dislike preferences of a user
+     * @param userID id of the user
+     * @param dislikes list of tags to be set
+     * @return true if successful
+     */
     public boolean setDislikes(Long userID,ArrayList<Tag> dislikes){
         String sqlRemove = "DELETE FROM userDislikes WHERE userID = ?";
         this.jdbcTemplate.update(sqlRemove,userID);
@@ -202,6 +238,12 @@ public class UserDao extends BaseDao {
         return true;
     }
 
+    /**
+     * this method sets the allergy preferences of a user
+     * @param userID id of the user
+     * @param allergies list of tags to be set
+     * @return true if successful
+     */
     public boolean setAllergies(Long userID,ArrayList<Tag> allergies){
         String sqlRemove = "DELETE FROM userAllergies WHERE userID = ?";
         this.jdbcTemplate.update(sqlRemove,userID);
@@ -212,6 +254,11 @@ public class UserDao extends BaseDao {
         return true;
     }
 
+    /**
+     * this method brings the dislike preferences of a user
+     * @param userID id of the user
+     * @return list of tags that user dislikes
+     */
     public ArrayList<Tag> getDislikes(String userID) {
         String sql = "SELECT * FROM userDislikes WHERE userID = ?";
         List<Map<String,Object>> dislikes = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
@@ -226,6 +273,11 @@ public class UserDao extends BaseDao {
         return result;
     }
 
+    /**
+     * this method brings the allergy preferences of a user
+     * @param userID id of the user
+     * @return list of tags that user has allergies of
+     */
     public ArrayList<Tag> getAllergies(String userID) {
         String sql = "SELECT * FROM userAllergies WHERE userID = ?";
         List<Map<String,Object>> allergies = this.jdbcTemplate.queryForList(sql,Long.parseLong(userID));
