@@ -68,6 +68,28 @@
             </LinearLayout>
         </FrameLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/recipe_view_ingredient_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/photo"
+                android:text="INGREDIENTS" />
+
+            <Button
+                android:id="@+id/recipe_view_nutrition_value_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/recipe_view_ingredient_button"
+                android:layout_alignRight="@+id/recipe_view_ingredient_button"
+                android:text="NUTRITION VALUES" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/article_body"
             style="?android:attr/textAppearanceMedium"
