@@ -42,7 +42,6 @@ import edu.boun.cmpe451.group2.android.recipe.RecipeListActivity;
 import edu.boun.cmpe451.group2.android.recipe.RecipeListFragment;
 
 import edu.boun.cmpe451.group2.android.recipe.RecipeViewActivity;
-import edu.boun.cmpe451.group2.android.recipe.RecipeViewFragment;
 import edu.boun.cmpe451.group2.android.recipe.RecommendationFragment;
 import edu.boun.cmpe451.group2.android.restaurant.RestaurantListActivity;
 import retrofit.Call;
@@ -212,7 +211,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemSelected(String id) {
         Intent detailIntent = new Intent(this, RecipeViewActivity.class);
-        detailIntent.putExtra(RecipeViewFragment.ARG_ITEM_ID, id);
+        detailIntent.putExtra(RecipeViewActivity.ARG_ITEM_ID, id);
         startActivity(detailIntent);
 
     }

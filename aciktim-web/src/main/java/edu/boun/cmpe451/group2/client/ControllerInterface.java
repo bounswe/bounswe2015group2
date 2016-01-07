@@ -53,7 +53,7 @@ public interface ControllerInterface {
     @GET(RECIPE_LIST_BY_USER_PATH)
     List<Recipe> getRecipes(@Query(USER_ID_PARAMETER) Long user_id);
 
-    @GET(RECIPE_SVC_PATH)
+    @GET("recipe/get")
     Recipe getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
 
     @PUT(RECIPE_SVC_PATH + "/update")

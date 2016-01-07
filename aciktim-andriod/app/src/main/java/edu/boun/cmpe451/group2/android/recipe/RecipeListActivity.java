@@ -24,7 +24,7 @@ import edu.boun.cmpe451.group2.android.api.ControllerInterface;
  * <p/>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link RecipeListFragment} and the item details
- * (if present) is a {@link RecipeViewFragment}.
+ * (if present) is a {@link RecipeViewActivity}.
  * <p/>
  * This activity also implements the required
  * {@link RecipeListFragment.Callbacks} interface
@@ -99,24 +99,8 @@ public class RecipeListActivity extends AppCompatActivity
      */
     @Override
     public void onItemSelected(String id) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(RecipeViewFragment.ARG_ITEM_ID, id);
-            RecipeViewFragment fragment = new RecipeViewFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.recipe_detail_container, fragment)
-                    .commit();
-
-        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, RecipeViewActivity.class);
-            detailIntent.putExtra(RecipeViewFragment.ARG_ITEM_ID, id);
-            startActivity(detailIntent);
-        }
+        Intent detailIntent = new Intent(this, RecipeViewActivity.class);
+        detailIntent.putExtra(RecipeViewActivity.ARG_ITEM_ID, id);
+        startActivity(detailIntent);
     }
 }

@@ -101,8 +101,8 @@ public interface ControllerInterface {
      * @return recipe object
      * @throws Exception
      */
-    @GET(RECIPE_SVC_PATH)
-    Call<Recipe> getRecipe(@Query(RECIPE_ID_PARAMETER) Long recipe_id) throws Exception;
+    @GET("recipe/get")
+    Call<Recipe> getRecipe(@Query("recipe_id") Long recipe_id) throws Exception;
 
     /**
      * Sends a put request to update details of a recipe

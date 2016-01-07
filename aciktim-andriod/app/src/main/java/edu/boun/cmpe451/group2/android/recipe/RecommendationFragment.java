@@ -51,7 +51,7 @@ public class RecommendationFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Recipe recipe = recipeList.get(position);
                 Intent detailIntent = new Intent(getContext(), RecipeViewActivity.class);
-                detailIntent.putExtra(RecipeViewFragment.ARG_ITEM_ID, recipe.getId().toString());
+                detailIntent.putExtra(RecipeViewActivity.ARG_ITEM_ID, recipe.getId().toString());
                 startActivity(detailIntent);
             }
         });
