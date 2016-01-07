@@ -71,8 +71,8 @@ public interface ControllerInterface {
     @GET("/search")
     List<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name);
 
-    @GET("/advancedSearch")
-    List<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) List<String> ingrNames);
+    //@GET("/advancedSearch")
+    //List<Recipe> search(@Query(RECIPE_ID_PARAMETER) String name,@Query(RECIPE_ID_PARAMETER) List<String> ingrNames);
 
     @POST(USER_SVC_PATH + "/addMenu")
     ApiResponse addMenu(@Query(RECIPE_ID_PARAMETER) Menu menu);
