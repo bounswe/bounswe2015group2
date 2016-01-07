@@ -162,6 +162,7 @@ public class UserModel {
             User user = new User();
             user.id = resultMap.get("id").toString();
             user.full_name = resultMap.get("full_name").toString();
+            user.pictureAddress = resultMap.get("pictureAddress").toString();
 
             restaurantList.add(user);
         }
@@ -179,6 +180,7 @@ public class UserModel {
             User user = new User();
             user.id = resultMap.get("id").toString();
             user.full_name = resultMap.get("full_name").toString();
+            user.pictureAddress = resultMap.get("pictureAddress").toString();
 
             restaurantList.add(user);
         }

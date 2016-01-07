@@ -24,7 +24,7 @@
                     <c:forEach var="restaurant" items="${restaurantResults}" varStatus="roop">
                         <tr>
                             <td width="20%">
-                                <img src="http://vignette3.wikia.nocookie.net/starwars/images/c/c1/Luke_on_Endor.jpg" class="img-rounded center-block" width="240">
+                                <img src="${restaurant.pictureAddress}" class="img-rounded center-block" width="240">
                             </td>
                             <td><a href="${contextPath}/restaurant/single?restaurant_id=${restaurant.id}">${restaurant.full_name}</td>
                             <%--<td>--%>

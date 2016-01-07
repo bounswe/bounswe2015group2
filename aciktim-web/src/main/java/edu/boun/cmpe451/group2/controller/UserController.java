@@ -198,7 +198,7 @@ public class UserController {
 
         if(!restaurant_id.equals("-1")){
             User restaurant = userModel.getUserByID(Long.parseLong(restaurant_id));
-
+            model.put("pictureAddress", restaurant.pictureAddress);
             List<Recipe> restaurantRecipes = recipeModel.getRecipes(Long.parseLong(restaurant_id));
             model.put("restaurantRecipes", restaurantRecipes);
             try {
