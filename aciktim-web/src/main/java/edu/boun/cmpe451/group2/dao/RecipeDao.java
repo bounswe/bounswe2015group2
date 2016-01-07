@@ -723,6 +723,8 @@ public class RecipeDao extends BaseDao {
             }
 
             if(willAdd) {
+                ArrayList<Tag> tagsTemp = getTags(recipe.id);
+                recipe.setTagList(tagsTemp);
                 temp.add(recipe);
             }
 
