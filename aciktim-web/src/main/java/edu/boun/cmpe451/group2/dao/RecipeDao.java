@@ -260,7 +260,8 @@ public class RecipeDao extends BaseDao {
             }
 
             recipe.setIngredientList(ingredient_List);
-
+            ArrayList<Tag> tags = getTags(recipe.id);
+            recipe.setTagList(tags);
             recipeList.add(recipe);
         }
 
