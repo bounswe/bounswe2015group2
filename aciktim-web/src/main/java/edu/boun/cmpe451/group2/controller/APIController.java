@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import edu.boun.cmpe451.group2.exception.ExError;
 import edu.boun.cmpe451.group2.exception.ExException;
+import retrofit.client.Response;
 
 /**
  * API Controller Class
@@ -271,6 +272,40 @@ public class APIController implements ControllerInterface {
     }
 
     /**
+     * this method helps a user to consume a recipe
+     * @param userID id of the user
+     * @param recipeID id of the recipe to be consume
+     * @param date date of the consumption
+     * @return an ApiResponse containing the status and the message
+     */
+    public @ResponseBody ApiResponse consume(@RequestParam Long userID,@RequestParam Long recipeID,@RequestParam String date){
+        ApiResponse response = new ApiResponse();
+        try{
+            Calendar queriedCal = null;
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            try
+            {
+                String[] arr = date.split("/");
+                arr[1] = Integer.toString(Integer.parseInt(arr[1])+1);
+                date = arr[0]+"/"+arr[1]+"/"+arr[2];
+                Date queried_date = formatter.parse(date);
+                queriedCal = Calendar.getInstance();
+                queriedCal.setTime(queried_date);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            boolean status = userModel.consume(userID,recipeID,queriedCal);
+            response.status = ApiResponse.STATUS.OK;
+            response.message ="Recipe Consumed!";
+        }catch(Exception e){
+            e.printStackTrace();
+            response.status = ApiResponse.STATUS.ERROR;
+            response.message = "Recipe couldn't be consumed";
+        }
+        return response;
+
+    }
+    /**
      * This method returns the daily consumption of a user given that day
      * if there is an exception it returns an empty list
      * @param userID id of the user
@@ -278,7 +313,7 @@ public class APIController implements ControllerInterface {
      * @return returns arraylist of recipes
      */
     @RequestMapping(USER_SVC_PATH+"/getDailyConsumption")
-    public @ResponseBody ArrayList<Recipe> getDailyConsumption(Long userID,String date){
+    public @ResponseBody ArrayList<Recipe> getDailyConsumption(@RequestParam Long userID,@RequestParam String date){
         try{
             Calendar queriedCal = null;
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
