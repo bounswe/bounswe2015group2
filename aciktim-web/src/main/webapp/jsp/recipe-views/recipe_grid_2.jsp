@@ -11,7 +11,7 @@
 <div class="container" id="main-container">
 
 
-    <c:if test="${full_name != ''}">
+    <%--<c:if test="${full_name != ''}">--%>
 
 
         <div class="row">
@@ -46,7 +46,7 @@
         </div>
 
 
-    </c:if>
+    <%--</c:if>--%>
 
     <%--<c:if test="${full_name == ''}">--%>
     <%--<%@include  file="../sub-element/login_to_see.jsp" %>--%>
