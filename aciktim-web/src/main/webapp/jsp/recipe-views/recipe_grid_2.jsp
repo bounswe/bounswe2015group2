@@ -68,7 +68,23 @@
         color: inherit;
         cursor: auto;
     }
+    .disableClick{
+        pointer-events: none;
+    }
 </style>
+
+
+<script>
+    $(document).ready(function(){
+        var full_name = "${full_name}";
+        if(full_name == ""){
+            $("a.nostyle").addClass("disableClick");
+        }
+
+    });
+
+
+</script>
 
 <%--<form class="form-horizontal row-border" action="${contextPath}/recipe/single">--%>
 <%--<input type="hidden" name="recipe_id" value="${recipe.id}"/>--%>

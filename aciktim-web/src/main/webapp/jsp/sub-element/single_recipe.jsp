@@ -156,11 +156,11 @@
         var full_name = "${full_name}";
         if(full_name != ""){
             $("#consume_section").css("display","");
+        }else{
+            $("a.nostyle").addClass("disableClick");
         }
 
     });
-
-
 </script>
 
 
@@ -175,5 +175,8 @@
         text-decoration: inherit;
         color: inherit;
         cursor: auto;
+    }
+    .disableClick{
+        pointer-events: none;
     }
 </style>
