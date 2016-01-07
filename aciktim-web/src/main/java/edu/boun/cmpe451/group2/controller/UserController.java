@@ -162,6 +162,7 @@ public class UserController {
         else {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
             model.put("email", user.email);
         }
 
@@ -189,6 +190,7 @@ public class UserController {
         else {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
             model.put("email", user.email);
         }
 
@@ -233,6 +235,7 @@ public class UserController {
         }else { // Now we're talking
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
             model.put("user_id" , user.id);
             model.put("picture_url", user.pictureAddress);
             try {

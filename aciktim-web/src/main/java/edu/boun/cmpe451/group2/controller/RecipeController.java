@@ -114,6 +114,7 @@ public class RecipeController {
                 }
             }
         }else{ // LOGGED OUT NOW
+            model.put("full_name", "");
             try {
                 if(keyword.equals("")){
                     recipeResults = recipeModel.searchRecipes(keyword);
@@ -184,6 +185,7 @@ public class RecipeController {
         } else {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
             model.put("email", user.email);
 
             model.put("action_type", action_type);
@@ -226,8 +228,8 @@ public class RecipeController {
         } else {
             user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
-            model.put("email", user.email);
             model.put("isInst", user.isInst);
+            model.put("email", user.email);
 
             model.put("action_type", action_type);
 
@@ -266,6 +268,8 @@ public class RecipeController {
         if (!session_id.equals("")){
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
+
 //            if (Long.parseLong(user.id) == recipe.ownerID) {
 //                model.put("is_owner", true);
 //            } else {
@@ -416,6 +420,8 @@ public class RecipeController {
         if (!session_id.equals("")) {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
+
 
             List<Menu> list = new ArrayList<Menu>();
             model.put("recommendations", list);
@@ -457,6 +463,7 @@ public class RecipeController {
         if (!session_id.equals("")) {
             User user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
             Calendar queriedCal = null;
             if (date == null){
                 Date currentDate = new Date();

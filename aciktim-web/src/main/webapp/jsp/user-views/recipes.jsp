@@ -9,20 +9,8 @@
 <body>
 <div class="container" id="main-container">
 
-    <c:if test="${empty full_name}">
-        <%@include  file="../sub-element/header_signed_out.jsp" %>
-    </c:if>
-    <c:if test="${not empty full_name}">
-        <%@include file="../sub-element/header_signed_in.jsp"%>
-    </c:if>
 
-
-    <c:if test="${empty full_name}">
-        <%@include file="../sub-element/content_bar_signed_out.jsp"%>
-    </c:if>
-    <c:if test="${not empty full_name}">
-        <%@include file="../sub-element/content_bar_signed_in.jsp"%>
-    </c:if>
+    <%@include file="../sub-element/header.jsp"%>
 
     <%@include  file="../recipe-views/recipe_grid_2.jsp" %>
 

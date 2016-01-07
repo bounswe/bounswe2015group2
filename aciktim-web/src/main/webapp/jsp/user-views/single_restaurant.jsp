@@ -10,15 +10,7 @@
 <div class="container" id="main-container">
 
 
-    <c:if test="${full_name == ''}">
-        <%@include file="../sub-element/header_signed_out.jsp" %>
-    </c:if>
-    <c:if test="${full_name != ''}">
-        <%@include file="../sub-element/header_signed_in.jsp" %>
-    </c:if>
-
-    <%@include file="../sub-element/content_bar_restaurant.jsp" %>
-
+    <%@include file="../sub-element/header.jsp" %>
 
 
     <div class="row">
@@ -42,24 +34,26 @@
                 <div class="col-sm-12">
                     <table class="table table-bordered" style="margin-top:10px;">
                         <thead>
-                            <th>Name</th>
-                            <th>Recipes</th>
+                        <th>Name</th>
+                        <th>Recipes</th>
                         </thead>
                         <tbody>
-                            <c:forEach var="menu" items="${restaurantMenus}" varStatus="roop">
-                                <tr>
-                                    <td> ${menu.name} </td>
-                                    <td>
-                                        <table class="table" style="margin-top:10px;">
-                                            <c:forEach var="recipe" items="${menu.recipes}" varStatus="roop">
-                                                <tr>
-                                                    <td><a href="${contextPath}/recipe/single?recipe_id=${recipe.id}">${recipe.name}</a></td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </c:forEach>
+                        <c:forEach var="menu" items="${restaurantMenus}" varStatus="roop">
+                            <tr>
+                                <td> ${menu.name} </td>
+                                <td>
+                                    <table class="table" style="margin-top:10px;">
+                                        <c:forEach var="recipe" items="${menu.recipes}" varStatus="roop">
+                                            <tr>
+                                                <td>
+                                                    <a href="${contextPath}/recipe/single?recipe_id=${recipe.id}">${recipe.name}</a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </table>
+                                </td>
+                            </tr>
+                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -84,7 +78,9 @@
                                 <td>
                                     <img src="${recipe.pictureAddress}" class="img-rounded center-block" width="240">
                                 </td>
-                                <td width="20%"><a href="${contextPath}/recipe/single?recipe_id=${recipe.id}">${recipe.name}</a></td>
+                                <td width="20%"><a
+                                        href="${contextPath}/recipe/single?recipe_id=${recipe.id}">${recipe.name}</a>
+                                </td>
                                 <td width="60%">${recipe.description}</td>
                                 <td>
                                     <c:forEach var="tag" items="${recipe.tagList}" varStatus="roop">
@@ -98,12 +94,12 @@
                 </div>
             </div>
 
+        </div>
+
+
+        <%@include file="../sub-element/footer.jsp" %>
+
     </div>
-
-
-    <%@include file="../sub-element/footer.jsp" %>
-
-</div>
 
 
 </body>

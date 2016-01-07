@@ -12,20 +12,7 @@
 <body>
 <div class="container" id="main-container">
 
-    <c:if test="${full_name == ''}">
-        <%@include  file="../sub-element/header_signed_out.jsp" %>
-    </c:if>
-    <c:if test="${full_name != ''}">
-        <%@include file="../sub-element/header_signed_in.jsp"%>
-    </c:if>
-
-
-    <c:if test="${full_name == ''}">
-        <%@include file="../sub-element/content_bar_signed_out.jsp"%>
-    </c:if>
-    <c:if test="${full_name != ''}">
-        <%@include file="../sub-element/content_bar_signed_in.jsp"%>
-    </c:if>
+    <%@include file="../sub-element/header.jsp"%>
 
     <div class="container">
         <div class="row">

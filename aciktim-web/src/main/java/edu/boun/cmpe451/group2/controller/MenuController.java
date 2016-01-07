@@ -58,6 +58,7 @@ public class MenuController {
             List<Recipe> recipes = recipeModel.getRecipes(Long.parseLong(user.id));
             model.put("recipeResults",recipes);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
             model.put("email", user.email);
 
             model.put("action_type", action_type);
@@ -123,6 +124,7 @@ public class MenuController {
         if (!session_id.equals("")){
             user = userModel.getUser(session_id);
             model.put("full_name", user.full_name);
+            model.put("isInst", user.isInst);
             model.put("content_bar_selection" , "menus");
 
             try {

@@ -10,21 +10,38 @@
                 <li role="presentation" id="content_bar_recipes"><a href="${contextPath}/recipes">Recipes</a></li>
                 <li role="presentation" id="content_bar_restaurants"><a href="/aciktim/restaurants">Restaurants</a></li>
                 <li role="presentation" id="content_bar_create_recipe"><a href="/aciktim/recipe/form?action_type=add">Create Recipe</a></li>
-                <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
-                <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
-                <li role="presentation" id="content_bar_dailyconsumption"><a href="/aciktim/user/dailyconsumption"> Consumption</a></li>
+                <c:if test="${isInst == true}">
+                    <li role="presentation" id="content_bar_create_menu"><a href="/aciktim/menu/form?action_type=add">Create Menu</a></li>
+                    <li role="presentation" id="content_bar_menus"><a href="/aciktim/menus">My Menus</a></li>
+                </c:if>
+                <c:if test="${isInst == false}">
+                    <li role="presentation" id="content_bar_dailyconsumption"><a href="/aciktim/user/dailyconsumption"> Consumption</a></li>
+                </c:if>
             </ul>
         </div>
 
-        <div class="col-md-4 text-right">
-            <form action="${contextPath}/recipes" method="get" class="navbar-form">
-                <div class="form-group">
-                    <input type="text" name="keyword" class="form-control search_group" id="search-field" placeholder="Search" style="display: none">
-                    <button type="submit" class="btn btn-warning search_group" id="content_bar_search" style="display: none">Search</button>
-                </div>
-                <button type="button" class="btn btn-warning search_group" id="content_bar_advanced" style="display: none">Advanced Search</button>
-            </form>
-        </div>
+        <c:if test="${content_bar_selection == 'restaurants'}">
+            <div class="col-md-4 text-right">
+                <form action="${contextPath}/restaurants" method="post" class="navbar-form">
+                    <div class="form-group">
+                        <input type="text" name="search_keyword" class="form-control search_group" id="search-field" placeholder="Search" id="content_bar_input">
+                        <button type="submit" class="btn btn-warning search_group" id="content_bar_search">Search</button>
+                    </div>
+                </form>
+            </div>
+        </c:if>
+        <c:if test="${content_bar_selection != 'restaurants'}">
+            <div class="col-md-4 text-right">
+                <form action="${contextPath}/recipes" method="get" class="navbar-form">
+                    <div class="form-group">
+                        <input type="text" name="keyword" class="form-control search_group" id="search-field" placeholder="Search" style="display: none">
+                        <button type="submit" class="btn btn-warning search_group" id="content_bar_search" style="display: none">Search</button>
+                    </div>
+                    <button type="button" class="btn btn-warning search_group" id="content_bar_advanced" style="display: none">Advanced Search</button>
+                </form>
+            </div>
+
+        </c:if>
     </div>
 
 

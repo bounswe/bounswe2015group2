@@ -7,22 +7,7 @@
 
 <body>
 <div class="container">
-    <c:if test="${full_name == ''}">
-        <%@include  file="../sub-element/header_signed_out.jsp" %>
-    </c:if>
-    <c:if test="${full_name != ''}">
-        <%@include file="../sub-element/header_signed_in.jsp"%>
-    </c:if>
-
-    <c:if test="${full_name == ''}">
-        <%@include file="../sub-element/content_bar_signed_out.jsp"%>
-    </c:if>
-    <c:if test="${full_name != ''}">
-        <%@include file="../sub-element/content_bar_signed_in.jsp"%>
-    </c:if>
-
-
-
+    <%@include file="../sub-element/header.jsp"%>
 
     <c:if test="${full_name != ''}">
         <%@include  file="../sub-element/recipe_form.jsp" %>

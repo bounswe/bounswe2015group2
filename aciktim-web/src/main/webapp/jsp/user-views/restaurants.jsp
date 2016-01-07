@@ -9,15 +9,7 @@
 <body>
 <div class="container" id="main-container">
 
-  <c:if test="${full_name == ''}">
-    <%@include  file="../sub-element/header_signed_out.jsp" %>
-  </c:if>
-  <c:if test="${full_name != ''}">
-    <%@include  file="../sub-element/header_signed_in.jsp" %>
-  </c:if>
-
-    <%@include file="../sub-element/content_bar_restaurant.jsp"%>
-
+  <%@include file="../sub-element/header.jsp"%>
 
   <%@include  file="../user-views/restaurant_grid.jsp" %>
 
