@@ -177,6 +177,13 @@ public class RecipeDao extends BaseDao {
         return recipeList;
     }
 
+    /**
+     * this method filters the given recipe list by given tag list by OR manner
+     * i.e if a recipe doesn't include ANY of the tags, it is filtered out
+     * @param recipeList list to be filtered
+     * @param tags tags to be checked
+     * @return filtered recipe list
+     */
     public ArrayList<Recipe> filterListByTags(ArrayList<Recipe> recipeList, List<String> tags) {
         ArrayList<Recipe> temp = new ArrayList<Recipe>();
         String sql = "SELECT * FROM recipeTag WHERE recipeID=?";
@@ -191,6 +198,11 @@ public class RecipeDao extends BaseDao {
         return temp;
     }
 
+    /**
+     * this method bring random number of recipes from the db for the main page
+     * @param amount amount of recipe to be brought
+     * @return random recipe list
+     */
     public List<Recipe> searchRecipesRandom(int amount) {
 
         String sql = "SELECT id,name,pictureAddress,description,totalFat,totalCarb,totalProtein,totalCal FROM recipes ORDER BY RAND() LIMIT ?";
@@ -292,6 +304,11 @@ public class RecipeDao extends BaseDao {
         return recipeList;
     }
 
+    /**
+     * this method adds semantically related recipes by looking for the same semantic meaning class recipes
+     * @param recipeList list of the recipes that we want to expand
+     * @throws ExException when search by tag class throws an exception
+     */
     public void AddSemanticallyRelatedRecipesClass(ArrayList<Recipe> recipeList) throws ExException {
         ArrayList<Recipe> result = new ArrayList<Recipe>();
         result = mergeRecipes(result,recipeList);
@@ -311,6 +328,12 @@ public class RecipeDao extends BaseDao {
         recipeList = mergeRecipes(recipeList,result);
     }
 
+    /**
+     * merges given two lists by adding second list to the first list by eliminating duplicates
+     * @param list1 first recipe list
+     * @param list2 second recipe list
+     * @return merged list
+     */
     public ArrayList<Recipe> mergeRecipes(ArrayList<Recipe> list1, ArrayList<Recipe> list2){
         Iterator<Recipe> recipeIterator = list2.iterator();
         while(recipeIterator.hasNext()){
@@ -330,6 +353,13 @@ public class RecipeDao extends BaseDao {
         }
         return list1;
     }
+
+    /**
+     * this method brings all recipes that has the tag which has the same class with the given tag
+     * @param t tag which will be found
+     * @return arraylist of recipes that has the same tag class
+     * @throws ExException when getrecipe method throws an exception
+     */
     public ArrayList<Recipe> searchByTagClass(Tag t) throws ExException{
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
         String sql = "SELECT recipeID FROM recipeTag WHERE parentTag=? ";
@@ -343,6 +373,11 @@ public class RecipeDao extends BaseDao {
         return recipes;
     }
 
+    /**
+     * this methods brings tags of the given recipe
+     * @param recipeID id of the recipe
+     * @return arraylist of tags that belongs the given recipe
+     */
     public ArrayList<Tag> getTags(Long recipeID) {
         ArrayList<Tag> tags = new ArrayList<Tag>();
         String sql = "SELECT * FROM recipeTag WHERE recipeID=?";
@@ -357,6 +392,11 @@ public class RecipeDao extends BaseDao {
         return tags;
     }
 
+    /**
+     * this methods brings tags which matches the given name
+     * @param tagName name of the tag
+     * @return arraylist of tag that matches the given name
+     */
     public ArrayList<Tag> getTagsByName(String tagName) {
         ArrayList<Tag> tags = new ArrayList<Tag>();
         String sql = "SELECT * FROM recipeTag WHERE tag LIKE ?";
@@ -371,6 +411,12 @@ public class RecipeDao extends BaseDao {
         return tags;
     }
 
+    /**
+     * this method expands the recipe list by finding semanticallyrealted recipes
+     * semantically related recipes are recipes that has same tag name(without checking class)
+     * @param recipeList list to be expanded
+     * @throws ExException when searchbytag throws an exception
+     */
     public void AddSemanticallyRelatedRecipes(ArrayList<Recipe> recipeList) throws ExException{
         ArrayList<Recipe> result = new ArrayList<Recipe>();
         result = mergeRecipes(result,recipeList);
@@ -390,6 +436,12 @@ public class RecipeDao extends BaseDao {
         recipeList = mergeRecipes(recipeList,result);
     }
 
+    /**
+     * this method brings all recipes that has the given tag name(without checking the class)
+     * @param t tag to be checked
+     * @return arraylist of recipes that has the same tag name
+     * @throws ExException when getRecipe method throws an exception
+     */
     public ArrayList<Recipe> searchByTag(Tag t) throws ExException {
         ArrayList<Recipe> recipes = new ArrayList<Recipe>();
         String sql = "SELECT recipeID FROM recipeTag WHERE tag=? ";
@@ -460,7 +512,11 @@ public class RecipeDao extends BaseDao {
         return recipe;
     }
 
-    public List<Recipe> getRecipesAll() throws ExException {
+    /**
+     * returns all recipes
+     * @return all recipes in the db
+     */
+    public List<Recipe> getRecipesAll() {
         String sql = "SELECT * FROM recipes;";
         ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
         List<Map<String, Object>> resultList = this.jdbcTemplate.queryForList(sql);
@@ -585,6 +641,14 @@ public class RecipeDao extends BaseDao {
         }
     }
 
+    /**
+     * this method brings a list of recipes to be recommended to the given user
+     * this method works in a way that it looks for the daily consumption in the current day
+     * finds the minimum consumption ratio for a nutrition
+     * finds the 5 recipes that has the maximum rate for the found nutrition
+     * @param userID id of the user to be recommended
+     * @return recommended recipes
+     */
     public List<Map<String, Object>> getRecommendations(String userID) {
         Calendar calendar = Calendar.getInstance();
         String time=""+calendar.get(Calendar.YEAR)+"-";
@@ -682,7 +746,7 @@ public class RecipeDao extends BaseDao {
         for (Tag t : allergies) {
             mergeRecipeIDs(dislikedRecipeIDs, getRecipeIDsByTag(t));
         }
-        recipeIDs = distractRecipes(recipeIDs, dislikedRecipeIDs);
+        recipeIDs = substractRecipes(recipeIDs, dislikedRecipeIDs);
         for (Integer i : recipeIDs) {
             recommendations.add(getRecipe(i.longValue()));
         }
@@ -704,7 +768,14 @@ public class RecipeDao extends BaseDao {
         return refinedRecommendations;
     }
 
-    private ArrayList<Integer> distractRecipes(ArrayList<Integer> recipeIDs, ArrayList<Integer> dislikedRecipeIDs) {
+    /**
+     * this method substracts recipes from given recipeIDs which are in the dislikedRecipeIDs
+     * this is used for substracting disliked recipes
+     * @param recipeIDs list that we will substract from
+     * @param dislikedRecipeIDs list that contains the substract list
+     * @return substracted list
+     */
+    private ArrayList<Integer> substractRecipes(ArrayList<Integer> recipeIDs, ArrayList<Integer> dislikedRecipeIDs) {
         ArrayList<Integer> temp = new ArrayList<Integer>();
         for (int i : recipeIDs) {
             if (!dislikedRecipeIDs.contains(i)) temp.add(i);
@@ -712,6 +783,11 @@ public class RecipeDao extends BaseDao {
         return temp;
     }
 
+    /**
+     * this method merges recipes without duplication
+     * @param list1 list 1
+     * @param list2 list 2
+     */
     public void mergeRecipeIDs(ArrayList<Integer> list1, ArrayList<Integer> list2) {
         for (int i : list2) {
             if (!list1.contains(i)) {
@@ -720,6 +796,11 @@ public class RecipeDao extends BaseDao {
         }
     }
 
+    /**
+     * this method brings all recipes which has the given tag name
+     * @param t tag to be checked
+     * @return recipes that contain given tag
+     */
     public ArrayList<Integer> getRecipeIDsByTag(Tag t) {
         String sql = "SELECT recipeID FROM recipeTag WHERE tag=?";
         List<Map<String, Object>> dbResult = this.jdbcTemplate.queryForList(sql, t.name);
@@ -730,6 +811,25 @@ public class RecipeDao extends BaseDao {
         return recipeIDs;
     }
 
+    /**
+     * this method is the advanced search method
+     * this method filters out the results by given query
+     * i.e brings recipes only falls in the given nutrition range
+     * @param name keyword to be searched (CAN BE EMPTY)
+     * @param ingredients ingredient list to contain
+     * @param isInst isHomeMade or is made in the restaurant
+     * @param totalFatUpper upper range for fat
+     * @param totalCarbUpper upper range for carb
+     * @param totalProteinUpper upper range for protein
+     * @param totalCalUpper upper range for calories
+     * @param totalFatLower lower range for fat
+     * @param totalCarbLower lower range for carb
+     * @param totalProteinLower lower range for protein
+     * @param totalCalLower lower range for calories
+     * @param tags tags to contain
+     * @return advanced search results
+     * @throws ExException when searchRecipes method throws an exception
+     */
     public ArrayList<Recipe> advancedSearch(String name, List<String> ingredients, Boolean isInst, Double totalFatUpper, Double totalCarbUpper, Double totalProteinUpper, Double totalCalUpper, Double totalFatLower, Double totalCarbLower, Double totalProteinLower, Double totalCalLower, List<String> tags) throws ExException {
 
         ArrayList<Recipe> temp = new ArrayList<Recipe>();
@@ -739,25 +839,27 @@ public class RecipeDao extends BaseDao {
         for (int i = 0; i < recipes.size(); i++) {
             Recipe recipe = recipes.get(i);
 
-            boolean willAdd = false;
-
+            boolean willAddFat = false;
+            boolean willAddCal= false;
+            boolean willAddProtein = false;
+            boolean willAddCarb =false;
             if (recipe.totalFat <= totalFatUpper || recipe.totalFat >= totalFatLower) {
-                willAdd = true;
+                willAddFat = true;
             }
 
             if (recipe.totalCal <= totalCalUpper || recipe.totalCal >= totalCalLower) {
-                willAdd = true;
+                willAddCal = true;
             }
 
             if (recipe.totalProtein <= totalProteinUpper || recipe.totalProtein >= totalProteinLower) {
-                willAdd = true;
+                willAddProtein = true;
             }
 
             if (recipe.totalCarb <= totalCarbUpper || recipe.totalCarb >= totalCarbLower) {
-                willAdd = true;
+                willAddCarb = true;
             }
-
-            if(willAdd) {
+            //this should work in AND manner
+            if(willAddFat && willAddCal && willAddCarb && willAddProtein) {
                 ArrayList<Tag> tagsTemp = getTags(recipe.id);
                 recipe.setTagList(tagsTemp);
                 temp.add(recipe);

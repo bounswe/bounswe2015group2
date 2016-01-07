@@ -33,6 +33,11 @@ public class MenuDao extends BaseDao{
         }
     }
 
+    /**
+     * this method brings all menus owned by a user
+     * @param ownerID ownerID of
+     * @return
+     */
     public List<Map<String, Object>> getMenus(Long ownerID){
         String sql = "SELECT menus.id,menus.name as menu_name,menus.ownerID,menus.likes,menuRecipe.recipeID FROM menus INNER JOIN menuRecipe ON menus.id = menuRecipe.menuID WHERE ownerID=? AND NOT menus.isDeleted";
         return this.jdbcTemplate.queryForList(sql,ownerID);
