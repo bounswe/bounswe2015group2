@@ -214,9 +214,9 @@
                                             <table class="table table-striped">
                                                 <c:forEach var="ingredient" items="${recipe.ingredientList}" varStatus="roop">
                                                     <tr>
-                                                        <td>${ingredient.key.name}</td>
-                                                        <td>${ingredient.value}</td>
-                                                        <td>${ingredient.key.unitName}</td>
+                                                        <td>${ingredient.name}</td>
+                                                        <td>${ingredient.amount}</td>
+                                                        <td>${ingredient.unitName}</td>
                                                     </tr>
                                                 </c:forEach>
                                             </table>
