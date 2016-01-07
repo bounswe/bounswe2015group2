@@ -239,7 +239,37 @@ public class APIController implements ControllerInterface {
         return recipes;
     }
 
-    @RequestMapping("/searchRestaurant")
+    /**
+     * this method helps a REGISTERED user to perform advanced search, and reorders the result by the preferences of the given user
+     * if the bounds are not given by the user please supply dummy values like 0 for lower bound and 9999 for upperbound
+     * @param keyword keyword of the search, can be empty
+     * @param ingredients ingredients that ALL HAS TO BE in the result list, these ingredients are keywords
+     * @param isInst is made by a user or restaurant
+     * @param totalFatUpper upper bound for fat
+     * @param totalCarbUpper upper bound for carb
+     * @param totalProteinUpper upper bound for protein
+     * @param totalCalUpper upper bound for calories
+     * @param totalFatLower lower bound for fat
+     * @param totalCarbLower lower bound for carb
+     * @param totalProteinLower lower bound for protein
+     * @param totalCalLower lower bound for calories
+     * @param tags tags that ALL HAS TO BE in the result list
+     * @param userID user id of the performer, this is for preferences
+     * @return an arraylist of recipes that matches the given query
+     */
+    @RequestMapping("/advancedSearch")
+    public @ResponseBody ArrayList<Recipe> advancedSearch(@RequestParam String keyword,@RequestParam List<String> ingredients,@RequestParam Boolean isInst,@RequestParam Double totalFatUpper,@RequestParam Double totalCarbUpper, @RequestParam Double totalProteinUpper, @RequestParam Double totalCalUpper, @RequestParam Double totalFatLower, @RequestParam Double totalCarbLower, @RequestParam Double totalProteinLower, @RequestParam Double totalCalLower, @RequestParam List<String> tags,@RequestParam Long userID ) {
+        ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+        try {
+            recipes = recipeModel.advancedSearchRecipes(keyword, ingredients, isInst, totalFatUpper, totalCarbUpper, totalProteinUpper, totalCalUpper, totalFatLower, totalCarbLower, totalProteinLower, totalCalLower, tags, userID);
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return recipes;
+    }
+
+        @RequestMapping("/searchRestaurant")
     public @ResponseBody ArrayList<User> searchRestaurants(@RequestParam String name){
         ArrayList<User> restaurants = new ArrayList<User>();
         try {
