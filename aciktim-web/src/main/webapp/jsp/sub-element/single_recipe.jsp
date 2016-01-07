@@ -124,9 +124,9 @@
 
                         <form class="form-horizontal row-border" action="${contextPath}/recipe/consume"
                               method="post">
-                            <input type="input" name="day" placeholder="dd"/>
-                            <input type="input" name="month" placeholder="mm"/>
-                            <input type="input" name="year" placeholder="yyyy"/>
+                            <input type="input" name="day" placeholder="dd" value="${today_day}"/>
+                            <input type="input" name="month" placeholder="mm" value="${today_month}"/>
+                            <input type="input" name="year" placeholder="yyyy" value="${today_year}"/>
                             <input type="hidden" name="recipe_id" value="${recipe.id}"/>
                             <button type="submit" class="btn btn-primary btn-sm"
                                     style="text-transform: capitalize">Consume

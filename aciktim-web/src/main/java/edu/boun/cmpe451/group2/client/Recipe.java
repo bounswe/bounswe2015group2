@@ -17,14 +17,14 @@ public class Recipe {
     public List<Ingredient> IngredientList = new LinkedList<>();
     public List<Tag> tagList = new ArrayList<Tag>();
     public String description = "";
-    public double totalProtein=0;
+    public double totalProtein = 0;
 
     public List<Tag> getTagList() {
         return tagList;
     }
 
     public double getTotalProtein() {
-        return totalProtein;
+        return Math.round(10*totalProtein)/10.0;
     }
 
     public void setTotalProtein(double totalProtein) {
@@ -32,7 +32,7 @@ public class Recipe {
     }
 
     public double getTotalFat() {
-        return totalFat;
+        return Math.round(10*totalFat)/10.0;
     }
 
     public void setTotalFat(double totalFat) {
@@ -40,7 +40,7 @@ public class Recipe {
     }
 
     public double getTotalCarb() {
-        return totalCarb;
+        return Math.round(10*totalCarb)/10.0;
     }
 
     public void setTotalCarb(double totalCarb) {
@@ -48,16 +48,16 @@ public class Recipe {
     }
 
     public double getTotalCal() {
-        return totalCal;
+        return Math.round(10*totalCal)/10;
     }
 
     public void setTotalCal(double totalCal) {
         this.totalCal = totalCal;
     }
 
-    public double totalFat=0;
-    public double totalCarb=0;
-    public double totalCal=0;
+    public double totalFat = 0;
+    public double totalCarb = 0;
+    public double totalCal = 0;
 
 
     public Long getId() {
@@ -67,7 +67,7 @@ public class Recipe {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -115,8 +115,6 @@ public class Recipe {
     public void setIngredientList(List<Ingredient> ingredientList) {
         IngredientList = ingredientList;
     }
-
-
 
     public void setTagList(List<Tag> tagList) {
         this.tagList = tagList;

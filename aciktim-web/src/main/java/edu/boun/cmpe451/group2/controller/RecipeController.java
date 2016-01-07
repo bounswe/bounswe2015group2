@@ -282,6 +282,10 @@ public class RecipeController {
             Recipe recipe = recipeModel.getRecipe(Long.parseLong(recipe_id));
             model.put("recipe", recipe);
             model.put("owner_name", userModel.getUserByID(recipe.ownerID).full_name);
+            model.put("today_day", GregorianCalendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            model.put("today_month", GregorianCalendar.getInstance().get(Calendar.MONTH)+1);
+            model.put("today_year", GregorianCalendar.getInstance().get(Calendar.YEAR));
+
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/index";
